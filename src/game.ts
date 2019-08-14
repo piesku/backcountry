@@ -124,11 +124,11 @@ export class Game implements ComponentData {
         sys_physics(this, delta);
         sys_transform(this, delta);
         // Debug.
-        true && sys_debug(this, delta);
+        false && sys_debug(this, delta);
     }
 
     frame_update(delta: number) {
-        sys_audio(this, delta);
+        false && sys_audio(this, delta);
         sys_camera(this, delta);
         sys_light(this, delta);
         sys_render(this, delta);
