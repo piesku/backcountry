@@ -1,10 +1,10 @@
 import {Game} from "./game.js";
-import {world_stage} from "./worlds/wor_stage.js";
+import {world_characters} from "./worlds/wor_characters.js";
 
 export let game = new Game();
 
 async function start() {
-    world_stage(game);
+    world_characters(game);
     game.start();
 }
 
