@@ -2,6 +2,7 @@ import {Get} from "../components/com_index.js";
 import {RenderKind} from "../components/com_render.js";
 import {RenderBasic} from "../components/com_render_basic.js";
 import {RenderShaded} from "../components/com_render_shaded.js";
+import {RenderInstanced} from "../components/com_render_vox.js";
 import {Transform} from "../components/com_transform.js";
 import {Game} from "../game.js";
 import {get_translation} from "../math/mat4.js";
@@ -41,6 +42,7 @@ export function sys_render(game: Game, delta: number) {
 
                 switch (render.kind) {
                     case RenderKind.Shaded:
+                    case RenderKind.Instanced:
                         gl.uniform1i(uniforms.light_count, game.lights.length);
                         gl.uniform3fv(uniforms.light_positions, light_positions);
                         gl.uniform4fv(uniforms.light_details, light_details);
@@ -54,6 +56,9 @@ export function sys_render(game: Game, delta: number) {
                     break;
                 case RenderKind.Shaded:
                     draw_shaded(transform, render);
+                    break;
+                case RenderKind.Instanced:
+                    draw_instanced(transform, render);
                     break;
             }
         }
@@ -76,5 +81,15 @@ function draw_shaded(transform: Transform, render: RenderShaded) {
     gl.uniform4fv(uniforms.color, render.color);
     gl.bindVertexArray(render.vao);
     gl.drawElements(mode, render.count, gl.UNSIGNED_SHORT, 0);
+    gl.bindVertexArray(null);
+}
+
+function draw_instanced(transform: Transform, render: RenderInstanced) {
+    let {gl, mode, uniforms} = render.material;
+    gl.uniformMatrix4fv(uniforms.world, false, transform.world);
+    gl.uniformMatrix4fv(uniforms.self, false, transform.self);
+    gl.uniform3fv(uniforms.palette, new Float32Array([1, 0, 1, 0.33, 0.33, 0.33]));
+    gl.bindVertexArray(render.vao);
+    gl.drawElementsInstanced(mode, render.index_count, gl.UNSIGNED_SHORT, 0, render.instance_count);
     gl.bindVertexArray(null);
 }
