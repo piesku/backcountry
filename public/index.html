@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<meta charset="utf8" />
+<title>goodluck</title>
+<style>
+    html,
+    body {
+        overflow: hidden;
+        margin: 0;
+    }
+    #debug {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: #000;
+        color: #fff;
+    }
+</style>
+<body>
+    <canvas></canvas>
+    <main></main>
+    <div id="debug">
+        <span id="fps"></span>
+        <button onclick="game.start();">resume</button>
+        <button onclick="game.stop()">pause</button>
+    </div>
+    <script type="module">
+        import {game} from "./js/index.js";
+        window.game = game;
+    </script>
+</body>
