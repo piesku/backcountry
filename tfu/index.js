@@ -36,10 +36,14 @@ each(
                     ];
                 });
 
-                // Colors that can be modified (indexes 0-3)
-                for (let i = 0; i < 4; i++) {
-                    final_palette.push(palette[i]);
-                    color_map[i + 1] = i;
+                if (final_palette.length === 0) {
+                    // Colors that can be modified (indexes 0-3)
+                    for (let i = 0; i <= 3; i++) {
+                        final_palette.push(palette[i]);
+                        color_map[i] = i - 1;
+                    }
+
+                    console.log({color_map});
                 }
 
                 result.voxels.forEach((curr, idx) => {
@@ -150,6 +154,7 @@ each(
             });
     },
     () => {
+        console.log({color_map});
         console.log(`Map elements count: ${map_elements_indexes.size}`);
         console.log(`Colors count: ${final_palette.length}`);
         console.log("Saving palette");
