@@ -58,7 +58,7 @@ export function sys_render(game: Game, delta: number) {
                     draw_shaded(transform, render);
                     break;
                 case RenderKind.Instanced:
-                    draw_instanced(transform, render);
+                    draw_instanced(game, transform, render);
                     break;
             }
         }
@@ -84,11 +84,11 @@ function draw_shaded(transform: Transform, render: RenderShaded) {
     gl.bindVertexArray(null);
 }
 
-function draw_instanced(transform: Transform, render: RenderInstanced) {
+function draw_instanced(game: Game, transform: Transform, render: RenderInstanced) {
     let {gl, mode, uniforms} = render.material;
     gl.uniformMatrix4fv(uniforms.world, false, transform.world);
     gl.uniformMatrix4fv(uniforms.self, false, transform.self);
-    gl.uniform3fv(uniforms.palette, new Float32Array([1, 0, 1, 0.33, 0.33, 0.33]));
+    gl.uniform3fv(uniforms.palette, game.palette);
     gl.bindVertexArray(render.vao);
     gl.drawElementsInstanced(mode, render.index_count, gl.UNSIGNED_SHORT, 0, render.instance_count);
     gl.bindVertexArray(null);

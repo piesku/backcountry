@@ -19,6 +19,7 @@ import {Mat} from "./materials/mat_index.js";
 import {mat_instanced_flat} from "./materials/mat_instanced_flat.js";
 import {mat_wireframe} from "./materials/mat_wireframe.js";
 import {Model} from "./model.js";
+import {palette} from "./palette.js";
 import {sys_animate} from "./systems/sys_animate.js";
 import {sys_audio} from "./systems/sys_audio.js";
 import {sys_camera} from "./systems/sys_camera.js";
@@ -72,7 +73,7 @@ export class Game implements ComponentData {
     public cameras: Array<Camera> = [];
     public lights: Array<Light> = [];
     public models: Array<Model> = [];
-
+    public palette: Array<number> = palette;
     private raf: number = 0;
 
     constructor() {
