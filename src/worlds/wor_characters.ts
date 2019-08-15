@@ -49,22 +49,22 @@ export function world_characters(game: Game) {
 
     // Light source.
     game.add({
-        translation: [-5, 4, 5],
+        translation: [-5, 3, -5],
         using: [light([1, 1, 1], 5)],
     });
 
     game.add({
-        translation: [-5, -4, 5],
+        translation: [-5, 3, 5],
         using: [light([1, 1, 1], 5)],
     });
 
     game.add({
-        translation: [5, -4, 5],
+        translation: [5, 3, -5],
         using: [light([1, 1, 1], 5)],
     });
 
     game.add({
-        translation: [5, 4, 5],
+        translation: [5, 3, 5],
         using: [light([1, 1, 1], 5)],
     });
 }
