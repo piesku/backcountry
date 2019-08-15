@@ -12,9 +12,10 @@ export interface RenderInstanced {
     readonly vao: WebGLVertexArrayObject;
     readonly index_count: number;
     readonly instance_count: number;
+    readonly palette?: Array<number>;
 }
 
-export function render_vox(model: Model) {
+export function render_vox(model: Model, palette?: Array<number>) {
     let {offsets} = model;
     let shape = Cube;
     return (game: Game) => (entity: Entity) => {
@@ -28,6 +29,7 @@ export function render_vox(model: Model) {
             vao,
             index_count: shape.indices.length,
             instance_count: offsets.length / 4,
+            palette,
         };
     };
 }

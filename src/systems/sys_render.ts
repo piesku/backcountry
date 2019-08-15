@@ -88,7 +88,7 @@ function draw_instanced(game: Game, transform: Transform, render: RenderInstance
     let {gl, mode, uniforms} = render.material;
     gl.uniformMatrix4fv(uniforms.world, false, transform.world);
     gl.uniformMatrix4fv(uniforms.self, false, transform.self);
-    gl.uniform3fv(uniforms.palette, game.palette);
+    gl.uniform3fv(uniforms.palette, render.palette || game.palette);
     gl.bindVertexArray(render.vao);
     gl.drawElementsInstanced(mode, render.index_count, gl.UNSIGNED_SHORT, 0, render.instance_count);
     gl.bindVertexArray(null);

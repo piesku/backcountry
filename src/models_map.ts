@@ -1,9 +1,9 @@
-export let FOOT = 0;
+export let HAND = 0;
 export let BODY = 1;
-export let HAT5 = 2;
-export let HAT4 = 3;
-export let HAT2 = 4;
-export let HAT1 = 5;
-export let HAT3 = 6;
-export let HAND = 7;
-export let HAT6 = 8;
+export let HAT3 = 2;
+export let HAT5 = 3;
+export let HAT1 = 4;
+export let HAT6 = 5;
+export let HAT2 = 6;
+export let FOOT = 7;
+export let HAT4 = 8;

@@ -1,6 +1,7 @@
 export interface Model {
     offsets: Float32Array;
     size: [number, number, number];
+    palette?: Array<number>;
 }
 
 export async function load(path: string): Promise<Array<Model>> {
