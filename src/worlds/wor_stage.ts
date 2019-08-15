@@ -1,4 +1,5 @@
 import {angle_camera_blueprint} from "../blueprints/blu_angle_camera.js";
+import {get_character_blueprint} from "../blueprints/blu_character.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
 import {light} from "../components/com_light.js";
@@ -21,10 +22,10 @@ export function world_stage(game: Game) {
         using: [
             player_control(true, true, false),
             move(5, 0.5),
-            render_shaded(game.materials[Mat.Gouraud], Cube, [1, 1, 0.3, 1]),
-            collide(true),
+            collide(true, [1, 1.5, 1]),
             rigid_body(true),
         ],
+        children: [get_character_blueprint(game)],
     });
 
     // Camera.
@@ -35,7 +36,7 @@ export function world_stage(game: Game) {
         translation: [0, -0.5, 0],
         scale: [10, 1, 10],
         using: [
-            render_shaded(game.materials[Mat.Gouraud], Cube, [1, 1, 0.3, 1]),
+            render_shaded(game.materials[Mat.Flat], Cube, [1, 1, 0.3, 1]),
             collide(false),
             rigid_body(false),
         ],
@@ -43,7 +44,25 @@ export function world_stage(game: Game) {
 
     // Light and audio source.
     game.add({
-        translation: [0, 3, 5],
-        using: [light([1, 1, 1], 5), audio_source({music: snd_music}, "music")],
+        translation: [0, 5, 0],
+        using: [audio_source({music: snd_music}, "music")],
+        children: [
+            {
+                translation: [5, 0, 5],
+                using: [light([1, 1, 1], 5)],
+            },
+            {
+                translation: [5, 0, -5],
+                using: [light([1, 1, 1], 4)],
+            },
+            {
+                translation: [-5, 0, 5],
+                using: [light([1, 1, 1], 3)],
+            },
+            {
+                translation: [-5, 0, -5],
+                using: [light([1, 1, 1], 2)],
+            },
+        ],
     });
 }

@@ -14,6 +14,7 @@ import {RigidBody} from "./components/com_rigid_body.js";
 import {transform, Transform} from "./components/com_transform.js";
 import {Trigger} from "./components/com_trigger.js";
 import {Material} from "./materials/mat_common.js";
+import {mat_flat} from "./materials/mat_flat.js";
 import {mat_gouraud} from "./materials/mat_gouraud.js";
 import {Mat} from "./materials/mat_index.js";
 import {mat_instanced_flat} from "./materials/mat_instanced_flat.js";
@@ -103,6 +104,7 @@ export class Game implements ComponentData {
         this.gl.frontFace(this.gl.CW);
 
         this.materials[Mat.Wireframe] = mat_wireframe(this.gl);
+        this.materials[Mat.Flat] = mat_flat(this.gl);
         this.materials[Mat.Gouraud] = mat_gouraud(this.gl);
         this.materials[Mat.Instanced] = mat_instanced_flat(this.gl);
     }
@@ -119,7 +121,7 @@ export class Game implements ComponentData {
 
     fixed_update(delta: number) {
         // Player input.
-        true && sys_player_move(this, delta);
+        sys_player_move(this, delta);
         // Game logic.
         sys_animate(this, delta);
         sys_move(this, delta);
