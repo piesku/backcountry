@@ -1,11 +1,14 @@
-export let BODY = 0;
-export let GUN2 = 1;
-export let HAND = 2;
-export let GUN1 = 3;
-export let FOOT = 4;
-export let HAT5 = 5;
-export let HAT1 = 6;
-export let HAT2 = 7;
-export let HAT3 = 8;
-export let HAT4 = 9;
-export let HAT6 = 10;
+export const enum Models {
+    HAT1 = 0,
+    PITCHFORK = 1,
+    FOOT = 2,
+    BODY = 3,
+    GUN1 = 4,
+    HAT3 = 5,
+    HAT2 = 6,
+    GUN2 = 7,
+    HAT6 = 8,
+    HAT4 = 9,
+    HAT5 = 10,
+    HAND = 11,
+}

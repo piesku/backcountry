@@ -143,9 +143,9 @@ each(
                 );
 
                 models_output = models_output.concat(ints);
-                models_map[current_model_index] = `export let ${path
+                models_map[current_model_index] = `${path
                     .basename(file, ".vox")
-                    .toUpperCase()} = ${current_model_index};`;
+                    .toUpperCase()} = ${current_model_index},`;
                 current_model_index++;
                 next();
             })
@@ -161,7 +161,10 @@ each(
         fs.writeFileSync("./src/palette.ts", `export let palette = [${final_palette}];`);
 
         console.log("Saving models map");
-        fs.writeFileSync("./src/models_map.ts", models_map.join("\n"));
+        fs.writeFileSync(
+            "./src/models_map.ts",
+            `export const enum Models { \n    ${models_map.join("\n    ")}\n}`
+        );
 
         console.log(`Saving models file: ${models_output.length * 2}b`);
         const final_result = new Uint16Array(models_output);

@@ -2,11 +2,14 @@ import {animate} from "../components/com_animate.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
-import {BODY, FOOT, GUN1, HAND, HAT1, HAT2, HAT3, HAT4, HAT5, HAT6} from "../models_map.js";
+import {Models} from "../models_map.js";
 import {palette} from "../palette.js";
 import {Blueprint} from "./blu_common.js";
+import {create_gun} from "./items/blu_gun.js";
+import {create_pitchfork} from "./items/blu_pitchfork.js";
+import {create_shotgun} from "./items/blu_shotgun.js";
 
-let hat_models = [HAT1, HAT2, HAT3, HAT4, HAT5, HAT6];
+let hat_models = [Models.HAT1, Models.HAT2, Models.HAT3, Models.HAT4, Models.HAT5, Models.HAT6];
 
 // const enum CustomColorIndex {
 //     Shirt = 0,
@@ -59,7 +62,7 @@ function create_custom_palette(colors: CustomColors) {
 
 export function get_hat(game: Game, palette: Array<number>): Blueprint {
     let hat_index = hat_models[~~(Math.random() * hat_models.length)];
-    let body_height = game.models[BODY].size[1];
+    let body_height = game.models[Models.BODY].size[1];
     let hat_height = game.models[hat_index].size[1];
 
     return {
@@ -82,31 +85,10 @@ export function get_character_blueprint(game: Game): Blueprint {
         extra: extra_color,
     });
 
-    let right_hand_item =
-        Math.random() > 0.3
-            ? {}
-            : {
-                  rotation: from_euler([], 270, 0, 0),
-                  translation: [
-                      0,
-                      -(game.models[GUN1].size[1] / 2 + game.models[HAND].size[1] / 2),
-                      0,
-                  ],
-                  using: [(game: Game) => render_vox(game.models[GUN1])(game)],
-              };
+    let items = [create_gun, create_shotgun, create_pitchfork];
 
-    let left_hand_item =
-        Math.random() > 0.3
-            ? {}
-            : {
-                  rotation: from_euler([], 270, 0, 0),
-                  translation: [
-                      0,
-                      -(game.models[GUN1].size[1] / 2 + game.models[HAND].size[1] / 2),
-                      0,
-                  ],
-                  using: [(game: Game) => render_vox(game.models[GUN1])(game)],
-              };
+    let right_hand_item = Math.random() > 0.3 ? {} : items[~~(Math.random() * items.length)](game);
+    let left_hand_item = Math.random() > 0.3 ? {} : items[~~(Math.random() * items.length)](game);
 
     return {
         rotation: [0, 1, 0, 0],
@@ -115,7 +97,7 @@ export function get_character_blueprint(game: Game): Blueprint {
             {
                 //body
                 using: [
-                    (game: Game) => render_vox(game.models[BODY], palette)(game),
+                    (game: Game) => render_vox(game.models[Models.BODY], palette)(game),
                     animate({
                         idle: {
                             keyframes: [
@@ -155,7 +137,9 @@ export function get_character_blueprint(game: Game): Blueprint {
                 children: [
                     {
                         translation: [0, -1, 0],
-                        using: [(game: Game) => render_vox(game.models[HAND], palette)(game)],
+                        using: [
+                            (game: Game) => render_vox(game.models[Models.HAND], palette)(game),
+                        ],
                     },
                     left_hand_item,
                 ],
@@ -182,7 +166,9 @@ export function get_character_blueprint(game: Game): Blueprint {
                 children: [
                     {
                         translation: [0, -1, 0],
-                        using: [(game: Game) => render_vox(game.models[HAND], palette)(game)],
+                        using: [
+                            (game: Game) => render_vox(game.models[Models.HAND], palette)(game),
+                        ],
                     },
                     right_hand_item,
                 ],
@@ -209,7 +195,9 @@ export function get_character_blueprint(game: Game): Blueprint {
                 children: [
                     {
                         translation: [0, -1.5, 0],
-                        using: [(game: Game) => render_vox(game.models[FOOT], palette)(game)],
+                        using: [
+                            (game: Game) => render_vox(game.models[Models.FOOT], palette)(game),
+                        ],
                     },
                 ],
             },
@@ -235,7 +223,9 @@ export function get_character_blueprint(game: Game): Blueprint {
                 children: [
                     {
                         translation: [0, -1.5, 0],
-                        using: [(game: Game) => render_vox(game.models[FOOT], palette)(game)],
+                        using: [
+                            (game: Game) => render_vox(game.models[Models.FOOT], palette)(game),
+                        ],
                     },
                 ],
             },
