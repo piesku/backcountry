@@ -29,7 +29,7 @@ export function world_characters(game: Game) {
         translation: [0, -1.5, 0],
         scale: [10, 1, 10],
         using: [
-            render_shaded(game.materials[Mat.Flat], Cube, [1, 1, 0.3, 1]),
+            render_shaded(game.materials[Mat.Gouraud], Cube, [1, 1, 0.3, 1]),
             collide(false),
             rigid_body(false),
         ],
