@@ -136,7 +136,7 @@ export class Game implements ComponentData {
     }
 
     frame_update(delta: number) {
-        false && sys_audio(this, delta);
+        sys_audio(this, delta);
         sys_camera(this, delta);
         sys_light(this, delta);
         sys_render(this, delta);

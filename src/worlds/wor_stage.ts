@@ -45,7 +45,7 @@ export function world_stage(game: Game) {
     // Light and audio source.
     game.add({
         translation: [0, 5, 0],
-        using: [audio_source({music: snd_music}, "music")],
+        using: [audio_source({music: snd_music})],
         children: [
             {
                 translation: [5, 0, 5],
