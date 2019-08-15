@@ -35,11 +35,36 @@ export function world_characters(game: Game) {
         ],
     });
 
-    game.add(get_character_blueprint(game));
+    // characters
+    for (let x = -1; x <= 1; x++) {
+        for (let y = -1; y <= 1; y++) {
+            setTimeout(() => {
+                game.add({
+                    ...get_character_blueprint(game),
+                    translation: [x * 3, 0, y * 3],
+                });
+            }, Math.random() * 500);
+        }
+    }
 
     // Light source.
     game.add({
-        translation: [2, 3, 5],
-        using: [light([1, 1, 1], 6)],
+        translation: [-5, 4, 5],
+        using: [light([1, 1, 1], 5)],
+    });
+
+    game.add({
+        translation: [-5, -4, 5],
+        using: [light([1, 1, 1], 5)],
+    });
+
+    game.add({
+        translation: [5, -4, 5],
+        using: [light([1, 1, 1], 5)],
+    });
+
+    game.add({
+        translation: [5, 4, 5],
+        using: [light([1, 1, 1], 5)],
     });
 }
