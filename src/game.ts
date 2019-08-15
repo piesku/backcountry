@@ -13,13 +13,9 @@ import {Render} from "./components/com_render.js";
 import {RigidBody} from "./components/com_rigid_body.js";
 import {transform, Transform} from "./components/com_transform.js";
 import {Trigger} from "./components/com_trigger.js";
-import {mat_basic} from "./materials/mat_basic.js";
 import {Material} from "./materials/mat_common.js";
-import {mat_flat} from "./materials/mat_flat.js";
 import {mat_gouraud} from "./materials/mat_gouraud.js";
 import {Mat} from "./materials/mat_index.js";
-import {mat_phong} from "./materials/mat_phong.js";
-import {mat_points} from "./materials/mat_points.js";
 import {mat_wireframe} from "./materials/mat_wireframe.js";
 import {sys_animate} from "./systems/sys_animate.js";
 import {sys_audio} from "./systems/sys_audio.js";
@@ -101,12 +97,8 @@ export class Game implements ComponentData {
         this.gl.enable(this.gl.CULL_FACE);
         this.gl.frontFace(this.gl.CW);
 
-        this.materials[Mat.Points] = mat_points(this.gl);
         this.materials[Mat.Wireframe] = mat_wireframe(this.gl);
-        this.materials[Mat.Basic] = mat_basic(this.gl);
-        this.materials[Mat.Flat] = mat_flat(this.gl);
         this.materials[Mat.Gouraud] = mat_gouraud(this.gl);
-        this.materials[Mat.Phong] = mat_phong(this.gl);
     }
 
     create_entity(mask: number) {
