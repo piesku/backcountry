@@ -16,7 +16,10 @@ import {Trigger} from "./components/com_trigger.js";
 import {Material} from "./materials/mat_common.js";
 import {mat_gouraud} from "./materials/mat_gouraud.js";
 import {Mat} from "./materials/mat_index.js";
+import {mat_instanced_flat} from "./materials/mat_instanced_flat.js";
 import {mat_wireframe} from "./materials/mat_wireframe.js";
+import {Model} from "./model.js";
+import {palette} from "./palette.js";
 import {sys_animate} from "./systems/sys_animate.js";
 import {sys_audio} from "./systems/sys_audio.js";
 import {sys_camera} from "./systems/sys_camera.js";
@@ -69,6 +72,8 @@ export class Game implements ComponentData {
     public materials: Array<Material> = [];
     public cameras: Array<Camera> = [];
     public lights: Array<Light> = [];
+    public models: Array<Model> = [];
+    public palette: Array<number> = palette;
     private raf: number = 0;
 
     constructor() {
@@ -99,6 +104,7 @@ export class Game implements ComponentData {
 
         this.materials[Mat.Wireframe] = mat_wireframe(this.gl);
         this.materials[Mat.Gouraud] = mat_gouraud(this.gl);
+        this.materials[Mat.Instanced] = mat_instanced_flat(this.gl);
     }
 
     create_entity(mask: number) {
@@ -113,7 +119,7 @@ export class Game implements ComponentData {
 
     fixed_update(delta: number) {
         // Player input.
-        sys_player_move(this, delta);
+        true && sys_player_move(this, delta);
         // Game logic.
         sys_animate(this, delta);
         sys_move(this, delta);
@@ -124,11 +130,11 @@ export class Game implements ComponentData {
         sys_physics(this, delta);
         sys_transform(this, delta);
         // Debug.
-        true && sys_debug(this, delta);
+        false && sys_debug(this, delta);
     }
 
     frame_update(delta: number) {
-        sys_audio(this, delta);
+        false && sys_audio(this, delta);
         sys_camera(this, delta);
         sys_light(this, delta);
         sys_render(this, delta);
