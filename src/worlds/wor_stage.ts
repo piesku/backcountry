@@ -2,6 +2,8 @@ import {angle_camera_blueprint} from "../blueprints/blu_angle_camera.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
 import {light} from "../components/com_light.js";
+import {move} from "../components/com_move.js";
+import {player_control} from "../components/com_player_control.js";
 import {render_shaded} from "../components/com_render_shaded.js";
 import {rigid_body} from "../components/com_rigid_body.js";
 import {Game} from "../game.js";
@@ -17,6 +19,8 @@ export function world_stage(game: Game) {
     game.add({
         translation: [0, 3, 0],
         using: [
+            player_control(true, true, false),
+            move(5, 0.5),
             render_shaded(game.materials[Mat.Gouraud], Cube, [1, 1, 0.3, 1]),
             collide(true),
             rigid_body(true),
