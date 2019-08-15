@@ -2,7 +2,7 @@ import {animate} from "../components/com_animate.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
-import {BODY, FOOT, HAND, HAT1, HAT2, HAT3, HAT4, HAT5, HAT6} from "../models_map.js";
+import {BODY, FOOT, GUN1, HAND, HAT1, HAT2, HAT3, HAT4, HAT5, HAT6} from "../models_map.js";
 import {palette} from "../palette.js";
 import {Blueprint} from "./blu_common.js";
 
@@ -82,6 +82,32 @@ export function get_character_blueprint(game: Game): Blueprint {
         extra: extra_color,
     });
 
+    let right_hand_item =
+        Math.random() > 0.3
+            ? {}
+            : {
+                  rotation: from_euler([], 270, 0, 0),
+                  translation: [
+                      0,
+                      -(game.models[GUN1].size[1] / 2 + game.models[HAND].size[1] / 2),
+                      0,
+                  ],
+                  using: [(game: Game) => render_vox(game.models[GUN1])(game)],
+              };
+
+    let left_hand_item =
+        Math.random() > 0.3
+            ? {}
+            : {
+                  rotation: from_euler([], 270, 0, 0),
+                  translation: [
+                      0,
+                      -(game.models[GUN1].size[1] / 2 + game.models[HAND].size[1] / 2),
+                      0,
+                  ],
+                  using: [(game: Game) => render_vox(game.models[GUN1])(game)],
+              };
+
     return {
         rotation: [0, 1, 0, 0],
         scale: [0.2, 0.2, 0.2],
@@ -131,6 +157,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                         translation: [0, -1, 0],
                         using: [(game: Game) => render_vox(game.models[HAND], palette)(game)],
                     },
+                    left_hand_item,
                 ],
             },
             {
@@ -157,6 +184,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                         translation: [0, -1, 0],
                         using: [(game: Game) => render_vox(game.models[HAND], palette)(game)],
                     },
+                    right_hand_item,
                 ],
             },
             {
