@@ -36,6 +36,12 @@ each(
                     ];
                 });
 
+                // Colors that can be modified (indexes 0-3)
+                for (let i = 0; i < 4; i++) {
+                    final_palette.push(palette[i]);
+                    color_map[i + 1] = i;
+                }
+
                 result.voxels.forEach((curr, idx) => {
                     let color;
                     if (file.includes("map")) {
