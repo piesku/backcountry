@@ -119,7 +119,7 @@ export class Game implements ComponentData {
 
     fixed_update(delta: number) {
         // Player input.
-        false && sys_player_move(this, delta);
+        true && sys_player_move(this, delta);
         // Game logic.
         sys_animate(this, delta);
         sys_move(this, delta);

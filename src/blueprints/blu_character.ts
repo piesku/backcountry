@@ -16,6 +16,8 @@ let hat_models = [Models.HAT1, Models.HAT2, Models.HAT3, Models.HAT4, Models.HAT
 //     Pants = 1,
 //     Hat = 2,
 //     Extra = 3,
+//     Skin = 4,
+//     Hair = 5,
 // }
 
 interface CustomColors {
@@ -23,10 +25,20 @@ interface CustomColors {
     pants?: [number, number, number];
     hat?: [number, number, number];
     extra?: [number, number, number];
+    skin?: [number, number, number];
+    hair?: [number, number, number];
 }
 
 let shirt_colors: Array<[number, number, number]> = [[1, 0, 0], [0, 1, 0], [0, 0, 1], [1, 1, 1]];
-
+let hat_colors: Array<[number, number, number]> = [[0, 0, 0], [1, 1, 1], [0.53, 0, 0], [1, 0, 0]];
+let extra_colors: Array<[number, number, number]> = [[0, 0, 0], [1, 1, 1], [1, 1, 0], [1, 0, 0]];
+let skin_colors: Array<[number, number, number]> = [[1, 0.8, 0.6], [1, 0.8, 0.6], [0.6, 0.4, 0]];
+let hair_colors: Array<[number, number, number]> = [
+    [1, 1, 0],
+    [0, 0, 0],
+    [0.6, 0.4, 0],
+    [0.4, 0, 0],
+];
 let pants_colors: Array<[number, number, number]> = [
     [0, 0, 0],
     [0.53, 0, 0],
@@ -34,10 +46,6 @@ let pants_colors: Array<[number, number, number]> = [
     [0.6, 0.4, 0.2],
     [0.33, 0.33, 0.33],
 ];
-
-let hat_colors: Array<[number, number, number]> = [[0, 0, 0], [1, 1, 1], [0.53, 0, 0], [1, 0, 0]];
-
-let extra_colors: Array<[number, number, number]> = [[0, 0, 0], [1, 1, 1], [1, 1, 0], [1, 0, 0]];
 
 function create_custom_palette(colors: CustomColors) {
     let new_palette = palette.slice();
@@ -55,6 +63,14 @@ function create_custom_palette(colors: CustomColors) {
 
     if (colors.extra) {
         new_palette.splice(9, 3, ...colors.extra);
+    }
+
+    if (colors.skin) {
+        new_palette.splice(12, 3, ...colors.skin);
+    }
+
+    if (colors.hair) {
+        new_palette.splice(15, 3, ...colors.hair);
     }
 
     return new_palette;
@@ -77,18 +93,22 @@ export function get_character_blueprint(game: Game): Blueprint {
     let pants_color = pants_colors[~~(Math.random() * pants_colors.length)];
     let hat_color = hat_colors[~~(Math.random() * hat_colors.length)];
     let extra_color = extra_colors[~~(Math.random() * extra_colors.length)];
+    let skin_color = skin_colors[~~(Math.random() * skin_colors.length)];
+    let hair_color = hair_colors[~~(Math.random() * hair_colors.length)];
 
     let palette = create_custom_palette({
         shirt: shirt_color,
         pants: pants_color,
         hat: hat_color,
         extra: extra_color,
+        skin: skin_color,
+        hair: hair_color,
     });
 
-    let items = [create_gun, create_shotgun, create_pitchfork];
+    let items = [create_gun, create_gun, create_shotgun, create_pitchfork];
 
     let right_hand_item = Math.random() > 0.3 ? {} : items[~~(Math.random() * items.length)](game);
-    let left_hand_item = Math.random() > 0.3 ? {} : items[~~(Math.random() * items.length)](game);
+    let left_hand_item = Math.random() > 0.5 ? {} : items[~~(Math.random() * items.length)](game);
 
     return {
         rotation: [0, 1, 0, 0],
