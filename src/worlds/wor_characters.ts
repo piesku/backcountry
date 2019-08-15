@@ -1,4 +1,4 @@
-import {character_blueprint} from "../blueprints/blu_character.js";
+import {get_character_blueprint} from "../blueprints/blu_character.js";
 import {fly_camera_blueprint} from "../blueprints/blu_fly_camera.js";
 import {collide} from "../components/com_collide.js";
 import {light} from "../components/com_light.js";
@@ -14,13 +14,19 @@ export function world_characters(game: Game) {
 
     // Player-controlled camera.
     game.add({
-        translation: [0, 0, 5],
+        translation: [13.11, 3.48, 12.28],
         ...fly_camera_blueprint,
+        rotation: [
+            -0.011444001077517297,
+            0.9138615501373802,
+            -0.025820087072619922,
+            -0.4050424979226309,
+        ],
     });
 
     // Ground.
     game.add({
-        translation: [0, -2, 0],
+        translation: [0, -1.5, 0],
         scale: [10, 1, 10],
         using: [
             render_shaded(game.materials[Mat.Flat], Cube, [1, 1, 0.3, 1]),
@@ -29,7 +35,7 @@ export function world_characters(game: Game) {
         ],
     });
 
-    game.add(character_blueprint);
+    game.add(get_character_blueprint(game));
 
     // Light source.
     game.add({
