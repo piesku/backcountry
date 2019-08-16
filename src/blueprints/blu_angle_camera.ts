@@ -7,7 +7,7 @@ export let angle_camera_blueprint: Blueprint = {
             translation: [5, 5, 5],
             // Y -45°, X -30°, Z 0°
             rotation: [-0.239, 0.37, 0.099, 0.892],
-            using: [camera_ortho(7, 1, 100)],
+            using: [camera_ortho(4, 1, 100)],
         },
     ],
 };
