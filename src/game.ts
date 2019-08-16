@@ -43,10 +43,17 @@ const MAX_ENTITIES = 10000;
 
 export type Entity = number;
 
-export interface Input {
+export interface InputState {
     [k: string]: number;
     mouse_x: number;
     mouse_y: number;
+}
+
+export interface EventState {
+    [k: string]: number;
+    mouse_x: number;
+    mouse_y: number;
+    wheel_y: number;
 }
 
 export class Game implements ComponentData {
@@ -69,12 +76,22 @@ export class Game implements ComponentData {
     public canvas: HTMLCanvasElement;
     public gl: WebGL2RenderingContext;
     public audio: AudioContext = new AudioContext();
-    public input: Input = {mouse_x: 0, mouse_y: 0};
+
+    public input: InputState = {
+        mouse_x: 0,
+        mouse_y: 0,
+    };
+    public event: EventState = {
+        mouse_x: 0,
+        mouse_y: 0,
+        wheel_y: 0,
+    };
     public ui: UIState = INIT_UI_STATE;
     public dispatch = (action: Action, ...args: Array<unknown>) => {
         this.ui = reducer(this.ui, action, args);
         effect(this, action, args);
     };
+
     public materials: Array<Material> = [];
     public cameras: Array<Camera> = [];
     public lights: Array<Light> = [];
@@ -95,11 +112,19 @@ export class Game implements ComponentData {
 
         window.addEventListener("keydown", evt => (this.input[evt.code] = 1));
         window.addEventListener("keyup", evt => (this.input[evt.code] = 0));
-        this.canvas.addEventListener("mousedown", evt => (this.input[`mouse_${evt.button}`] = 1));
-        this.canvas.addEventListener("mouseup", evt => (this.input[`mouse_${evt.button}`] = 0));
+        this.canvas.addEventListener("mousedown", evt => {
+            this.input[`mouse_${evt.button}`] = 1;
+            this.event[`mouse_${evt.button}_down`] = 1;
+        });
+        this.canvas.addEventListener("mouseup", evt => {
+            this.input[`mouse_${evt.button}`] = 0;
+            this.event[`mouse_${evt.button}_up`] = 1;
+        });
         this.canvas.addEventListener("mousemove", evt => {
-            this.input.mouse_x = evt.clientX;
-            this.input.mouse_y = evt.clientY;
+            this.input.mouse_x = evt.offsetX;
+            this.input.mouse_y = evt.offsetY;
+            this.event.mouse_x = evt.movementX;
+            this.event.mouse_y = evt.movementY;
         });
 
         this.gl = this.canvas.getContext("webgl2")!;
@@ -138,6 +163,10 @@ export class Game implements ComponentData {
         sys_transform(this, delta);
         // Debug.
         false && sys_debug(this, delta);
+
+        for (let name in this.event) {
+            this.event[name] = 0;
+        }
     }
 
     frame_update(delta: number) {

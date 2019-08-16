@@ -31,7 +31,7 @@ export function sys_select(game: Game, delta: number) {
         if ((game.world[i] & QUERY) === QUERY) {
             let aabb = game[Get.Collide][i];
             let hit = intersect([], near, direction, aabb);
-            if (hit && game.input.mouse_0) {
+            if (hit && game.event.mouse_0_down) {
                 game.add({
                     translation: hit,
                     using: [
