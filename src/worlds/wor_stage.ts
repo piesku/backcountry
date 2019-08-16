@@ -25,6 +25,7 @@ export function world_stage(game: Game) {
             move(5, 0),
             collide(true, [1, 1.5, 1]),
             rigid_body(true),
+            selectable(),
         ],
         children: [get_character_blueprint(game)],
     });
