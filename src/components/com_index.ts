@@ -8,6 +8,7 @@ import {Named} from "./com_named";
 import {PlayerControl} from "./com_player_control";
 import {Render} from "./com_render";
 import {RigidBody} from "./com_rigid_body";
+import {Selectable} from "./com_selectable";
 import {Transform} from "./com_transform";
 import {Trigger} from "./com_trigger";
 
@@ -24,6 +25,7 @@ export const enum Get {
     Collide,
     RigidBody,
     Trigger,
+    Selectable,
 }
 
 export interface ComponentData {
@@ -39,4 +41,5 @@ export interface ComponentData {
     [Get.Collide]: Array<Collide>;
     [Get.RigidBody]: Array<RigidBody>;
     [Get.Trigger]: Array<Trigger>;
+    [Get.Selectable]: Array<Selectable>;
 }

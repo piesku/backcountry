@@ -11,6 +11,7 @@ import {Named} from "./components/com_named.js";
 import {PlayerControl} from "./components/com_player_control.js";
 import {Render} from "./components/com_render.js";
 import {RigidBody} from "./components/com_rigid_body.js";
+import {Selectable} from "./components/com_selectable.js";
 import {transform, Transform} from "./components/com_transform.js";
 import {Trigger} from "./components/com_trigger.js";
 import {Material} from "./materials/mat_common.js";
@@ -32,6 +33,7 @@ import {sys_move} from "./systems/sys_move.js";
 import {sys_physics} from "./systems/sys_physics.js";
 import {sys_player_move} from "./systems/sys_player_move.js";
 import {sys_render} from "./systems/sys_render.js";
+import {sys_select} from "./systems/sys_select.js";
 import {sys_transform} from "./systems/sys_transform.js";
 import {sys_trigger} from "./systems/sys_trigger.js";
 import {sys_ui} from "./systems/sys_ui.js";
@@ -49,6 +51,7 @@ export interface Input {
 
 export class Game implements ComponentData {
     public world: Array<number>;
+
     public [Get.Transform]: Array<Transform> = [];
     public [Get.Render]: Array<Render> = [];
     public [Get.Camera]: Array<Camera> = [];
@@ -61,6 +64,8 @@ export class Game implements ComponentData {
     public [Get.Collide]: Array<Collide> = [];
     public [Get.RigidBody]: Array<RigidBody> = [];
     public [Get.Trigger]: Array<Trigger> = [];
+    public [Get.Selectable]: Array<Selectable> = [];
+
     public canvas: HTMLCanvasElement;
     public gl: WebGL2RenderingContext;
     public audio: AudioContext = new AudioContext();
@@ -87,15 +92,14 @@ export class Game implements ComponentData {
         this.canvas = document.querySelector("canvas")!;
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
-        this.canvas.addEventListener("click", () => this.canvas.requestPointerLock());
 
         window.addEventListener("keydown", evt => (this.input[evt.code] = 1));
         window.addEventListener("keyup", evt => (this.input[evt.code] = 0));
         this.canvas.addEventListener("mousedown", evt => (this.input[`mouse_${evt.button}`] = 1));
         this.canvas.addEventListener("mouseup", evt => (this.input[`mouse_${evt.button}`] = 0));
         this.canvas.addEventListener("mousemove", evt => {
-            this.input.mouse_x = evt.movementX;
-            this.input.mouse_y = evt.movementY;
+            this.input.mouse_x = evt.clientX;
+            this.input.mouse_y = evt.clientY;
         });
 
         this.gl = this.canvas.getContext("webgl2")!;
@@ -122,6 +126,7 @@ export class Game implements ComponentData {
     fixed_update(delta: number) {
         // Player input.
         sys_player_move(this, delta);
+        sys_select(this, delta);
         // Game logic.
         sys_animate(this, delta);
         sys_move(this, delta);
@@ -152,12 +157,6 @@ export class Game implements ComponentData {
         let tick = (now: number) => {
             let delta = (now - last) / 1000;
             accumulator += delta;
-
-            // Scale down mouse input (collected every frame) to match the step.
-            let fixed_updates_count = accumulator / step;
-            this.input.mouse_x /= fixed_updates_count;
-            this.input.mouse_y /= fixed_updates_count;
-
             while (accumulator > step) {
                 accumulator -= step;
                 this.fixed_update(step);
@@ -165,8 +164,6 @@ export class Game implements ComponentData {
             this.frame_update(delta);
 
             last = now;
-            this.input.mouse_x = 0;
-            this.input.mouse_y = 0;
             this.raf = requestAnimationFrame(tick);
         };
 

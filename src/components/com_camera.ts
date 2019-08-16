@@ -8,6 +8,7 @@ export interface Camera {
     projection: Mat4;
     view: Mat4;
     pv: Mat4;
+    pv_inv: Mat4;
 }
 
 export function camera_perspective(fovy: number, near: number, far: number) {
@@ -24,6 +25,7 @@ export function camera_perspective(fovy: number, near: number, far: number) {
             ),
             view: create(),
             pv: create(),
+            pv_inv: create(),
         };
     };
 }
@@ -44,6 +46,7 @@ export function camera_ortho(radius: number, near: number, far: number) {
             ),
             view: create(),
             pv: create(),
+            pv_inv: create(),
         };
     };
 }

@@ -113,6 +113,9 @@ function compute_aabb(transform: Transform, collide: Collide) {
         }
     }
 
+    collide.min = [min_x, min_y, min_z];
+    collide.max = [max_x, max_y, max_z];
+
     // Calculate the half-extents.
     collide.half[0] = (max_x - min_x) / 2;
     collide.half[1] = (max_y - min_y) / 2;

@@ -20,4 +20,5 @@ function update(game: Game, entity: Entity) {
     get_translation(camera.position, transform.world);
     invert(camera.view, transform.world);
     multiply(camera.pv, camera.projection, camera.view);
+    invert(camera.pv_inv, camera.pv);
 }

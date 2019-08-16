@@ -7,6 +7,7 @@ import {move} from "../components/com_move.js";
 import {player_control} from "../components/com_player_control.js";
 import {render_shaded} from "../components/com_render_shaded.js";
 import {rigid_body} from "../components/com_rigid_body.js";
+import {selectable} from "../components/com_selectable.js";
 import {Game} from "../game.js";
 import {Mat} from "../materials/mat_index.js";
 import {Cube} from "../shapes/Cube.js";
@@ -20,8 +21,8 @@ export function world_stage(game: Game) {
     game.add({
         translation: [0, 3, 0],
         using: [
-            player_control(true, true, false),
-            move(5, 0.5),
+            player_control(true, false, false),
+            move(5, 0),
             collide(true, [1, 1.5, 1]),
             rigid_body(true),
         ],
@@ -39,6 +40,7 @@ export function world_stage(game: Game) {
             render_shaded(game.materials[Mat.Flat], Cube, [1, 1, 0.3, 1]),
             collide(false),
             rigid_body(false),
+            selectable(),
         ],
     });
 
@@ -47,10 +49,6 @@ export function world_stage(game: Game) {
         translation: [0, 5, 0],
         using: [audio_source({music: snd_music})],
         children: [
-            {
-                translation: [5, 0, 5],
-                using: [light([1, 1, 1], 5)],
-            },
             {
                 translation: [5, 0, -5],
                 using: [light([1, 1, 1], 4)],
