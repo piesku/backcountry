@@ -30,6 +30,7 @@ import {sys_debug} from "./systems/sys_debug.js";
 import {sys_framerate} from "./systems/sys_framerate.js";
 import {sys_light} from "./systems/sys_light.js";
 import {sys_move} from "./systems/sys_move.js";
+import {sys_navigate} from "./systems/sys_navigate.js";
 import {sys_physics} from "./systems/sys_physics.js";
 import {sys_player_move} from "./systems/sys_player_move.js";
 import {sys_render} from "./systems/sys_render.js";
@@ -152,6 +153,7 @@ export class Game implements ComponentData {
         // Player input.
         sys_player_move(this, delta);
         sys_select(this, delta);
+        sys_navigate(this, delta);
         // Game logic.
         sys_animate(this, delta);
         sys_move(this, delta);

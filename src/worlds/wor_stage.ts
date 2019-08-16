@@ -4,6 +4,7 @@ import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
+import {navigable} from "../components/com_navigable.js";
 import {player_control} from "../components/com_player_control.js";
 import {render_shaded} from "../components/com_render_shaded.js";
 import {rigid_body} from "../components/com_rigid_body.js";
@@ -42,6 +43,7 @@ export function world_stage(game: Game) {
             collide(false),
             rigid_body(false),
             selectable(),
+            navigable(),
         ],
     });
 
@@ -51,15 +53,15 @@ export function world_stage(game: Game) {
         using: [audio_source({music: snd_music})],
         children: [
             {
-                translation: [5, 0, -5],
+                translation: [4, 0, -4],
                 using: [light([1, 1, 1], 4)],
             },
             {
-                translation: [-5, 0, 5],
+                translation: [-3, 0, 3],
                 using: [light([1, 1, 1], 3)],
             },
             {
-                translation: [-5, 0, -5],
+                translation: [-2, 0, -2],
                 using: [light([1, 1, 1], 2)],
             },
         ],

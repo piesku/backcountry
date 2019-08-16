@@ -26,6 +26,7 @@ export const enum Get {
     RigidBody,
     Trigger,
     Selectable,
+    Navigable,
 }
 
 export interface ComponentData {
