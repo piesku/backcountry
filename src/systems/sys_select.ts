@@ -1,13 +1,8 @@
-import {Collide, collide} from "../components/com_collide.js";
+import {Collide} from "../components/com_collide.js";
 import {Get} from "../components/com_index.js";
-import {render_shaded} from "../components/com_render_shaded.js";
-import {rigid_body} from "../components/com_rigid_body.js";
-import {selectable} from "../components/com_selectable.js";
 import {Game} from "../game.js";
-import {Mat} from "../materials/mat_index.js";
 import {Vec3} from "../math/index.js";
 import {normalize, subtract, transform_mat4} from "../math/vec3.js";
-import {Cube} from "../shapes/Cube.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Collide) | (1 << Get.Selectable);
 
@@ -31,8 +26,9 @@ export function sys_select(game: Game, delta: number) {
     let nearest_i = null;
     for (let i = game.world.length; i >= 0; i--) {
         if ((game.world[i] & QUERY) === QUERY) {
-            let aabb = game[Get.Collide][i];
-            let t = distance(origin, direction, aabb);
+            // Reset the selection.
+            game[Get.Selectable][i].selected = false;
+            let t = distance(origin, direction, game[Get.Collide][i]);
             if (t < nearest_t) {
                 nearest_t = t;
                 nearest_i = i;
@@ -41,22 +37,13 @@ export function sys_select(game: Game, delta: number) {
     }
 
     if (nearest_i !== null) {
-        let hit = <Vec3>[
+        let selectable = game[Get.Selectable][nearest_i];
+        selectable.selected = true;
+        selectable.hit = [
             origin[0] + direction[0] * nearest_t,
             origin[1] + direction[1] * nearest_t,
             origin[2] + direction[2] * nearest_t,
         ];
-        if (game.event.mouse_0_down) {
-            game.add({
-                translation: hit,
-                using: [
-                    render_shaded(game.materials[Mat.Flat], Cube, [0.3, 1, 1, 1]),
-                    collide(false),
-                    rigid_body(false),
-                    selectable(),
-                ],
-            });
-        }
     }
 }
 
