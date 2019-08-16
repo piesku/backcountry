@@ -8,6 +8,7 @@ import {ComponentData, Get} from "./components/com_index.js";
 import {Light} from "./components/com_light.js";
 import {Move} from "./components/com_move.js";
 import {Named} from "./components/com_named.js";
+import {Navigable} from "./components/com_navigable.js";
 import {PlayerControl} from "./components/com_player_control.js";
 import {Render} from "./components/com_render.js";
 import {RigidBody} from "./components/com_rigid_body.js";
@@ -73,6 +74,7 @@ export class Game implements ComponentData {
     public [Get.RigidBody]: Array<RigidBody> = [];
     public [Get.Trigger]: Array<Trigger> = [];
     public [Get.Selectable]: Array<Selectable> = [];
+    public [Get.Navigable]: Array<Navigable> = [];
 
     public canvas: HTMLCanvasElement;
     public gl: WebGL2RenderingContext;

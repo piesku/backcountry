@@ -5,6 +5,7 @@ import {Collide} from "./com_collide";
 import {Light} from "./com_light";
 import {Move} from "./com_move";
 import {Named} from "./com_named";
+import {Navigable} from "./com_navigable";
 import {PlayerControl} from "./com_player_control";
 import {Render} from "./com_render";
 import {RigidBody} from "./com_rigid_body";
@@ -43,4 +44,5 @@ export interface ComponentData {
     [Get.RigidBody]: Array<RigidBody>;
     [Get.Trigger]: Array<Trigger>;
     [Get.Selectable]: Array<Selectable>;
+    [Get.Navigable]: Array<Navigable>;
 }
