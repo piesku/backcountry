@@ -1,17 +1,12 @@
 import {angle_camera_blueprint} from "../blueprints/blu_angle_camera.js";
 import {get_character_blueprint} from "../blueprints/blu_character.js";
+import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
 import {audio_source} from "../components/com_audio_source.js";
-import {collide} from "../components/com_collide.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
-import {navigable} from "../components/com_navigable.js";
 import {player_control} from "../components/com_player_control.js";
-import {render_shaded} from "../components/com_render_shaded.js";
-import {rigid_body} from "../components/com_rigid_body.js";
 import {selectable} from "../components/com_selectable.js";
 import {Game} from "../game.js";
-import {Mat} from "../materials/mat_index.js";
-import {Cube} from "../shapes/Cube.js";
 import {snd_music} from "../sounds/snd_music.js";
 
 export function world_stage(game: Game) {
@@ -20,12 +15,12 @@ export function world_stage(game: Game) {
 
     // Player.
     game.add({
-        translation: [0, 3, 0],
+        translation: [0, 0.9, 0],
         using: [
             player_control(true, false, false),
             move(5, 0),
-            collide(true, [1, 1.5, 1]),
-            rigid_body(true),
+            // collide(true, [1, 1.5, 1]),
+            // rigid_body(true),
             selectable(),
         ],
         children: [get_character_blueprint(game)],
@@ -35,17 +30,15 @@ export function world_stage(game: Game) {
     game.add(angle_camera_blueprint);
 
     // Ground.
-    game.add({
-        translation: [0, -0.5, 0],
-        scale: [10, 1, 10],
-        using: [
-            render_shaded(game.materials[Mat.Flat], Cube, [1, 1, 0.3, 1]),
-            collide(false),
-            rigid_body(false),
-            selectable(),
-            navigable(),
-        ],
-    });
+    for (let x = -10; x < 10; x++) {
+        for (let y = -10; y < 10; y++) {
+            let tile_blueprint = get_tile_blueprint(game);
+            game.add({
+                ...tile_blueprint,
+                translation: [x * 1.6, 0, y * 1.6],
+            });
+        }
+    }
 
     // Light and audio source.
     game.add({
@@ -58,11 +51,11 @@ export function world_stage(game: Game) {
             },
             {
                 translation: [-3, 0, 3],
-                using: [light([1, 1, 1], 3)],
+                using: [light([1, 1, 1], 4)],
             },
             {
                 translation: [-2, 0, -2],
-                using: [light([1, 1, 1], 2)],
+                using: [light([1, 1, 1], 4)],
             },
         ],
     });
