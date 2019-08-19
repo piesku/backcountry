@@ -115,6 +115,7 @@ export class Game implements ComponentData {
 
         window.addEventListener("keydown", evt => (this.input[evt.code] = 1));
         window.addEventListener("keyup", evt => (this.input[evt.code] = 0));
+        this.canvas.addEventListener("contextmenu", evt => evt.preventDefault());
         this.canvas.addEventListener("mousedown", evt => {
             this.input[`mouse_${evt.button}`] = 1;
             this.event[`mouse_${evt.button}_down`] = 1;
