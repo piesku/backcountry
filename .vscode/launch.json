@@ -7,7 +7,7 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Launch Chrome",
+            "name": "Chrome",
             "url": "http://localhost:1234",
             "webRoot": "${workspaceFolder}/public"
         },
@@ -15,9 +15,19 @@
             "type": "edge",
             "request": "launch",
             "version": "dev",
-            "name": "Launch Edge (Dev)",
+            "name": "Edge (Dev)",
             "url": "http://localhost:1234",
             "webRoot": "${workspaceFolder}/public"
-        }
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "App",
+            "runtimeArgs": [
+                "--window-size=1280,720",
+                "--app=http://localhost:1234"
+            ],
+            "webRoot": "${workspaceFolder}/public"
+        },
     ]
 }
