@@ -47,7 +47,7 @@ export function get_tile_blueprint(game: Game): Blueprint {
         scale: [0.2, 0.2, 0.2],
         using: [
             (game: Game) => render_vox(game.models[tile_index])(game),
-            collide(false),
+            collide(false, [8, 1, 8]),
             // rigid_body(false),
             selectable(),
             navigable(),
