@@ -9,7 +9,15 @@ import {create_gun} from "./items/blu_gun.js";
 import {create_pitchfork} from "./items/blu_pitchfork.js";
 import {create_shotgun} from "./items/blu_shotgun.js";
 
-let hat_models = [Models.HAT1, Models.HAT2, Models.HAT3, Models.HAT4, Models.HAT5, Models.HAT6];
+let hat_models = [
+    Models.HAT1,
+    Models.HAT2,
+    Models.HAT3,
+    Models.HAT4,
+    Models.HAT5,
+    Models.HAT6,
+    Models.HAT7,
+];
 
 // const enum CustomColorIndex {
 //     Shirt = 0,
@@ -30,8 +38,13 @@ interface CustomColors {
 }
 
 let shirt_colors: Array<[number, number, number]> = [[1, 0, 0], [0, 1, 0], [0, 0, 1], [1, 1, 1]];
-let hat_colors: Array<[number, number, number]> = [[0, 0, 0], [1, 1, 1], [0.53, 0, 0], [1, 0, 0]];
-let extra_colors: Array<[number, number, number]> = [[0, 0, 0], [1, 1, 1], [1, 1, 0], [1, 0, 0]];
+let hat_colors: Array<[number, number, number]> = [
+    [0.2, 0.2, 0.2],
+    [0.9, 0.9, 0.9],
+    [0.53, 0, 0],
+    [1, 0, 0],
+];
+let extra_colors: Array<[number, number, number]> = [[0, 0, 0], [1, 1, 1], [1, 1, 0], [0.9, 0, 0]];
 let skin_colors: Array<[number, number, number]> = [[1, 0.8, 0.6], [1, 0.8, 0.6], [0.6, 0.4, 0]];
 let hair_colors: Array<[number, number, number]> = [
     [1, 1, 0],
@@ -80,10 +93,13 @@ export function get_hat(game: Game, palette: Array<number>): Blueprint {
     let hat_index = hat_models[~~(Math.random() * hat_models.length)];
     let body_height = game.models[Models.BODY].size[1];
     let hat_height = game.models[hat_index].size[1];
+    let is_rotated = Math.random() > 0.8;
 
     return {
-        translation: [0, hat_height / 2 + body_height / 2, 0],
-        rotation: [0, 1, 0, 0],
+        translation: is_rotated
+            ? [0, body_height / 2 - 2, hat_height / 2 + 1]
+            : [0, hat_height / 2 + body_height / 2, 0],
+        rotation: is_rotated ? from_euler([], 90, 0, 0) : [0, 1, 0, 0],
         using: [(game: Game) => render_vox(game.models[hat_index], palette)(game)],
     };
 }

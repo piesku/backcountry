@@ -1,5 +1,5 @@
+import {angle_camera_blueprint} from "../blueprints/blu_angle_camera.js";
 import {get_character_blueprint} from "../blueprints/blu_character.js";
-import {fly_camera_blueprint} from "../blueprints/blu_fly_camera.js";
 import {collide} from "../components/com_collide.js";
 import {light} from "../components/com_light.js";
 import {render_shaded} from "../components/com_render_shaded.js";
@@ -14,16 +14,7 @@ export function world_characters(game: Game) {
     game.canvas.addEventListener("click", () => game.canvas.requestPointerLock());
 
     // Player-controlled camera.
-    game.add({
-        translation: [13.11, 3.48, 12.28],
-        ...fly_camera_blueprint,
-        rotation: [
-            -0.011444001077517297,
-            0.9138615501373802,
-            -0.025820087072619922,
-            -0.4050424979226309,
-        ],
-    });
+    game.add(angle_camera_blueprint);
 
     // Ground.
     game.add({
@@ -44,7 +35,7 @@ export function world_characters(game: Game) {
                     ...get_character_blueprint(game),
                     translation: [x * 3, 0, y * 3],
                 });
-            }, Math.random() * 500);
+            }, Math.random() * Math.random() * 300);
         }
     }
 
