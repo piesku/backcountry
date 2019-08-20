@@ -1,55 +1,31 @@
 import {Get} from "../components/com_index.js";
-import {Entity, Game} from "../game.js";
-import {from_axis} from "../math/quat.js";
+import {find_first} from "../components/com_named.js";
+import {render_basic} from "../components/com_render_basic.js";
+import {selectable} from "../components/com_selectable.js";
+import {Game} from "../game.js";
+import {Mat} from "../materials/mat_index.js";
+import {Cube} from "../shapes/Cube.js";
 
-const QUERY = (1 << Get.Move) | (1 << Get.PlayerControl);
-const AXIS_X = [1, 0, 0];
-const AXIS_Y = [0, 1, 0];
+const QUERY =
+    (1 << Get.Transform) | (1 << Get.Collide) | (1 << Get.Selectable) | (1 << Get.Navigable);
 
 export function sys_player_move(game: Game, delta: number) {
-    for (let i = 0; i < game.world.length; i++) {
+    for (let i = game.world.length; i >= 0; i--) {
         if ((game.world[i] & QUERY) === QUERY) {
-            update(game, i, delta);
-        }
-    }
-}
+            let selection = game[Get.Selectable][i];
+            if (selection.selected && game.event.mouse_0_down) {
+                let player = find_first(game, "player");
+                game[Get.PlayerControl][player].destination = selection.hit;
 
-function update(game: Game, entity: Entity, delta: number) {
-    let control = game[Get.PlayerControl][entity];
-
-    if (control.move) {
-        let move = game[Get.Move][entity];
-        if (game.input.KeyW) {
-            // Move forward
-            move.directions.push([0, 0, 1]);
-        }
-        if (game.input.KeyA) {
-            // Strafe left
-            move.directions.push([1, 0, 0]);
-        }
-        if (game.input.KeyS) {
-            // Move backward
-            move.directions.push([0, 0, -1]);
-        }
-        if (game.input.KeyD) {
-            // Strafe right
-            move.directions.push([-1, 0, 0]);
-        }
-    }
-
-    if (control.yaw) {
-        let move = game[Get.Move][entity];
-        let yaw_delta = game.event.mouse_x * move.rotate_speed * delta;
-        if (yaw_delta !== 0) {
-            move.yaws.push(from_axis([], AXIS_Y, -yaw_delta));
-        }
-    }
-
-    if (control.pitch) {
-        let move = game[Get.Move][entity];
-        let pitch_delta = game.event.mouse_y * move.rotate_speed * delta;
-        if (pitch_delta !== 0) {
-            move.pitches.push(from_axis([], AXIS_X, pitch_delta));
+                game.add({
+                    translation: selection.hit,
+                    scale: [0.2, 1, 0.2],
+                    using: [
+                        render_basic(game.materials[Mat.Wireframe], Cube, [0.3, 1, 1, 1]),
+                        selectable(),
+                    ],
+                });
+            }
         }
     }
 }

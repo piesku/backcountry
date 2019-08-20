@@ -1,30 +1,29 @@
-import {collide} from "../components/com_collide.js";
 import {Get} from "../components/com_index.js";
-import {render_shaded} from "../components/com_render_shaded.js";
-import {rigid_body} from "../components/com_rigid_body.js";
-import {selectable} from "../components/com_selectable.js";
-import {Game} from "../game.js";
-import {Mat} from "../materials/mat_index.js";
-import {Cube} from "../shapes/Cube.js";
+import {Entity, Game} from "../game.js";
+import {get_translation} from "../math/mat4.js";
+import {rotation_to} from "../math/quat.js";
+import {normalize, transform_mat4} from "../math/vec3.js";
 
-const QUERY =
-    (1 << Get.Transform) | (1 << Get.Collide) | (1 << Get.Selectable) | (1 << Get.Navigable);
+const QUERY = (1 << Get.Transform) | (1 << Get.Move) | (1 << Get.PlayerControl);
 
 export function sys_navigate(game: Game, delta: number) {
-    for (let i = game.world.length; i >= 0; i--) {
+    for (let i = 0; i < game.world.length; i++) {
         if ((game.world[i] & QUERY) === QUERY) {
-            let selection = game[Get.Selectable][i];
-            if (selection.selected && game.event.mouse_0_down) {
-                game.add({
-                    translation: selection.hit,
-                    using: [
-                        render_shaded(game.materials[Mat.Gouraud], Cube, [0.3, 1, 1, 1]),
-                        collide(false),
-                        rigid_body(false),
-                        selectable(),
-                    ],
-                });
-            }
+            update(game, i);
         }
+    }
+}
+
+function update(game: Game, entity: Entity) {
+    let control = game[Get.PlayerControl][entity];
+    if (control.destination) {
+        let transform = game[Get.Transform][entity];
+        let world_position = get_translation([], transform.world);
+        let world_destination = [control.destination[0], world_position[1], control.destination[2]];
+        let movement = transform_mat4([], world_destination, transform.self);
+        normalize(movement, movement);
+        let move = game[Get.Move][entity];
+        move.directions.push(movement);
+        move.yaws.push(rotation_to([], [0, 0, 1], movement));
     }
 }
