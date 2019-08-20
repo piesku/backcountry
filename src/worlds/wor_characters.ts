@@ -11,6 +11,7 @@ import {Cube} from "../shapes/Cube.js";
 export function world_characters(game: Game) {
     game.world = [];
     game.gl.clearColor(1, 0.3, 0.3, 1);
+    game.canvas.addEventListener("click", () => game.canvas.requestPointerLock());
 
     // Player-controlled camera.
     game.add({

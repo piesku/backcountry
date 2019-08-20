@@ -39,7 +39,7 @@ function update(game: Game, entity: Entity, delta: number) {
 
     if (control.yaw) {
         let move = game[Get.Move][entity];
-        let yaw_delta = game.input.mouse_x * move.rotate_speed * delta;
+        let yaw_delta = game.event.mouse_x * move.rotate_speed * delta;
         if (yaw_delta !== 0) {
             move.yaws.push(from_axis([], AXIS_Y, -yaw_delta));
         }
@@ -47,7 +47,7 @@ function update(game: Game, entity: Entity, delta: number) {
 
     if (control.pitch) {
         let move = game[Get.Move][entity];
-        let pitch_delta = game.input.mouse_y * move.rotate_speed * delta;
+        let pitch_delta = game.event.mouse_y * move.rotate_speed * delta;
         if (pitch_delta !== 0) {
             move.pitches.push(from_axis([], AXIS_X, pitch_delta));
         }
