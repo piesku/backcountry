@@ -16,10 +16,9 @@ import {Selectable} from "./components/com_selectable.js";
 import {transform, Transform} from "./components/com_transform.js";
 import {Trigger} from "./components/com_trigger.js";
 import {Material} from "./materials/mat_common.js";
-import {mat_flat} from "./materials/mat_flat.js";
 import {mat_gouraud} from "./materials/mat_gouraud.js";
 import {Mat} from "./materials/mat_index.js";
-import {mat_instanced_flat} from "./materials/mat_instanced_flat.js";
+import {mat_instanced} from "./materials/mat_instanced.js";
 import {mat_wireframe} from "./materials/mat_wireframe.js";
 import {Model} from "./model.js";
 import {palette} from "./palette.js";
@@ -137,9 +136,8 @@ export class Game implements ComponentData {
         this.gl.frontFace(this.gl.CW);
 
         this.materials[Mat.Wireframe] = mat_wireframe(this.gl);
-        this.materials[Mat.Flat] = mat_flat(this.gl);
         this.materials[Mat.Gouraud] = mat_gouraud(this.gl);
-        this.materials[Mat.Instanced] = mat_instanced_flat(this.gl);
+        this.materials[Mat.Instanced] = mat_instanced(this.gl);
     }
 
     create_entity(mask: number) {

@@ -18,7 +18,7 @@ export function sys_navigate(game: Game, delta: number) {
                 game.add({
                     translation: selection.hit,
                     using: [
-                        render_shaded(game.materials[Mat.Flat], Cube, [0.3, 1, 1, 1]),
+                        render_shaded(game.materials[Mat.Gouraud], Cube, [0.3, 1, 1, 1]),
                         collide(false),
                         rigid_body(false),
                         selectable(),

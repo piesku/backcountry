@@ -17,7 +17,7 @@ let vertex = `#version 300 es
     layout(location=${InstancedAttribute.normal}) in vec3 normal;
     layout(location=${InstancedAttribute.offset}) in vec4 offset;
 
-    flat out vec4 vert_color;
+    out vec4 vert_color;
 
     const float fog_dist = 50.0;
 
@@ -47,7 +47,7 @@ let vertex = `#version 300 es
 let fragment = `#version 300 es
     precision mediump float;
 
-    flat in vec4 vert_color;
+    in vec4 vert_color;
     out vec4 frag_color;
 
     void main() {
@@ -55,6 +55,6 @@ let fragment = `#version 300 es
     }
 `;
 
-export function mat_instanced_flat(gl: WebGL2RenderingContext) {
+export function mat_instanced(gl: WebGL2RenderingContext) {
     return mat_create(gl, gl.TRIANGLES, vertex, fragment);
 }
