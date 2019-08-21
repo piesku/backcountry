@@ -16,11 +16,11 @@ export function world_stage(game: Game) {
 
     // Player.
     game.add({
-        translation: [0, 0.9, 0],
+        translation: [0, 5, 0],
         using: [
             named("player"),
             click_control(),
-            move(5, 0),
+            move(25, 0),
             // collide(true, [1, 1.5, 1]),
             // rigid_body(true),
             selectable(),
@@ -37,27 +37,27 @@ export function world_stage(game: Game) {
             let tile_blueprint = get_tile_blueprint(game);
             game.add({
                 ...tile_blueprint,
-                translation: [x * 1.6, 0, y * 1.6],
+                translation: [x * 8, 0, y * 8],
             });
         }
     }
 
     // Light and audio source.
     game.add({
-        translation: [0, 5, 0],
+        translation: [0, 25, 0],
         using: [audio_source({music: snd_music})],
         children: [
             {
-                translation: [4, 0, -4],
-                using: [light([1, 1, 1], 4)],
+                translation: [20, 0, -20],
+                using: [light([1, 1, 1], 20)],
             },
             {
-                translation: [-3, 0, 3],
-                using: [light([1, 1, 1], 4)],
+                translation: [-15, 0, 15],
+                using: [light([1, 1, 1], 20)],
             },
             {
-                translation: [-2, 0, -2],
-                using: [light([1, 1, 1], 4)],
+                translation: [-10, 0, -10],
+                using: [light([1, 1, 1], 20)],
             },
         ],
     });

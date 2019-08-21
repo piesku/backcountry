@@ -44,7 +44,6 @@ export function get_tile_blueprint(game: Game): Blueprint {
     return {
         translation: [0, 0, 0],
         rotation: [0, 1, 0, 0], //from_euler([], 0, ~~(Math.random() * 4) * 90, 0),
-        scale: [0.2, 0.2, 0.2],
         using: [
             (game: Game) => render_vox(game.models[tile_index])(game),
             collide(false, [8, 1, 8]),

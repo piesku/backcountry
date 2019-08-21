@@ -19,7 +19,7 @@ export function sys_player_move(game: Game, delta: number) {
 
                 game.add({
                     translation: selection.hit,
-                    scale: [0.2, 1, 0.2],
+                    scale: [1, 5, 1],
                     using: [
                         render_basic(game.materials[Mat.Wireframe], Cube, [0.3, 1, 1, 1]),
                         selectable(),

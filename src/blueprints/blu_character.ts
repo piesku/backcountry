@@ -128,7 +128,6 @@ export function get_character_blueprint(game: Game): Blueprint {
 
     return {
         rotation: [0, 1, 0, 0],
-        scale: [0.2, 0.2, 0.2],
         children: [
             {
                 //body

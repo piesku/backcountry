@@ -4,9 +4,11 @@ import {UIState} from "./state.js";
 
 export function App(state: UIState) {
     switch (state.world) {
+        case "intro":
+            return Intro();
         case "stage":
             return Overlay();
         default:
-            return Intro();
+            return "";
     }
 }

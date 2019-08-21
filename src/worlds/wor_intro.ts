@@ -18,18 +18,18 @@ export function world_intro(game: Game) {
 
     // Camera.
     game.add({
-        translation: [-1, 0, 3],
+        translation: [-5, 0, 15],
         rotation: from_euler([], 0, -45, 0),
         using: [camera_perspective(1, 1, 100)],
     });
 
     // Light and audio source.
     game.add({
-        translation: [-3, 3, 3],
+        translation: [-15, 15, 15],
         using: [audio_source({music: snd_music})],
         children: [
             {
-                using: [light([1, 1, 1], 5)],
+                using: [light([1, 1, 1], 25)],
             },
         ],
     });
