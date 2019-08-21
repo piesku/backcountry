@@ -2,11 +2,12 @@ import {Animate} from "./com_animate";
 import {AudioSource} from "./com_audio_source";
 import {Camera} from "./com_camera";
 import {Collide} from "./com_collide";
+import {ClickControl} from "./com_control_click";
+import {FlyControl} from "./com_control_fly";
 import {Light} from "./com_light";
 import {Move} from "./com_move";
 import {Named} from "./com_named";
 import {Navigable} from "./com_navigable";
-import {PlayerControl} from "./com_player_control";
 import {Render} from "./com_render";
 import {RigidBody} from "./com_rigid_body";
 import {Selectable} from "./com_selectable";
@@ -21,7 +22,8 @@ export const enum Get {
     AudioSource,
     Animate,
     Named,
-    PlayerControl,
+    ClickControl,
+    FlyControl,
     Move,
     Collide,
     RigidBody,
@@ -39,7 +41,8 @@ export interface ComponentData {
     [Get.Animate]: Array<Animate>;
     [Get.Named]: Array<Named>;
     [Get.Move]: Array<Move>;
-    [Get.PlayerControl]: Array<PlayerControl>;
+    [Get.ClickControl]: Array<ClickControl>;
+    [Get.FlyControl]: Array<FlyControl>;
     [Get.Collide]: Array<Collide>;
     [Get.RigidBody]: Array<RigidBody>;
     [Get.Trigger]: Array<Trigger>;

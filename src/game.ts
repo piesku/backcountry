@@ -4,12 +4,13 @@ import {Animate} from "./components/com_animate.js";
 import {AudioSource} from "./components/com_audio_source.js";
 import {Camera} from "./components/com_camera.js";
 import {Collide} from "./components/com_collide.js";
+import {ClickControl} from "./components/com_control_click.js";
+import {FlyControl} from "./components/com_control_fly.js";
 import {ComponentData, Get} from "./components/com_index.js";
 import {Light} from "./components/com_light.js";
 import {Move} from "./components/com_move.js";
 import {Named} from "./components/com_named.js";
 import {Navigable} from "./components/com_navigable.js";
-import {PlayerControl} from "./components/com_player_control.js";
 import {Render} from "./components/com_render.js";
 import {RigidBody} from "./components/com_rigid_body.js";
 import {Selectable} from "./components/com_selectable.js";
@@ -32,6 +33,7 @@ import {sys_light} from "./systems/sys_light.js";
 import {sys_move} from "./systems/sys_move.js";
 import {sys_navigate} from "./systems/sys_navigate.js";
 import {sys_physics} from "./systems/sys_physics.js";
+import {sys_player_fly} from "./systems/sys_player_fly.js";
 import {sys_player_move} from "./systems/sys_player_move.js";
 import {sys_render} from "./systems/sys_render.js";
 import {sys_select} from "./systems/sys_select.js";
@@ -68,7 +70,8 @@ export class Game implements ComponentData {
     public [Get.Animate]: Array<Animate> = [];
     public [Get.Named]: Array<Named> = [];
     public [Get.Move]: Array<Move> = [];
-    public [Get.PlayerControl]: Array<PlayerControl> = [];
+    public [Get.ClickControl]: Array<ClickControl> = [];
+    public [Get.FlyControl]: Array<FlyControl> = [];
     public [Get.Collide]: Array<Collide> = [];
     public [Get.RigidBody]: Array<RigidBody> = [];
     public [Get.Trigger]: Array<Trigger> = [];
@@ -153,6 +156,7 @@ export class Game implements ComponentData {
     fixed_update(delta: number) {
         // Player input.
         sys_player_move(this, delta);
+        sys_player_fly(this, delta);
         sys_select(this, delta);
         sys_navigate(this, delta);
         // Game logic.

@@ -15,7 +15,7 @@ export function sys_player_move(game: Game, delta: number) {
             let selection = game[Get.Selectable][i];
             if (selection.selected && game.event.mouse_0_down) {
                 let player = find_first(game, "player");
-                game[Get.PlayerControl][player].destination = selection.hit;
+                game[Get.ClickControl][player].destination = selection.hit;
 
                 game.add({
                     translation: selection.hit,

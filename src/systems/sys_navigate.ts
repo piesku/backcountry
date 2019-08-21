@@ -4,7 +4,7 @@ import {get_translation} from "../math/mat4.js";
 import {rotation_to} from "../math/quat.js";
 import {normalize, transform_mat4} from "../math/vec3.js";
 
-const QUERY = (1 << Get.Transform) | (1 << Get.Move) | (1 << Get.PlayerControl);
+const QUERY = (1 << Get.Transform) | (1 << Get.Move) | (1 << Get.ClickControl);
 
 export function sys_navigate(game: Game, delta: number) {
     for (let i = 0; i < game.world.length; i++) {
@@ -15,7 +15,7 @@ export function sys_navigate(game: Game, delta: number) {
 }
 
 function update(game: Game, entity: Entity) {
-    let control = game[Get.PlayerControl][entity];
+    let control = game[Get.ClickControl][entity];
     if (control.destination) {
         let transform = game[Get.Transform][entity];
         let world_position = get_translation([], transform.world);
