@@ -7,7 +7,26 @@
         overflow: hidden;
         margin: 0;
     }
+    main {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        pointer-events: none;
+    }
+    button {
+        pointer-events: auto;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font: inherit;
+        color: inherit;
+    }
 </style>
 <canvas></canvas>
 <main></main>
 <script src="game.min.js"></script>
+<script>
+    window.game = backcountry.game;
+</script>
