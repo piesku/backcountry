@@ -21,7 +21,7 @@ export function Intro() {
                 BACK<br />COUNTRY
                 <hr style="margin: 0; border: solid #D45230 10px;" />
                 <button
-                    onclick="game.dispatch(${Action.ChangeWorld}, 'stage')"
+                    onclick="game.dispatch(${Action.ChangeWorld}, 'stage');"
                     style="color: #FFE8C6;"
                 >
                     PLAY

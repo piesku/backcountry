@@ -14,7 +14,7 @@ export function world_characters(game: Game) {
     game.state.world = "characters";
     game.gl.clearColor(1, 0.3, 0.3, 1);
 
-    game.ui.addEventListener("click", () => game.ui.requestPointerLock());
+    game.canvas.addEventListener("click", () => game.canvas.requestPointerLock());
 
     // Player-controlled camera.
     game.add({
