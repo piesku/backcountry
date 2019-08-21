@@ -1,5 +1,6 @@
-import {ColorToggle} from "./ColorToggle.js";
 import {html} from "./html.js";
+import {Intro} from "./Intro.js";
+import {Overlay} from "./Overlay.js";
 import {UIState} from "./state.js";
 
 export function App(state: UIState) {
@@ -12,7 +13,7 @@ export function App(state: UIState) {
                 color: #fff;
             "
         >
-            ${ColorToggle()}
+            ${state.world === "intro" && Intro()} ${state.world === "stage" && Overlay()}
         </div>
     `;
 }

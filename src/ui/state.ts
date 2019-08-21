@@ -1,24 +1,19 @@
 import {Action} from "../actions.js";
 
 export interface UIState {
-    clear_color: [number, number, number, number];
+    world: string;
 }
 
 export const INIT_UI_STATE: UIState = {
-    clear_color: [1, 0.3, 0.3, 1],
+    world: "intro",
 };
 
 export function reducer(state: UIState, action: Action, args: Array<unknown>): UIState {
     switch (action) {
-        case Action.ToggleClearColor:
+        case Action.ChangeWorld:
             return {
                 ...state,
-                clear_color: [
-                    1 - state.clear_color[0],
-                    1 - state.clear_color[1],
-                    1 - state.clear_color[2],
-                    state.clear_color[3],
-                ],
+                world: args[0] as string,
             };
         default:
             return state;
