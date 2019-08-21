@@ -8,7 +8,7 @@ import {snd_music} from "../sounds/snd_music.js";
 
 export function world_intro(game: Game) {
     game.world = [];
-    game.gl.clearColor(1, 0.3, 0.3, 1);
+    game.gl.clearColor(0.95, 0.73, 0.35, 1);
 
     // Player.
     game.add({

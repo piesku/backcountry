@@ -13,12 +13,24 @@
         right: 0;
         bottom: 0;
         left: 0;
+        cursor: default;
     }
+    button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font: inherit;
+        color: inherit;
+    }
+
     #debug {
         position: absolute;
         top: 0;
         right: 0;
         background: #000;
+        color: #fff;
+    }
+    #debug button {
         color: #fff;
     }
 </style>
@@ -27,8 +39,8 @@
     <main></main>
     <div id="debug">
         <span id="fps"></span>
-        <button onclick="game.start();">resume</button>
-        <button onclick="game.stop()">pause</button>
+        <button onclick="game.start();">Resume</button>
+        <button onclick="game.stop()">Pause</button>
     </div>
     <script type="module">
         import {game} from "./js/index.js";
