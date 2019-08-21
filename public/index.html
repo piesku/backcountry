@@ -24,13 +24,21 @@
     }
 
     #debug {
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: flex-end;
         position: absolute;
         top: 0;
         right: 0;
-        background: #000;
         color: #fff;
+        font-family: monospace;
     }
     #debug button {
+        padding: 0;
+    }
+    #debug div {
+        width: max-content;
+        background: #000;
         color: #fff;
     }
 </style>
@@ -38,12 +46,26 @@
     <canvas></canvas>
     <main></main>
     <div id="debug">
-        <span id="fps"></span>
-        <button onclick="game.start();">Resume</button>
-        <button onclick="game.stop()">Pause</button>
+        <div>fixed: <span id="fixed"></span></div>
+        <div>frame: <span id="frame"></span></div>
+        <div>fps: <span id="fps"></span></div>
+        <div><button onclick="toggle(this)">pause</button></div>
     </div>
     <script type="module">
         import {game} from "./js/index.js";
         window.game = game;
+
+        let running = true;
+        window.toggle = function toggle(button) {
+            if (running) {
+                running = false;
+                game.stop();
+                button.textContent = "resume";
+            } else {
+                running = true;
+                game.start();
+                button.textContent = "pause";
+            }
+        };
     </script>
 </body>
