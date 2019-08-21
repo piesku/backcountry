@@ -3,11 +3,16 @@ import {html} from "./html.js";
 
 export function Overlay() {
     return html`
-        <button onclick="game.dispatch(${Action.ChangeWorld}, 'intro')" style="color: #fff">
-            Back
-        </button>
-        <button onclick="game.dispatch(${Action.ChangeWorld}, 'characters')" style="color: #fff">
-            Characters
-        </button>
+        ${["intro", "stage", "characters"].map(
+            name =>
+                html`
+                    <button
+                        onclick="game.dispatch(${Action.ChangeWorld}, '${name}')"
+                        style="color: #fff"
+                    >
+                        ${name}
+                    </button>
+                `
+        )}
     `;
 }
