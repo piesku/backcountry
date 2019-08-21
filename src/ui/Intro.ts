@@ -15,11 +15,11 @@ export function Intro() {
                 style="
                     margin: auto 0;
                     color: #FFE8C6;
-                    font: 7rem Impact;
+                    font: 15vh Impact;
                 "
             >
                 BACK<br />COUNTRY
-                <hr style="margin: 0; border: solid #D45230 10px;" />
+                <hr style="border: solid #D45230 10px;" />
                 <button
                     onclick="game.dispatch(${Action.ChangeWorld}, 'stage');"
                     style="color: #FFE8C6;"
