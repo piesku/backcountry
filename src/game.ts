@@ -81,6 +81,7 @@ export class Game implements ComponentData {
     public canvas: HTMLCanvasElement;
     public gl: WebGL2RenderingContext;
     public audio: AudioContext = new AudioContext();
+    public ui: HTMLElement = document.querySelector("main")!;
 
     public input: InputState = {
         mouse_x: 0,
@@ -91,9 +92,9 @@ export class Game implements ComponentData {
         mouse_y: 0,
         wheel_y: 0,
     };
-    public ui: UIState = INIT_UI_STATE;
+    public state: UIState = INIT_UI_STATE;
     public dispatch = (action: Action, ...args: Array<unknown>) => {
-        this.ui = reducer(this.ui, action, args);
+        this.state = reducer(this.state, action, args);
         effect(this, action, args);
     };
 
@@ -117,16 +118,16 @@ export class Game implements ComponentData {
 
         window.addEventListener("keydown", evt => (this.input[evt.code] = 1));
         window.addEventListener("keyup", evt => (this.input[evt.code] = 0));
-        this.canvas.addEventListener("contextmenu", evt => evt.preventDefault());
-        this.canvas.addEventListener("mousedown", evt => {
+        this.ui.addEventListener("contextmenu", evt => evt.preventDefault());
+        this.ui.addEventListener("mousedown", evt => {
             this.input[`mouse_${evt.button}`] = 1;
             this.event[`mouse_${evt.button}_down`] = 1;
         });
-        this.canvas.addEventListener("mouseup", evt => {
+        this.ui.addEventListener("mouseup", evt => {
             this.input[`mouse_${evt.button}`] = 0;
             this.event[`mouse_${evt.button}_up`] = 1;
         });
-        this.canvas.addEventListener("mousemove", evt => {
+        this.ui.addEventListener("mousemove", evt => {
             this.input.mouse_x = evt.offsetX;
             this.input.mouse_y = evt.offsetY;
             this.event.mouse_x = evt.movementX;
