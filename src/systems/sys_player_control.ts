@@ -7,7 +7,7 @@ import {Cube} from "../shapes/Cube.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.ClickControl);
 
-export function sys_player_move(game: Game, delta: number) {
+export function sys_player_control(game: Game, delta: number) {
     let camera = game.cameras[0];
     if (game.event.mouse_0_down && game.world[camera.entity] & (1 << Get.RayCast)) {
         let selection = game[Get.RayCast][game.cameras[0].entity];

@@ -37,8 +37,8 @@ import {sys_move} from "./systems/sys_move.js";
 import {sys_navigate} from "./systems/sys_navigate.js";
 import {sys_performance} from "./systems/sys_performance.js";
 import {sys_physics} from "./systems/sys_physics.js";
+import {sys_player_control} from "./systems/sys_player_control.js";
 import {sys_player_fly} from "./systems/sys_player_fly.js";
-import {sys_player_move} from "./systems/sys_player_move.js";
 import {sys_ray} from "./systems/sys_ray.js";
 import {sys_render} from "./systems/sys_render.js";
 import {sys_transform} from "./systems/sys_transform.js";
@@ -164,7 +164,7 @@ export class Game implements ComponentData {
         let now = performance.now();
 
         // Player input.
-        sys_player_move(this, delta);
+        sys_player_control(this, delta);
         sys_player_fly(this, delta);
         sys_aim(this, delta);
         sys_ray(this, delta);
