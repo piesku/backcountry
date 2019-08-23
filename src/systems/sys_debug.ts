@@ -1,18 +1,20 @@
 import {Collide} from "../components/com_collide.js";
 import {Get} from "../components/com_index.js";
+import {RayCast} from "../components/com_ray_cast.js";
 import {render_basic} from "../components/com_render_basic.js";
 import {Transform} from "../components/com_transform.js";
 import {Entity, Game} from "../game.js";
 import {Mat} from "../materials/mat_index.js";
 import {scale} from "../math/vec3.js";
 import {Cube} from "../shapes/Cube.js";
+import {Line} from "../shapes/Line.js";
 
 interface Wireframe {
     entity: Entity;
     anchor: Transform;
     transform: Transform;
 }
-const wireframes: Map<Transform | Collide, Wireframe> = new Map();
+const wireframes: Map<Transform | Collide | RayCast, Wireframe> = new Map();
 
 export function sys_debug(game: Game, delta: number) {
     // Prune wireframes corresponding to destroyed entities.
@@ -40,6 +42,10 @@ export function sys_debug(game: Game, delta: number) {
             // Draw invisible entities.
             if (!(game.world[i] & (1 << Get.Render))) {
                 wireframe_entity(game, i);
+            }
+
+            if (game.world[i] & (1 << Get.RayCast)) {
+                wireframe_ray(game, i);
             }
         }
     }
@@ -84,5 +90,28 @@ function wireframe_collider(game: Game, entity: Entity) {
         wireframe.transform.translation = collide.center;
         scale(wireframe.transform.scale, collide.half, 2);
         wireframe.transform.dirty = true;
+    }
+}
+
+function wireframe_ray(game: Game, entity: Entity) {
+    let transform = game[Get.Transform][entity];
+    let raycast = game[Get.RayCast][entity];
+    let wireframe = wireframes.get(raycast);
+
+    if (!wireframe) {
+        let line = game.add({
+            using: [render_basic(game.materials[Mat.Wireframe], Line, [1, 1, 0, 1])],
+        });
+        let wireframe_transform = game[Get.Transform][line];
+        wireframe_transform.world = transform.world;
+        wireframe_transform.dirty = false;
+        wireframes.set(raycast, {
+            entity,
+            anchor: transform,
+            transform: wireframe_transform,
+        });
+    } else {
+        wireframe.transform.world = transform.world;
+        wireframe.transform.dirty = false;
     }
 }
