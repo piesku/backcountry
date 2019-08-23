@@ -10,7 +10,6 @@ import {Cube} from "../shapes/Cube.js";
 import {Line} from "../shapes/Line.js";
 
 interface Wireframe {
-    entity: Entity;
     anchor: Transform;
     transform: Transform;
 }
@@ -21,9 +20,9 @@ export function sys_debug(game: Game, delta: number) {
     for (let [key, wireframe] of wireframes) {
         if (
             // If the entity doesn't have TRANSFORM...
-            !(game.world[wireframe.entity] & (1 << Get.Transform)) ||
+            !(game.world[wireframe.anchor.entity] & (1 << Get.Transform)) ||
             // ...or if it's not the same TRANSFORM.
-            game[Get.Transform][wireframe.entity] !== wireframe.anchor
+            game[Get.Transform][wireframe.anchor.entity] !== wireframe.anchor
         ) {
             game.destroy(wireframe.transform.entity);
             wireframes.delete(key);
@@ -52,26 +51,25 @@ export function sys_debug(game: Game, delta: number) {
 }
 
 function wireframe_entity(game: Game, entity: Entity) {
-    let entity_transform = game[Get.Transform][entity];
-    let wireframe = wireframes.get(entity_transform);
+    let anchor = game[Get.Transform][entity];
+    let wireframe = wireframes.get(anchor);
 
     if (!wireframe) {
         let box = game.add({
             using: [render_basic(game.materials[Mat.Wireframe], Cube, [1, 0, 1, 1])],
         });
         let wireframe_transform = game[Get.Transform][box];
-        wireframe_transform.world = entity_transform.world;
+        wireframe_transform.world = anchor.world;
         wireframe_transform.dirty = false;
-        wireframes.set(entity_transform, {
-            entity,
-            anchor: entity_transform,
+        wireframes.set(anchor, {
+            anchor: anchor,
             transform: wireframe_transform,
         });
     }
 }
 
 function wireframe_collider(game: Game, entity: Entity) {
-    let transform = game[Get.Transform][entity];
+    let anchor = game[Get.Transform][entity];
     let collide = game[Get.Collide][entity];
     let wireframe = wireframes.get(collide);
 
@@ -82,8 +80,7 @@ function wireframe_collider(game: Game, entity: Entity) {
             using: [render_basic(game.materials[Mat.Wireframe], Cube, [0, 1, 0, 1])],
         });
         wireframes.set(collide, {
-            entity,
-            anchor: transform,
+            anchor,
             transform: game[Get.Transform][box],
         });
     } else if (collide.dynamic) {
@@ -94,7 +91,7 @@ function wireframe_collider(game: Game, entity: Entity) {
 }
 
 function wireframe_ray(game: Game, entity: Entity) {
-    let transform = game[Get.Transform][entity];
+    let anchor = game[Get.Transform][entity];
     let raycast = game[Get.RayCast][entity];
     let wireframe = wireframes.get(raycast);
 
@@ -103,15 +100,11 @@ function wireframe_ray(game: Game, entity: Entity) {
             using: [render_basic(game.materials[Mat.Wireframe], Line, [1, 1, 0, 1])],
         });
         let wireframe_transform = game[Get.Transform][line];
-        wireframe_transform.world = transform.world;
+        wireframe_transform.world = anchor.world;
         wireframe_transform.dirty = false;
         wireframes.set(raycast, {
-            entity,
-            anchor: transform,
+            anchor: anchor,
             transform: wireframe_transform,
         });
-    } else {
-        wireframe.transform.world = transform.world;
-        wireframe.transform.dirty = false;
     }
 }
