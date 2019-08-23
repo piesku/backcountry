@@ -30,11 +30,9 @@ function update(game: Game, entity: Entity) {
         -1,
         1,
     ];
-    // The far plane in NDC is Z=1, but here we're using 1000 to improve the
-    // accuracy of the ray cast far into the background.
-    let far = [origin[0], origin[1], 1000, 1];
-    transform_mat4(camera.ray_origin, origin, game.cameras[0].pv_inv);
-    transform_mat4(far, far, game.cameras[0].pv_inv);
-    subtract(camera.ray_direction, far, origin);
+    let far = [origin[0], origin[1], 1, 1];
+    transform_mat4(camera.ray_origin, origin, camera.pv_inv);
+    transform_mat4(far, far, camera.pv_inv);
+    subtract(camera.ray_direction, far, camera.ray_origin);
     normalize(camera.ray_direction, camera.ray_direction);
 }
