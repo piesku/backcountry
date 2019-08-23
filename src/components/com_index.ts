@@ -4,6 +4,7 @@ import {Camera} from "./com_camera";
 import {Collide} from "./com_collide";
 import {ClickControl} from "./com_control_click";
 import {FlyControl} from "./com_control_fly";
+import {PlayerControl} from "./com_control_player";
 import {Light} from "./com_light";
 import {Move} from "./com_move";
 import {Named} from "./com_named";
@@ -34,6 +35,7 @@ export const enum Get {
     Navigable,
     RayCast,
     Shoot,
+    PlayerControl,
 }
 
 export interface ComponentData {
@@ -54,4 +56,5 @@ export interface ComponentData {
     [Get.Navigable]: Array<Navigable>;
     [Get.RayCast]: Array<RayCast>;
     [Get.Shoot]: Array<Shoot>;
+    [Get.PlayerControl]: Array<PlayerControl>;
 }

@@ -6,6 +6,7 @@ import {Camera} from "./components/com_camera.js";
 import {Collide} from "./components/com_collide.js";
 import {ClickControl} from "./components/com_control_click.js";
 import {FlyControl} from "./components/com_control_fly.js";
+import {PlayerControl} from "./components/com_control_player.js";
 import {ComponentData, Get} from "./components/com_index.js";
 import {Light} from "./components/com_light.js";
 import {Move} from "./components/com_move.js";
@@ -83,6 +84,7 @@ export class Game implements ComponentData {
     public [Get.Navigable]: Array<Navigable> = [];
     public [Get.RayCast]: Array<RayCast> = [];
     public [Get.Shoot]: Array<Shoot> = [];
+    public [Get.PlayerControl]: Array<PlayerControl> = [];
 
     public canvas: HTMLCanvasElement;
     public gl: WebGL2RenderingContext;

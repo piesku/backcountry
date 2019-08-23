@@ -19,4 +19,5 @@ export function ray_target(flags: RayFlag) {
 export const enum RayFlag {
     None = 1 << 0,
     Navigable = 1 << 1,
+    Attackable = 1 << 2,
 }
