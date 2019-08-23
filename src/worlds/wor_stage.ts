@@ -5,7 +5,6 @@ import {audio_source} from "../components/com_audio_source.js";
 import {click_control} from "../components/com_control_click.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
-import {named} from "../components/com_named.js";
 import {selectable} from "../components/com_selectable.js";
 import {Game} from "../game.js";
 import {snd_music} from "../sounds/snd_music.js";
@@ -18,7 +17,6 @@ export function world_stage(game: Game) {
     game.add({
         translation: [0, 5, 0],
         using: [
-            named("player"),
             click_control(),
             move(25, 0),
             // collide(true, [1, 1.5, 1]),

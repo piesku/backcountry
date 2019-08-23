@@ -8,6 +8,7 @@ import {Light} from "./com_light";
 import {Move} from "./com_move";
 import {Named} from "./com_named";
 import {Navigable} from "./com_navigable";
+import {RayCast} from "./com_ray_cast";
 import {Render} from "./com_render";
 import {RigidBody} from "./com_rigid_body";
 import {Selectable} from "./com_selectable";
@@ -30,6 +31,7 @@ export const enum Get {
     Trigger,
     Selectable,
     Navigable,
+    RayCast,
 }
 
 export interface ComponentData {
@@ -48,4 +50,5 @@ export interface ComponentData {
     [Get.Trigger]: Array<Trigger>;
     [Get.Selectable]: Array<Selectable>;
     [Get.Navigable]: Array<Navigable>;
+    [Get.RayCast]: Array<RayCast>;
 }

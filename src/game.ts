@@ -11,6 +11,7 @@ import {Light} from "./components/com_light.js";
 import {Move} from "./components/com_move.js";
 import {Named} from "./components/com_named.js";
 import {Navigable} from "./components/com_navigable.js";
+import {RayCast} from "./components/com_ray_cast.js";
 import {Render} from "./components/com_render.js";
 import {RigidBody} from "./components/com_rigid_body.js";
 import {Selectable} from "./components/com_selectable.js";
@@ -78,6 +79,7 @@ export class Game implements ComponentData {
     public [Get.Trigger]: Array<Trigger> = [];
     public [Get.Selectable]: Array<Selectable> = [];
     public [Get.Navigable]: Array<Navigable> = [];
+    public [Get.RayCast]: Array<RayCast> = [];
 
     public canvas: HTMLCanvasElement;
     public gl: WebGL2RenderingContext;

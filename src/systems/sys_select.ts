@@ -1,34 +1,50 @@
 import {Collide} from "../components/com_collide.js";
 import {Get} from "../components/com_index.js";
-import {Game} from "../game.js";
+import {Entity, Game} from "../game.js";
 import {Vec3} from "../math/index.js";
 
-const QUERY = (1 << Get.Transform) | (1 << Get.Collide) | (1 << Get.Selectable);
+const RAY_CAST = (1 << Get.Transform) | (1 << Get.RayCast);
+const RAY_INTERSECT = (1 << Get.Transform) | (1 << Get.Collide) | (1 << Get.Selectable);
 
 export function sys_select(game: Game, delta: number) {
-    let camera = game.cameras[0];
+    // Collect all intersectable colliders.
+    let colliders: Array<Collide> = [];
+    for (let i = 0; i < game.world.length; i++) {
+        if ((game.world[i] & RAY_INTERSECT) === RAY_INTERSECT) {
+            colliders.push(game[Get.Collide][i]);
+        }
+    }
+
+    for (let i = 0; i < game.world.length; i++) {
+        if ((game.world[i] & RAY_CAST) === RAY_CAST) {
+            update(game, i, colliders);
+        }
+    }
+}
+
+function update(game: Game, entity: Entity, colliders: Array<Collide>) {
+    let ray = game[Get.RayCast][entity];
     let nearest_t = Infinity;
     let nearest_i = null;
-    for (let i = game.world.length; i >= 0; i--) {
-        if ((game.world[i] & QUERY) === QUERY) {
-            // Reset the selection.
-            game[Get.Selectable][i].selected = false;
-            let t = distance(camera.ray_origin, camera.ray_direction, game[Get.Collide][i]);
-            if (t < nearest_t) {
-                nearest_t = t;
-                nearest_i = i;
-            }
+    for (let i = 0; i < colliders.length; i++) {
+        let t = distance(ray.origin, ray.direction, colliders[i]);
+        if (t < nearest_t) {
+            nearest_t = t;
+            nearest_i = i;
         }
     }
 
     if (nearest_i !== null) {
-        let selectable = game[Get.Selectable][nearest_i];
-        selectable.selected = true;
-        selectable.hit = [
-            camera.ray_origin[0] + camera.ray_direction[0] * nearest_t,
-            camera.ray_origin[1] + camera.ray_direction[1] * nearest_t,
-            camera.ray_origin[2] + camera.ray_direction[2] * nearest_t,
-        ];
+        ray.hit = {
+            other: colliders[nearest_i],
+            contact: [
+                ray.origin[0] + ray.direction[0] * nearest_t,
+                ray.origin[1] + ray.direction[1] * nearest_t,
+                ray.origin[2] + ray.direction[2] * nearest_t,
+            ],
+        };
+    } else {
+        ray.hit = null;
     }
 }
 

@@ -4,13 +4,12 @@ import {create, invert, ortho, perspective} from "../math/mat4.js";
 import {Get} from "./com_index.js";
 
 export interface Camera {
+    entity: Entity;
     position: Vec3;
     projection: Mat4;
     unproject: Mat4;
     view: Mat4;
     pv: Mat4;
-    ray_origin: Vec3;
-    ray_direction: Vec3;
 }
 
 export function camera_perspective(fovy: number, near: number, far: number) {
@@ -24,14 +23,12 @@ export function camera_perspective(fovy: number, near: number, far: number) {
         );
         game.world[entity] |= 1 << Get.Camera;
         game[Get.Camera][entity] = <Camera>{
+            entity,
             position: [],
             projection,
             unproject: invert([], projection),
             view: create(),
             pv: create(),
-            pv_inv: create(),
-            ray_origin: [0, 0, 0],
-            ray_direction: [0, 0, 0],
         };
     };
 }
@@ -49,14 +46,12 @@ export function camera_ortho(radius: number, near: number, far: number) {
         );
         game.world[entity] |= 1 << Get.Camera;
         game[Get.Camera][entity] = <Camera>{
+            entity,
             position: [],
             projection,
             unproject: invert([], projection),
             view: create(),
             pv: create(),
-            pv_inv: create(),
-            ray_origin: [0, 0, 0],
-            ray_direction: [0, 0, 0],
         };
     };
 }
