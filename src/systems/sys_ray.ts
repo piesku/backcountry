@@ -1,33 +1,35 @@
 import {Collide} from "../components/com_collide.js";
 import {Get} from "../components/com_index.js";
+import {RayTarget} from "../components/com_ray_target.js";
 import {Entity, Game} from "../game.js";
 import {Vec3} from "../math/index.js";
 
 const RAY_CAST = (1 << Get.Transform) | (1 << Get.RayCast);
-const RAY_INTERSECT = (1 << Get.Transform) | (1 << Get.Collide) | (1 << Get.RayIntersect);
+const RAY_INTERSECT = (1 << Get.Transform) | (1 << Get.Collide) | (1 << Get.RayTarget);
 
 export function sys_ray(game: Game, delta: number) {
     // Collect all intersectable colliders.
-    let colliders: Array<Collide> = [];
+    let targets: Array<RayTarget> = [];
     for (let i = 0; i < game.world.length; i++) {
         if ((game.world[i] & RAY_INTERSECT) === RAY_INTERSECT) {
-            colliders.push(game[Get.Collide][i]);
+            targets.push(game[Get.RayTarget][i]);
         }
     }
 
     for (let i = 0; i < game.world.length; i++) {
         if ((game.world[i] & RAY_CAST) === RAY_CAST) {
-            update(game, i, colliders);
+            update(game, i, targets);
         }
     }
 }
 
-function update(game: Game, entity: Entity, colliders: Array<Collide>) {
+function update(game: Game, entity: Entity, targets: Array<RayTarget>) {
     let ray = game[Get.RayCast][entity];
     let nearest_t = Infinity;
     let nearest_i = null;
-    for (let i = 0; i < colliders.length; i++) {
-        let t = distance(ray.origin, ray.direction, colliders[i]);
+    for (let i = 0; i < targets.length; i++) {
+        let aabb = game[Get.Collide][targets[i].entity];
+        let t = distance(ray.origin, ray.direction, aabb);
         if (t < nearest_t) {
             nearest_t = t;
             nearest_i = i;
@@ -36,7 +38,7 @@ function update(game: Game, entity: Entity, colliders: Array<Collide>) {
 
     if (nearest_i !== null) {
         ray.hit = {
-            other: game[Get.RayIntersect][colliders[nearest_i].entity],
+            other: targets[nearest_i],
             contact: [
                 ray.origin[0] + ray.direction[0] * nearest_t,
                 ray.origin[1] + ray.direction[1] * nearest_t,

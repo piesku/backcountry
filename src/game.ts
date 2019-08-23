@@ -12,7 +12,7 @@ import {Move} from "./components/com_move.js";
 import {Named} from "./components/com_named.js";
 import {Navigable} from "./components/com_navigable.js";
 import {RayCast} from "./components/com_ray_cast.js";
-import {RayIntersect} from "./components/com_ray_intersect.js";
+import {RayTarget} from "./components/com_ray_target.js";
 import {Render} from "./components/com_render.js";
 import {RigidBody} from "./components/com_rigid_body.js";
 import {transform, Transform} from "./components/com_transform.js";
@@ -77,7 +77,7 @@ export class Game implements ComponentData {
     public [Get.Collide]: Array<Collide> = [];
     public [Get.RigidBody]: Array<RigidBody> = [];
     public [Get.Trigger]: Array<Trigger> = [];
-    public [Get.RayIntersect]: Array<RayIntersect> = [];
+    public [Get.RayTarget]: Array<RayTarget> = [];
     public [Get.Navigable]: Array<Navigable> = [];
     public [Get.RayCast]: Array<RayCast> = [];
 

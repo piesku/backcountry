@@ -6,7 +6,7 @@ import {collide} from "../components/com_collide.js";
 import {click_control} from "../components/com_control_click.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
-import {RayFlag, ray_intersect} from "../components/com_ray_intersect.js";
+import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {Game} from "../game.js";
 import {snd_music} from "../sounds/snd_music.js";
 
@@ -17,12 +17,7 @@ export function world_stage(game: Game) {
     // Player.
     game.add({
         translation: [0, 5, 0],
-        using: [
-            click_control(),
-            move(25, 0),
-            collide(true, [4, 7, 1]),
-            ray_intersect(RayFlag.None),
-        ],
+        using: [click_control(), move(25, 0), collide(true, [4, 7, 1]), ray_target(RayFlag.None)],
         children: [get_character_blueprint(game)],
     });
 

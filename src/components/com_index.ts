@@ -9,7 +9,7 @@ import {Move} from "./com_move";
 import {Named} from "./com_named";
 import {Navigable} from "./com_navigable";
 import {RayCast} from "./com_ray_cast";
-import {RayIntersect} from "./com_ray_intersect";
+import {RayTarget} from "./com_ray_target";
 import {Render} from "./com_render";
 import {RigidBody} from "./com_rigid_body";
 import {Transform} from "./com_transform";
@@ -29,7 +29,7 @@ export const enum Get {
     Collide,
     RigidBody,
     Trigger,
-    RayIntersect,
+    RayTarget,
     Navigable,
     RayCast,
 }
@@ -48,7 +48,7 @@ export interface ComponentData {
     [Get.Collide]: Array<Collide>;
     [Get.RigidBody]: Array<RigidBody>;
     [Get.Trigger]: Array<Trigger>;
-    [Get.RayIntersect]: Array<RayIntersect>;
+    [Get.RayTarget]: Array<RayTarget>;
     [Get.Navigable]: Array<Navigable>;
     [Get.RayCast]: Array<RayCast>;
 }
