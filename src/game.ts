@@ -15,6 +15,7 @@ import {RayCast} from "./components/com_ray_cast.js";
 import {RayTarget} from "./components/com_ray_target.js";
 import {Render} from "./components/com_render.js";
 import {RigidBody} from "./components/com_rigid_body.js";
+import {Shoot} from "./components/com_shoot.js";
 import {transform, Transform} from "./components/com_transform.js";
 import {Trigger} from "./components/com_trigger.js";
 import {Material} from "./materials/mat_common.js";
@@ -24,6 +25,7 @@ import {mat_instanced} from "./materials/mat_instanced.js";
 import {mat_wireframe} from "./materials/mat_wireframe.js";
 import {Model} from "./model.js";
 import {palette} from "./palette.js";
+import {sys_aim} from "./systems/sys_aim.js";
 import {sys_animate} from "./systems/sys_animate.js";
 import {sys_audio} from "./systems/sys_audio.js";
 import {sys_camera} from "./systems/sys_camera.js";
@@ -80,6 +82,7 @@ export class Game implements ComponentData {
     public [Get.RayTarget]: Array<RayTarget> = [];
     public [Get.Navigable]: Array<Navigable> = [];
     public [Get.RayCast]: Array<RayCast> = [];
+    public [Get.Shoot]: Array<Shoot> = [];
 
     public canvas: HTMLCanvasElement;
     public gl: WebGL2RenderingContext;
@@ -163,6 +166,7 @@ export class Game implements ComponentData {
         // Player input.
         sys_player_move(this, delta);
         sys_player_fly(this, delta);
+        sys_aim(this, delta);
         sys_ray(this, delta);
         sys_navigate(this, delta);
         // Game logic.

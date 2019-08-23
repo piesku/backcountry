@@ -12,6 +12,7 @@ import {RayCast} from "./com_ray_cast";
 import {RayTarget} from "./com_ray_target";
 import {Render} from "./com_render";
 import {RigidBody} from "./com_rigid_body";
+import {Shoot} from "./com_shoot";
 import {Transform} from "./com_transform";
 import {Trigger} from "./com_trigger";
 
@@ -32,6 +33,7 @@ export const enum Get {
     RayTarget,
     Navigable,
     RayCast,
+    Shoot,
 }
 
 export interface ComponentData {
@@ -51,4 +53,5 @@ export interface ComponentData {
     [Get.RayTarget]: Array<RayTarget>;
     [Get.Navigable]: Array<Navigable>;
     [Get.RayCast]: Array<RayCast>;
+    [Get.Shoot]: Array<Shoot>;
 }
