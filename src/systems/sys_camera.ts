@@ -1,7 +1,7 @@
 import {Get} from "../components/com_index.js";
 import {Entity, Game} from "../game.js";
 import {get_translation, invert, multiply} from "../math/mat4.js";
-import {normalize, subtract, transform_mat4} from "../math/vec3.js";
+import {normalize, subtract, transform_point} from "../math/vec3.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Camera);
 
@@ -29,10 +29,10 @@ function update(game: Game, entity: Entity) {
         -1,
     ];
     let target = [origin[0], origin[1], 1];
-    transform_mat4(origin, origin, camera.unproject);
-    transform_mat4(camera.ray_origin, origin, transform.world);
-    transform_mat4(target, target, camera.unproject);
-    transform_mat4(target, target, transform.world);
+    transform_point(origin, origin, camera.unproject);
+    transform_point(camera.ray_origin, origin, transform.world);
+    transform_point(target, target, camera.unproject);
+    transform_point(target, target, transform.world);
     subtract(camera.ray_direction, target, camera.ray_origin);
     normalize(camera.ray_direction, camera.ray_direction);
 }
