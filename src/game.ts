@@ -12,9 +12,9 @@ import {Move} from "./components/com_move.js";
 import {Named} from "./components/com_named.js";
 import {Navigable} from "./components/com_navigable.js";
 import {RayCast} from "./components/com_ray_cast.js";
+import {RayIntersect} from "./components/com_ray_intersect.js";
 import {Render} from "./components/com_render.js";
 import {RigidBody} from "./components/com_rigid_body.js";
-import {Selectable} from "./components/com_selectable.js";
 import {transform, Transform} from "./components/com_transform.js";
 import {Trigger} from "./components/com_trigger.js";
 import {Material} from "./materials/mat_common.js";
@@ -37,8 +37,8 @@ import {sys_performance} from "./systems/sys_performance.js";
 import {sys_physics} from "./systems/sys_physics.js";
 import {sys_player_fly} from "./systems/sys_player_fly.js";
 import {sys_player_move} from "./systems/sys_player_move.js";
+import {sys_ray} from "./systems/sys_ray.js";
 import {sys_render} from "./systems/sys_render.js";
-import {sys_select} from "./systems/sys_select.js";
 import {sys_transform} from "./systems/sys_transform.js";
 import {sys_trigger} from "./systems/sys_trigger.js";
 import {sys_ui} from "./systems/sys_ui.js";
@@ -77,7 +77,7 @@ export class Game implements ComponentData {
     public [Get.Collide]: Array<Collide> = [];
     public [Get.RigidBody]: Array<RigidBody> = [];
     public [Get.Trigger]: Array<Trigger> = [];
-    public [Get.Selectable]: Array<Selectable> = [];
+    public [Get.RayIntersect]: Array<RayIntersect> = [];
     public [Get.Navigable]: Array<Navigable> = [];
     public [Get.RayCast]: Array<RayCast> = [];
 
@@ -163,7 +163,7 @@ export class Game implements ComponentData {
         // Player input.
         sys_player_move(this, delta);
         sys_player_fly(this, delta);
-        sys_select(this, delta);
+        sys_ray(this, delta);
         sys_navigate(this, delta);
         // Game logic.
         sys_animate(this, delta);

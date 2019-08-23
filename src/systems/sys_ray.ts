@@ -4,9 +4,9 @@ import {Entity, Game} from "../game.js";
 import {Vec3} from "../math/index.js";
 
 const RAY_CAST = (1 << Get.Transform) | (1 << Get.RayCast);
-const RAY_INTERSECT = (1 << Get.Transform) | (1 << Get.Collide) | (1 << Get.Selectable);
+const RAY_INTERSECT = (1 << Get.Transform) | (1 << Get.Collide) | (1 << Get.RayIntersect);
 
-export function sys_select(game: Game, delta: number) {
+export function sys_ray(game: Game, delta: number) {
     // Collect all intersectable colliders.
     let colliders: Array<Collide> = [];
     for (let i = 0; i < game.world.length; i++) {
@@ -36,7 +36,7 @@ function update(game: Game, entity: Entity, colliders: Array<Collide>) {
 
     if (nearest_i !== null) {
         ray.hit = {
-            other: colliders[nearest_i],
+            other: game[Get.RayIntersect][colliders[nearest_i].entity],
             contact: [
                 ray.origin[0] + ray.direction[0] * nearest_t,
                 ray.origin[1] + ray.direction[1] * nearest_t,

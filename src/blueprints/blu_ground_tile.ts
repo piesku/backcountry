@@ -1,7 +1,7 @@
 import {collide} from "../components/com_collide.js";
 import {navigable} from "../components/com_navigable.js";
+import {RayFlag, ray_intersect} from "../components/com_ray_intersect.js";
 import {render_vox} from "../components/com_render_vox.js";
-import {selectable} from "../components/com_selectable.js";
 import {Game} from "../game.js";
 import {Models} from "../models_map.js";
 import {Blueprint} from "./blu_common.js";
@@ -48,7 +48,7 @@ export function get_tile_blueprint(game: Game): Blueprint {
             (game: Game) => render_vox(game.models[tile_index])(game),
             collide(false, [8, 1, 8]),
             // rigid_body(false),
-            selectable(),
+            ray_intersect(RayFlag.Navigable),
             navigable(),
         ],
         children,

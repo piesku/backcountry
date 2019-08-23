@@ -1,13 +1,13 @@
 import {Entity, Game} from "../game.js";
 import {Vec3} from "../math/index.js";
-import {Collide} from "./com_collide.js";
 import {Get} from "./com_index.js";
+import {RayIntersect} from "./com_ray_intersect.js";
 
 export interface RayCast {
     origin: Vec3;
     direction: Vec3;
     hit: null | {
-        other: Collide;
+        other: RayIntersect;
         contact: Vec3;
     };
 }
