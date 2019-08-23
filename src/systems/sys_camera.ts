@@ -21,18 +21,18 @@ function update(game: Game, entity: Entity) {
     get_translation(camera.position, transform.world);
     invert(camera.view, transform.world);
     multiply(camera.pv, camera.projection, camera.view);
-    invert(camera.pv_inv, camera.pv);
 
     let origin = [
         (game.input.mouse_x / game.canvas.width) * 2 - 1,
         // In the browser, +Y is down. Invert it, so that in NDC it's up.
         -(game.input.mouse_y / game.canvas.height) * 2 + 1,
         -1,
-        1,
     ];
-    let far = [origin[0], origin[1], 1, 1];
-    transform_mat4(camera.ray_origin, origin, camera.pv_inv);
-    transform_mat4(far, far, camera.pv_inv);
-    subtract(camera.ray_direction, far, camera.ray_origin);
+    let target = [origin[0], origin[1], 1];
+    transform_mat4(origin, origin, camera.unproject);
+    transform_mat4(camera.ray_origin, origin, transform.world);
+    transform_mat4(target, target, camera.unproject);
+    transform_mat4(target, target, transform.world);
+    subtract(camera.ray_direction, target, camera.ray_origin);
     normalize(camera.ray_direction, camera.ray_direction);
 }
