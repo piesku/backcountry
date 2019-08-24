@@ -42,6 +42,7 @@ import {sys_player_control} from "./systems/sys_player_control.js";
 import {sys_player_fly} from "./systems/sys_player_fly.js";
 import {sys_ray} from "./systems/sys_ray.js";
 import {sys_render} from "./systems/sys_render.js";
+import {sys_shoot} from "./systems/sys_shoot.js";
 import {sys_transform} from "./systems/sys_transform.js";
 import {sys_trigger} from "./systems/sys_trigger.js";
 import {sys_ui} from "./systems/sys_ui.js";
@@ -168,10 +169,11 @@ export class Game implements ComponentData {
         // Player input.
         sys_player_control(this, delta);
         sys_player_fly(this, delta);
+        // Game logic.
         sys_aim(this, delta);
         sys_ray(this, delta);
+        sys_shoot(this, delta);
         sys_navigate(this, delta);
-        // Game logic.
         sys_animate(this, delta);
         sys_move(this, delta);
         sys_transform(this, delta);
@@ -213,12 +215,16 @@ export class Game implements ComponentData {
 
         let tick = (now: number) => {
             let delta = (now - last) / 1000;
+            // frame_update runs first so that sys_camera can set up the ray for
+            // mouse picking. On the very first frame of the game loop,
+            // fixed_update doesn't run at all.
+            this.frame_update(delta);
+
             accumulator += delta;
             while (accumulator > step) {
                 accumulator -= step;
                 this.fixed_update(step);
             }
-            this.frame_update(delta);
 
             last = now;
             this.raf = requestAnimationFrame(tick);

@@ -6,43 +6,44 @@ import {Entity, Game} from "../game.js";
 import {Mat} from "../materials/mat_index.js";
 import {Cube} from "../shapes/Cube.js";
 
-const QUERY = (1 << Get.Transform) | (1 << Get.PlayerControl);
+const QUERY = (1 << Get.Transform) | (1 << Get.Shoot) | (1 << Get.PlayerControl);
 
 export function sys_player_control(game: Game, delta: number) {
     let camera = game.cameras[0];
     if (game.world[camera.entity] & (1 << Get.RayCast)) {
-        let ray = game[Get.RayCast][camera.entity];
+        let cursor = game[Get.RayCast][camera.entity];
         for (let i = 0; i < game.world.length; i++) {
             if ((game.world[i] & QUERY) === QUERY) {
-                update(game, i, ray);
+                update(game, i, cursor);
             }
         }
     }
 }
 
-function update(game: Game, entity: Entity, ray: RayCast) {
+function update(game: Game, entity: Entity, cursor: RayCast) {
+    if (!cursor.hit) {
+        return;
+    }
+
     if (game.event.mouse_0_down) {
-        if (ray.hit) {
-            if (ray.hit.other.flags & RayFlag.Navigable) {
-                game[Get.ClickControl][entity].destination = ray.hit.contact;
-                game.add({
-                    translation: ray.hit.contact,
-                    scale: [1, 5, 1],
-                    using: [
-                        render_basic(game.materials[Mat.Wireframe], Cube, [0.3, 1, 1, 1]),
-                        ray_target(RayFlag.None),
-                    ],
-                });
-            }
-            if (ray.hit.other.flags & RayFlag.Attackable) {
-                console.log(`Shoot at entity #${ray.hit.other.entity}.`);
-            }
+        if (cursor.hit.other.flags & RayFlag.Navigable) {
+            game[Get.ClickControl][entity].destination = cursor.hit.contact;
+            game.add({
+                translation: cursor.hit.contact,
+                scale: [1, 5, 1],
+                using: [
+                    render_basic(game.materials[Mat.Wireframe], Cube, [0.3, 1, 1, 1]),
+                    ray_target(RayFlag.None),
+                ],
+            });
+        }
+        if (cursor.hit.other.flags & RayFlag.Attackable) {
+            console.log(`Shoot at entity #${cursor.hit.other.entity}.`);
+            game[Get.Shoot][entity].target = cursor.hit.contact;
         }
     }
 
     if (game.event.mouse_2_down) {
-        if (ray.hit) {
-            console.log(`Shoot at position ${ray.hit.contact}.`);
-        }
+        game[Get.Shoot][entity].target = cursor.hit.contact;
     }
 }

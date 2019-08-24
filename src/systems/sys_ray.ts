@@ -28,11 +28,14 @@ function update(game: Game, entity: Entity, targets: Array<RayTarget>) {
     let nearest_t = Infinity;
     let nearest_i = null;
     for (let i = 0; i < targets.length; i++) {
-        let aabb = game[Get.Collide][targets[i].entity];
-        let t = distance(ray.origin, ray.direction, aabb);
-        if (t < nearest_t) {
-            nearest_t = t;
-            nearest_i = i;
+        let target = targets[i];
+        if (target.entity !== entity) {
+            let aabb = game[Get.Collide][target.entity];
+            let t = distance(ray.origin, ray.direction, aabb);
+            if (t < nearest_t) {
+                nearest_t = t;
+                nearest_i = i;
+            }
         }
     }
 
