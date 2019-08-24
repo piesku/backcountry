@@ -1,10 +1,10 @@
-import {Get} from "../components/com_index.js";
-import {RayCast} from "../components/com_ray_cast.js";
-import {RayFlag, ray_target} from "../components/com_ray_target.js";
-import {render_basic} from "../components/com_render_basic.js";
-import {Entity, Game} from "../game.js";
-import {Mat} from "../materials/mat_index.js";
-import {Cube} from "../shapes/Cube.js";
+import { Get } from "../components/com_index.js";
+import { RayCast } from "../components/com_ray_cast.js";
+import { RayFlag, ray_target } from "../components/com_ray_target.js";
+import { render_basic } from "../components/com_render_basic.js";
+import { Entity, Game } from "../game.js";
+import { Mat } from "../materials/mat_index.js";
+import { Cube } from "../shapes/Cube.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Shoot) | (1 << Get.PlayerControl);
 
@@ -27,9 +27,11 @@ function update(game: Game, entity: Entity, cursor: RayCast) {
 
     if (game.event.mouse_0_down) {
         if (cursor.hit.other.flags & RayFlag.Navigable) {
-            game[Get.ClickControl][entity].destination = cursor.hit.contact;
+            let destination = game[Get.Transform][cursor.hit.other.entity].translation;
+            game[Get.ClickControl][entity].destination = destination;
+
             game.add({
-                translation: cursor.hit.contact,
+                translation: destination,
                 scale: [1, 5, 1],
                 using: [
                     render_basic(game.materials[Mat.Wireframe], Cube, [0.3, 1, 1, 1]),
