@@ -13,7 +13,8 @@ import { shoot } from "../components/com_shoot.js";
 import { Game } from "../game.js";
 import { snd_music } from "../sounds/snd_music.js";
 
-export function world_stage(game: Game) {
+let map_size = 4;
+export function world_map(game: Game) {
     game.world = [];
     game.gl.clearColor(1, 0.3, 0.3, 1);
 
@@ -36,13 +37,14 @@ export function world_stage(game: Game) {
     game.add(angle_camera_blueprint);
 
     // Ground.
-    for (let x = -10; x < 10; x++) {
-        for (let y = -10; y < 10; y++) {
+    for (let x = 0; x < map_size; x++) {
+        for (let y = 0; y < map_size; y++) {
             let is_walkable = Math.random() > 0.04;
             let tile_blueprint = get_tile_blueprint(game, is_walkable);
+
             game.add({
                 ...tile_blueprint,
-                translation: [x * 8, 0, y * 8],
+                translation: [(- (map_size / 2) + x) * 8, 0, (- (map_size / 2) + y) * 8],
             });
         }
     }
@@ -65,26 +67,5 @@ export function world_stage(game: Game) {
                 using: [light([1, 1, 1], 20)],
             },
         ],
-    });
-
-    // Villain.
-    game.add({
-        translation: [10, 5, -10],
-        using: [collide(true, [4, 7, 1]), ray_target(RayFlag.Attackable)],
-        children: [get_character_blueprint(game)],
-    });
-
-    // Villain.
-    game.add({
-        translation: [15, 5, -15],
-        using: [collide(true, [4, 7, 1]), ray_target(RayFlag.Attackable)],
-        children: [get_character_blueprint(game)],
-    });
-
-    // Villain.
-    game.add({
-        translation: [20, 5, -20],
-        using: [collide(true, [4, 7, 1]), ray_target(RayFlag.Attackable)],
-        children: [get_character_blueprint(game)],
     });
 }
