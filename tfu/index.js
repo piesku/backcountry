@@ -38,7 +38,7 @@ each(
 
                 if (final_palette.length === 0) {
                     // Colors that can be modified (indexes 0-5)
-                    for (let i = 0; i <= 5; i++) {
+                    for (let i = 0; i <= 6; i++) {
                         final_palette.push(palette[i]);
                         color_map[i] = i - 1;
                     }
