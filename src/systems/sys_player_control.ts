@@ -1,10 +1,10 @@
-import { Get } from "../components/com_index.js";
-import { RayCast } from "../components/com_ray_cast.js";
-import { RayFlag, ray_target } from "../components/com_ray_target.js";
-import { render_basic } from "../components/com_render_basic.js";
-import { Entity, Game } from "../game.js";
-import { Mat } from "../materials/mat_index.js";
-import { Cube } from "../shapes/Cube.js";
+import {Get} from "../components/com_index.js";
+import {RayCast} from "../components/com_ray_cast.js";
+import {RayFlag, ray_target} from "../components/com_ray_target.js";
+import {render_basic} from "../components/com_render_basic.js";
+import {Entity, Game} from "../game.js";
+import {Mat} from "../materials/mat_index.js";
+import {Cube} from "../shapes/Cube.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Shoot) | (1 << Get.PlayerControl);
 

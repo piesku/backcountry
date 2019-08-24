@@ -1,5 +1,5 @@
-import { Entity, Game } from "../game.js";
-import { Get } from "./com_index.js";
+import {Entity, Game} from "../game.js";
+import {Get} from "./com_index.js";
 
 export interface Navigable {
     x: number;
@@ -9,7 +9,7 @@ export interface Navigable {
 export function navigable(x: number, y: number) {
     return (game: Game) => (entity: Entity) => {
         game.world[entity] |= 1 << Get.Navigable;
-        game[Get.Navigable][entity] = <Navigable>{ x, y };
+        game[Get.Navigable][entity] = <Navigable>{x, y};
     };
 }
 

@@ -1,11 +1,11 @@
-import { Action } from "../actions.js";
-import { html } from "./html.js";
+import {Action} from "../actions.js";
+import {html} from "./html.js";
 
 export function Overlay() {
     return html`
         ${["intro", "stage", "characters", "map"].map(
-        name =>
-            html`
+            name =>
+                html`
                     <button
                         onclick="game.dispatch(${Action.ChangeWorld}, '${name}')"
                         style="color: #fff"
@@ -13,6 +13,6 @@ export function Overlay() {
                         ${name}
                     </button>
                 `
-    )}
+        )}
     `;
 }
