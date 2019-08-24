@@ -1,52 +1,52 @@
-import {Action, effect} from "./actions.js";
-import {Blueprint} from "./blueprints/blu_common.js";
-import {Animate} from "./components/com_animate.js";
-import {AudioSource} from "./components/com_audio_source.js";
-import {Camera} from "./components/com_camera.js";
-import {Collide} from "./components/com_collide.js";
-import {ClickControl} from "./components/com_control_click.js";
-import {FlyControl} from "./components/com_control_fly.js";
-import {PlayerControl} from "./components/com_control_player.js";
-import {ComponentData, Get} from "./components/com_index.js";
-import {Light} from "./components/com_light.js";
-import {Move} from "./components/com_move.js";
-import {Named} from "./components/com_named.js";
-import {Navigable} from "./components/com_navigable.js";
-import {RayCast} from "./components/com_ray_cast.js";
-import {RayTarget} from "./components/com_ray_target.js";
-import {Render} from "./components/com_render.js";
-import {RigidBody} from "./components/com_rigid_body.js";
-import {Shoot} from "./components/com_shoot.js";
-import {transform, Transform} from "./components/com_transform.js";
-import {Trigger} from "./components/com_trigger.js";
-import {Material} from "./materials/mat_common.js";
-import {mat_gouraud} from "./materials/mat_gouraud.js";
-import {Mat} from "./materials/mat_index.js";
-import {mat_instanced} from "./materials/mat_instanced.js";
-import {mat_wireframe} from "./materials/mat_wireframe.js";
-import {Model} from "./model.js";
-import {palette} from "./palette.js";
-import {sys_aim} from "./systems/sys_aim.js";
-import {sys_animate} from "./systems/sys_animate.js";
-import {sys_audio} from "./systems/sys_audio.js";
-import {sys_camera} from "./systems/sys_camera.js";
-import {sys_collide} from "./systems/sys_collide.js";
-import {sys_debug} from "./systems/sys_debug.js";
-import {sys_framerate} from "./systems/sys_framerate.js";
-import {sys_light} from "./systems/sys_light.js";
-import {sys_move} from "./systems/sys_move.js";
-import {sys_navigate} from "./systems/sys_navigate.js";
-import {sys_performance} from "./systems/sys_performance.js";
-import {sys_physics} from "./systems/sys_physics.js";
-import {sys_player_control} from "./systems/sys_player_control.js";
-import {sys_player_fly} from "./systems/sys_player_fly.js";
-import {sys_ray} from "./systems/sys_ray.js";
-import {sys_render} from "./systems/sys_render.js";
-import {sys_shoot} from "./systems/sys_shoot.js";
-import {sys_transform} from "./systems/sys_transform.js";
-import {sys_trigger} from "./systems/sys_trigger.js";
-import {sys_ui} from "./systems/sys_ui.js";
-import {INIT_UI_STATE, reducer, UIState} from "./ui/state.js";
+import { Action, effect } from "./actions.js";
+import { Blueprint } from "./blueprints/blu_common.js";
+import { Animate } from "./components/com_animate.js";
+import { AudioSource } from "./components/com_audio_source.js";
+import { Camera } from "./components/com_camera.js";
+import { Collide } from "./components/com_collide.js";
+import { ClickControl } from "./components/com_control_click.js";
+import { FlyControl } from "./components/com_control_fly.js";
+import { PlayerControl } from "./components/com_control_player.js";
+import { ComponentData, Get } from "./components/com_index.js";
+import { Light } from "./components/com_light.js";
+import { Move } from "./components/com_move.js";
+import { Named } from "./components/com_named.js";
+import { Navigable } from "./components/com_navigable.js";
+import { RayCast } from "./components/com_ray_cast.js";
+import { RayTarget } from "./components/com_ray_target.js";
+import { Render } from "./components/com_render.js";
+import { RigidBody } from "./components/com_rigid_body.js";
+import { Shoot } from "./components/com_shoot.js";
+import { transform, Transform } from "./components/com_transform.js";
+import { Trigger } from "./components/com_trigger.js";
+import { Material } from "./materials/mat_common.js";
+import { mat_gouraud } from "./materials/mat_gouraud.js";
+import { Mat } from "./materials/mat_index.js";
+import { mat_instanced } from "./materials/mat_instanced.js";
+import { mat_wireframe } from "./materials/mat_wireframe.js";
+import { Model } from "./model.js";
+import { palette } from "./palette.js";
+import { sys_aim } from "./systems/sys_aim.js";
+import { sys_animate } from "./systems/sys_animate.js";
+import { sys_audio } from "./systems/sys_audio.js";
+import { sys_camera } from "./systems/sys_camera.js";
+import { sys_collide } from "./systems/sys_collide.js";
+import { sys_debug } from "./systems/sys_debug.js";
+import { sys_framerate } from "./systems/sys_framerate.js";
+import { sys_light } from "./systems/sys_light.js";
+import { sys_move } from "./systems/sys_move.js";
+import { sys_navigate } from "./systems/sys_navigate.js";
+import { sys_performance } from "./systems/sys_performance.js";
+import { sys_physics } from "./systems/sys_physics.js";
+import { sys_player_control } from "./systems/sys_player_control.js";
+import { sys_player_fly } from "./systems/sys_player_fly.js";
+import { sys_ray } from "./systems/sys_ray.js";
+import { sys_render } from "./systems/sys_render.js";
+import { sys_shoot } from "./systems/sys_shoot.js";
+import { sys_transform } from "./systems/sys_transform.js";
+import { sys_trigger } from "./systems/sys_trigger.js";
+import { sys_ui } from "./systems/sys_ui.js";
+import { INIT_UI_STATE, reducer, UIState } from "./ui/state.js";
 
 const MAX_ENTITIES = 10000;
 
@@ -67,7 +67,7 @@ export interface EventState {
 
 export class Game implements ComponentData {
     public world: Array<number>;
-
+    public map: Array<Array<number>> = [];
     public [Get.Transform]: Array<Transform> = [];
     public [Get.Render]: Array<Render> = [];
     public [Get.Camera]: Array<Camera> = [];
@@ -241,7 +241,7 @@ export class Game implements ComponentData {
         cancelAnimationFrame(this.raf);
     }
 
-    add({translation, rotation, scale, using = [], children = []}: Blueprint) {
+    add({ translation, rotation, scale, using = [], children = [] }: Blueprint) {
         let entity = this.create_entity(Get.Transform);
         transform(translation, rotation, scale)(this)(entity);
         for (let mixin of using) {

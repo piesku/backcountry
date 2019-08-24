@@ -16,6 +16,8 @@ import { snd_music } from "../sounds/snd_music.js";
 let map_size = 4;
 export function world_map(game: Game) {
     game.world = [];
+    game.map = [];
+
     game.gl.clearColor(1, 0.3, 0.3, 1);
 
     // Player.
@@ -38,8 +40,11 @@ export function world_map(game: Game) {
 
     // Ground.
     for (let x = 0; x < map_size; x++) {
+        game.map[x] = [];
         for (let y = 0; y < map_size; y++) {
             let is_walkable = Math.random() > 0.04;
+            game.map[x][y] = is_walkable ? 1 : 0;
+
             let tile_blueprint = get_tile_blueprint(game, is_walkable);
 
             game.add({
