@@ -1,8 +1,8 @@
-import {Get} from "../components/com_index.js";
-import {Entity, Game} from "../game.js";
-import {get_translation} from "../math/mat4.js";
-import {rotation_to} from "../math/quat.js";
-import {normalize, transform_point} from "../math/vec3.js";
+import { Get } from "../components/com_index.js";
+import { Entity, Game } from "../game.js";
+import { get_translation } from "../math/mat4.js";
+import { rotation_to } from "../math/quat.js";
+import { normalize, transform_point } from "../math/vec3.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Move) | (1 << Get.ClickControl);
 
@@ -17,6 +17,8 @@ export function sys_navigate(game: Game, delta: number) {
 function update(game: Game, entity: Entity) {
     let control = game[Get.ClickControl][entity];
     if (control.destination) {
+        // TODO: check here if it's a destination already, and if it is, shift another
+        // destination from the route array
         let transform = game[Get.Transform][entity];
         let world_position = get_translation([], transform.world);
         let world_destination = [control.destination[0], world_position[1], control.destination[2]];
