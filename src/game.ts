@@ -172,7 +172,6 @@ export class Game implements ComponentData {
         // Game logic.
         sys_aim(this, delta);
         sys_ray(this, delta);
-        sys_shoot(this, delta);
         sys_navigate(this, delta);
         sys_animate(this, delta);
         sys_move(this, delta);
@@ -182,6 +181,8 @@ export class Game implements ComponentData {
         sys_collide(this, delta);
         sys_physics(this, delta);
         sys_transform(this, delta);
+        // Post-transform logic.
+        sys_shoot(this, delta);
 
         // Performance.
         sys_performance(this, performance.now() - now, document.querySelector("#fixed"));

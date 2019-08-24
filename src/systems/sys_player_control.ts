@@ -38,7 +38,6 @@ function update(game: Game, entity: Entity, cursor: RayCast) {
             });
         }
         if (cursor.hit.other.flags & RayFlag.Attackable) {
-            console.log(`Shoot at entity #${cursor.hit.other.entity}.`);
             game[Get.Shoot][entity].target = cursor.hit.contact;
         }
     }

@@ -15,6 +15,7 @@ export function sys_shoot(game: Game, delta: number) {
 function update(game: Game, entity: Entity) {
     let shoot = game[Get.Shoot][entity];
     if (shoot.target) {
+        console.log(`Shot fired at ${shoot.target}`);
         // TODO Play audio clip.
         // TODO Emit particles.
         // TODO Add other effects.
