@@ -1,10 +1,7 @@
-import {Get} from "../components/com_index.js";
-import {RayCast} from "../components/com_ray_cast.js";
-import {RayFlag, ray_target} from "../components/com_ray_target.js";
-import {render_basic} from "../components/com_render_basic.js";
-import {Entity, Game} from "../game.js";
-import {Mat} from "../materials/mat_index.js";
-import {Cube} from "../shapes/Cube.js";
+import { Get } from "../components/com_index.js";
+import { RayCast } from "../components/com_ray_cast.js";
+import { RayFlag } from "../components/com_ray_target.js";
+import { Entity, Game } from "../game.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Shoot) | (1 << Get.PlayerControl);
 
@@ -46,5 +43,27 @@ function update(game: Game, entity: Entity, cursor: RayCast) {
 
     if (game.event.mouse_2_down) {
         game[Get.Shoot][entity].target = cursor.hit.contact;
+    }
+}
+
+function get_neighbors(game: Game, x: number, y: number) {
+    return [
+        { x: x - 1, y }, // W
+        { x: x + 1, y }, // E
+        { x, y: y - 1 }, // N
+        { x, y: y + 1 }, // S
+    ].filter(({ x, y }) => (x >= 0 && x < game.distance_field.length && y >= 0 && y < game.distance_field[0].length));
+}
+
+function calculate_distance(game: Game, x: number, y: number) {
+    let neighbors = get_neighbors(game, x, y);
+    console.log(neighbors);
+    for (let i = 0; i < neighbors.length; i++) {
+        let current_cell = neighbors[i];
+        console.log(game.distance_field[x][y], game.distance_field[current_cell.x][current_cell.y], (game.distance_field[x][y] as number) + 1);
+        if (game.distance_field[current_cell.x][current_cell.y] > (game.distance_field[x][y] as number) + 1) {
+            game.distance_field[current_cell.x][current_cell.y] = (game.distance_field[x][y] as number) + 1;
+            calculate_distance(game, current_cell.x, current_cell.y);
+        }
     }
 }
