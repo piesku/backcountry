@@ -32,11 +32,9 @@ import {sys_audio} from "./systems/sys_audio.js";
 import {sys_camera} from "./systems/sys_camera.js";
 import {sys_collide} from "./systems/sys_collide.js";
 import {sys_debug} from "./systems/sys_debug.js";
-import {sys_framerate} from "./systems/sys_framerate.js";
 import {sys_light} from "./systems/sys_light.js";
 import {sys_move} from "./systems/sys_move.js";
 import {sys_navigate} from "./systems/sys_navigate.js";
-import {sys_performance} from "./systems/sys_performance.js";
 import {sys_physics} from "./systems/sys_physics.js";
 import {sys_player_control} from "./systems/sys_player_control.js";
 import {sys_player_fly} from "./systems/sys_player_fly.js";
@@ -164,8 +162,6 @@ export class Game implements ComponentData {
     }
 
     fixed_update(delta: number) {
-        let now = performance.now();
-
         // Player input.
         sys_player_control(this, delta);
         sys_player_fly(this, delta);
@@ -184,9 +180,6 @@ export class Game implements ComponentData {
         // Post-transform logic.
         sys_shoot(this, delta);
 
-        // Performance.
-        sys_performance(this, performance.now() - now, document.querySelector("#fixed"));
-
         // Debug.
         false && sys_debug(this, delta);
 
@@ -196,17 +189,11 @@ export class Game implements ComponentData {
     }
 
     frame_update(delta: number) {
-        let now = performance.now();
-
         sys_audio(this, delta);
         sys_camera(this, delta);
         sys_light(this, delta);
         sys_render(this, delta);
         sys_ui(this, delta);
-
-        // Performance.
-        sys_performance(this, performance.now() - now, document.querySelector("#frame"));
-        sys_framerate(this, delta);
     }
 
     start() {
