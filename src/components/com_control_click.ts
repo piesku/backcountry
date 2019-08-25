@@ -4,7 +4,9 @@ import {Get} from "./com_index.js";
 
 export interface ClickControl {
     destination: Vec3 | null;
-    route: Array<Vec3>;
+    route: Array<[number, number]>;
+    destination_x: number;
+    destination_y: number;
 }
 
 export function click_control() {
@@ -13,6 +15,8 @@ export function click_control() {
         game[Get.ClickControl][entity] = <ClickControl>{
             destination: null,
             route: [],
+            destination_x: 0,
+            destination_y: 0,
         };
     };
 }
