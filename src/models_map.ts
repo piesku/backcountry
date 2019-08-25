@@ -1,4 +1,4 @@
-export const enum Models { 
+export const enum Models {
     BLOCK1 = 0,
     BLOCK2 = 1,
     BLOCK3 = 2,

@@ -1,6 +1,6 @@
-import { Game } from "./game.js";
-import { load } from "./model.js";
-import { world_intro } from "./worlds/wor_intro.js";
+import {Game} from "./game.js";
+import {load} from "./model.js";
+import {world_intro} from "./worlds/wor_intro.js";
 
 export let game = new Game();
 
