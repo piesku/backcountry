@@ -5,8 +5,7 @@ export interface UIState {
 }
 
 export const INIT_UI_STATE: UIState = {
-    // world: "intro",
-    world: "map",
+    world: "intro",
 };
 
 export function reducer(state: UIState, action: Action, args: Array<unknown>): UIState {

@@ -44,8 +44,6 @@ export function get_tile_blueprint(
               ]
             : [];
 
-    // console.log(x, y);
-
     let using = is_walkable ? [ray_target(RayFlag.Navigable), navigable(x, y)] : [];
     return {
         translation: [0, 0, 0],

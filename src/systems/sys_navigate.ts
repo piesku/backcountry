@@ -28,8 +28,6 @@ function update(game: Game, entity: Entity) {
             control.destination = game[Get.Transform][destination_entity].translation;
         }
     } else {
-        // TODO: check here if it's a destination already, and if it is, shift another
-        // destination from the route array
         let transform = game[Get.Transform][entity];
         let world_position = get_translation([], transform.world);
         let world_destination = [control.destination[0], world_position[1], control.destination[2]];
