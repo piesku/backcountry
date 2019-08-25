@@ -15,7 +15,7 @@ import {shoot} from "../components/com_shoot.js";
 import {Game} from "../game.js";
 import {snd_music} from "../sounds/snd_music.js";
 
-let map_size = 12;
+let map_size = 10;
 export function world_map(game: Game) {
     game.world = [];
     game.distance_field = [];

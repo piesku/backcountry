@@ -1,8 +1,8 @@
-import { Get } from "../components/com_index.js";
-import { find_navigable } from "../components/com_navigable.js";
-import { RayCast } from "../components/com_ray_cast.js";
-import { RayFlag } from "../components/com_ray_target.js";
-import { Entity, Game } from "../game.js";
+import {Get} from "../components/com_index.js";
+import {find_navigable} from "../components/com_navigable.js";
+import {RayCast} from "../components/com_ray_cast.js";
+import {RayFlag} from "../components/com_ray_target.js";
+import {Entity, Game} from "../game.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Shoot) | (1 << Get.PlayerControl);
 
@@ -58,11 +58,7 @@ function update(game: Game, entity: Entity, cursor: RayCast) {
                         game.distance_field[neighbor_coords.x][neighbor_coords.y] <
                         game.distance_field[route_navigable.x][route_navigable.y]
                     ) {
-                        route_entity = find_navigable(
-                            game,
-                            neighbor_coords.x,
-                            neighbor_coords.y
-                        );
+                        route_entity = find_navigable(game, neighbor_coords.x, neighbor_coords.y);
                         route_navigable = game[Get.Navigable][route_entity];
                     }
                 }
@@ -83,12 +79,12 @@ function update(game: Game, entity: Entity, cursor: RayCast) {
 
 function get_neighbors(game: Game, x: number, y: number) {
     return [
-        { x: x - 1, y }, // W
-        { x: x + 1, y }, // E
-        { x, y: y - 1 }, // N
-        { x, y: y + 1 }, // S
+        {x: x - 1, y}, // W
+        {x: x + 1, y}, // E
+        {x, y: y - 1}, // N
+        {x, y: y + 1}, // S
     ].filter(
-        ({ x, y }) =>
+        ({x, y}) =>
             x >= 0 && x < game.distance_field.length && y >= 0 && y < game.distance_field[0].length
     );
 }
