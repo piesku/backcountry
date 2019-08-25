@@ -1,5 +1,5 @@
-import {Action} from "../actions.js";
-import {html} from "./html.js";
+import { Action } from "../actions.js";
+import { html } from "./html.js";
 
 export function Intro() {
     return html`
@@ -21,7 +21,7 @@ export function Intro() {
                 BACK<br />COUNTRY
                 <hr style="border: solid #D45230 10px;" />
                 <button
-                    onclick="game.dispatch(${Action.ChangeWorld}, 'stage');"
+                    onclick="game.dispatch(${Action.ChangeWorld}, 'map');"
                     style="color: #FFE8C6;"
                 >
                     PLAY
