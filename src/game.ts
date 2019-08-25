@@ -20,10 +20,8 @@ import {Shoot} from "./components/com_shoot.js";
 import {transform, Transform} from "./components/com_transform.js";
 import {Trigger} from "./components/com_trigger.js";
 import {Material} from "./materials/mat_common.js";
-import {mat_gouraud} from "./materials/mat_gouraud.js";
 import {Mat} from "./materials/mat_index.js";
 import {mat_instanced} from "./materials/mat_instanced.js";
-import {mat_wireframe} from "./materials/mat_wireframe.js";
 import {Model} from "./model.js";
 import {palette} from "./palette.js";
 import {sys_aim} from "./systems/sys_aim.js";
@@ -31,7 +29,6 @@ import {sys_animate} from "./systems/sys_animate.js";
 import {sys_audio} from "./systems/sys_audio.js";
 import {sys_camera} from "./systems/sys_camera.js";
 import {sys_collide} from "./systems/sys_collide.js";
-import {sys_debug} from "./systems/sys_debug.js";
 import {sys_light} from "./systems/sys_light.js";
 import {sys_move} from "./systems/sys_move.js";
 import {sys_navigate} from "./systems/sys_navigate.js";
@@ -146,8 +143,6 @@ export class Game implements ComponentData {
         this.gl.enable(this.gl.CULL_FACE);
         this.gl.frontFace(this.gl.CW);
 
-        this.materials[Mat.Wireframe] = mat_wireframe(this.gl);
-        this.materials[Mat.Gouraud] = mat_gouraud(this.gl);
         this.materials[Mat.Instanced] = mat_instanced(this.gl);
     }
 
@@ -179,9 +174,6 @@ export class Game implements ComponentData {
         sys_transform(this, delta);
         // Post-transform logic.
         sys_shoot(this, delta);
-
-        // Debug.
-        false && sys_debug(this, delta);
 
         for (let name in this.event) {
             this.event[name] = 0;
