@@ -5,44 +5,37 @@ import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
 import {click_control} from "../components/com_control_click.js";
 import {player_control} from "../components/com_control_player.js";
+import {Get} from "../components/com_index.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
+import {find_navigable} from "../components/com_navigable.js";
 import {ray_cast} from "../components/com_ray_cast.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {shoot} from "../components/com_shoot.js";
 import {Game} from "../game.js";
 import {snd_music} from "../sounds/snd_music.js";
 
-export function world_stage(game: Game) {
+let map_size = 10;
+export function world_map(game: Game) {
     game.world = [];
-    game.gl.clearColor(1, 0.3, 0.3, 1);
+    game.distance_field = [];
 
-    // Player.
-    game.add({
-        translation: [0, 5, 0],
-        using: [
-            player_control(),
-            click_control(),
-            move(25, 0),
-            collide(true, [4, 7, 1]),
-            ray_target(RayFlag.None),
-            ray_cast(),
-            shoot(),
-        ],
-        children: [get_character_blueprint(game)],
-    });
+    game.gl.clearColor(1, 0.3, 0.3, 1);
 
     // Camera.
     game.add(angle_camera_blueprint);
 
     // Ground.
-    for (let x = -10; x < 10; x++) {
-        for (let y = -10; y < 10; y++) {
-            let is_walkable = Math.random() > 0.04;
-            let tile_blueprint = get_tile_blueprint(game, is_walkable);
+    for (let x = 0; x < map_size; x++) {
+        game.distance_field[x] = [];
+        for (let y = 0; y < map_size; y++) {
+            let is_walkable = Math.random() > 0.1;
+            game.distance_field[x][y] = is_walkable ? map_size * map_size : "kurwamać";
+            let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y);
+
             game.add({
                 ...tile_blueprint,
-                translation: [x * 8, 0, y * 8],
+                translation: [(-(map_size / 2) + x) * 8, 0, (-(map_size / 2) + y) * 8],
             });
         }
     }
@@ -67,24 +60,22 @@ export function world_stage(game: Game) {
         ],
     });
 
-    // Villain.
+    let player_position =
+        game[Get.Transform][
+            find_navigable(game, Math.floor(map_size / 2), Math.floor(map_size / 2))
+        ].translation;
+    // Player.
     game.add({
-        translation: [10, 5, -10],
-        using: [collide(true, [4, 7, 1]), ray_target(RayFlag.Attackable)],
-        children: [get_character_blueprint(game)],
-    });
-
-    // Villain.
-    game.add({
-        translation: [15, 5, -15],
-        using: [collide(true, [4, 7, 1]), ray_target(RayFlag.Attackable)],
-        children: [get_character_blueprint(game)],
-    });
-
-    // Villain.
-    game.add({
-        translation: [20, 5, -20],
-        using: [collide(true, [4, 7, 1]), ray_target(RayFlag.Attackable)],
+        translation: [player_position[0], 5, player_position[2]],
+        using: [
+            player_control(Math.floor(map_size / 2), Math.floor(map_size / 2)),
+            click_control(),
+            move(25, 0),
+            collide(true, [4, 7, 1]),
+            ray_target(RayFlag.None),
+            ray_cast(),
+            shoot(),
+        ],
         children: [get_character_blueprint(game)],
     });
 }

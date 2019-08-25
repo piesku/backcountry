@@ -1,10 +1,8 @@
 import {Get} from "../components/com_index.js";
+import {find_navigable} from "../components/com_navigable.js";
 import {RayCast} from "../components/com_ray_cast.js";
-import {RayFlag, ray_target} from "../components/com_ray_target.js";
-import {render_basic} from "../components/com_render_basic.js";
+import {RayFlag} from "../components/com_ray_target.js";
 import {Entity, Game} from "../game.js";
-import {Mat} from "../materials/mat_index.js";
-import {Cube} from "../shapes/Cube.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Shoot) | (1 << Get.PlayerControl);
 
@@ -27,16 +25,48 @@ function update(game: Game, entity: Entity, cursor: RayCast) {
 
     if (game.event.mouse_0_down) {
         if (cursor.hit.other.flags & RayFlag.Navigable) {
-            game[Get.ClickControl][entity].destination = cursor.hit.contact;
-            game.add({
-                translation: cursor.hit.contact,
-                scale: [1, 5, 1],
-                using: [
-                    render_basic(game.materials[Mat.Wireframe], Cube, [0.3, 1, 1, 1]),
-                    ray_target(RayFlag.None),
-                ],
-            });
+            let player_control = game[Get.PlayerControl][entity];
+            let route_entity = cursor.hit.other.entity;
+            let route_navigable = game[Get.Navigable][route_entity];
+            let route: any = [];
+
+            let player_x = player_control.x;
+            let player_y = player_control.y;
+
+            // reset the depth field
+            for (let x = 0; x < game.distance_field.length; x++) {
+                for (let y = 0; y < game.distance_field[0].length; y++) {
+                    if (x === player_x && y == player_y) {
+                        game.distance_field[x][y] = 0;
+                    } else if (typeof game.distance_field[x][y] === "number") {
+                        game.distance_field[x][y] = 1000;
+                    }
+                }
+            }
+            game.distance_field[player_x][player_y] = 0;
+
+            calculate_distance(game, player_x, player_y);
+
+            while (!(route_navigable.x === player_x && route_navigable.y === player_y)) {
+                route.push([route_navigable.x, route_navigable.y]);
+
+                let neighbors = get_neighbors(game, route_navigable.x, route_navigable.y);
+
+                for (let i = 0; i < neighbors.length; i++) {
+                    let neighbor_coords = neighbors[i];
+                    if (
+                        game.distance_field[neighbor_coords.x][neighbor_coords.y] <
+                        game.distance_field[route_navigable.x][route_navigable.y]
+                    ) {
+                        route_entity = find_navigable(game, neighbor_coords.x, neighbor_coords.y);
+                        route_navigable = game[Get.Navigable][route_entity];
+                    }
+                }
+            }
+
+            game[Get.ClickControl][entity].route = route;
         }
+
         if (cursor.hit.other.flags & RayFlag.Attackable) {
             game[Get.Shoot][entity].target = cursor.hit.contact;
         }
@@ -44,5 +74,32 @@ function update(game: Game, entity: Entity, cursor: RayCast) {
 
     if (game.event.mouse_2_down) {
         game[Get.Shoot][entity].target = cursor.hit.contact;
+    }
+}
+
+function get_neighbors(game: Game, x: number, y: number) {
+    return [
+        {x: x - 1, y}, // W
+        {x: x + 1, y}, // E
+        {x, y: y - 1}, // N
+        {x, y: y + 1}, // S
+    ].filter(
+        ({x, y}) =>
+            x >= 0 && x < game.distance_field.length && y >= 0 && y < game.distance_field[0].length
+    );
+}
+
+function calculate_distance(game: Game, x: number, y: number) {
+    let neighbors = get_neighbors(game, x, y);
+    for (let i = 0; i < neighbors.length; i++) {
+        let current_cell = neighbors[i];
+        if (
+            game.distance_field[current_cell.x][current_cell.y] >
+            (game.distance_field[x][y] as number) + 1
+        ) {
+            game.distance_field[current_cell.x][current_cell.y] =
+                (game.distance_field[x][y] as number) + 1;
+            calculate_distance(game, current_cell.x, current_cell.y);
+        }
     }
 }

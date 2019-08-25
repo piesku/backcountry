@@ -23,9 +23,12 @@ const tile_models = [
 
 const non_walkable_tile_models = [Models.GROUND8];
 
-export function get_tile_blueprint(game: Game): Blueprint {
-    let is_walkable = Math.random() > 0.04;
-
+export function get_tile_blueprint(
+    game: Game,
+    is_walkable: boolean,
+    x: number = 0,
+    y: number = 0
+): Blueprint {
     let tile_index = is_walkable
         ? Math.random() > 0.7
             ? tile_models[~~(Math.random() * tile_models.length)]
@@ -41,6 +44,7 @@ export function get_tile_blueprint(game: Game): Blueprint {
               ]
             : [];
 
+    let using = is_walkable ? [ray_target(RayFlag.Navigable), navigable(x, y)] : [];
     return {
         translation: [0, 0, 0],
         rotation: [0, 1, 0, 0], //from_euler([], 0, ~~(Math.random() * 4) * 90, 0),
@@ -48,8 +52,7 @@ export function get_tile_blueprint(game: Game): Blueprint {
             (game: Game) => render_vox(game.models[tile_index])(game),
             collide(false, [8, 1, 8]),
             // rigid_body(false),
-            ray_target(RayFlag.Navigable),
-            navigable(),
+            ...using,
         ],
         children,
     };

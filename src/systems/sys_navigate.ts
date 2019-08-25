@@ -1,8 +1,9 @@
 import {Get} from "../components/com_index.js";
+import {find_navigable} from "../components/com_navigable.js";
 import {Entity, Game} from "../game.js";
 import {get_translation} from "../math/mat4.js";
 import {rotation_to} from "../math/quat.js";
-import {normalize, transform_point} from "../math/vec3.js";
+import {length, normalize, subtract, transform_point} from "../math/vec3.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Move) | (1 << Get.ClickControl);
 
@@ -16,7 +17,17 @@ export function sys_navigate(game: Game, delta: number) {
 
 function update(game: Game, entity: Entity) {
     let control = game[Get.ClickControl][entity];
-    if (control.destination) {
+    let player_control = game[Get.PlayerControl][entity];
+
+    if (!control.destination) {
+        if (control.route.length) {
+            let dest = control.route.pop() as [number, number];
+            let destination_entity = find_navigable(game, dest[0], dest[1]);
+            control.destination_x = dest[0];
+            control.destination_y = dest[1];
+            control.destination = game[Get.Transform][destination_entity].translation;
+        }
+    } else {
         let transform = game[Get.Transform][entity];
         let world_position = get_translation([], transform.world);
         let world_destination = [control.destination[0], world_position[1], control.destination[2]];
@@ -25,5 +36,11 @@ function update(game: Game, entity: Entity) {
         let move = game[Get.Move][entity];
         move.directions.push(movement);
         move.yaws.push(rotation_to([], [0, 0, 1], movement));
+
+        if (length(subtract([], world_destination, world_position)) < 1) {
+            player_control.x = control.destination_x;
+            player_control.y = control.destination_y;
+            control.destination = null;
+        }
     }
 }
