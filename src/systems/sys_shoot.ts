@@ -1,3 +1,4 @@
+import {Action} from "../actions.js";
 import {Get} from "../components/com_index.js";
 import {RayFlag} from "../components/com_ray_target.js";
 import {Entity, Game} from "../game.js";
@@ -27,7 +28,7 @@ function update(game: Game, entity: Entity) {
         let direction = get_forward([], transform.world);
         let hit = raycast(game, origin, direction);
         if (hit && hit.other.flags & RayFlag.Attackable) {
-            console.log(`Hit entity #${hit.other.entity}`);
+            game.dispatch(Action.HitEnemy, hit.other.entity);
         }
     }
 
