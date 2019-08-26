@@ -3,6 +3,7 @@ import {find_navigable} from "../components/com_navigable.js";
 import {RayCast} from "../components/com_ray_cast.js";
 import {RayFlag} from "../components/com_ray_target.js";
 import {Entity, Game} from "../game.js";
+import {get_translation} from "../math/mat4.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Shoot) | (1 << Get.PlayerControl);
 
@@ -72,7 +73,8 @@ function update(game: Game, entity: Entity, cursor: RayCast) {
         }
 
         if (cursor.hit.other.flags & RayFlag.Attackable) {
-            game[Get.Shoot][entity].target = cursor.hit.contact;
+            let other_transform = game[Get.Transform][cursor.hit.other.entity];
+            game[Get.Shoot][entity].target = get_translation([], other_transform.world);
         }
     }
 
