@@ -112,6 +112,7 @@ export class Game implements ComponentData {
     public lights: Array<Light> = [];
     public models: Array<Model> = [];
     public palette: Array<number> = palette;
+    public targets: Array<RayTarget> = [];
     private raf: number = 0;
 
     constructor() {
@@ -167,6 +168,7 @@ export class Game implements ComponentData {
         let now = performance.now();
 
         // Player input.
+        sys_select(this, delta);
         sys_player_control(this, delta);
         sys_player_fly(this, delta);
         // Game logic.
@@ -182,7 +184,6 @@ export class Game implements ComponentData {
         sys_transform(this, delta);
         // Post-transform logic.
         sys_shoot(this, delta);
-        sys_select(this, delta);
 
         // Performance.
         sys_performance(this, performance.now() - now, document.querySelector("#fixed"));

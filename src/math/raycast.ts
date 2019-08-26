@@ -9,12 +9,11 @@ export interface RaycastHit {
     contact: Vec3;
 }
 
-export function raycast(game: Game, origin: Vec3, direction: Vec3, targets: Array<RayTarget>) {
+export function raycast(game: Game, origin: Vec3, direction: Vec3) {
     let nearest_t = Infinity;
     let nearest_i = null;
-    for (let i = 0; i < targets.length; i++) {
-        let target = targets[i];
-        let aabb = game[Get.Collide][target.entity];
+    for (let i = 0; i < game.targets.length; i++) {
+        let aabb = game[Get.Collide][game.targets[i].entity];
         if (!inside(origin, aabb)) {
             let t = distance(origin, direction, aabb);
             if (t < nearest_t) {
@@ -29,7 +28,7 @@ export function raycast(game: Game, origin: Vec3, direction: Vec3, targets: Arra
     }
 
     return <RaycastHit>{
-        other: targets[nearest_i],
+        other: game.targets[nearest_i],
         contact: [
             origin[0] + direction[0] * nearest_t,
             origin[1] + direction[1] * nearest_t,

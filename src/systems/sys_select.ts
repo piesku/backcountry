@@ -1,5 +1,4 @@
 import {Get} from "../components/com_index.js";
-import {RayTarget} from "../components/com_ray_target.js";
 import {Entity, Game} from "../game.js";
 import {raycast} from "../math/raycast.js";
 import {normalize, subtract, transform_point} from "../math/vec3.js";
@@ -8,21 +7,21 @@ const QUERY = (1 << Get.Transform) | (1 << Get.Camera) | (1 << Get.Select);
 const TARGET = (1 << Get.Transform) | (1 << Get.Collide) | (1 << Get.RayTarget);
 
 export function sys_select(game: Game, delta: number) {
-    let targets: Array<RayTarget> = [];
+    game.targets = [];
     for (let i = 0; i < game.world.length; i++) {
         if ((game.world[i] & TARGET) === TARGET) {
-            targets.push(game[Get.RayTarget][i]);
+            game.targets.push(game[Get.RayTarget][i]);
         }
     }
 
     for (let i = 0; i < game.world.length; i++) {
         if ((game.world[i] & QUERY) === QUERY) {
-            update(game, i, targets);
+            update(game, i);
         }
     }
 }
 
-function update(game: Game, entity: Entity, targets: Array<RayTarget>) {
+function update(game: Game, entity: Entity) {
     let transform = game[Get.Transform][entity];
     let camera = game[Get.Camera][entity];
     let select = game[Get.Select][entity];
@@ -40,5 +39,5 @@ function update(game: Game, entity: Entity, targets: Array<RayTarget>) {
     transform_point(target, target, transform.world);
     subtract(direction, target, origin);
     normalize(direction, direction);
-    select.hit = raycast(game, origin, direction, targets);
+    select.hit = raycast(game, origin, direction);
 }
