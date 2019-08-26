@@ -1,22 +1,22 @@
-import {angle_camera_blueprint} from "../blueprints/blu_angle_camera.js";
-import {get_character_blueprint} from "../blueprints/blu_character.js";
-import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
-import {audio_source} from "../components/com_audio_source.js";
-import {collide} from "../components/com_collide.js";
-import {click_control} from "../components/com_control_click.js";
-import {player_control} from "../components/com_control_player.js";
-import {Get} from "../components/com_index.js";
-import {light} from "../components/com_light.js";
-import {move} from "../components/com_move.js";
-import {named} from "../components/com_named.js";
-import {find_navigable} from "../components/com_navigable.js";
-import {ray_cast} from "../components/com_ray_cast.js";
-import {RayFlag, ray_target} from "../components/com_ray_target.js";
-import {shoot} from "../components/com_shoot.js";
-import {Game} from "../game.js";
-import {snd_music} from "../sounds/snd_music.js";
+import { angle_camera_blueprint } from "../blueprints/blu_angle_camera.js";
+import { get_character_blueprint } from "../blueprints/blu_character.js";
+import { get_tile_blueprint } from "../blueprints/blu_ground_tile.js";
+import { audio_source } from "../components/com_audio_source.js";
+import { collide } from "../components/com_collide.js";
+import { click_control } from "../components/com_control_click.js";
+import { player_control } from "../components/com_control_player.js";
+import { Get } from "../components/com_index.js";
+import { light } from "../components/com_light.js";
+import { move } from "../components/com_move.js";
+import { named } from "../components/com_named.js";
+import { find_navigable } from "../components/com_navigable.js";
+import { ray_cast } from "../components/com_ray_cast.js";
+import { RayFlag, ray_target } from "../components/com_ray_target.js";
+import { shoot } from "../components/com_shoot.js";
+import { Game } from "../game.js";
+import { snd_music } from "../sounds/snd_music.js";
 
-let map_size = 10;
+let map_size = 20;
 export function world_map(game: Game) {
     game.world = [];
     game.distance_field = [];
@@ -41,7 +41,7 @@ export function world_map(game: Game) {
     // Light and audio source.
     game.add({
         translation: [0, 25, 0],
-        using: [audio_source({music: snd_music})],
+        using: [audio_source({ music: snd_music })],
         children: [
             {
                 translation: [20, 0, -20],

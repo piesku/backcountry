@@ -52,11 +52,10 @@ function create_model(size: number) {
     let offsets = [];
     for (let x = 0; x < size; x++) {
         for (let y = 0; y < size; y++) {
-            offsets.push(x - size / 2 + 0.5, 0.5, y - size / 2 + 0.5, Math.random() > 0.03 ? 0 : 1);
+            offsets.push(x - size / 2 + 0.5, 0.5, y - size / 2 + 0.5, Math.random() > 0.01 ? 0 : 1);
         }
     }
 
-    console.log(offsets);
     return {
         offsets: Float32Array.from(offsets),
         size: [tile_size, 1, tile_size]
