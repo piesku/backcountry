@@ -39,13 +39,17 @@ function update(game: Game, entity: Entity, cursor: RayCast) {
                     if (x === player_x && y == player_y) {
                         game.distance_field[x][y] = 0;
                     } else if (typeof game.distance_field[x][y] === "number") {
-                        game.distance_field[x][y] = 1000;
+                        game.distance_field[x][y] = Infinity;
                     }
                 }
             }
             game.distance_field[player_x][player_y] = 0;
 
             calculate_distance(game, player_x, player_y);
+
+            if (!(game.distance_field[route_navigable.x][route_navigable.y] < Infinity)) {
+                return;
+            }
 
             while (!(route_navigable.x === player_x && route_navigable.y === player_y)) {
                 route.push([route_navigable.x, route_navigable.y]);
