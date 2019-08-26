@@ -34,7 +34,6 @@ import {sys_collide} from "./systems/sys_collide.js";
 import {sys_debug} from "./systems/sys_debug.js";
 import {sys_framerate} from "./systems/sys_framerate.js";
 import {sys_light} from "./systems/sys_light.js";
-import {sys_look_at} from "./systems/sys_look_at.js";
 import {sys_move} from "./systems/sys_move.js";
 import {sys_navigate} from "./systems/sys_navigate.js";
 import {sys_performance} from "./systems/sys_performance.js";
@@ -171,7 +170,7 @@ export class Game implements ComponentData {
         sys_player_control(this, delta);
         sys_player_fly(this, delta);
         // Game logic.
-        sys_look_at(this, delta);
+        sys_aim(this, delta);
         sys_navigate(this, delta);
         sys_animate(this, delta);
         sys_move(this, delta);
@@ -182,7 +181,6 @@ export class Game implements ComponentData {
         sys_physics(this, delta);
         sys_transform(this, delta);
         // Post-transform logic.
-        sys_aim(this, delta);
         sys_ray(this, delta);
         sys_shoot(this, delta);
 
