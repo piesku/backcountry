@@ -4,7 +4,7 @@ import {Get} from "../components/com_index";
 import {RayTarget} from "../components/com_ray_target";
 import {Game} from "../game";
 
-interface RaycastHit {
+export interface RaycastHit {
     other: RayTarget;
     contact: Vec3;
 }

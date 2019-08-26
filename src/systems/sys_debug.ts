@@ -1,7 +1,7 @@
 import {Collide} from "../components/com_collide.js";
 import {Get} from "../components/com_index.js";
-import {RayCast} from "../components/com_ray_cast.js";
 import {render_basic} from "../components/com_render_basic.js";
+import {Shoot} from "../components/com_shoot.js";
 import {Transform} from "../components/com_transform.js";
 import {Entity, Game} from "../game.js";
 import {Mat} from "../materials/mat_index.js";
@@ -13,7 +13,7 @@ interface Wireframe {
     anchor: Transform;
     transform: Transform;
 }
-const wireframes: Map<Transform | Collide | RayCast, Wireframe> = new Map();
+const wireframes: Map<Transform | Collide | Shoot, Wireframe> = new Map();
 
 export function sys_debug(game: Game, delta: number) {
     // Prune wireframes corresponding to destroyed entities.
@@ -43,7 +43,7 @@ export function sys_debug(game: Game, delta: number) {
                 wireframe_entity(game, i);
             }
 
-            if (game.world[i] & (1 << Get.RayCast)) {
+            if (game.world[i] & (1 << Get.Shoot)) {
                 wireframe_ray(game, i);
             }
         }
@@ -92,8 +92,8 @@ function wireframe_collider(game: Game, entity: Entity) {
 
 function wireframe_ray(game: Game, entity: Entity) {
     let anchor = game[Get.Transform][entity];
-    let raycast = game[Get.RayCast][entity];
-    let wireframe = wireframes.get(raycast);
+    let shoot = game[Get.Shoot][entity];
+    let wireframe = wireframes.get(shoot);
 
     if (!wireframe) {
         let line = game.add({
@@ -102,7 +102,7 @@ function wireframe_ray(game: Game, entity: Entity) {
         let wireframe_transform = game[Get.Transform][line];
         wireframe_transform.world = anchor.world;
         wireframe_transform.dirty = false;
-        wireframes.set(raycast, {
+        wireframes.set(shoot, {
             anchor: anchor,
             transform: wireframe_transform,
         });

@@ -1,7 +1,7 @@
 import {Get} from "../components/com_index.js";
 import {find_navigable} from "../components/com_navigable.js";
-import {RayCast} from "../components/com_ray_cast.js";
 import {RayFlag} from "../components/com_ray_target.js";
+import {Select} from "../components/com_select.js";
 import {Entity, Game} from "../game.js";
 import {get_translation} from "../math/mat4.js";
 
@@ -9,8 +9,8 @@ const QUERY = (1 << Get.Transform) | (1 << Get.Shoot) | (1 << Get.PlayerControl)
 
 export function sys_player_control(game: Game, delta: number) {
     let camera = game.cameras[0];
-    if (game.world[camera.entity] & (1 << Get.RayCast)) {
-        let cursor = game[Get.RayCast][camera.entity];
+    if (game.world[camera.entity] & (1 << Get.Select)) {
+        let cursor = game[Get.Select][camera.entity];
         for (let i = 0; i < game.world.length; i++) {
             if ((game.world[i] & QUERY) === QUERY) {
                 update(game, i, cursor);
@@ -19,7 +19,7 @@ export function sys_player_control(game: Game, delta: number) {
     }
 }
 
-function update(game: Game, entity: Entity, cursor: RayCast) {
+function update(game: Game, entity: Entity, cursor: Select) {
     if (!cursor.hit) {
         return;
     }

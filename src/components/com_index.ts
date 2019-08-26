@@ -9,10 +9,10 @@ import {Light} from "./com_light";
 import {Move} from "./com_move";
 import {Named} from "./com_named";
 import {Navigable} from "./com_navigable";
-import {RayCast} from "./com_ray_cast";
 import {RayTarget} from "./com_ray_target";
 import {Render} from "./com_render";
 import {RigidBody} from "./com_rigid_body";
+import {Select} from "./com_select";
 import {Shoot} from "./com_shoot";
 import {Transform} from "./com_transform";
 import {Trigger} from "./com_trigger";
@@ -33,7 +33,7 @@ export const enum Get {
     Trigger,
     RayTarget,
     Navigable,
-    RayCast,
+    Select,
     Shoot,
     PlayerControl,
 }
@@ -54,7 +54,7 @@ export interface ComponentData {
     [Get.Trigger]: Array<Trigger>;
     [Get.RayTarget]: Array<RayTarget>;
     [Get.Navigable]: Array<Navigable>;
-    [Get.RayCast]: Array<RayCast>;
+    [Get.Select]: Array<Select>;
     [Get.Shoot]: Array<Shoot>;
     [Get.PlayerControl]: Array<PlayerControl>;
 }

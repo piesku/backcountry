@@ -12,10 +12,10 @@ import {Light} from "./components/com_light.js";
 import {Move} from "./components/com_move.js";
 import {Named} from "./components/com_named.js";
 import {Navigable} from "./components/com_navigable.js";
-import {RayCast} from "./components/com_ray_cast.js";
 import {RayTarget} from "./components/com_ray_target.js";
 import {Render} from "./components/com_render.js";
 import {RigidBody} from "./components/com_rigid_body.js";
+import {Select} from "./components/com_select.js";
 import {Shoot} from "./components/com_shoot.js";
 import {transform, Transform} from "./components/com_transform.js";
 import {Trigger} from "./components/com_trigger.js";
@@ -40,8 +40,8 @@ import {sys_performance} from "./systems/sys_performance.js";
 import {sys_physics} from "./systems/sys_physics.js";
 import {sys_player_control} from "./systems/sys_player_control.js";
 import {sys_player_fly} from "./systems/sys_player_fly.js";
-import {sys_ray} from "./systems/sys_ray.js";
 import {sys_render} from "./systems/sys_render.js";
+import {sys_select} from "./systems/sys_select.js";
 import {sys_shoot} from "./systems/sys_shoot.js";
 import {sys_transform} from "./systems/sys_transform.js";
 import {sys_trigger} from "./systems/sys_trigger.js";
@@ -83,7 +83,7 @@ export class Game implements ComponentData {
     public [Get.Trigger]: Array<Trigger> = [];
     public [Get.RayTarget]: Array<RayTarget> = [];
     public [Get.Navigable]: Array<Navigable> = [];
-    public [Get.RayCast]: Array<RayCast> = [];
+    public [Get.Select]: Array<Select> = [];
     public [Get.Shoot]: Array<Shoot> = [];
     public [Get.PlayerControl]: Array<PlayerControl> = [];
 
@@ -181,8 +181,8 @@ export class Game implements ComponentData {
         sys_physics(this, delta);
         sys_transform(this, delta);
         // Post-transform logic.
-        sys_ray(this, delta);
         sys_shoot(this, delta);
+        sys_select(this, delta);
 
         // Performance.
         sys_performance(this, performance.now() - now, document.querySelector("#fixed"));
@@ -216,16 +216,12 @@ export class Game implements ComponentData {
 
         let tick = (now: number) => {
             let delta = (now - last) / 1000;
-            // frame_update runs first so that sys_camera can set up the ray for
-            // mouse picking. On the very first frame of the game loop,
-            // fixed_update doesn't run at all.
-            this.frame_update(delta);
-
             accumulator += delta;
             while (accumulator > step) {
                 accumulator -= step;
                 this.fixed_update(step);
             }
+            this.frame_update(delta);
 
             last = now;
             this.raf = requestAnimationFrame(tick);

@@ -4,7 +4,7 @@ import {Entity, Game} from "../game.js";
 import {get_forward, get_translation} from "../math/mat4.js";
 import {raycast} from "../math/raycast.js";
 
-const QUERY = (1 << Get.Transform) | (1 << Get.RayCast) | (1 << Get.Shoot);
+const QUERY = (1 << Get.Transform) | (1 << Get.Shoot);
 const TARGET = (1 << Get.Transform) | (1 << Get.Collide) | (1 << Get.RayTarget);
 
 export function sys_shoot(game: Game, delta: number) {
