@@ -39,13 +39,17 @@ function update(game: Game, entity: Entity, cursor: RayCast) {
                     if (x === player_x && y == player_y) {
                         game.distance_field[x][y] = 0;
                     } else if (typeof game.distance_field[x][y] === "number") {
-                        game.distance_field[x][y] = 1000;
+                        game.distance_field[x][y] = Infinity;
                     }
                 }
             }
             game.distance_field[player_x][player_y] = 0;
 
             calculate_distance(game, player_x, player_y);
+
+            if (!(game.distance_field[route_navigable.x][route_navigable.y] < Infinity)) {
+                return;
+            }
 
             while (!(route_navigable.x === player_x && route_navigable.y === player_y)) {
                 route.push([route_navigable.x, route_navigable.y]);
@@ -80,9 +84,13 @@ function update(game: Game, entity: Entity, cursor: RayCast) {
 function get_neighbors(game: Game, x: number, y: number) {
     return [
         {x: x - 1, y}, // W
+        {x: x - 1, y: y - 1}, // NW
         {x: x + 1, y}, // E
+        {x: x + 1, y: y - 1}, // NE
         {x, y: y - 1}, // N
+        {x: x - 1, y: y + 1}, // SW
         {x, y: y + 1}, // S
+        {x: x + 1, y: y + 1}, // SE
     ].filter(
         ({x, y}) =>
             x >= 0 && x < game.distance_field.length && y >= 0 && y < game.distance_field[0].length

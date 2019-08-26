@@ -29,8 +29,8 @@ export function world_map(game: Game) {
     for (let x = 0; x < map_size; x++) {
         game.distance_field[x] = [];
         for (let y = 0; y < map_size; y++) {
-            let is_walkable = Math.random() > 0.1;
-            game.distance_field[x][y] = is_walkable ? map_size * map_size : "kurwamać";
+            let is_walkable = Math.random() > 0.4;
+            game.distance_field[x][y] = is_walkable ? Infinity : "kurwamać";
             let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y);
 
             game.add({
