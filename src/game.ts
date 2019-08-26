@@ -9,6 +9,7 @@ import {FlyControl} from "./components/com_control_fly.js";
 import {PlayerControl} from "./components/com_control_player.js";
 import {ComponentData, Get} from "./components/com_index.js";
 import {Light} from "./components/com_light.js";
+import {Mimic} from "./components/com_mimic.js";
 import {Move} from "./components/com_move.js";
 import {Named} from "./components/com_named.js";
 import {Navigable} from "./components/com_navigable.js";
@@ -34,6 +35,7 @@ import {sys_collide} from "./systems/sys_collide.js";
 import {sys_debug} from "./systems/sys_debug.js";
 import {sys_framerate} from "./systems/sys_framerate.js";
 import {sys_light} from "./systems/sys_light.js";
+import {sys_mimic} from "./systems/sys_mimic.js";
 import {sys_move} from "./systems/sys_move.js";
 import {sys_navigate} from "./systems/sys_navigate.js";
 import {sys_performance} from "./systems/sys_performance.js";
@@ -86,6 +88,7 @@ export class Game implements ComponentData {
     public [Get.RayCast]: Array<RayCast> = [];
     public [Get.Shoot]: Array<Shoot> = [];
     public [Get.PlayerControl]: Array<PlayerControl> = [];
+    public [Get.Mimic]: Array<Mimic> = [];
 
     public canvas: HTMLCanvasElement;
     public gl: WebGL2RenderingContext;
@@ -183,6 +186,7 @@ export class Game implements ComponentData {
         sys_transform(this, delta);
         // Post-transform logic.
         sys_shoot(this, delta);
+        sys_mimic(this, delta);
 
         // Performance.
         sys_performance(this, performance.now() - now, document.querySelector("#fixed"));
