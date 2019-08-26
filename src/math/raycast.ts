@@ -23,18 +23,16 @@ export function raycast(game: Game, origin: Vec3, direction: Vec3) {
         }
     }
 
-    if (nearest_i === null) {
-        return null;
+    if (nearest_i !== null) {
+        return <RaycastHit>{
+            other: game.targets[nearest_i],
+            contact: [
+                origin[0] + direction[0] * nearest_t,
+                origin[1] + direction[1] * nearest_t,
+                origin[2] + direction[2] * nearest_t,
+            ],
+        };
     }
-
-    return <RaycastHit>{
-        other: game.targets[nearest_i],
-        contact: [
-            origin[0] + direction[0] * nearest_t,
-            origin[1] + direction[1] * nearest_t,
-            origin[2] + direction[2] * nearest_t,
-        ],
-    };
 }
 
 function inside(origin: Vec3, aabb: Collide) {
