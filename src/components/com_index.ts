@@ -3,7 +3,6 @@ import {AudioSource} from "./com_audio_source";
 import {Camera} from "./com_camera";
 import {Collide} from "./com_collide";
 import {ClickControl} from "./com_control_click";
-import {FlyControl} from "./com_control_fly";
 import {PlayerControl} from "./com_control_player";
 import {Light} from "./com_light";
 import {Move} from "./com_move";
@@ -26,7 +25,6 @@ export const enum Get {
     Animate,
     Named,
     ClickControl,
-    FlyControl,
     Move,
     Collide,
     RigidBody,
@@ -48,7 +46,6 @@ export interface ComponentData {
     [Get.Named]: Array<Named>;
     [Get.Move]: Array<Move>;
     [Get.ClickControl]: Array<ClickControl>;
-    [Get.FlyControl]: Array<FlyControl>;
     [Get.Collide]: Array<Collide>;
     [Get.RigidBody]: Array<RigidBody>;
     [Get.Trigger]: Array<Trigger>;
