@@ -72,7 +72,7 @@ export function world_map(game: Game) {
             move(25, 0),
             collide(true, [4, 7, 1]),
             ray_target(RayFlag.None),
-            shoot(),
+            shoot(1),
         ],
         children: [get_character_blueprint(game)],
     });

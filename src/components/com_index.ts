@@ -5,6 +5,7 @@ import {Collide} from "./com_collide";
 import {ClickControl} from "./com_control_click";
 import {FlyControl} from "./com_control_fly";
 import {PlayerControl} from "./com_control_player";
+import {Health} from "./com_health";
 import {Light} from "./com_light";
 import {Move} from "./com_move";
 import {Named} from "./com_named";
@@ -36,6 +37,7 @@ export const enum Get {
     Select,
     Shoot,
     PlayerControl,
+    Health,
 }
 
 export interface ComponentData {
@@ -57,4 +59,5 @@ export interface ComponentData {
     [Get.Select]: Array<Select>;
     [Get.Shoot]: Array<Shoot>;
     [Get.PlayerControl]: Array<PlayerControl>;
+    [Get.Health]: Array<Health>;
 }

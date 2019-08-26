@@ -28,6 +28,8 @@ function update(game: Game, entity: Entity) {
         let direction = get_forward([], transform.world);
         let hit = raycast(game, origin, direction);
         if (hit && hit.other.flags & RayFlag.Attackable) {
+            let health = game[Get.Health][hit.other.entity];
+            health.damages.push(shoot.damage);
             game.dispatch(Action.HitEnemy, hit.other.entity);
         }
     }

@@ -7,6 +7,7 @@ import {Collide} from "./components/com_collide.js";
 import {ClickControl} from "./components/com_control_click.js";
 import {FlyControl} from "./components/com_control_fly.js";
 import {PlayerControl} from "./components/com_control_player.js";
+import {Health} from "./components/com_health.js";
 import {ComponentData, Get} from "./components/com_index.js";
 import {Light} from "./components/com_light.js";
 import {Move} from "./components/com_move.js";
@@ -33,6 +34,7 @@ import {sys_camera} from "./systems/sys_camera.js";
 import {sys_collide} from "./systems/sys_collide.js";
 import {sys_debug} from "./systems/sys_debug.js";
 import {sys_framerate} from "./systems/sys_framerate.js";
+import {sys_health} from "./systems/sys_health.js";
 import {sys_light} from "./systems/sys_light.js";
 import {sys_move} from "./systems/sys_move.js";
 import {sys_navigate} from "./systems/sys_navigate.js";
@@ -86,6 +88,7 @@ export class Game implements ComponentData {
     public [Get.Select]: Array<Select> = [];
     public [Get.Shoot]: Array<Shoot> = [];
     public [Get.PlayerControl]: Array<PlayerControl> = [];
+    public [Get.Health]: Array<Health> = [];
 
     public canvas: HTMLCanvasElement;
     public gl: WebGL2RenderingContext;
@@ -184,6 +187,7 @@ export class Game implements ComponentData {
         sys_transform(this, delta);
         // Post-transform logic.
         sys_shoot(this, delta);
+        sys_health(this, delta);
 
         // Performance.
         sys_performance(this, performance.now() - now, document.querySelector("#fixed"));
@@ -256,7 +260,7 @@ export class Game implements ComponentData {
 
     destroy(entity: Entity) {
         let mask = this.world[entity];
-        if (mask & Get.Transform) {
+        if (mask & (1 << Get.Transform)) {
             for (let child of this[Get.Transform][entity].children) {
                 this.destroy(child.entity);
             }
