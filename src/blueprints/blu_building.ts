@@ -3,7 +3,7 @@ import {Game} from "../game.js";
 import {Blueprint} from "./blu_common.js";
 import {create_line} from "./blu_tools.js";
 
-let palette = [0.6, 0.4, 0, 0.4, 0.2, 0];
+let palette = [0.6, 0.4, 0, 0.4, 0.2, 0, 0.14, 0, 0];
 export function get_building_blueprint(game: Game) {
     let building_size = [
         20, // + ~~(Math.random() * 12),
@@ -59,6 +59,19 @@ export function get_building_blueprint(game: Game) {
                 1
             )
         );
+    }
+
+    // BANNER
+    let banner_height = 5 + ~~(Math.random() * 3);
+    for (let x = 2; x < building_size[1] - 2; x++) {
+        for (let y = 0; y < banner_height; y++) {
+            offsets.push(
+                building_size[0] + 1,
+                ~~(building_size[2] * 1.4) + y - ~~(banner_height / 2),
+                building_size[1] - x,
+                Math.random() > 0.5 ? 2 : 1
+            );
+        }
     }
 
     // ROOF PORCH

@@ -85,16 +85,16 @@ export function world_map(game: Game) {
     // Camera.
     game.add(angle_camera_blueprint);
 
-    // Drawing example
+    // Buildings
     game.add({
-        translation: [-47, 0, -40],
+        translation: [-47.5, 0, -40.5],
         children: [get_building_blueprint(game)],
     });
 
-    // game.add({
-    //     translation: [-47, 0, -10],
-    //     children: [get_building_blueprint(game)],
-    // });
+    game.add({
+        translation: [-47.5, 0, 0.5],
+        children: [get_building_blueprint(game)],
+    });
 
     // Villain.
     game.add({
