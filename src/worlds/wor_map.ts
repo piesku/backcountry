@@ -10,7 +10,6 @@ import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
 import {named} from "../components/com_named.js";
 import {find_navigable} from "../components/com_navigable.js";
-import {ray_cast} from "../components/com_ray_cast.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {shoot} from "../components/com_shoot.js";
 import {Game} from "../game.js";
@@ -72,8 +71,7 @@ export function world_map(game: Game) {
             move(25, 0),
             collide(true, [4, 7, 1]),
             ray_target(RayFlag.None),
-            ray_cast(),
-            shoot(),
+            shoot(1),
         ],
         children: [get_character_blueprint(game)],
     });

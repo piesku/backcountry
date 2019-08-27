@@ -7,15 +7,16 @@ import {Collide} from "./components/com_collide.js";
 import {ClickControl} from "./components/com_control_click.js";
 import {FlyControl} from "./components/com_control_fly.js";
 import {PlayerControl} from "./components/com_control_player.js";
+import {Health} from "./components/com_health.js";
 import {ComponentData, Get} from "./components/com_index.js";
 import {Light} from "./components/com_light.js";
 import {Mimic} from "./components/com_mimic.js";
 import {Move} from "./components/com_move.js";
 import {Named} from "./components/com_named.js";
 import {Navigable} from "./components/com_navigable.js";
-import {RayCast} from "./components/com_ray_cast.js";
 import {RayTarget} from "./components/com_ray_target.js";
 import {Render} from "./components/com_render.js";
+import {Select} from "./components/com_select.js";
 import {Shoot} from "./components/com_shoot.js";
 import {transform, Transform} from "./components/com_transform.js";
 import {Trigger} from "./components/com_trigger.js";
@@ -33,6 +34,7 @@ import {sys_camera} from "./systems/sys_camera.js";
 import {sys_collide} from "./systems/sys_collide.js";
 import {sys_debug} from "./systems/sys_debug.js";
 import {sys_framerate} from "./systems/sys_framerate.js";
+import {sys_health} from "./systems/sys_health.js";
 import {sys_light} from "./systems/sys_light.js";
 import {sys_mimic} from "./systems/sys_mimic.js";
 import {sys_move} from "./systems/sys_move.js";
@@ -40,8 +42,8 @@ import {sys_navigate} from "./systems/sys_navigate.js";
 import {sys_performance} from "./systems/sys_performance.js";
 import {sys_player_control} from "./systems/sys_player_control.js";
 import {sys_player_fly} from "./systems/sys_player_fly.js";
-import {sys_ray} from "./systems/sys_ray.js";
 import {sys_render} from "./systems/sys_render.js";
+import {sys_select} from "./systems/sys_select.js";
 import {sys_shoot} from "./systems/sys_shoot.js";
 import {sys_transform} from "./systems/sys_transform.js";
 import {sys_trigger} from "./systems/sys_trigger.js";
@@ -82,9 +84,10 @@ export class Game implements ComponentData {
     public [Get.Trigger]: Array<Trigger> = [];
     public [Get.RayTarget]: Array<RayTarget> = [];
     public [Get.Navigable]: Array<Navigable> = [];
-    public [Get.RayCast]: Array<RayCast> = [];
+    public [Get.Select]: Array<Select> = [];
     public [Get.Shoot]: Array<Shoot> = [];
     public [Get.PlayerControl]: Array<PlayerControl> = [];
+    public [Get.Health]: Array<Health> = [];
     public [Get.Mimic]: Array<Mimic> = [];
 
     public canvas: HTMLCanvasElement;
@@ -112,6 +115,7 @@ export class Game implements ComponentData {
     public lights: Array<Light> = [];
     public models: Array<Model> = [];
     public palette: Array<number> = palette;
+    public targets: Array<RayTarget> = [];
     private raf: number = 0;
 
     constructor() {
@@ -167,11 +171,11 @@ export class Game implements ComponentData {
         let now = performance.now();
 
         // Player input.
+        sys_select(this, delta);
         sys_player_control(this, delta);
         sys_player_fly(this, delta);
         // Game logic.
         sys_aim(this, delta);
-        sys_ray(this, delta);
         sys_navigate(this, delta);
         sys_animate(this, delta);
         sys_move(this, delta);
@@ -180,6 +184,7 @@ export class Game implements ComponentData {
         // Post-transform logic.
         sys_collide(this, delta);
         sys_shoot(this, delta);
+        sys_health(this, delta);
         sys_mimic(this, delta);
 
         // Performance.
@@ -214,16 +219,12 @@ export class Game implements ComponentData {
 
         let tick = (now: number) => {
             let delta = (now - last) / 1000;
-            // frame_update runs first so that sys_camera can set up the ray for
-            // mouse picking. On the very first frame of the game loop,
-            // fixed_update doesn't run at all.
-            this.frame_update(delta);
-
             accumulator += delta;
             while (accumulator > step) {
                 accumulator -= step;
                 this.fixed_update(step);
             }
+            this.frame_update(delta);
 
             last = now;
             this.raf = requestAnimationFrame(tick);
@@ -257,7 +258,7 @@ export class Game implements ComponentData {
 
     destroy(entity: Entity) {
         let mask = this.world[entity];
-        if (mask & Get.Transform) {
+        if (mask & (1 << Get.Transform)) {
             for (let child of this[Get.Transform][entity].children) {
                 this.destroy(child.entity);
             }
