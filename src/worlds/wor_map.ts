@@ -6,6 +6,7 @@ import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
 import {click_control} from "../components/com_control_click.js";
 import {player_control} from "../components/com_control_player.js";
+import {health} from "../components/com_health.js";
 import {Get} from "../components/com_index.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
@@ -31,7 +32,7 @@ export function world_map(game: Game) {
         game.distance_field[x] = [];
         for (let y = 0; y < map_size; y++) {
             let is_walkable = Math.random() > 0.04;
-            game.distance_field[x][y] = is_walkable ? Infinity : "kurwamać";
+            game.distance_field[x][y] = is_walkable ? Infinity : "a";
             let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y);
 
             game.add({
@@ -88,5 +89,17 @@ export function world_map(game: Game) {
     game.add({
         translation: [-47, 0, -40],
         children: [get_building_blueprint(game)],
+    });
+
+    game.add({
+        translation: [-47, 0, -10],
+        children: [get_building_blueprint(game)],
+    });
+
+    // Villain.
+    game.add({
+        translation: [15, 5, -15],
+        using: [collide(true, [4, 7, 3]), ray_target(RayFlag.Attackable), health(3)],
+        children: [get_character_blueprint(game)],
     });
 }

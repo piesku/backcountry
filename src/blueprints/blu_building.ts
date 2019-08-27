@@ -8,8 +8,8 @@ export function get_building_blueprint(game: Game) {
     let building_size = [
         20 + ~~(Math.random() * 12),
         20 + ~~(Math.random() * 12),
-        // 15 + ~~(Math.random() * 12), // height
-        15, // height
+        15 + ~~(Math.random() * 12), // height
+        // 15, // height
     ];
     let porch_size = 5 + ~~(Math.random() * 3);
 
