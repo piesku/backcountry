@@ -86,8 +86,7 @@ export function world_map(game: Game) {
 
     // Drawing example
     game.add({
-        translation: [0, 5, 5],
+        translation: [-47, 0, -40],
         children: [get_building_blueprint(game)],
     });
-
 }
