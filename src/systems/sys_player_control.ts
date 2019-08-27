@@ -99,12 +99,12 @@ function update(game: Game, entity: Entity, cursor: Select) {
 function get_neighbors(game: Game, x: number, y: number) {
     return [
         {x: x - 1, y}, // W
-        {x: x - 1, y: y - 1}, // NW
         {x: x + 1, y}, // E
-        {x: x + 1, y: y - 1}, // NE
         {x, y: y - 1}, // N
-        {x: x - 1, y: y + 1}, // SW
         {x, y: y + 1}, // S
+        {x: x - 1, y: y - 1}, // NW
+        {x: x + 1, y: y - 1}, // NE
+        {x: x - 1, y: y + 1}, // SW
         {x: x + 1, y: y + 1}, // SE
     ].filter(
         ({x, y}) =>
