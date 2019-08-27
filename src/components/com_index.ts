@@ -13,7 +13,6 @@ import {Navigable} from "./com_navigable";
 import {RayCast} from "./com_ray_cast";
 import {RayTarget} from "./com_ray_target";
 import {Render} from "./com_render";
-import {RigidBody} from "./com_rigid_body";
 import {Shoot} from "./com_shoot";
 import {Transform} from "./com_transform";
 import {Trigger} from "./com_trigger";
@@ -30,7 +29,6 @@ export const enum Get {
     FlyControl,
     Move,
     Collide,
-    RigidBody,
     Trigger,
     RayTarget,
     Navigable,
@@ -52,7 +50,6 @@ export interface ComponentData {
     [Get.ClickControl]: Array<ClickControl>;
     [Get.FlyControl]: Array<FlyControl>;
     [Get.Collide]: Array<Collide>;
-    [Get.RigidBody]: Array<RigidBody>;
     [Get.Trigger]: Array<Trigger>;
     [Get.RayTarget]: Array<RayTarget>;
     [Get.Navigable]: Array<Navigable>;

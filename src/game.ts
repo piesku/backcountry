@@ -16,7 +16,6 @@ import {Navigable} from "./components/com_navigable.js";
 import {RayCast} from "./components/com_ray_cast.js";
 import {RayTarget} from "./components/com_ray_target.js";
 import {Render} from "./components/com_render.js";
-import {RigidBody} from "./components/com_rigid_body.js";
 import {Shoot} from "./components/com_shoot.js";
 import {transform, Transform} from "./components/com_transform.js";
 import {Trigger} from "./components/com_trigger.js";
@@ -39,7 +38,6 @@ import {sys_mimic} from "./systems/sys_mimic.js";
 import {sys_move} from "./systems/sys_move.js";
 import {sys_navigate} from "./systems/sys_navigate.js";
 import {sys_performance} from "./systems/sys_performance.js";
-import {sys_physics} from "./systems/sys_physics.js";
 import {sys_player_control} from "./systems/sys_player_control.js";
 import {sys_player_fly} from "./systems/sys_player_fly.js";
 import {sys_ray} from "./systems/sys_ray.js";
@@ -81,7 +79,6 @@ export class Game implements ComponentData {
     public [Get.ClickControl]: Array<ClickControl> = [];
     public [Get.FlyControl]: Array<FlyControl> = [];
     public [Get.Collide]: Array<Collide> = [];
-    public [Get.RigidBody]: Array<RigidBody> = [];
     public [Get.Trigger]: Array<Trigger> = [];
     public [Get.RayTarget]: Array<RayTarget> = [];
     public [Get.Navigable]: Array<Navigable> = [];
@@ -180,11 +177,8 @@ export class Game implements ComponentData {
         sys_move(this, delta);
         sys_transform(this, delta);
         sys_trigger(this, delta);
-        // Collisions and physics.
-        sys_collide(this, delta);
-        sys_physics(this, delta);
-        sys_transform(this, delta);
         // Post-transform logic.
+        sys_collide(this, delta);
         sys_shoot(this, delta);
         sys_mimic(this, delta);
 
