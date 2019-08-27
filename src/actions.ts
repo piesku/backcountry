@@ -10,14 +10,13 @@ export const enum Action {
 export function effect(game: Game, action: Action, args: Array<unknown>) {
     switch (action) {
         case Action.ChangeWorld: {
-            let world = args[0] as string;
-            switch (world) {
+            switch (args[0] as string) {
                 case "intro":
-                    return world_intro(game);
+                    return setTimeout(world_intro, 0, game);
                 case "stage":
-                    return world_stage(game);
+                    return setTimeout(world_stage, 0, game);
                 case "map":
-                    return world_map(game);
+                    return setTimeout(world_map, 0, game);
             }
         }
     }

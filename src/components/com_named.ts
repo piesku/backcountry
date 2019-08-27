@@ -13,10 +13,11 @@ export function named(name: string) {
 }
 
 export function find_first(game: Game, name: string) {
-    for (let i = 0; i < game[Get.Named].length; i++) {
-        let named = game[Get.Named][i];
-        if (named && named.name === name) {
-            return i;
+    for (let i = 0; i < game.world.length; i++) {
+        if (game.world[i] & (1 << Get.Named)) {
+            if (game[Get.Named][i].name === name) {
+                return i;
+            }
         }
     }
     throw `No entity named ${name}.`;
