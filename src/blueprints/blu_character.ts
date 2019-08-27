@@ -1,13 +1,13 @@
-import { animate } from "../components/com_animate.js";
-import { light } from "../components/com_light.js";
-import { render_vox } from "../components/com_render_vox.js";
-import { Game } from "../game.js";
-import { from_euler } from "../math/quat.js";
-import { Models } from "../models_map.js";
-import { palette } from "../palette.js";
-import { Blueprint } from "./blu_common.js";
-import { create_gun } from "./items/blu_gun.js";
-import { create_shotgun } from "./items/blu_shotgun.js";
+import {animate} from "../components/com_animate.js";
+import {light} from "../components/com_light.js";
+import {render_vox} from "../components/com_render_vox.js";
+import {Game} from "../game.js";
+import {from_euler} from "../math/quat.js";
+import {Models} from "../models_map.js";
+import {palette} from "../palette.js";
+import {Blueprint} from "./blu_common.js";
+import {create_gun} from "./items/blu_gun.js";
+import {create_shotgun} from "./items/blu_shotgun.js";
 
 let hat_models = [
     Models.HAT1,
