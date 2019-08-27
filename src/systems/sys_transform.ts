@@ -30,6 +30,10 @@ function update(transform: Transform) {
         }
 
         transform.self = transform.world.inverse();
+
+        // Cache the Float32Arrays created from DOMMatrices.
+        transform.world32 = transform.world.toFloat32Array();
+        transform.self32 = transform.self.toFloat32Array();
     }
 }
 

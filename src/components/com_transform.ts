@@ -6,8 +6,10 @@ import {Get} from "./com_index.js";
 export interface Transform {
     /** Absolute matrix relative to the world. */
     world: Mat4;
+    world32: Float32Array;
     /** World to self matrix. */
     self: Mat4;
+    self32: Float32Array;
     /** Local translation relative to the parent. */
     translation: Vec3;
     /** Local rotation relative to the parent. */
@@ -31,7 +33,9 @@ export function transform(
         game[Get.Transform][entity] = <Transform>{
             entity,
             world: create(),
+            world32: new Float32Array(),
             self: create(),
+            self32: new Float32Array(),
             translation,
             rotation,
             scale,

@@ -9,7 +9,7 @@ export interface Camera {
     projection: Mat4;
     unproject: Mat4;
     view: Mat4;
-    pv: Mat4;
+    pv: Float32Array;
 }
 
 export function camera_perspective(fovy: number, near: number, far: number) {
@@ -22,7 +22,7 @@ export function camera_perspective(fovy: number, near: number, far: number) {
             projection,
             unproject: projection.inverse(),
             view: create(),
-            pv: create(),
+            pv: new Float32Array(),
         };
     };
 }
@@ -44,7 +44,7 @@ export function camera_ortho(radius: number, near: number, far: number) {
             projection,
             unproject: projection.inverse(),
             view: create(),
-            pv: create(),
+            pv: new Float32Array(),
         };
     };
 }

@@ -19,5 +19,5 @@ function update(game: Game, entity: Entity) {
     game.cameras.push(camera);
     get_translation(camera.position, transform.world);
     camera.view = transform.world.inverse();
-    camera.pv = camera.projection.multiply(camera.view);
+    camera.pv = camera.projection.multiply(camera.view).toFloat32Array();
 }
