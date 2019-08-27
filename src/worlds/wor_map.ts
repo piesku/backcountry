@@ -45,7 +45,7 @@ export function world_map(game: Game) {
     // Light and audio source.
     game.add({
         translation: [0, 25, 0],
-        using: [audio_source({music: snd_music})],
+        using: [audio_source({music: snd_music}, "music")],
         children: [
             {
                 translation: [20, 0, -20],
