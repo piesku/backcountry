@@ -8,21 +8,19 @@ import {player_control} from "../components/com_control_player.js";
 import {Get} from "../components/com_index.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
+import {named} from "../components/com_named.js";
 import {find_navigable} from "../components/com_navigable.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {shoot} from "../components/com_shoot.js";
 import {Game} from "../game.js";
 import {snd_music} from "../sounds/snd_music.js";
 
-let map_size = 10;
+let map_size = 20;
 export function world_map(game: Game) {
     game.world = [];
     game.distance_field = [];
 
     game.gl.clearColor(1, 0.3, 0.3, 1);
-
-    // Camera.
-    game.add(angle_camera_blueprint);
 
     // Ground.
     for (let x = 0; x < map_size; x++) {
@@ -67,6 +65,7 @@ export function world_map(game: Game) {
     game.add({
         translation: [player_position[0], 5, player_position[2]],
         using: [
+            named("player"),
             player_control(Math.floor(map_size / 2), Math.floor(map_size / 2)),
             click_control(),
             move(25, 0),
@@ -76,4 +75,7 @@ export function world_map(game: Game) {
         ],
         children: [get_character_blueprint(game)],
     });
+
+    // Camera.
+    game.add(angle_camera_blueprint);
 }

@@ -10,12 +10,12 @@ import {PlayerControl} from "./components/com_control_player.js";
 import {Health} from "./components/com_health.js";
 import {ComponentData, Get} from "./components/com_index.js";
 import {Light} from "./components/com_light.js";
+import {Mimic} from "./components/com_mimic.js";
 import {Move} from "./components/com_move.js";
 import {Named} from "./components/com_named.js";
 import {Navigable} from "./components/com_navigable.js";
 import {RayTarget} from "./components/com_ray_target.js";
 import {Render} from "./components/com_render.js";
-import {RigidBody} from "./components/com_rigid_body.js";
 import {Select} from "./components/com_select.js";
 import {Shoot} from "./components/com_shoot.js";
 import {transform, Transform} from "./components/com_transform.js";
@@ -36,10 +36,10 @@ import {sys_debug} from "./systems/sys_debug.js";
 import {sys_framerate} from "./systems/sys_framerate.js";
 import {sys_health} from "./systems/sys_health.js";
 import {sys_light} from "./systems/sys_light.js";
+import {sys_mimic} from "./systems/sys_mimic.js";
 import {sys_move} from "./systems/sys_move.js";
 import {sys_navigate} from "./systems/sys_navigate.js";
 import {sys_performance} from "./systems/sys_performance.js";
-import {sys_physics} from "./systems/sys_physics.js";
 import {sys_player_control} from "./systems/sys_player_control.js";
 import {sys_player_fly} from "./systems/sys_player_fly.js";
 import {sys_render} from "./systems/sys_render.js";
@@ -81,7 +81,6 @@ export class Game implements ComponentData {
     public [Get.ClickControl]: Array<ClickControl> = [];
     public [Get.FlyControl]: Array<FlyControl> = [];
     public [Get.Collide]: Array<Collide> = [];
-    public [Get.RigidBody]: Array<RigidBody> = [];
     public [Get.Trigger]: Array<Trigger> = [];
     public [Get.RayTarget]: Array<RayTarget> = [];
     public [Get.Navigable]: Array<Navigable> = [];
@@ -89,6 +88,7 @@ export class Game implements ComponentData {
     public [Get.Shoot]: Array<Shoot> = [];
     public [Get.PlayerControl]: Array<PlayerControl> = [];
     public [Get.Health]: Array<Health> = [];
+    public [Get.Mimic]: Array<Mimic> = [];
 
     public canvas: HTMLCanvasElement;
     public gl: WebGL2RenderingContext;
@@ -181,13 +181,11 @@ export class Game implements ComponentData {
         sys_move(this, delta);
         sys_transform(this, delta);
         sys_trigger(this, delta);
-        // Collisions and physics.
-        sys_collide(this, delta);
-        sys_physics(this, delta);
-        sys_transform(this, delta);
         // Post-transform logic.
+        sys_collide(this, delta);
         sys_shoot(this, delta);
         sys_health(this, delta);
+        sys_mimic(this, delta);
 
         // Performance.
         sys_performance(this, performance.now() - now, document.querySelector("#fixed"));

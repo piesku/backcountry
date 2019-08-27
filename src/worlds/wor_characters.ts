@@ -3,7 +3,6 @@ import {fly_camera_blueprint} from "../blueprints/blu_fly_camera.js";
 import {collide} from "../components/com_collide.js";
 import {light} from "../components/com_light.js";
 import {render_shaded} from "../components/com_render_shaded.js";
-import {rigid_body} from "../components/com_rigid_body.js";
 import {Game} from "../game.js";
 import {Mat} from "../materials/mat_index.js";
 import {from_euler} from "../math/quat.js";
@@ -32,7 +31,6 @@ export function world_characters(game: Game) {
                 using: [
                     render_shaded(game.materials[Mat.Gouraud], Cube, [1, 1, 0.3, 1]),
                     collide(false),
-                    rigid_body(false),
                 ],
             });
         }

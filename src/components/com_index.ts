@@ -7,12 +7,12 @@ import {FlyControl} from "./com_control_fly";
 import {PlayerControl} from "./com_control_player";
 import {Health} from "./com_health";
 import {Light} from "./com_light";
+import {Mimic} from "./com_mimic";
 import {Move} from "./com_move";
 import {Named} from "./com_named";
 import {Navigable} from "./com_navigable";
 import {RayTarget} from "./com_ray_target";
 import {Render} from "./com_render";
-import {RigidBody} from "./com_rigid_body";
 import {Select} from "./com_select";
 import {Shoot} from "./com_shoot";
 import {Transform} from "./com_transform";
@@ -30,7 +30,6 @@ export const enum Get {
     FlyControl,
     Move,
     Collide,
-    RigidBody,
     Trigger,
     RayTarget,
     Navigable,
@@ -38,6 +37,7 @@ export const enum Get {
     Shoot,
     PlayerControl,
     Health,
+    Mimic,
 }
 
 export interface ComponentData {
@@ -52,7 +52,6 @@ export interface ComponentData {
     [Get.ClickControl]: Array<ClickControl>;
     [Get.FlyControl]: Array<FlyControl>;
     [Get.Collide]: Array<Collide>;
-    [Get.RigidBody]: Array<RigidBody>;
     [Get.Trigger]: Array<Trigger>;
     [Get.RayTarget]: Array<RayTarget>;
     [Get.Navigable]: Array<Navigable>;
@@ -60,4 +59,5 @@ export interface ComponentData {
     [Get.Shoot]: Array<Shoot>;
     [Get.PlayerControl]: Array<PlayerControl>;
     [Get.Health]: Array<Health>;
+    [Get.Mimic]: Array<Mimic>;
 }

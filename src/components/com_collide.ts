@@ -19,7 +19,7 @@ export interface Collide {
     min: Vec3;
     max: Vec3;
     /** Collisions detected with this collider during this tick. */
-    collisions: Array<Collision>;
+    collisions: Array<Collide>;
 }
 
 export function collide(dynamic: boolean = true, size: [number, number, number] = [1, 1, 1]) {
@@ -37,11 +37,4 @@ export function collide(dynamic: boolean = true, size: [number, number, number] 
             collisions: [],
         };
     };
-}
-
-export interface Collision {
-    /** The other collider in the collision. */
-    other: Collide;
-    /** The direction and magnitude of the hit from this collider's POV. */
-    hit: Vec3;
 }
