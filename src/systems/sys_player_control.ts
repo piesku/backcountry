@@ -1,7 +1,10 @@
+import {Animate} from "../components/com_animate.js";
+import {AudioSource} from "../components/com_audio_source.js";
 import {Get} from "../components/com_index.js";
 import {find_navigable} from "../components/com_navigable.js";
 import {RayFlag} from "../components/com_ray_target.js";
 import {Select} from "../components/com_select.js";
+import {components_of_type} from "../components/com_transform.js";
 import {Entity, Game} from "../game.js";
 import {get_translation} from "../math/mat4.js";
 
@@ -14,6 +17,16 @@ export function sys_player_control(game: Game, delta: number) {
         for (let i = 0; i < game.world.length; i++) {
             if ((game.world[i] & QUERY) === QUERY) {
                 update(game, i, cursor);
+            }
+        }
+
+        if (cursor.hit && (game.event.mouse_0_down || game.event.mouse_2_down)) {
+            let transform = game[Get.Transform][cursor.hit.other.entity];
+            for (let animate of components_of_type<Animate>(game, transform, Get.Animate)) {
+                animate.trigger = "select";
+            }
+            for (let audio of components_of_type<AudioSource>(game, transform, Get.AudioSource)) {
+                audio.trigger = "select";
             }
         }
     }
@@ -86,12 +99,12 @@ function update(game: Game, entity: Entity, cursor: Select) {
 function get_neighbors(game: Game, x: number, y: number) {
     return [
         {x: x - 1, y}, // W
-        {x: x - 1, y: y - 1}, // NW
         {x: x + 1, y}, // E
-        {x: x + 1, y: y - 1}, // NE
         {x, y: y - 1}, // N
-        {x: x - 1, y: y + 1}, // SW
         {x, y: y + 1}, // S
+        {x: x - 1, y: y - 1}, // NW
+        {x: x + 1, y: y - 1}, // NE
+        {x: x - 1, y: y + 1}, // SW
         {x: x + 1, y: y + 1}, // SE
     ].filter(
         ({x, y}) =>

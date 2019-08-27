@@ -3,15 +3,15 @@ import {Game} from "../game.js";
 import {Blueprint} from "./blu_common.js";
 import {create_line} from "./blu_tools.js";
 
-let palette = [0.6, 0.4, 0, 0.4, 0.2, 0];
+let palette = [0.6, 0.4, 0, 0.4, 0.2, 0, 0.14, 0, 0];
 export function get_building_blueprint(game: Game) {
     let building_size = [
-        20 + ~~(Math.random() * 12),
-        20 + ~~(Math.random() * 12),
-        15 + ~~(Math.random() * 12), // height
+        20, // + ~~(Math.random() * 12),
+        30, // + ~~(Math.random() * 12),
+        15 + ~~(Math.random() * 5), // height
         // 15, // height
     ];
-    let porch_size = 5 + ~~(Math.random() * 3);
+    let porch_size = 7 + ~~(Math.random() * 3);
 
     let offsets: number[] = [];
 
@@ -45,9 +45,9 @@ export function get_building_blueprint(game: Game) {
         ...create_line(
             [building_size[0] + 2, 0, 1],
             [building_size[0] + 2, 0, building_size[1] + 1],
-            0
+            1
         ),
-        ...create_line([0, 0, building_size[1]], [building_size[0] + 2, 0, building_size[1]], 0)
+        ...create_line([0, 0, building_size[1]], [building_size[0] + 2, 0, building_size[1]], 1)
     );
 
     // PORCH
@@ -56,18 +56,66 @@ export function get_building_blueprint(game: Game) {
             ...create_line(
                 [building_size[0] + 2 + i, 0, 1],
                 [building_size[0] + 2 + i, 0, building_size[1] + 1],
-                0
+                1
             )
         );
     }
 
-    // PORCH
+    // BANNER
+    let banner_height = 5 + ~~(Math.random() * 3);
+    for (let x = 2; x < building_size[1] - 2; x++) {
+        for (let y = 0; y < banner_height; y++) {
+            offsets.push(
+                building_size[0] + 1,
+                ~~(building_size[2] * 1.4) + y - ~~(banner_height / 2),
+                building_size[1] - x,
+                Math.random() > 0.5 ? 2 : 1
+            );
+        }
+    }
+
+    // ROOF PORCH
     for (let i = 0; i < porch_size; i++) {
         offsets.push(
             ...create_line(
-                [building_size[0] + 1 + i, building_size[2] * 0.75, 1],
-                [building_size[0] + 1 + i, building_size[2] * 0.75, building_size[1] + 1],
-                0
+                [building_size[0] + i + 1, building_size[2] * 0.75, 0],
+                [building_size[0] + i + 1, building_size[2] * 0.75, building_size[1] + 1],
+                1
+            )
+        );
+    }
+
+    // Pillars
+    offsets.push(
+        ...create_line(
+            [building_size[0] + porch_size, 0, 1],
+            [building_size[0] + porch_size, building_size[2] * 0.75, 1],
+            1
+        ),
+        ...create_line(
+            [building_size[0] + porch_size, 0, building_size[1]],
+            [building_size[0] + porch_size, building_size[2] * 0.75, building_size[1]],
+            1
+        )
+    );
+
+    // FENCE
+    let fence_width = ~~(building_size[1] * 0.75) + 1;
+    let fence_height = ~~(building_size[2] * 0.25);
+    offsets.push(
+        ...create_line(
+            [building_size[0] + porch_size, fence_height, 1],
+            [building_size[0] + porch_size, fence_height, fence_width],
+            1
+        )
+    );
+
+    for (let i = 1; i < fence_width; i += 2) {
+        offsets.push(
+            ...create_line(
+                [building_size[0] + porch_size, 0, i],
+                [building_size[0] + porch_size, fence_height + 2, i],
+                1
             )
         );
     }
