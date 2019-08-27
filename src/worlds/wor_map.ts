@@ -91,10 +91,10 @@ export function world_map(game: Game) {
         children: [get_building_blueprint(game)],
     });
 
-    game.add({
-        translation: [-47, 0, -10],
-        children: [get_building_blueprint(game)],
-    });
+    // game.add({
+    //     translation: [-47, 0, -10],
+    //     children: [get_building_blueprint(game)],
+    // });
 
     // Villain.
     game.add({
