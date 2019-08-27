@@ -33,10 +33,13 @@ function update(game: Game, entity: Entity) {
             let health = game[Get.Health][hit.other.entity];
             health.damages.push(shoot.damage);
             game.dispatch(Action.HitEnemy, hit.other.entity);
-        }
-
-        for (let audio of components_of_type<AudioSource>(game, transform, Get.AudioSource)) {
-            audio.trigger = "shoot";
+            for (let audio of components_of_type<AudioSource>(game, transform, Get.AudioSource)) {
+                audio.trigger = "shoot";
+            }
+        } else {
+            for (let audio of components_of_type<AudioSource>(game, transform, Get.AudioSource)) {
+                audio.trigger = "miss";
+            }
         }
     }
 

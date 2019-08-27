@@ -13,6 +13,7 @@ import {find_navigable} from "../components/com_navigable.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {shoot} from "../components/com_shoot.js";
 import {Game} from "../game.js";
+import {snd_miss} from "../sounds/snd_miss.js";
 import {snd_music} from "../sounds/snd_music.js";
 import {snd_shoot} from "../sounds/snd_shoot.js";
 
@@ -73,7 +74,7 @@ export function world_map(game: Game) {
             collide(true, [4, 7, 1]),
             ray_target(RayFlag.None),
             shoot(1),
-            audio_source({shoot: snd_shoot}),
+            audio_source({shoot: snd_shoot, miss: snd_miss}),
         ],
         children: [get_character_blueprint(game)],
     });
