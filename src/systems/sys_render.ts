@@ -41,7 +41,7 @@ export function sys_render(game: Game, delta: number) {
                 let {gl, program, uniforms} = current_material;
                 gl.useProgram(program);
                 // TODO Support more than one camera.
-                gl.uniformMatrix4fv(uniforms.pv, false, game.cameras[0].pv);
+                gl.uniformMatrix4fv(uniforms.pv, false, game.cameras[0].pv.toFloat32Array());
 
                 switch (render.kind) {
                     case RenderKind.Shaded:
@@ -77,7 +77,7 @@ export function sys_render(game: Game, delta: number) {
 
 function draw_basic(transform: Transform, render: RenderBasic) {
     let {gl, mode, uniforms} = render.material;
-    gl.uniformMatrix4fv(uniforms.world, false, transform.world);
+    gl.uniformMatrix4fv(uniforms.world, false, transform.world.toFloat32Array());
     gl.uniform4fv(uniforms.color, render.color);
     gl.bindVertexArray(render.vao);
     gl.drawElements(mode, render.count, gl.UNSIGNED_SHORT, 0);
@@ -86,8 +86,8 @@ function draw_basic(transform: Transform, render: RenderBasic) {
 
 function draw_shaded(transform: Transform, render: RenderShaded) {
     let {gl, mode, uniforms} = render.material;
-    gl.uniformMatrix4fv(uniforms.world, false, transform.world);
-    gl.uniformMatrix4fv(uniforms.self, false, transform.self);
+    gl.uniformMatrix4fv(uniforms.world, false, transform.world.toFloat32Array());
+    gl.uniformMatrix4fv(uniforms.self, false, transform.self.toFloat32Array());
     gl.uniform4fv(uniforms.color, render.color);
     gl.bindVertexArray(render.vao);
     gl.drawElements(mode, render.count, gl.UNSIGNED_SHORT, 0);
@@ -96,8 +96,8 @@ function draw_shaded(transform: Transform, render: RenderShaded) {
 
 function draw_instanced(game: Game, transform: Transform, render: RenderInstanced) {
     let {gl, mode, uniforms} = render.material;
-    gl.uniformMatrix4fv(uniforms.world, false, transform.world);
-    gl.uniformMatrix4fv(uniforms.self, false, transform.self);
+    gl.uniformMatrix4fv(uniforms.world, false, transform.world.toFloat32Array());
+    gl.uniformMatrix4fv(uniforms.self, false, transform.self.toFloat32Array());
     gl.uniform3fv(uniforms.palette, render.palette || game.palette);
     gl.bindVertexArray(render.vao);
     gl.drawElementsInstanced(mode, render.index_count, gl.UNSIGNED_SHORT, 0, render.instance_count);

@@ -9,6 +9,6 @@ export interface Quat extends Vector {}
 export interface Vec3 extends Vector {}
 export interface Vec4 extends Vector {}
 export interface Mat3 extends Vector {}
-export interface Mat4 extends Vector {}
+export interface Mat4 extends DOMMatrix {}
 
 export const EPSILON = 0.000001;

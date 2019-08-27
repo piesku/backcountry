@@ -1,7 +1,7 @@
 import {Get} from "../components/com_index.js";
 import {Transform} from "../components/com_transform.js";
 import {Game} from "../game.js";
-import {from_rotation_translation_scale, invert, multiply} from "../math/mat4.js";
+import {from_rotation_translation_scale} from "../math/mat4.js";
 
 const QUERY = 1 << Get.Transform;
 
@@ -26,10 +26,10 @@ function update(transform: Transform) {
         );
 
         if (transform.parent) {
-            multiply(transform.world, transform.parent.world, transform.world);
+            transform.world.preMultiplySelf(transform.parent.world);
         }
 
-        invert(transform.self, transform.world);
+        transform.self = transform.world.inverse();
     }
 }
 

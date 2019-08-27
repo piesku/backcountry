@@ -1,6 +1,6 @@
 import {Get} from "../components/com_index.js";
 import {Entity, Game} from "../game.js";
-import {get_translation, invert, multiply} from "../math/mat4.js";
+import {get_translation} from "../math/mat4.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Camera);
 
@@ -18,6 +18,6 @@ function update(game: Game, entity: Entity) {
     let camera = game[Get.Camera][entity];
     game.cameras.push(camera);
     get_translation(camera.position, transform.world);
-    invert(camera.view, transform.world);
-    multiply(camera.pv, camera.projection, camera.view);
+    camera.view = transform.world.inverse();
+    camera.pv = camera.projection.multiply(camera.view);
 }
