@@ -1,4 +1,5 @@
 import {Animate} from "../components/com_animate.js";
+import {AudioSource} from "../components/com_audio_source.js";
 import {Get} from "../components/com_index.js";
 import {find_navigable} from "../components/com_navigable.js";
 import {RayFlag} from "../components/com_ray_target.js";
@@ -23,6 +24,9 @@ export function sys_player_control(game: Game, delta: number) {
             let transform = game[Get.Transform][cursor.hit.other.entity];
             for (let animate of components_of_type<Animate>(game, transform, Get.Animate)) {
                 animate.trigger = "select";
+            }
+            for (let audio of components_of_type<AudioSource>(game, transform, Get.AudioSource)) {
+                audio.trigger = "select";
             }
         }
     }

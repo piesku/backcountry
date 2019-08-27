@@ -1,10 +1,12 @@
 import {animate, AnimationFlag} from "../components/com_animate.js";
+import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
 import {navigable} from "../components/com_navigable.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
 import {Models} from "../models_map.js";
+import {snd_click} from "../sounds/snd_click.js";
 import {Blueprint} from "./blu_common.js";
 import {get_block_blueprint} from "./blu_ground_block.js";
 import {create_tile} from "./blu_tools.js";
@@ -30,6 +32,7 @@ export function get_tile_blueprint(
         {
             using: [
                 render_vox(tile_model, palette),
+                audio_source({select: snd_click}),
                 animate({
                     idle: {
                         keyframes: [
