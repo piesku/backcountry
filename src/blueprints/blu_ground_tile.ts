@@ -1,3 +1,4 @@
+import {animate, AnimationFlag} from "../components/com_animate.js";
 import {collide} from "../components/com_collide.js";
 import {navigable} from "../components/com_navigable.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
@@ -25,21 +26,52 @@ export function get_tile_blueprint(
               non_walkable_tile_models[~~(Math.random() * non_walkable_tile_models.length)]
           ];
 
-    let children =
-        Math.random() > 0.85 && is_walkable
-            ? [
-                  {
-                      ...get_block_blueprint(game),
-                  },
-              ]
-            : [];
+    let children: Array<Blueprint> = [
+        {
+            using: [
+                render_vox(tile_model, palette),
+                animate({
+                    idle: {
+                        keyframes: [
+                            {
+                                timestamp: 0,
+                                translation: [0, 0, 0],
+                            },
+                        ],
+                    },
+                    select: {
+                        keyframes: [
+                            {
+                                timestamp: 0,
+                                translation: [0, 0, 0],
+                            },
+                            {
+                                timestamp: 0.1,
+                                translation: [0, -0.5, 0],
+                            },
+                            {
+                                timestamp: 0.2,
+                                translation: [0, 0, 0],
+                            },
+                        ],
+                        flags: AnimationFlag.None,
+                    },
+                }),
+            ],
+        },
+    ];
+
+    if (Math.random() > 0.85 && is_walkable) {
+        children.push({
+            ...get_block_blueprint(game),
+        });
+    }
 
     let using = is_walkable ? [ray_target(RayFlag.Navigable), navigable(x, y)] : [];
     return {
         translation: [0, 0, 0],
         rotation: [0, 1, 0, 0], //from_euler([], 0, ~~(Math.random() * 4) * 90, 0),
         using: [
-            (game: Game) => render_vox(tile_model, palette)(game),
             collide(false, [8, 1, 8]),
             // rigid_body(false),
             ...using,
