@@ -4,7 +4,7 @@ import {Transform} from "../components/com_transform.js";
 import {Game} from "../game.js";
 import {Vec3} from "../math/index.js";
 import {get_translation} from "../math/mat4.js";
-import {negate, transform_point} from "../math/vec3.js";
+import {transform_point} from "../math/vec3.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Collide);
 
@@ -45,18 +45,9 @@ export function sys_collide(game: Game, delta: number) {
 function check_collisions(collider: Collide, colliders: Collide[]) {
     for (let i = 0; i < colliders.length; i++) {
         let other = colliders[i];
-        if (collider !== other) {
-            let hit = intersect_aabb(collider, other);
-            if (hit) {
-                collider.collisions.push({
-                    other,
-                    hit,
-                });
-                other.collisions.push({
-                    other: collider,
-                    hit: negate([], hit),
-                });
-            }
+        if (collider !== other && intersect_aabb(collider, other)) {
+            collider.collisions.push(other);
+            other.collisions.push(collider);
         }
     }
 }
@@ -122,30 +113,21 @@ function compute_aabb(transform: Transform, collide: Collide) {
     collide.half[2] = (max_z - min_z) / 2;
 }
 
-function intersect_aabb(a: Collide, b: Collide): Vec3 | null {
+function intersect_aabb(a: Collide, b: Collide) {
     let distance_x = a.center[0] - b.center[0];
-    let penetration_x = a.half[0] + b.half[0] - Math.abs(distance_x);
-    if (penetration_x <= 0) {
-        return null;
+    if (a.half[0] + b.half[0] - Math.abs(distance_x)) {
+        return false;
     }
 
     let distance_y = a.center[1] - b.center[1];
-    let penetration_y = a.half[1] + b.half[1] - Math.abs(distance_y);
-    if (penetration_y <= 0) {
-        return null;
+    if (a.half[1] + b.half[1] - Math.abs(distance_y)) {
+        return false;
     }
 
     let distance_z = a.center[2] - b.center[2];
-    let penetration_z = a.half[2] + b.half[2] - Math.abs(distance_z);
-    if (penetration_z <= 0) {
-        return null;
+    if (a.half[2] + b.half[2] - Math.abs(distance_z)) {
+        return false;
     }
 
-    if (penetration_x < penetration_y && penetration_x < penetration_z) {
-        return <Vec3>[penetration_x * Math.sign(distance_x), 0, 0];
-    } else if (penetration_y < penetration_z) {
-        return <Vec3>[0, penetration_y * Math.sign(distance_y), 0];
-    } else {
-        return <Vec3>[0, 0, penetration_z * Math.sign(distance_z)];
-    }
+    return true;
 }
