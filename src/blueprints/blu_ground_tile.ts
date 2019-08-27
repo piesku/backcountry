@@ -28,46 +28,42 @@ export function get_tile_blueprint(
               non_walkable_tile_models[~~(Math.random() * non_walkable_tile_models.length)]
           ];
 
-    let children: Array<Blueprint> = [
-        {
-            using: [
-                render_vox(tile_model, palette),
-                audio_source({select: snd_click}),
-                animate({
-                    idle: {
-                        keyframes: [
-                            {
-                                timestamp: 0,
-                                translation: [0, 0, 0],
-                            },
-                        ],
-                    },
-                    select: {
-                        keyframes: [
-                            {
-                                timestamp: 0,
-                                translation: [0, 0, 0],
-                            },
-                            {
-                                timestamp: 0.1,
-                                translation: [0, -0.5, 0],
-                            },
-                            {
-                                timestamp: 0.2,
-                                translation: [0, 0, 0],
-                            },
-                        ],
-                        flags: AnimationFlag.None,
-                    },
-                }),
-            ],
-        },
-    ];
+    let tile: Blueprint = {
+        using: [
+            render_vox(tile_model, palette),
+            audio_source({select: snd_click}),
+            animate({
+                idle: {
+                    keyframes: [
+                        {
+                            timestamp: 0,
+                            translation: [0, 0, 0],
+                        },
+                    ],
+                },
+                select: {
+                    keyframes: [
+                        {
+                            timestamp: 0,
+                            translation: [0, 0, 0],
+                        },
+                        {
+                            timestamp: 0.1,
+                            translation: [0, -0.5, 0],
+                        },
+                        {
+                            timestamp: 0.2,
+                            translation: [0, 0, 0],
+                        },
+                    ],
+                    flags: AnimationFlag.None,
+                },
+            }),
+        ],
+    };
 
     if (Math.random() > 0.85 && is_walkable) {
-        children.push({
-            ...get_block_blueprint(game),
-        });
+        tile.children = [get_block_blueprint(game)];
     }
 
     let using = is_walkable ? [ray_target(RayFlag.Navigable), navigable(x, y)] : [];
@@ -79,6 +75,6 @@ export function get_tile_blueprint(
             // rigid_body(false),
             ...using,
         ],
-        children,
+        children: [tile],
     };
 }
