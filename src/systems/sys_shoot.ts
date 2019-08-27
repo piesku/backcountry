@@ -1,8 +1,11 @@
+import {Action} from "../actions.js";
 import {Get} from "../components/com_index.js";
 import {RayFlag} from "../components/com_ray_target.js";
 import {Entity, Game} from "../game.js";
+import {get_forward, get_translation} from "../math/mat4.js";
+import {raycast} from "../math/raycast.js";
 
-const QUERY = (1 << Get.Transform) | (1 << Get.RayCast) | (1 << Get.Shoot);
+const QUERY = (1 << Get.Transform) | (1 << Get.Shoot);
 
 export function sys_shoot(game: Game, delta: number) {
     for (let i = 0; i < game.world.length; i++) {
@@ -19,9 +22,15 @@ function update(game: Game, entity: Entity) {
         // TODO Play audio clip.
         // TODO Emit particles.
         // TODO Add other effects.
-        let ray = game[Get.RayCast][entity];
-        if (ray.hit && ray.hit.other.flags & RayFlag.Attackable) {
-            console.log(`Hit entity #${ray.hit.other.entity}`);
+
+        let transform = game[Get.Transform][entity];
+        let origin = get_translation([], transform.world);
+        let direction = get_forward([], transform.world);
+        let hit = raycast(game, origin, direction);
+        if (hit && hit.other.flags & RayFlag.Attackable) {
+            let health = game[Get.Health][hit.other.entity];
+            health.damages.push(shoot.damage);
+            game.dispatch(Action.HitEnemy, hit.other.entity);
         }
     }
 

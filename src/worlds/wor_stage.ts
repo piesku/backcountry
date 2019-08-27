@@ -5,10 +5,10 @@ import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
 import {click_control} from "../components/com_control_click.js";
 import {player_control} from "../components/com_control_player.js";
+import {health} from "../components/com_health.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
 import {named} from "../components/com_named.js";
-import {ray_cast} from "../components/com_ray_cast.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {shoot} from "../components/com_shoot.js";
 import {Game} from "../game.js";
@@ -26,10 +26,9 @@ export function world_stage(game: Game) {
             player_control(),
             click_control(),
             move(25, 0),
-            collide(true, [4, 7, 1]),
+            collide(true, [4, 7, 3]),
             ray_target(RayFlag.None),
-            ray_cast(),
-            shoot(),
+            shoot(1),
         ],
         children: [get_character_blueprint(game)],
     });
@@ -72,21 +71,21 @@ export function world_stage(game: Game) {
     // Villain.
     game.add({
         translation: [10, 5, -10],
-        using: [collide(true, [4, 7, 1]), ray_target(RayFlag.Attackable)],
+        using: [collide(true, [4, 7, 3]), ray_target(RayFlag.Attackable), health(3)],
         children: [get_character_blueprint(game)],
     });
 
     // Villain.
     game.add({
         translation: [15, 5, -15],
-        using: [collide(true, [4, 7, 1]), ray_target(RayFlag.Attackable)],
+        using: [collide(true, [4, 7, 3]), ray_target(RayFlag.Attackable), health(3)],
         children: [get_character_blueprint(game)],
     });
 
     // Villain.
     game.add({
         translation: [20, 5, -20],
-        using: [collide(true, [4, 7, 1]), ray_target(RayFlag.Attackable)],
+        using: [collide(true, [4, 7, 3]), ray_target(RayFlag.Attackable), health(3)],
         children: [get_character_blueprint(game)],
     });
 }
