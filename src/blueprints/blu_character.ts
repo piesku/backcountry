@@ -7,7 +7,6 @@ import {Models} from "../models_map.js";
 import {palette} from "../palette.js";
 import {Blueprint} from "./blu_common.js";
 import {create_gun} from "./items/blu_gun.js";
-import {create_pitchfork} from "./items/blu_pitchfork.js";
 import {create_shotgun} from "./items/blu_shotgun.js";
 
 let hat_models = [
@@ -122,7 +121,7 @@ export function get_character_blueprint(game: Game): Blueprint {
         hair: hair_color,
     });
 
-    let items = [create_gun, create_gun, create_shotgun, create_pitchfork];
+    let items = [create_gun, create_gun, create_shotgun];
 
     let right_hand_item = Math.random() > 0.3 ? {} : items[~~(Math.random() * items.length)](game);
     let left_hand_item = Math.random() > 0.5 ? {} : items[~~(Math.random() * items.length)](game);

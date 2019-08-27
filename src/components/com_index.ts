@@ -4,6 +4,7 @@ import {Camera} from "./com_camera";
 import {Collide} from "./com_collide";
 import {ClickControl} from "./com_control_click";
 import {PlayerControl} from "./com_control_player";
+import {EmitParticles} from "./com_emit_particles";
 import {Health} from "./com_health";
 import {Light} from "./com_light";
 import {Mimic} from "./com_mimic";
@@ -36,6 +37,7 @@ export const enum Get {
     PlayerControl,
     Health,
     Mimic,
+    EmitParticles,
 }
 
 export interface ComponentData {
@@ -57,4 +59,5 @@ export interface ComponentData {
     [Get.PlayerControl]: Array<PlayerControl>;
     [Get.Health]: Array<Health>;
     [Get.Mimic]: Array<Mimic>;
+    [Get.EmitParticles]: Array<EmitParticles>;
 }

@@ -1,6 +1,9 @@
 import {Action} from "../actions.js";
+import {AudioSource} from "../components/com_audio_source.js";
+import {EmitParticles} from "../components/com_emit_particles.js";
 import {Get} from "../components/com_index.js";
 import {RayFlag} from "../components/com_ray_target.js";
+import {components_of_type} from "../components/com_transform.js";
 import {Entity, Game} from "../game.js";
 import {get_forward, get_translation} from "../math/mat4.js";
 import {raycast} from "../math/raycast.js";
@@ -19,7 +22,7 @@ function update(game: Game, entity: Entity) {
     let shoot = game[Get.Shoot][entity];
     if (shoot.target) {
         console.log(`Shot fired at ${shoot.target}`);
-        // TODO Play audio clip.
+
         // TODO Emit particles.
         // TODO Add other effects.
 
@@ -31,6 +34,17 @@ function update(game: Game, entity: Entity) {
             let health = game[Get.Health][hit.other.entity];
             health.damages.push(shoot.damage);
             game.dispatch(Action.HitEnemy, hit.other.entity);
+            for (let audio of components_of_type<AudioSource>(game, transform, Get.AudioSource)) {
+                audio.trigger = "shoot";
+            }
+        } else {
+            for (let audio of components_of_type<AudioSource>(game, transform, Get.AudioSource)) {
+                audio.trigger = "miss";
+            }
+        }
+
+        for (let emitter of components_of_type<EmitParticles>(game, transform, Get.EmitParticles)) {
+            emitter.time = 0.2;
         }
     }
 

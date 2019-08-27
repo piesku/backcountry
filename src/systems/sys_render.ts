@@ -1,8 +1,11 @@
+import {EmitParticles} from "../components/com_emit_particles.js";
 import {Get} from "../components/com_index.js";
 import {RenderKind} from "../components/com_render.js";
+import {RenderParticles} from "../components/com_render_particles.js";
 import {RenderInstanced} from "../components/com_render_vox.js";
 import {Transform} from "../components/com_transform.js";
 import {Game} from "../game.js";
+import {ParticleAttribute} from "../materials/mat_particles.js";
 import {get_translation} from "../math/mat4.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Render);
@@ -51,6 +54,13 @@ export function sys_render(game: Game, delta: number) {
                 case RenderKind.Instanced:
                     draw_instanced(game, transform, render);
                     break;
+                case RenderKind.Particles: {
+                    let emitter = game[Get.EmitParticles][i];
+                    if (emitter.instances.length) {
+                        draw_particles(render, emitter);
+                    }
+                    break;
+                }
             }
         }
     }
@@ -64,4 +74,22 @@ function draw_instanced(game: Game, transform: Transform, render: RenderInstance
     gl.bindVertexArray(render.vao);
     gl.drawElementsInstanced(mode, render.index_count, gl.UNSIGNED_SHORT, 0, render.instance_count);
     gl.bindVertexArray(null);
+}
+
+function draw_particles(render: RenderParticles, emitter: EmitParticles) {
+    let {gl, mode, uniforms} = render.material;
+    gl.uniform1f(uniforms.size, emitter.size);
+    gl.uniform1f(uniforms.vertical, emitter.vertical);
+    gl.uniform3fv(uniforms.start_color, render.start_color);
+    gl.uniform3fv(uniforms.end_color, render.end_color);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, render.buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, Float32Array.from(emitter.instances), gl.DYNAMIC_DRAW);
+    gl.enableVertexAttribArray(ParticleAttribute.id);
+    gl.vertexAttribPointer(1, 1, gl.FLOAT, false, 5 * 4, 0);
+    gl.enableVertexAttribArray(ParticleAttribute.origin);
+    gl.vertexAttribPointer(2, 3, gl.FLOAT, false, 5 * 4, 1 * 4);
+    gl.enableVertexAttribArray(ParticleAttribute.age);
+    gl.vertexAttribPointer(3, 1, gl.FLOAT, false, 5 * 4, 4 * 4);
+    gl.drawArrays(mode, 0, emitter.particles.length);
 }

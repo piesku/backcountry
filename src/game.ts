@@ -6,6 +6,7 @@ import {Camera} from "./components/com_camera.js";
 import {Collide} from "./components/com_collide.js";
 import {ClickControl} from "./components/com_control_click.js";
 import {PlayerControl} from "./components/com_control_player.js";
+import {EmitParticles} from "./components/com_emit_particles.js";
 import {Health} from "./components/com_health.js";
 import {ComponentData, Get} from "./components/com_index.js";
 import {Light} from "./components/com_light.js";
@@ -22,6 +23,7 @@ import {Trigger} from "./components/com_trigger.js";
 import {Material} from "./materials/mat_common.js";
 import {Mat} from "./materials/mat_index.js";
 import {mat_instanced} from "./materials/mat_instanced.js";
+import {mat_particles} from "./materials/mat_particles.js";
 import {Model} from "./model.js";
 import {palette} from "./palette.js";
 import {sys_aim} from "./systems/sys_aim.js";
@@ -34,6 +36,7 @@ import {sys_light} from "./systems/sys_light.js";
 import {sys_mimic} from "./systems/sys_mimic.js";
 import {sys_move} from "./systems/sys_move.js";
 import {sys_navigate} from "./systems/sys_navigate.js";
+import {sys_particles} from "./systems/sys_particles.js";
 import {sys_player_control} from "./systems/sys_player_control.js";
 import {sys_render} from "./systems/sys_render.js";
 import {sys_select} from "./systems/sys_select.js";
@@ -81,6 +84,7 @@ export class Game implements ComponentData {
     public [Get.PlayerControl]: Array<PlayerControl> = [];
     public [Get.Health]: Array<Health> = [];
     public [Get.Mimic]: Array<Mimic> = [];
+    public [Get.EmitParticles]: Array<EmitParticles> = [];
 
     public canvas: HTMLCanvasElement;
     public gl: WebGL2RenderingContext;
@@ -145,6 +149,7 @@ export class Game implements ComponentData {
         this.gl.frontFace(this.gl.CW);
 
         this.materials[Mat.Instanced] = mat_instanced(this.gl);
+        this.materials[Mat.Particles] = mat_particles(this.gl);
     }
 
     create_entity(mask: number) {
@@ -165,6 +170,7 @@ export class Game implements ComponentData {
         sys_aim(this, delta);
         sys_navigate(this, delta);
         sys_animate(this, delta);
+        sys_particles(this, delta);
         sys_move(this, delta);
         sys_transform(this, delta);
         sys_trigger(this, delta);
