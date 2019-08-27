@@ -1,5 +1,6 @@
 import {Collide} from "../components/com_collide.js";
 import {Get} from "../components/com_index.js";
+import {RenderKind} from "../components/com_render.js";
 import {render_basic} from "../components/com_render_basic.js";
 import {Shoot} from "../components/com_shoot.js";
 import {Transform} from "../components/com_transform.js";
@@ -40,6 +41,8 @@ export function sys_debug(game: Game, delta: number) {
 
             // Draw invisible entities.
             if (!(game.world[i] & (1 << Get.Render))) {
+                wireframe_entity(game, i);
+            } else if (game[Get.Render][i].kind === RenderKind.Particles) {
                 wireframe_entity(game, i);
             }
 

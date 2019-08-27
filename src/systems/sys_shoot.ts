@@ -1,5 +1,6 @@
 import {Action} from "../actions.js";
 import {AudioSource} from "../components/com_audio_source.js";
+import {EmitParticles} from "../components/com_emit_particles.js";
 import {Get} from "../components/com_index.js";
 import {RayFlag} from "../components/com_ray_target.js";
 import {components_of_type} from "../components/com_transform.js";
@@ -40,6 +41,10 @@ function update(game: Game, entity: Entity) {
             for (let audio of components_of_type<AudioSource>(game, transform, Get.AudioSource)) {
                 audio.trigger = "miss";
             }
+        }
+
+        for (let emitter of components_of_type<EmitParticles>(game, transform, Get.EmitParticles)) {
+            emitter.time = 0.2;
         }
     }
 
