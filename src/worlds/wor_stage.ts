@@ -13,6 +13,7 @@ import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {shoot} from "../components/com_shoot.js";
 import {Game} from "../game.js";
 import {snd_music} from "../sounds/snd_music.js";
+import {snd_shoot} from "../sounds/snd_shoot.js";
 
 export function world_stage(game: Game) {
     game.world = [];
@@ -29,6 +30,7 @@ export function world_stage(game: Game) {
             collide(true, [4, 7, 3]),
             ray_target(RayFlag.None),
             shoot(1),
+            audio_source({shoot: snd_shoot}),
         ],
         children: [get_character_blueprint(game)],
     });
