@@ -7,6 +7,7 @@ import {click_control} from "../components/com_control_click.js";
 import {player_control} from "../components/com_control_player.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
+import {named} from "../components/com_named.js";
 import {ray_cast} from "../components/com_ray_cast.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {shoot} from "../components/com_shoot.js";
@@ -21,6 +22,7 @@ export function world_stage(game: Game) {
     game.add({
         translation: [0, 5, 0],
         using: [
+            named("player"),
             player_control(),
             click_control(),
             move(25, 0),
