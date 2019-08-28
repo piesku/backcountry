@@ -63,9 +63,9 @@ export function get_building_blueprint(game: Game) {
         for (let y = 0; y < banner_height; y++) {
             offsets.push(
                 building_size[0] + 1,
-                ~~(building_size[2] * 1.4) + y - ~~(banner_height / 2),
+                ~~(building_size[2] * 1.5) + y - ~~(banner_height / 2),
                 banner_offset + x,
-                Math.random() > 0.3 ||
+                Math.random() > 0.3 || // 1/3 chance, but only when not on a border
                     x == 2 ||
                     x == bannner_width - 1 ||
                     y == 0 ||
