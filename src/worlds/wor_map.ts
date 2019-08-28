@@ -19,7 +19,7 @@ import {snd_miss} from "../sounds/snd_miss.js";
 import {snd_music} from "../sounds/snd_music.js";
 import {snd_shoot} from "../sounds/snd_shoot.js";
 
-let map_size = 20;
+let map_size = 50;
 
 export function world_map(game: Game) {
     game.world = [];

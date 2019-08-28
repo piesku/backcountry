@@ -118,7 +118,8 @@ function calculate_distance(game: Game, x: number, y: number) {
         let current_cell = neighbors[i];
         if (
             game.distance_field[current_cell.x][current_cell.y] >
-            (game.distance_field[x][y] as number) + 1
+                (game.distance_field[x][y] as number) + 1 &&
+            (game.distance_field[x][y] as number) < 15
         ) {
             game.distance_field[current_cell.x][current_cell.y] =
                 (game.distance_field[x][y] as number) + 1;
