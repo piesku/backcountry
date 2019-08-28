@@ -10,6 +10,7 @@ export interface Camera {
     unproject: Mat4;
     view: Mat4;
     pv: Mat4;
+    cull: boolean;
 }
 
 export function camera_perspective(fovy: number, near: number, far: number) {
@@ -29,6 +30,7 @@ export function camera_perspective(fovy: number, near: number, far: number) {
             unproject: invert([], projection),
             view: create(),
             pv: create(),
+            cull: false,
         };
     };
 }
@@ -52,6 +54,7 @@ export function camera_ortho(radius: number, near: number, far: number) {
             unproject: invert([], projection),
             view: create(),
             pv: create(),
+            cull: true,
         };
     };
 }

@@ -1,28 +1,32 @@
 import {Get} from "../components/com_index.js";
 import {Entity, Game} from "../game.js";
-import {Vec3} from "../math/index.js";
 import {get_translation} from "../math/mat4.js";
-import {distance} from "../math/vec3.js";
+import {transform_point} from "../math/vec3.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Cull);
 
 export function sys_cull(game: Game, delta: number) {
-    let anchor = game[Get.Transform][game.cameras[0].entity].parent;
-    if (anchor) {
-        let origin = get_translation([], anchor.world);
+    if (game.cameras[0].cull) {
         for (let i = 0; i < game.world.length; i++) {
             if ((game.world[i] & QUERY) === QUERY) {
-                update(game, i, origin);
+                update(game, i);
             }
         }
     }
 }
 
-function update(game: Game, entity: Entity, origin: Vec3) {
+function update(game: Game, entity: Entity) {
     let cull = game[Get.Cull][entity];
-    let transform = game[Get.Transform][entity];
-    let world_position = get_translation([], transform.world);
-    if (distance(origin, world_position) > 40) {
+    let world_position = get_translation([], game[Get.Transform][entity].world);
+    let camera_position = transform_point([], world_position, game.cameras[0].view);
+    if (
+        // m11 of the ortho projection matrix is defined as 1/right. Cull
+        // transforms to the left and to the right of the frustum, with a padding.
+        Math.abs(camera_position[0]) > 1 / game.cameras[0].projection[0] + 8 ||
+        // m22 of the ortho projection matrix is defined as 1/top. Cull
+        // transforms above and below the frustum, with a padding.
+        Math.abs(camera_position[1]) > 1 / game.cameras[0].projection[5] + 8
+    ) {
         game.world[entity] &= ~(1 << cull.component);
     } else {
         game.world[entity] |= 1 << cull.component;
