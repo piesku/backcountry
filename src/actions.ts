@@ -1,3 +1,4 @@
+import {Get} from "./components/com_index.js";
 import {Entity, Game} from "./game.js";
 import {world_intro} from "./worlds/wor_intro.js";
 import {world_map} from "./worlds/wor_map.js";
@@ -5,6 +6,7 @@ import {world_map} from "./worlds/wor_map.js";
 export const enum Action {
     ChangeWorld,
     HitEnemy,
+    EnterArea,
 }
 
 export function effect(game: Game, action: Action, args: Array<unknown>) {
@@ -20,6 +22,11 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
         case Action.HitEnemy: {
             let entity = args[0] as Entity;
             console.log(`Hit entity #${entity}`);
+            return;
+        }
+        case Action.EnterArea: {
+            let entity = args[0] as Entity;
+            return setTimeout(game[Get.Portal][entity].to, 0, game);
         }
     }
 }
