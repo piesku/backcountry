@@ -1,6 +1,8 @@
 import {animate, AnimationFlag} from "../components/com_animate.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
+import {cull} from "../components/com_cull.js";
+import {Get} from "../components/com_index.js";
 import {navigable} from "../components/com_navigable.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {render_vox} from "../components/com_render_vox.js";
@@ -31,6 +33,7 @@ export function get_tile_blueprint(
     let tile: Blueprint = {
         using: [
             render_vox(tile_model, palette),
+            cull(Get.Render),
             audio_source({select: snd_click}),
             animate({
                 idle: {
@@ -60,10 +63,11 @@ export function get_tile_blueprint(
                 },
             }),
         ],
+        children: [],
     };
 
     if (Math.random() > 0.85 && is_walkable) {
-        tile.children = [get_block_blueprint(game)];
+        tile.children!.push(get_block_blueprint(game));
     }
 
     let using = is_walkable ? [ray_target(RayFlag.Navigable), navigable(x, y)] : [];
@@ -72,6 +76,7 @@ export function get_tile_blueprint(
         rotation: [0, 1, 0, 0], //from_euler([], 0, ~~(Math.random() * 4) * 90, 0),
         using: [
             collide(false, [8, 1, 8]),
+            cull(Get.Collide),
             // rigid_body(false),
             ...using,
         ],

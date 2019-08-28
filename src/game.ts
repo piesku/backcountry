@@ -6,6 +6,7 @@ import {Camera} from "./components/com_camera.js";
 import {Collide} from "./components/com_collide.js";
 import {ClickControl} from "./components/com_control_click.js";
 import {PlayerControl} from "./components/com_control_player.js";
+import {Cull} from "./components/com_cull.js";
 import {EmitParticles} from "./components/com_emit_particles.js";
 import {Health} from "./components/com_health.js";
 import {ComponentData, Get} from "./components/com_index.js";
@@ -31,6 +32,7 @@ import {sys_animate} from "./systems/sys_animate.js";
 import {sys_audio} from "./systems/sys_audio.js";
 import {sys_camera} from "./systems/sys_camera.js";
 import {sys_collide} from "./systems/sys_collide.js";
+import {sys_cull} from "./systems/sys_cull.js";
 import {sys_health} from "./systems/sys_health.js";
 import {sys_light} from "./systems/sys_light.js";
 import {sys_mimic} from "./systems/sys_mimic.js";
@@ -85,6 +87,7 @@ export class Game implements ComponentData {
     public [Get.Health]: Array<Health> = [];
     public [Get.Mimic]: Array<Mimic> = [];
     public [Get.EmitParticles]: Array<EmitParticles> = [];
+    public [Get.Cull]: Array<Cull> = [];
 
     public canvas: HTMLCanvasElement;
     public gl: WebGL2RenderingContext;
@@ -179,6 +182,7 @@ export class Game implements ComponentData {
         sys_shoot(this, delta);
         sys_health(this, delta);
         sys_mimic(this, delta);
+        sys_cull(this, delta);
 
         for (let name in this.event) {
             this.event[name] = 0;

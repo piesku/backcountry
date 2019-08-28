@@ -17,27 +17,23 @@ export function get_building_blueprint(game: Game) {
 
     // WALLS
     for (let x = 1; x < building_size[0]; x++) {
-        offsets
-            // .concat(create_line([x, 0, 0], [x, building_size[2], 0], x % 2))
-            .push(
-                ...create_line(
-                    [x, 0, building_size[1] - 1],
-                    [x, building_size[2], building_size[1] - 1],
-                    x % 2
-                )
-            );
+        offsets.push(
+            ...create_line(
+                [x, 0, building_size[1] - 1],
+                [x, building_size[2], building_size[1] - 1],
+                x % 2
+            )
+        );
     }
 
     for (let y = 1; y < building_size[1]; y++) {
-        offsets
-            // .concat(create_line([0, 0, y], [0, building_size[2], y], y % 2))
-            .push(
-                ...create_line(
-                    [building_size[0], 0, y],
-                    [building_size[0], building_size[2] * 1.5, y],
-                    y % 2
-                )
-            );
+        offsets.push(
+            ...create_line(
+                [building_size[0], 0, y],
+                [building_size[0], building_size[2] * 1.5, y],
+                y % 2
+            )
+        );
     }
 
     // BASE
@@ -51,30 +47,32 @@ export function get_building_blueprint(game: Game) {
     );
 
     // PORCH
-    for (let i = 0; i < porch_size; i++) {
-        offsets.push(
-            ...create_line(
-                [building_size[0] + 2 + i, 0, 1],
-                [building_size[0] + 2 + i, 0, building_size[1] + 1],
-                1
-            )
-        );
+    for (let i = 0; i < building_size[0] + 2 + porch_size; i++) {
+        offsets.push(...create_line([i - 1, 0, 1], [i - 1, 0, building_size[1] + 1], 1));
     }
 
     // BANNER
     let banner_height = 5 + ~~(Math.random() * 3);
-    for (let x = 2; x < building_size[1] - 2; x++) {
+    let bannner_width = ~~(building_size[1] * 0.75 + Math.random() * building_size[1] * 0.2);
+    let banner_offset = ~~((building_size[1] - bannner_width) / 2);
+    for (let x = 2; x < bannner_width; x++) {
         for (let y = 0; y < banner_height; y++) {
             offsets.push(
                 building_size[0] + 1,
-                ~~(building_size[2] * 1.4) + y - ~~(banner_height / 2),
-                building_size[1] - x,
-                Math.random() > 0.5 ? 2 : 1
+                ~~(building_size[2] * 1.5) + y - ~~(banner_height / 2),
+                banner_offset + x,
+                Math.random() > 0.3 || // 1/3 chance, but only when not on a border
+                    x == 2 ||
+                    x == bannner_width - 1 ||
+                    y == 0 ||
+                    y == banner_height - 1
+                    ? 1
+                    : 2
             );
         }
     }
 
-    // ROOF PORCH
+    // PORCH ROOF
     for (let i = 0; i < porch_size; i++) {
         offsets.push(
             ...create_line(
@@ -120,10 +118,52 @@ export function get_building_blueprint(game: Game) {
         );
     }
 
+    // SIDE FENCES
+    offsets.push(
+        ...create_line(
+            [building_size[0], fence_height, 1],
+            [building_size[0] + porch_size, fence_height, 1],
+            1
+        ),
+        ...create_line(
+            [building_size[0] + porch_size, fence_height, building_size[1]],
+            [building_size[0], fence_height, building_size[1]],
+            1
+        )
+    );
+
+    for (let i = 3; i < porch_size; i += 2) {
+        offsets.push(
+            ...create_line(
+                [building_size[0] + i, 0, 1],
+                [building_size[0] + i, fence_height + 2, 1],
+                1
+            ),
+            ...create_line(
+                [building_size[0] + i, 0, building_size[1]],
+                [building_size[0] + i, fence_height + 2, building_size[1]],
+                1
+            )
+        );
+    }
+
     // ROOF
     for (let y = 1; y < building_size[1]; y++) {
         offsets.push(
             ...create_line([0, building_size[2], y], [building_size[0], building_size[2], y], 1)
+        );
+    }
+
+    // DOOR
+    let door_height = building_size[2] * 0.65;
+    let door_width = building_size[1] * 0.2;
+    for (let i = 0; i < door_width; i++) {
+        offsets.push(
+            ...create_line(
+                [building_size[0] + 1, 0, building_size[1] - i - 3],
+                [building_size[0] + 1, door_height, building_size[1] - i - 3],
+                1
+            )
         );
     }
 

@@ -42,24 +42,10 @@ export function world_map(game: Game) {
         }
     }
 
-    // Light and audio source.
+    // Directional light and Soundtrack
     game.add({
-        translation: [0, 25, 0],
-        using: [audio_source({music: snd_music}, "music")],
-        children: [
-            {
-                translation: [20, 0, -20],
-                using: [light([1, 1, 1], 20)],
-            },
-            {
-                translation: [-15, 0, 15],
-                using: [light([1, 1, 1], 20)],
-            },
-            {
-                translation: [-10, 0, -10],
-                using: [light([1, 1, 1], 20)],
-            },
-        ],
+        translation: [1, 2, -1],
+        using: [light([0.5, 0.5, 0.5], 0), audio_source({music: snd_music}, "music")],
     });
 
     let player_position =
@@ -79,7 +65,13 @@ export function world_map(game: Game) {
             shoot(1),
             audio_source({shoot: snd_shoot, miss: snd_miss}),
         ],
-        children: [get_character_blueprint(game)],
+        children: [
+            get_character_blueprint(game),
+            {
+                translation: [0, 25, 0],
+                using: [light([1, 1, 1], 20)],
+            },
+        ],
     });
 
     // Camera.

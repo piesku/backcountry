@@ -1,3 +1,5 @@
+import {cull} from "../components/com_cull.js";
+import {Get} from "../components/com_index.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
@@ -12,7 +14,7 @@ export function get_block_blueprint(game: Game): Blueprint {
     return {
         translation: [0, model.size[1] / 2 + 1, 0],
         rotation: from_euler([], 0, ~~(Math.random() * 4) * 90, 0),
-        using: [(game: Game) => render_vox(model, palette)(game)],
+        using: [(game: Game) => render_vox(model, palette)(game), cull(Get.Render)],
     };
 }
 

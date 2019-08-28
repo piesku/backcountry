@@ -10,7 +10,6 @@ export interface Move {
     /** Movement directions in self space, normalized. */
     directions: Array<Vec3>;
     yaws: Array<Quat>;
-    pitches: Array<Quat>;
 }
 
 export function move(move_speed: number = 3.5, rotate_speed: number = 0.5) {
@@ -21,7 +20,6 @@ export function move(move_speed: number = 3.5, rotate_speed: number = 0.5) {
             rotate_speed,
             directions: [],
             yaws: [],
-            pitches: [],
         };
     };
 }
