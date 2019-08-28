@@ -122,6 +122,35 @@ export function get_building_blueprint(game: Game) {
         );
     }
 
+    // SIDE FENCES
+    offsets.push(
+        ...create_line(
+            [building_size[0], fence_height, 1],
+            [building_size[0] + porch_size, fence_height, 1],
+            1
+        ),
+        ...create_line(
+            [building_size[0] + porch_size, fence_height, building_size[1]],
+            [building_size[0], fence_height, building_size[1]],
+            1
+        )
+    );
+
+    for (let i = 3; i < porch_size; i += 2) {
+        offsets.push(
+            ...create_line(
+                [building_size[0] + i, 0, 1],
+                [building_size[0] + i, fence_height + 2, 1],
+                1
+            ),
+            ...create_line(
+                [building_size[0] + i, 0, building_size[1]],
+                [building_size[0] + i, fence_height + 2, building_size[1]],
+                1
+            )
+        );
+    }
+
     // ROOF
     for (let y = 1; y < building_size[1]; y++) {
         offsets.push(
