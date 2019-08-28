@@ -1,12 +1,8 @@
 import {get_character_blueprint} from "../blueprints/blu_character.js";
 import {fly_camera_blueprint} from "../blueprints/blu_fly_camera.js";
-import {collide} from "../components/com_collide.js";
 import {light} from "../components/com_light.js";
-import {render_shaded} from "../components/com_render_shaded.js";
 import {Game} from "../game.js";
-import {Mat} from "../materials/mat_index.js";
 import {from_euler} from "../math/quat.js";
-import {Cube} from "../shapes/Cube.js";
 
 export function world_characters(game: Game) {
     game.world = [];
@@ -22,20 +18,6 @@ export function world_characters(game: Game) {
         rotation: from_euler([], 35, -135, 0),
     });
 
-    // Ground.
-    for (let x = -5; x < 5; x++) {
-        for (let y = -5; y < 5; y++) {
-            game.add({
-                translation: [x * 15 + 0.5, -5, y * 15 + 0.5],
-                scale: [15, 1, 15],
-                using: [
-                    render_shaded(game.materials[Mat.Gouraud], Cube, [1, 1, 0.3, 1]),
-                    collide(false),
-                ],
-            });
-        }
-    }
-
     // characters
     for (let x = -5; x < 5; x++) {
         for (let y = -5; y < 5; y++) {
@@ -48,49 +30,9 @@ export function world_characters(game: Game) {
         }
     }
 
-    // Light source.
+    // Directional light.
     game.add({
-        translation: [-25, 15, -25],
-        using: [light([1, 1, 1], 25)],
-    });
-
-    game.add({
-        translation: [-25, 15, 25],
-        using: [light([1, 1, 1], 25)],
-    });
-
-    game.add({
-        translation: [25, 15, -25],
-        using: [light([1, 1, 1], 25)],
-    });
-
-    game.add({
-        translation: [25, 15, 25],
-        using: [light([1, 1, 1], 25)],
-    });
-
-    game.add({
-        translation: [-50, 15, -50],
-        using: [light([1, 1, 1], 25)],
-    });
-
-    game.add({
-        translation: [-50, 15, 50],
-        using: [light([1, 1, 1], 25)],
-    });
-
-    game.add({
-        translation: [50, 15, -50],
-        using: [light([1, 1, 1], 25)],
-    });
-
-    game.add({
-        translation: [50, 15, 50],
-        using: [light([1, 1, 1], 25)],
-    });
-
-    game.add({
-        translation: [0, 15, 75],
-        using: [light([1, 1, 1], 25)],
+        translation: [1, 2, -1],
+        using: [light([0.8, 0.8, 0.8], 0)],
     });
 }

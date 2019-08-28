@@ -65,7 +65,13 @@ export function world_map(game: Game) {
             shoot(1),
             audio_source({shoot: snd_shoot, miss: snd_miss}),
         ],
-        children: [get_character_blueprint(game)],
+        children: [
+            get_character_blueprint(game),
+            {
+                translation: [0, 25, 0],
+                using: [light([1, 1, 1], 20)],
+            },
+        ],
     });
 
     // Camera.

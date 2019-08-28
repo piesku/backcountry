@@ -1,5 +1,4 @@
 import {animate} from "../components/com_animate.js";
-import {light} from "../components/com_light.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
@@ -263,10 +262,6 @@ export function get_character_blueprint(game: Game): Blueprint {
                         ],
                     },
                 ],
-            },
-            {
-                translation: [0, 25, 0],
-                using: [light([1, 1, 1], 20)],
             },
         ],
     };
