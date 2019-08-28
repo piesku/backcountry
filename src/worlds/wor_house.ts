@@ -1,13 +1,11 @@
 import {Action} from "../actions.js";
 import {angle_camera_blueprint} from "../blueprints/blu_angle_camera.js";
-import {get_building_blueprint} from "../blueprints/blu_building.js";
 import {get_character_blueprint} from "../blueprints/blu_character.js";
 import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
 import {click_control} from "../components/com_control_click.js";
 import {player_control} from "../components/com_control_player.js";
-import {health} from "../components/com_health.js";
 import {Get} from "../components/com_index.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
@@ -22,13 +20,12 @@ import {Game} from "../game.js";
 import {Mat} from "../materials/mat_index.js";
 import {Cube} from "../shapes/Cube.js";
 import {snd_miss} from "../sounds/snd_miss.js";
-import {snd_music} from "../sounds/snd_music.js";
 import {snd_shoot} from "../sounds/snd_shoot.js";
-import {world_house} from "./wor_house.js";
+import {world_map} from "./wor_map.js";
 
-let map_size = 20;
+let map_size = 5;
 
-export function world_map(game: Game) {
+export function world_house(game: Game) {
     game.world = [];
     game.distance_field = [];
 
@@ -50,20 +47,20 @@ export function world_map(game: Game) {
     }
 
     game.add({
-        translation: [15, 5, 15],
+        translation: [5, 5, 5],
         scale: [8, 8, 8],
         using: [
             collide(false),
             trigger(Action.EnterArea),
-            portal(world_house),
+            portal(world_map),
             render_basic(game.materials[Mat.Wireframe], Cube, [0, 1, 1, 1]),
         ],
     });
 
-    // Directional light and Soundtrack
+    // Directional light
     game.add({
         translation: [1, 2, -1],
-        using: [light([0.5, 0.5, 0.5], 0), audio_source({music: snd_music}, "music")],
+        using: [light([0.5, 0.5, 0.5], 0)],
     });
 
     let player_position =
@@ -94,22 +91,4 @@ export function world_map(game: Game) {
 
     // Camera.
     game.add(angle_camera_blueprint);
-
-    // Buildings
-    game.add({
-        translation: [-47.5, 0, -40.5],
-        children: [get_building_blueprint(game)],
-    });
-
-    game.add({
-        translation: [-0.5, 0, -40.5],
-        children: [get_building_blueprint(game)],
-    });
-
-    // Villain.
-    game.add({
-        translation: [15, 5, -15],
-        using: [collide(true, [4, 7, 3]), ray_target(RayFlag.Attackable), health(3)],
-        children: [get_character_blueprint(game)],
-    });
 }
