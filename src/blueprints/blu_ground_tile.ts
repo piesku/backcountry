@@ -75,6 +75,7 @@ export function get_tile_blueprint(
         rotation: [0, 1, 0, 0], //from_euler([], 0, ~~(Math.random() * 4) * 90, 0),
         using: [
             collide(false, [8, 1, 8]),
+            cull(Get.Collide),
             // rigid_body(false),
             ...using,
         ],
