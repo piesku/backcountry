@@ -5,7 +5,6 @@ import {AudioSource} from "./components/com_audio_source.js";
 import {Camera} from "./components/com_camera.js";
 import {Collide} from "./components/com_collide.js";
 import {ClickControl} from "./components/com_control_click.js";
-import {FlyControl} from "./components/com_control_fly.js";
 import {PlayerControl} from "./components/com_control_player.js";
 import {Cull} from "./components/com_cull.js";
 import {EmitParticles} from "./components/com_emit_particles.js";
@@ -46,7 +45,6 @@ import {sys_navigate} from "./systems/sys_navigate.js";
 import {sys_particles} from "./systems/sys_particles.js";
 import {sys_performance} from "./systems/sys_performance.js";
 import {sys_player_control} from "./systems/sys_player_control.js";
-import {sys_player_fly} from "./systems/sys_player_fly.js";
 import {sys_render} from "./systems/sys_render.js";
 import {sys_select} from "./systems/sys_select.js";
 import {sys_shoot} from "./systems/sys_shoot.js";
@@ -84,7 +82,6 @@ export class Game implements ComponentData {
     public [Get.Named]: Array<Named> = [];
     public [Get.Move]: Array<Move> = [];
     public [Get.ClickControl]: Array<ClickControl> = [];
-    public [Get.FlyControl]: Array<FlyControl> = [];
     public [Get.Collide]: Array<Collide> = [];
     public [Get.Trigger]: Array<Trigger> = [];
     public [Get.RayTarget]: Array<RayTarget> = [];
@@ -181,7 +178,6 @@ export class Game implements ComponentData {
         // Player input.
         sys_select(this, delta);
         sys_player_control(this, delta);
-        sys_player_fly(this, delta);
         // Game logic.
         sys_aim(this, delta);
         sys_navigate(this, delta);

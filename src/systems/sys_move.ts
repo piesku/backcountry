@@ -54,14 +54,6 @@ function update(game: Game, entity: Entity, delta: number) {
         transform.dirty = true;
         move.yaws.length = 0;
     }
-
-    if (move.pitches.length) {
-        let pitch = move.pitches.reduce(multiply_rotations);
-        // Pitch is applied relative to the self space.
-        multiply(transform.rotation, transform.rotation, pitch);
-        transform.dirty = true;
-        move.pitches.length = 0;
-    }
 }
 
 function add_directions(acc: Vec3, cur: Vec3) {
