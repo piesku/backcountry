@@ -51,30 +51,32 @@ export function get_building_blueprint(game: Game) {
     );
 
     // PORCH
-    for (let i = 0; i < porch_size; i++) {
-        offsets.push(
-            ...create_line(
-                [building_size[0] + 2 + i, 0, 1],
-                [building_size[0] + 2 + i, 0, building_size[1] + 1],
-                1
-            )
-        );
+    for (let i = 0; i < building_size[0] + 2 + porch_size; i++) {
+        offsets.push(...create_line([i - 1, 0, 1], [i - 1, 0, building_size[1] + 1], 1));
     }
 
     // BANNER
     let banner_height = 5 + ~~(Math.random() * 3);
-    for (let x = 2; x < building_size[1] - 2; x++) {
+    let bannner_width = ~~(building_size[1] * 0.75 + Math.random() * building_size[1] * 0.2);
+    let banner_offset = ~~((building_size[1] - bannner_width) / 2);
+    for (let x = 2; x < bannner_width; x++) {
         for (let y = 0; y < banner_height; y++) {
             offsets.push(
                 building_size[0] + 1,
                 ~~(building_size[2] * 1.4) + y - ~~(banner_height / 2),
-                building_size[1] - x,
-                Math.random() > 0.5 ? 2 : 1
+                banner_offset + x,
+                Math.random() > 0.3 ||
+                    x == 2 ||
+                    x == bannner_width - 1 ||
+                    y == 0 ||
+                    y == banner_height - 1
+                    ? 1
+                    : 2
             );
         }
     }
 
-    // ROOF PORCH
+    // PORCH ROOF
     for (let i = 0; i < porch_size; i++) {
         offsets.push(
             ...create_line(
