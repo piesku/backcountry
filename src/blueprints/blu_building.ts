@@ -36,79 +36,89 @@ export function get_building_blueprint(game: Game) {
         offsets.push(...create_line([i - 1, 0, 0], [i - 1, 0, building_size[1] + 2], 1));
     }
 
-    // WINDOWS
-    let window_width = Math.round(building_size[0] / 4);
-    let window_height = ~~(building_size[2] * 0.4) + 1;
+    if (Math.random() > 0.5) {
+        // WINDOWS
+        let window_width = Math.round(building_size[0] / 4);
+        let window_height = ~~(building_size[2] * 0.4) + 1;
 
-    for (
-        let offset = window_width;
-        offset < building_size[1] - window_width - 1;
-        offset += window_width * 3
-    ) {
-        offsets.push(
-            ...create_line(
-                [building_size[0] + 1, building_size[2], building_size[1] - offset],
-                [building_size[0] + 1, building_size[2] + window_height, building_size[1] - offset],
-                1
-            ),
-            ...create_line(
-                [building_size[0] + 1, building_size[2], building_size[1] - offset - window_width],
-                [
-                    building_size[0] + 1,
-                    building_size[2] + window_height,
-                    building_size[1] - offset - window_width,
-                ],
-                1
-            )
-        );
-
-        for (let i = 0; i < window_height; i++) {
+        for (
+            let offset = window_width;
+            offset < building_size[1] - window_width - 1;
+            offset += window_width * 3
+        ) {
             offsets.push(
                 ...create_line(
-                    [building_size[0] + 1, building_size[2] + i, building_size[1] - offset - 1],
+                    [building_size[0] + 1, building_size[2], building_size[1] - offset],
                     [
                         building_size[0] + 1,
-                        building_size[2] + i,
+                        building_size[2] + window_height,
+                        building_size[1] - offset,
+                    ],
+                    1
+                ),
+                ...create_line(
+                    [
+                        building_size[0] + 1,
+                        building_size[2],
+                        building_size[1] - offset - window_width,
+                    ],
+                    [
+                        building_size[0] + 1,
+                        building_size[2] + window_height,
+                        building_size[1] - offset - window_width,
+                    ],
+                    1
+                )
+            );
+
+            for (let i = 0; i < window_height; i++) {
+                offsets.push(
+                    ...create_line(
+                        [building_size[0] + 1, building_size[2] + i, building_size[1] - offset - 1],
+                        [
+                            building_size[0] + 1,
+                            building_size[2] + i,
+                            building_size[1] - offset - window_width - 1,
+                        ],
+                        i === 0 || i === window_height - 1 ? 1 : 3
+                    )
+                );
+            }
+
+            offsets.push(
+                ...create_line(
+                    [building_size[0] + 2, building_size[2], building_size[1] - offset],
+                    [
+                        building_size[0] + 2,
+                        building_size[2],
                         building_size[1] - offset - window_width - 1,
                     ],
-                    i === 0 || i === window_height - 1 ? 1 : 3
+                    1
                 )
             );
         }
-
-        offsets.push(
-            ...create_line(
-                [building_size[0] + 2, building_size[2], building_size[1] - offset],
-                [
-                    building_size[0] + 2,
-                    building_size[2],
-                    building_size[1] - offset - window_width - 1,
-                ],
-                1
-            )
-        );
+    } else {
+        // BANNER
+        let banner_height = 5 + ~~(Math.random() * 3);
+        let bannner_width = ~~(building_size[1] * 0.75 + Math.random() * building_size[1] * 0.2);
+        let banner_offset = ~~((building_size[1] - bannner_width) / 2);
+        for (let x = 2; x < bannner_width; x++) {
+            for (let y = 0; y < banner_height; y++) {
+                offsets.push(
+                    building_size[0] + 1,
+                    ~~(building_size[2] * 1.5) + y - ~~(banner_height / 2),
+                    banner_offset + x,
+                    Math.random() > 0.3 || // 1/3 chance, but only when not on a border
+                        x == 2 ||
+                        x == bannner_width - 1 ||
+                        y == 0 ||
+                        y == banner_height - 1
+                        ? 1
+                        : 2
+                );
+            }
+        }
     }
-
-    // BANNER
-    // let banner_height = 5 + ~~(Math.random() * 3);
-    // let bannner_width = ~~(building_size[1] * 0.75 + Math.random() * building_size[1] * 0.2);
-    // let banner_offset = ~~((building_size[1] - bannner_width) / 2);
-    // for (let x = 2; x < bannner_width; x++) {
-    //     for (let y = 0; y < banner_height; y++) {
-    //         offsets.push(
-    //             building_size[0] + 1,
-    //             ~~(building_size[2] * 1.5) + y - ~~(banner_height / 2),
-    //             banner_offset + x,
-    //             Math.random() > 0.3 || // 1/3 chance, but only when not on a border
-    //                 x == 2 ||
-    //                 x == bannner_width - 1 ||
-    //                 y == 0 ||
-    //                 y == banner_height - 1
-    //                 ? 1
-    //                 : 2
-    //         );
-    //     }
-    // }
 
     // PORCH ROOF
     for (let i = 0; i < porch_size; i++) {
