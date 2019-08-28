@@ -1,6 +1,8 @@
 import {animate, AnimationFlag} from "../components/com_animate.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
+import {cull} from "../components/com_cull.js";
+import {Get} from "../components/com_index.js";
 import {navigable} from "../components/com_navigable.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {render_vox} from "../components/com_render_vox.js";
@@ -31,6 +33,7 @@ export function get_tile_blueprint(
     let tile: Blueprint = {
         using: [
             render_vox(tile_model, palette),
+            cull(Get.Render),
             audio_source({select: snd_click}),
             animate({
                 idle: {
