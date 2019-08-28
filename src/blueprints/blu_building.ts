@@ -13,9 +13,8 @@ export function get_building_blueprint(game: Game) {
 
     let building_size = [
         20, // + ~~(Math.random() * 12),
-        30 + ~~(Math.random() * 12),
-        15 + ~~(Math.random() * 5), // height
-        // 15, // height
+        30, // + ~~(Math.random() * 5),
+        15 + ~~(Math.random() * 10), // height
     ];
     let porch_size = 7 + ~~(Math.random() * 3);
 
@@ -232,7 +231,11 @@ export function get_building_blueprint(game: Game) {
             render_vox(
                 {
                     offsets: Float32Array.from(offsets),
-                    size: [1, 1, 1],
+                    size: [
+                        building_size[0] + 3 + porch_size + 1,
+                        building_size[2],
+                        building_size[1] + 2,
+                    ],
                 },
                 palette
             ),
