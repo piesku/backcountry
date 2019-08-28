@@ -1,6 +1,7 @@
 import {AudioClip} from "../components/com_audio_source";
 
 export let snd_music = <AudioClip>{
+    bpm: 110,
     tracks: [
         {
             instrument: [
@@ -78,7 +79,7 @@ export let snd_music = <AudioClip>{
                 74,
                 69,
                 74,
-                69,
+                ,
                 ,
                 ,
                 ,
