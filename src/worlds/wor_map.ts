@@ -19,7 +19,7 @@ import {snd_miss} from "../sounds/snd_miss.js";
 import {snd_music} from "../sounds/snd_music.js";
 import {snd_shoot} from "../sounds/snd_shoot.js";
 
-let map_size = 50;
+let map_size = 45;
 
 export function world_map(game: Game) {
     game.world = [];
@@ -84,7 +84,7 @@ export function world_map(game: Game) {
     });
 
     game.add({
-        translation: [-47.5, 0, 0.5],
+        translation: [-0.5, 0, -40.5],
         children: [get_building_blueprint(game)],
     });
 
