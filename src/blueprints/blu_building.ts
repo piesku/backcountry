@@ -17,27 +17,23 @@ export function get_building_blueprint(game: Game) {
 
     // WALLS
     for (let x = 1; x < building_size[0]; x++) {
-        offsets
-            // .concat(create_line([x, 0, 0], [x, building_size[2], 0], x % 2))
-            .push(
-                ...create_line(
-                    [x, 0, building_size[1] - 1],
-                    [x, building_size[2], building_size[1] - 1],
-                    x % 2
-                )
-            );
+        offsets.push(
+            ...create_line(
+                [x, 0, building_size[1] - 1],
+                [x, building_size[2], building_size[1] - 1],
+                x % 2
+            )
+        );
     }
 
     for (let y = 1; y < building_size[1]; y++) {
-        offsets
-            // .concat(create_line([0, 0, y], [0, building_size[2], y], y % 2))
-            .push(
-                ...create_line(
-                    [building_size[0], 0, y],
-                    [building_size[0], building_size[2] * 1.5, y],
-                    y % 2
-                )
-            );
+        offsets.push(
+            ...create_line(
+                [building_size[0], 0, y],
+                [building_size[0], building_size[2] * 1.5, y],
+                y % 2
+            )
+        );
     }
 
     // BASE
@@ -155,6 +151,19 @@ export function get_building_blueprint(game: Game) {
     for (let y = 1; y < building_size[1]; y++) {
         offsets.push(
             ...create_line([0, building_size[2], y], [building_size[0], building_size[2], y], 1)
+        );
+    }
+
+    // DOOR
+    let door_height = building_size[2] * 0.65;
+    let door_width = building_size[1] * 0.2;
+    for (let i = 0; i < door_width; i++) {
+        offsets.push(
+            ...create_line(
+                [building_size[0] + 1, 0, building_size[1] - i - 3],
+                [building_size[0] + 1, door_height, building_size[1] - i - 3],
+                1
+            )
         );
     }
 
