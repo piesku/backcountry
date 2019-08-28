@@ -26,7 +26,7 @@ import {snd_music} from "../sounds/snd_music.js";
 import {snd_shoot} from "../sounds/snd_shoot.js";
 import {world_house} from "./wor_house.js";
 
-let map_size = 20;
+let map_size = 30;
 
 export function world_map(game: Game) {
     game.world = [];
