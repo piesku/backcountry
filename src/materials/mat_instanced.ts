@@ -26,18 +26,26 @@ let vertex = `#version 300 es
         vec3 world_normal = normalize((vec4(normal, 0.0) * self).xyz);
         gl_Position = pv * world_pos;
 
-        vec3 rgb = vec3(0.0, 0.0, 0.0);
+        vec3 rgb = palette[int(offset[3])].rgb * 0.1;
         for (int i = 0; i < light_count; i++) {
-            vec3 light_dir = light_positions[i] - world_pos.xyz ;
-            vec3 light_normal = normalize(light_dir);
-            float light_dist = length(light_dir);
+            if (light_details[i].a == 0.0) {
+                // A directional light.
+                vec3 light_normal = normalize(light_positions[i]);
+                float diffuse_factor = max(dot(world_normal, light_normal), 0.0);
+                rgb += palette[int(offset[3])].rgb * light_details[i].rgb * diffuse_factor;
+            } else {
+                // A point light.
+                vec3 light_dir = light_positions[i] - world_pos.xyz ;
+                vec3 light_normal = normalize(light_dir);
+                float light_dist = length(light_dir);
 
-            float diffuse_factor = max(dot(world_normal, light_normal), 0.0);
-            float distance_factor = light_dist * light_dist;
-            float intensity_factor = light_details[i].a;
+                float diffuse_factor = max(dot(world_normal, light_normal), 0.0);
+                float distance_factor = light_dist * light_dist;
+                float intensity_factor = light_details[i].a;
 
-            rgb += palette[int(offset[3])].rgb * light_details[i].rgb * diffuse_factor
-                    * intensity_factor / distance_factor;
+                rgb += palette[int(offset[3])].rgb * light_details[i].rgb * diffuse_factor
+                        * intensity_factor / distance_factor;
+            }
         }
 
         vert_color = vec4(rgb, 1.0);
