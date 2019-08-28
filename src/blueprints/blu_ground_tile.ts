@@ -3,6 +3,7 @@ import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
 import {cull} from "../components/com_cull.js";
 import {Get} from "../components/com_index.js";
+import {light} from "../components/com_light.js";
 import {navigable} from "../components/com_navigable.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {render_vox} from "../components/com_render_vox.js";
@@ -63,10 +64,18 @@ export function get_tile_blueprint(
                 },
             }),
         ],
+        children: [],
     };
 
     if (Math.random() > 0.85 && is_walkable) {
-        tile.children = [get_block_blueprint(game)];
+        tile.children!.push(get_block_blueprint(game));
+    }
+
+    if (Math.random() > 0.95) {
+        tile.children!.push({
+            translation: [0, 25, 0],
+            using: [light([1, 1, 1], 15), cull(Get.Light)],
+        });
     }
 
     let using = is_walkable ? [ray_target(RayFlag.Navigable), navigable(x, y)] : [];

@@ -8,7 +8,6 @@ import {click_control} from "../components/com_control_click.js";
 import {player_control} from "../components/com_control_player.js";
 import {health} from "../components/com_health.js";
 import {Get} from "../components/com_index.js";
-import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
 import {named} from "../components/com_named.js";
 import {find_navigable} from "../components/com_navigable.js";
@@ -42,24 +41,9 @@ export function world_map(game: Game) {
         }
     }
 
-    // Light and audio source.
+    // Soundtrack
     game.add({
-        translation: [0, 25, 0],
         using: [audio_source({music: snd_music}, "music")],
-        children: [
-            {
-                translation: [20, 0, -20],
-                using: [light([1, 1, 1], 20)],
-            },
-            {
-                translation: [-15, 0, 15],
-                using: [light([1, 1, 1], 20)],
-            },
-            {
-                translation: [-10, 0, -10],
-                using: [light([1, 1, 1], 20)],
-            },
-        ],
     });
 
     let player_position =

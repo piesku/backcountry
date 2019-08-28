@@ -22,7 +22,7 @@ function update(game: Game, entity: Entity, origin: Vec3) {
     let cull = game[Get.Cull][entity];
     let transform = game[Get.Transform][entity];
     let world_position = get_translation([], transform.world);
-    if (distance(origin, world_position) > 20) {
+    if (distance(origin, world_position) > 40) {
         game.world[entity] &= ~(1 << cull.component);
     } else {
         game.world[entity] |= 1 << cull.component;
