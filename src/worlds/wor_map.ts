@@ -38,7 +38,7 @@ export function world_map(game: Game) {
     for (let x = 0; x < map_size; x++) {
         game.distance_field[x] = [];
         for (let y = 0; y < map_size; y++) {
-            let is_walkable = Math.random() > 0.04;
+            let is_walkable = true; //Math.random() > 0.04;
             game.distance_field[x][y] = is_walkable ? Infinity : "a";
             let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y);
 
@@ -67,15 +67,13 @@ export function world_map(game: Game) {
     });
 
     let player_position =
-        game[Get.Transform][
-            find_navigable(game, Math.floor(map_size / 2), Math.floor(map_size / 2))
-        ].translation;
+        game[Get.Transform][find_navigable(game, ~~(map_size / 2), ~~(map_size / 2))].translation;
     // Player.
     game.add({
         translation: [player_position[0], 5, player_position[2]],
         using: [
             named("player"),
-            player_control(Math.floor(map_size / 2), Math.floor(map_size / 2)),
+            player_control(~~(map_size / 2), ~~(map_size / 2)),
             click_control(),
             move(25, 0),
             collide(true, [4, 7, 1]),
@@ -96,15 +94,16 @@ export function world_map(game: Game) {
     game.add(angle_camera_blueprint);
 
     // Buildings
-    game.add({
-        translation: [-47.5, 0, -40.5],
-        children: [get_building_blueprint(game)],
-    });
+    let buildings_count = ~~((map_size * 8) / 35);
+    let starting_position = 80;
 
-    game.add({
-        translation: [-0.5, 0, -40.5],
-        children: [get_building_blueprint(game)],
-    });
+    for (let i = 0; i < buildings_count; i++) {
+        let building_blu = get_building_blueprint(game);
+        game.add({
+            translation: [-47.5, 0, starting_position - 35 * i],
+            children: [building_blu],
+        });
+    }
 
     // Villain.
     game.add({
@@ -112,4 +111,14 @@ export function world_map(game: Game) {
         using: [collide(true, [4, 7, 3]), ray_target(RayFlag.Attackable), health(3)],
         children: [get_character_blueprint(game)],
     });
+}
+
+function world_position_too_tile(game: Game, x: number, z: number) {
+    x = ~~(x / 8 + map_size / 2);
+    z = ~~(z / 8 + map_size / 2);
+    console.log(x, z);
+    let navigable = find_navigable(game, x, z);
+    let translation = game[Get.Transform][navigable].translation;
+    game[Get.Transform][navigable].translation = [translation[0], -3, translation[2]];
+    game[Get.Transform][navigable].dirty = true;
 }

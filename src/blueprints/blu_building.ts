@@ -1,6 +1,5 @@
 import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
-import {from_euler} from "../math/quat.js";
 import {Blueprint} from "./blu_common.js";
 import {create_line} from "./blu_tools.js";
 
@@ -22,7 +21,13 @@ export function get_building_blueprint(game: Game) {
 
     // WALLS
     for (let x = 1; x < building_size[0]; x++) {
-        offsets.push(...create_line([x, 0, 1], [x, building_size[2], 1], x % 2));
+        offsets.push(
+            ...create_line(
+                [x, 0, building_size[1] - 1],
+                [x, building_size[2], building_size[1] - 1],
+                x % 2
+            )
+        );
     }
 
     for (let y = 1; y < building_size[1]; y++) {
@@ -226,7 +231,7 @@ export function get_building_blueprint(game: Game) {
 
     return {
         translation: [0, 1.5, 0],
-        rotation: from_euler([], 0, 270, 0),
+        // rotation: from_euler([], 0, 270, 0),
         using: [
             render_vox(
                 {
