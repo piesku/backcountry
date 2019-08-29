@@ -59,7 +59,7 @@ function update(game: Game, entity: Entity, cursor: Select) {
             }
             game.distance_field[player_x][player_y] = 0;
 
-            calculate_distance(game, player_x, player_y);
+            calculate_distance(game, player_x, player_y, player_control.diagonal);
 
             if (!(game.distance_field[route_navigable.x][route_navigable.y] < Infinity)) {
                 return;
@@ -68,7 +68,12 @@ function update(game: Game, entity: Entity, cursor: Select) {
             while (!(route_navigable.x === player_x && route_navigable.y === player_y)) {
                 route.push([route_navigable.x, route_navigable.y]);
 
-                let neighbors = get_neighbors(game, route_navigable.x, route_navigable.y);
+                let neighbors = get_neighbors(
+                    game,
+                    route_navigable.x,
+                    route_navigable.y,
+                    player_control.diagonal
+                );
 
                 for (let i = 0; i < neighbors.length; i++) {
                     let neighbor_coords = neighbors[i];
@@ -96,24 +101,31 @@ function update(game: Game, entity: Entity, cursor: Select) {
     }
 }
 
-function get_neighbors(game: Game, x: number, y: number) {
-    return [
+function get_neighbors(game: Game, x: number, y: number, diagonal: boolean) {
+    let directions = [
         {x: x - 1, y}, // W
         {x: x + 1, y}, // E
         {x, y: y - 1}, // N
-        {x, y: y + 1}, // S
-        {x: x - 1, y: y - 1}, // NW
-        {x: x + 1, y: y - 1}, // NE
-        {x: x - 1, y: y + 1}, // SW
-        {x: x + 1, y: y + 1}, // SE
-    ].filter(
+        {x, y: y + 1},
+    ];
+
+    if (diagonal) {
+        directions.push(
+            {x: x - 1, y: y - 1}, // NW
+            {x: x + 1, y: y - 1}, // NE
+            {x: x - 1, y: y + 1}, // SW
+            {x: x + 1, y: y + 1}
+        );
+    }
+
+    return directions.filter(
         ({x, y}) =>
             x >= 0 && x < game.distance_field.length && y >= 0 && y < game.distance_field[0].length
     );
 }
 
-function calculate_distance(game: Game, x: number, y: number) {
-    let neighbors = get_neighbors(game, x, y);
+function calculate_distance(game: Game, x: number, y: number, diagonal: boolean) {
+    let neighbors = get_neighbors(game, x, y, diagonal);
     for (let i = 0; i < neighbors.length; i++) {
         let current_cell = neighbors[i];
         if (
@@ -123,7 +135,7 @@ function calculate_distance(game: Game, x: number, y: number) {
         ) {
             game.distance_field[current_cell.x][current_cell.y] =
                 (game.distance_field[x][y] as number) + 1;
-            calculate_distance(game, current_cell.x, current_cell.y);
+            calculate_distance(game, current_cell.x, current_cell.y, diagonal);
         }
     }
 }
