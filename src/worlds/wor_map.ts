@@ -41,7 +41,7 @@ export function world_map(game: Game) {
 
             game.add({
                 ...tile_blueprint,
-                translation: [(-(map_size / 2) + x) * 8, Math.random(), (-(map_size / 2) + y) * 8],
+                translation: [(-(map_size / 2) + x) * 8, 0, (-(map_size / 2) + y) * 8],
             });
         }
     }
@@ -99,6 +99,11 @@ export function world_map(game: Game) {
                 game.distance_field[x][z] = "a";
             }
         }
+
+        // Door
+        game.distance_field[building_x_tile + building_x - 1][
+            starting_position + building_z - 1
+        ] = Infinity;
 
         game.add({
             translation: [

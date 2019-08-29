@@ -221,12 +221,12 @@ export function get_building_blueprint(game: Game) {
                 [building_size[0], fence_height, 1],
                 [building_size[0] + porch_size, fence_height, 1],
                 BuildingColors.wood
-            ),
-            ...create_line(
-                [building_size[0] + porch_size, fence_height, building_size[1]],
-                [building_size[0], fence_height, building_size[1]],
-                BuildingColors.wood
             )
+            // ...create_line(
+            //     [building_size[0] + porch_size, fence_height, building_size[1]],
+            //     [building_size[0], fence_height, building_size[1]],
+            //     BuildingColors.wood
+            // )
         );
 
         for (let i = 3; i < porch_size; i += 2) {
@@ -235,12 +235,12 @@ export function get_building_blueprint(game: Game) {
                     [building_size[0] + i, 0, 1],
                     [building_size[0] + i, fence_height + 2, 1],
                     BuildingColors.wood
-                ),
-                ...create_line(
-                    [building_size[0] + i, 0, building_size[1]],
-                    [building_size[0] + i, fence_height + 2, building_size[1]],
-                    BuildingColors.wood
                 )
+                // ...create_line(
+                //     [building_size[0] + i, 0, building_size[1]],
+                //     [building_size[0] + i, fence_height + 2, building_size[1]],
+                //     BuildingColors.wood
+                // )
             );
         }
     }
