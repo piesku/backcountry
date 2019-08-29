@@ -9,7 +9,6 @@ import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
 import {create_line} from "../blueprints/blu_tools.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
-import {click_control} from "../components/com_control_click.js";
 import {player_control} from "../components/com_control_player.js";
 import {health} from "../components/com_health.js";
 import {Get} from "../components/com_index.js";
@@ -17,6 +16,7 @@ import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
 import {named} from "../components/com_named.js";
 import {find_navigable} from "../components/com_navigable.js";
+import {path_find} from "../components/com_path_find.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {shoot} from "../components/com_shoot.js";
@@ -36,19 +36,19 @@ export function world_map(game: Game) {
     let fence_gate_size = 16;
 
     game.world = [];
-    game.distance_field = [];
+    game.grid = [];
 
     game.gl.clearColor(1, 0.3, 0.3, 1);
 
     // Ground.
     for (let x = 0; x < map_size; x++) {
-        game.distance_field[x] = [];
+        game.grid[x] = [];
         for (let y = 0; y < map_size; y++) {
             let is_fence = x === fence_line;
             // cactuses & stones here
             let is_walkable = is_fence ? true : true;
 
-            game.distance_field[x][y] = is_walkable && !is_fence ? Infinity : "a";
+            game.grid[x][y] = is_walkable && !is_fence ? Infinity : NaN;
             let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y);
 
             game.add({
@@ -139,7 +139,7 @@ export function world_map(game: Game) {
         using: [
             named("player"),
             player_control(~~(map_size / 2), ~~(map_size / 2)),
-            click_control(),
+            path_find(),
             move(25, 0),
             collide(true, [4, 7, 1]),
             ray_target(RayFlag.None),
@@ -170,16 +170,14 @@ export function world_map(game: Game) {
         let building_z = building_blu.size[2] / 8;
         for (let z = starting_position; z < starting_position + building_z; z++) {
             for (let x = building_x_tile; x < building_x_tile + building_x; x++) {
-                game.distance_field[x][z] = "a";
+                game.grid[x][z] = NaN;
             }
         }
 
         // Door
-        game.distance_field[building_x_tile + building_x - 1][
-            starting_position + building_z - 1
-        ] = game.distance_field[building_x_tile + building_x - 1][
-            starting_position + building_z - 2
-        ] = Infinity;
+        game.grid[building_x_tile + building_x - 1][starting_position + building_z - 1] = game.grid[
+            building_x_tile + building_x - 1
+        ][starting_position + building_z - 2] = Infinity;
 
         game.add({
             translation: [

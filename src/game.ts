@@ -4,7 +4,6 @@ import {Animate} from "./components/com_animate.js";
 import {AudioSource} from "./components/com_audio_source.js";
 import {Camera} from "./components/com_camera.js";
 import {Collide} from "./components/com_collide.js";
-import {ClickControl} from "./components/com_control_click.js";
 import {PlayerControl} from "./components/com_control_player.js";
 import {Cull} from "./components/com_cull.js";
 import {EmitParticles} from "./components/com_emit_particles.js";
@@ -15,6 +14,7 @@ import {Mimic} from "./components/com_mimic.js";
 import {Move} from "./components/com_move.js";
 import {Named} from "./components/com_named.js";
 import {Navigable} from "./components/com_navigable.js";
+import {PathFind} from "./components/com_path_find.js";
 import {RayTarget} from "./components/com_ray_target.js";
 import {Render} from "./components/com_render.js";
 import {Select} from "./components/com_select.js";
@@ -72,7 +72,7 @@ export interface EventState {
 
 export class Game implements ComponentData {
     public world: Array<number>;
-    public distance_field: Array<Array<number | string>> = [];
+    public grid: Array<Array<number>> = [];
     public [Get.Transform]: Array<Transform> = [];
     public [Get.Render]: Array<Render> = [];
     public [Get.Camera]: Array<Camera> = [];
@@ -81,7 +81,7 @@ export class Game implements ComponentData {
     public [Get.Animate]: Array<Animate> = [];
     public [Get.Named]: Array<Named> = [];
     public [Get.Move]: Array<Move> = [];
-    public [Get.ClickControl]: Array<ClickControl> = [];
+    public [Get.PathFind]: Array<PathFind> = [];
     public [Get.Collide]: Array<Collide> = [];
     public [Get.Trigger]: Array<Trigger> = [];
     public [Get.RayTarget]: Array<RayTarget> = [];

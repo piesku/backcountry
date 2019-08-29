@@ -4,7 +4,6 @@ import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
 import {get_mine_wall_blueprint} from "../blueprints/blu_mine_wall.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
-import {click_control} from "../components/com_control_click.js";
 import {player_control} from "../components/com_control_player.js";
 import {health} from "../components/com_health.js";
 import {Get} from "../components/com_index.js";
@@ -12,6 +11,7 @@ import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
 import {named} from "../components/com_named.js";
 import {find_navigable} from "../components/com_navigable.js";
+import {path_find} from "../components/com_path_find.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {shoot} from "../components/com_shoot.js";
 import {Game} from "../game.js";
@@ -23,17 +23,17 @@ export function world_mine(game: Game) {
     let map_size = 15;
 
     game.world = [];
-    game.distance_field = [];
+    game.grid = [];
 
     game.gl.clearColor(1, 0.3, 0.3, 1);
 
     for (let x = 0; x < map_size; x++) {
-        game.distance_field[x] = [];
+        game.grid[x] = [];
         for (let y = 0; y < map_size; y++) {
             if (x == 0 || x == map_size - 1 || y == 0 || y == map_size - 1) {
-                game.distance_field[x][y] = "a";
+                game.grid[x][y] = NaN;
             } else {
-                game.distance_field[x][y] = Infinity;
+                game.grid[x][y] = Infinity;
             }
         }
     }
@@ -44,7 +44,7 @@ export function world_mine(game: Game) {
     // Ground.
     for (let x = 0; x < map_size; x++) {
         for (let y = 0; y < map_size; y++) {
-            let is_walkable = game.distance_field[x][y] == Infinity;
+            let is_walkable = game.grid[x][y] == Infinity;
             // let is_walkable = true; //Math.random() > 0.04;
             let tile_blueprint = is_walkable
                 ? get_tile_blueprint(game, is_walkable, x, y, palette)
@@ -74,7 +74,7 @@ export function world_mine(game: Game) {
         using: [
             named("player"),
             player_control(1, 1, false),
-            click_control(),
+            path_find(),
             move(25, 0),
             collide(true, [4, 7, 1]),
             ray_target(RayFlag.None),
@@ -113,11 +113,11 @@ function generate_maze(game: Game, [x1, x2]: number[], [y1, y2]: number[], size:
             let randomPassage = ~~(Math.random() * (max - min + 1)) + min;
             let first = false;
             let second = false;
-            if (game.distance_field[y2][bisection] == Infinity) {
+            if (game.grid[y2][bisection] == Infinity) {
                 randomPassage = max;
                 first = true;
             }
-            if (game.distance_field[y1][bisection] == Infinity) {
+            if (game.grid[y1][bisection] == Infinity) {
                 randomPassage = min;
                 second = true;
             }
@@ -129,7 +129,7 @@ function generate_maze(game: Game, [x1, x2]: number[], [y1, y2]: number[], size:
                 } else if (i == randomPassage) {
                     continue;
                 }
-                game.distance_field[i][bisection] = "a";
+                game.grid[i][bisection] = NaN;
             }
             generate_maze(game, [x1, bisection], [y1, y2], size);
             generate_maze(game, [bisection, x2], [y1, y2], size);
@@ -143,11 +143,11 @@ function generate_maze(game: Game, [x1, x2]: number[], [y1, y2]: number[], size:
             let randomPassage = ~~(Math.random() * (max - min + 1)) + min;
             let first = false;
             let second = false;
-            if (game.distance_field[bisection][x2] == Infinity) {
+            if (game.grid[bisection][x2] == Infinity) {
                 randomPassage = max;
                 first = true;
             }
-            if (game.distance_field[bisection][x1] == Infinity) {
+            if (game.grid[bisection][x1] == Infinity) {
                 randomPassage = min;
                 second = true;
             }
@@ -159,7 +159,7 @@ function generate_maze(game: Game, [x1, x2]: number[], [y1, y2]: number[], size:
                 } else if (i == randomPassage) {
                     continue;
                 }
-                game.distance_field[bisection][i] = "a";
+                game.grid[bisection][i] = NaN;
             }
             generate_maze(game, [x1, x2], [y1, bisection], size);
             generate_maze(game, [x1, x2], [bisection, y2], size);
