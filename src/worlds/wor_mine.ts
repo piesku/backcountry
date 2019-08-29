@@ -19,15 +19,13 @@ import {snd_miss} from "../sounds/snd_miss.js";
 import {snd_music} from "../sounds/snd_music.js";
 import {snd_shoot} from "../sounds/snd_shoot.js";
 
-let map_size = 15;
-
 export function world_mine(game: Game) {
+    let map_size = 15;
+
     game.world = [];
     game.distance_field = [];
 
     game.gl.clearColor(1, 0.3, 0.3, 1);
-
-    // let maze = new Array(map_size);
 
     for (let x = 0; x < map_size; x++) {
         game.distance_field[x] = [];

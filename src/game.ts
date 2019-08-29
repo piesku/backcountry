@@ -15,7 +15,6 @@ import {Mimic} from "./components/com_mimic.js";
 import {Move} from "./components/com_move.js";
 import {Named} from "./components/com_named.js";
 import {Navigable} from "./components/com_navigable.js";
-import {Portal} from "./components/com_portal.js";
 import {RayTarget} from "./components/com_ray_target.js";
 import {Render} from "./components/com_render.js";
 import {Select} from "./components/com_select.js";
@@ -89,7 +88,6 @@ export class Game implements ComponentData {
     public [Get.Mimic]: Array<Mimic> = [];
     public [Get.EmitParticles]: Array<EmitParticles> = [];
     public [Get.Cull]: Array<Cull> = [];
-    public [Get.Portal]: Array<Portal> = [];
 
     public canvas: HTMLCanvasElement;
     public gl: WebGL2RenderingContext;
