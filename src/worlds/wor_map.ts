@@ -1,12 +1,8 @@
 import {angle_camera_blueprint} from "../blueprints/blu_angle_camera.js";
-import {
-    BuildingColors,
-    get_building_blueprint,
-    main_building_palette,
-} from "../blueprints/blu_building.js";
+import {get_building_blueprint} from "../blueprints/blu_building.js";
 import {get_character_blueprint} from "../blueprints/blu_character.js";
 import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
-import {create_line} from "../blueprints/blu_tools.js";
+import {get_town_gate_blueprint} from "../blueprints/blu_town_gate.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
 import {player_control} from "../components/com_control_player.js";
@@ -18,7 +14,6 @@ import {named} from "../components/com_named.js";
 import {find_navigable} from "../components/com_navigable.js";
 import {path_find} from "../components/com_path_find.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
-import {render_vox} from "../components/com_render_vox.js";
 import {shoot} from "../components/com_shoot.js";
 import {trigger_world} from "../components/com_trigger.js";
 import {Game} from "../game.js";
@@ -28,8 +23,7 @@ import {snd_shoot} from "../sounds/snd_shoot.js";
 
 export function world_map(game: Game) {
     let map_size = 40;
-
-    let has_active_bounty = true;
+    let has_active_bounty = false;
 
     let fence_line = 30;
     let fence_height = 4;
@@ -58,73 +52,17 @@ export function world_map(game: Game) {
         }
     }
 
-    //fence
-    let fence_width = (map_size * 8 - fence_gate_size) / 2;
-    // TODO: Move to blueprint
-    let fence_offsets = [
-        ...create_line(
-            [4, fence_height, -map_size * 4],
-            [4, fence_height, -map_size * 4 + fence_width],
-            BuildingColors.wood
-        ),
-        ...create_line(
-            [4, fence_height, -map_size * 4 + fence_width + fence_gate_size],
-            [4, fence_height, map_size * 4],
-            BuildingColors.wood
-        ),
-    ];
-
-    // gate
-    fence_offsets.push(
-        ...create_line(
-            [4, 0, -map_size * 4 + fence_width],
-            [4, 20, -map_size * 4 + fence_width],
-            BuildingColors.wood
-        ),
-        ...create_line(
-            [4, 0, -map_size * 4 + fence_width + fence_gate_size],
-            [4, 20, -map_size * 4 + fence_width + fence_gate_size],
-            BuildingColors.wood
-        ),
-        ...create_line(
-            [4, 20, -map_size * 4 + fence_width],
-            [4, 20, -map_size * 4 + fence_width + fence_gate_size + 1],
-            BuildingColors.wood
+    game.add(
+        get_town_gate_blueprint(
+            game,
+            map_size,
+            fence_height,
+            fence_gate_size,
+            fence_line,
+            has_active_bounty
         )
     );
 
-    if (!has_active_bounty) {
-        fence_offsets.push(
-            ...create_line(
-                [4, fence_height, -map_size * 4 + fence_width],
-                [4, fence_height, -map_size * 4 + fence_width + fence_gate_size],
-                BuildingColors.wood
-            )
-        );
-    } else {
-        for (let i = 0; i < fence_gate_size / 8; i++) {
-            console.log(fence_line, fence_width / 8);
-            game.distance_field[fence_line][fence_width / 8 + i] = Infinity;
-        }
-    }
-
-    for (let i = -(map_size / 2) * 8; i < (map_size / 2) * 8; i += 6) {
-        if (i < -map_size * 4 + fence_width || i > -map_size * 4 + fence_width + fence_gate_size) {
-            fence_offsets.push(
-                ...create_line([4, 0, i], [4, fence_height + 2, i], BuildingColors.wood)
-            );
-        }
-    }
-
-    game.add({
-        translation: [(-(map_size / 2) + fence_line) * 8 - 4, 0, -3],
-        using: [
-            render_vox(
-                {offsets: Float32Array.from(fence_offsets), size: [1, 1, 1]},
-                main_building_palette
-            ),
-        ],
-    });
     // Directional light and Soundtrack
     game.add({
         translation: [1, 2, -1],
