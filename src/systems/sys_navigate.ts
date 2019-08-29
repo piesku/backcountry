@@ -27,10 +27,16 @@ function update(game: Game, entity: Entity) {
             control.destination_y = dest[1];
             control.destination = game[Get.Transform][destination_entity].translation;
         }
-    } else {
+    }
+
+    if (control.destination) {
         let transform = game[Get.Transform][entity];
         let world_position = get_translation([], transform.world);
-        let world_destination = [control.destination[0], world_position[1], control.destination[2]];
+        let world_destination = [
+            control.destination![0],
+            world_position[1],
+            control.destination![2],
+        ];
         let movement = transform_point([], world_destination, transform.self);
         normalize(movement, movement);
         let move = game[Get.Move][entity];
