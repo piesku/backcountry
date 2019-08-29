@@ -43,9 +43,6 @@ function update(game: Game, entity: Entity, cursor: Select) {
             let destination = game[Get.Navigable][cursor.hit.other.entity];
             let route: Array<[number, number]> = [];
 
-            let player_x = player_control.x;
-            let player_y = player_control.y;
-
             // reset the depth field
             for (let x = 0; x < game.grid.length; x++) {
                 for (let y = 0; y < game.grid[0].length; y++) {
@@ -54,15 +51,15 @@ function update(game: Game, entity: Entity, cursor: Select) {
                     }
                 }
             }
-            game.grid[player_x][player_y] = 0;
-            calculate_distance(game, player_x, player_y, player_control.diagonal);
+            game.grid[player_control.x][player_control.y] = 0;
+            calculate_distance(game, player_control.x, player_control.y, player_control.diagonal);
 
             // Bail out early if the destination is not accessible (Infinity) or non-walkable (NaN).
             if (!(game.grid[destination.x][destination.y] < Infinity)) {
                 return;
             }
 
-            while (!(destination.x === player_x && destination.y === player_y)) {
+            while (!(destination.x === player_control.x && destination.y === player_control.y)) {
                 route.push([destination.x, destination.y]);
 
                 let neighbors = get_neighbors(
