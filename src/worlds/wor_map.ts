@@ -1,4 +1,3 @@
-import {Action} from "../actions.js";
 import {angle_camera_blueprint} from "../blueprints/blu_angle_camera.js";
 import {get_building_blueprint} from "../blueprints/blu_building.js";
 import {get_character_blueprint} from "../blueprints/blu_character.js";
@@ -13,15 +12,13 @@ import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
 import {named} from "../components/com_named.js";
 import {find_navigable} from "../components/com_navigable.js";
-import {portal} from "../components/com_portal.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {shoot} from "../components/com_shoot.js";
-import {trigger} from "../components/com_trigger.js";
+import {trigger_world} from "../components/com_trigger.js";
 import {Game} from "../game.js";
 import {snd_miss} from "../sounds/snd_miss.js";
 import {snd_music} from "../sounds/snd_music.js";
 import {snd_shoot} from "../sounds/snd_shoot.js";
-import {world_house} from "./wor_house.js";
 
 export function world_map(game: Game) {
     let map_size = 50;
@@ -48,7 +45,7 @@ export function world_map(game: Game) {
 
     game.add({
         translation: [15, 5, 15],
-        using: [collide(false, [8, 8, 8]), trigger(Action.EnterArea), portal(world_house)],
+        using: [collide(false, [8, 8, 8]), trigger_world("house")],
     });
 
     // Directional light and Soundtrack
