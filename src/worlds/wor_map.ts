@@ -24,7 +24,7 @@ import {snd_shoot} from "../sounds/snd_shoot.js";
 import {world_house} from "./wor_house.js";
 
 export function world_map(game: Game) {
-    let map_size = 30;
+    let map_size = 50;
 
     game.world = [];
     game.distance_field = [];
@@ -41,7 +41,7 @@ export function world_map(game: Game) {
 
             game.add({
                 ...tile_blueprint,
-                translation: [(-(map_size / 2) + x) * 8, 0, (-(map_size / 2) + y) * 8],
+                translation: [(-(map_size / 2) + x) * 8, Math.random(), (-(map_size / 2) + y) * 8],
             });
         }
     }
@@ -85,15 +85,23 @@ export function world_map(game: Game) {
     game.add(angle_camera_blueprint);
 
     // Buildings
-    let buildings_count = ~~((map_size * 8) / 35);
-    let starting_position = 80;
-
+    let buildings_count = 3; //~~((map_size * 8) / 35);
+    // let starting_position = 76.5;
+    let starting_position = 20;
+    let building_x_tile = 20;
     for (let i = 0; i < buildings_count; i++) {
         let building_blu = get_building_blueprint(game);
+
         game.add({
-            translation: [-47.5, 0, starting_position - 35 * i],
-            children: [building_blu],
+            translation: [
+                (-(map_size / 2) + building_x_tile) * 8 - 1.5,
+                0,
+                (-(map_size / 2) + starting_position) * 8 - 3.5,
+            ],
+            children: [building_blu.blu],
         });
+
+        starting_position += building_blu.size[2] / 8 + 1;
     }
 
     // Villain.
