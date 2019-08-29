@@ -32,7 +32,7 @@ export function get_building_blueprint(game: Game) {
     let is_painted = Math.random() > 0.4;
     let building_size = [
         20 + ~~(Math.random() * 2) * 8,
-        30 + ~~(Math.random() * 2) * 8,
+        30 + ~~(Math.random() * 6) * 8,
         15 + ~~(Math.random() * 10), // height
     ];
     let porch_size = 8; //7 + ~~(Math.random() * 3);
