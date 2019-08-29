@@ -50,18 +50,14 @@ function update(game: Game, entity: Entity, cursor: Select) {
             // reset the depth field
             for (let x = 0; x < game.distance_field.length; x++) {
                 for (let y = 0; y < game.distance_field[0].length; y++) {
-                    if (x === player_x && y == player_y) {
-                        game.distance_field[x][y] = 0;
-                    } else if (typeof game.distance_field[x][y] === "number") {
+                    if (typeof game.distance_field[x][y] === "number") {
                         game.distance_field[x][y] = Infinity;
                     }
                 }
             }
             game.distance_field[player_x][player_y] = 0;
-
             calculate_distance(game, player_x, player_y, player_control.diagonal);
-
-            if (!(game.distance_field[route_navigable.x][route_navigable.y] < Infinity)) {
+            if (game.distance_field[route_navigable.x][route_navigable.y] === Infinity) {
                 return;
             }
 
