@@ -4,7 +4,6 @@ import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
 import {get_mine_wall_blueprint} from "../blueprints/blu_mine_wall.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
-import {click_control} from "../components/com_control_click.js";
 import {player_control} from "../components/com_control_player.js";
 import {health} from "../components/com_health.js";
 import {Get} from "../components/com_index.js";
@@ -12,6 +11,7 @@ import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
 import {named} from "../components/com_named.js";
 import {find_navigable} from "../components/com_navigable.js";
+import {path_find} from "../components/com_path_find.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {shoot} from "../components/com_shoot.js";
 import {Game} from "../game.js";
@@ -74,7 +74,7 @@ export function world_mine(game: Game) {
         using: [
             named("player"),
             player_control(1, 1, false),
-            click_control(),
+            path_find(),
             move(25, 0),
             collide(true, [4, 7, 1]),
             ray_target(RayFlag.None),

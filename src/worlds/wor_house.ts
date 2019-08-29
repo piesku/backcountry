@@ -3,13 +3,13 @@ import {get_character_blueprint} from "../blueprints/blu_character.js";
 import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
-import {click_control} from "../components/com_control_click.js";
 import {player_control} from "../components/com_control_player.js";
 import {Get} from "../components/com_index.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
 import {named} from "../components/com_named.js";
 import {find_navigable} from "../components/com_navigable.js";
+import {path_find} from "../components/com_path_find.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {shoot} from "../components/com_shoot.js";
 import {trigger_world} from "../components/com_trigger.js";
@@ -61,7 +61,7 @@ export function world_house(game: Game) {
         using: [
             named("player"),
             player_control(Math.floor(map_size / 2), Math.floor(map_size / 2)),
-            click_control(),
+            path_find(),
             move(25, 0),
             collide(true, [4, 7, 1]),
             ray_target(RayFlag.None),

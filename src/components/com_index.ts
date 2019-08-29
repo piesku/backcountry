@@ -2,7 +2,6 @@ import {Animate} from "./com_animate";
 import {AudioSource} from "./com_audio_source";
 import {Camera} from "./com_camera";
 import {Collide} from "./com_collide";
-import {ClickControl} from "./com_control_click";
 import {PlayerControl} from "./com_control_player";
 import {Cull} from "./com_cull";
 import {EmitParticles} from "./com_emit_particles";
@@ -12,6 +11,7 @@ import {Mimic} from "./com_mimic";
 import {Move} from "./com_move";
 import {Named} from "./com_named";
 import {Navigable} from "./com_navigable";
+import {PathFind} from "./com_path_find";
 import {RayTarget} from "./com_ray_target";
 import {Render} from "./com_render";
 import {Select} from "./com_select";
@@ -27,7 +27,7 @@ export const enum Get {
     AudioSource,
     Animate,
     Named,
-    ClickControl,
+    PathFind,
     Move,
     Collide,
     Trigger,
@@ -51,7 +51,7 @@ export interface ComponentData {
     [Get.Animate]: Array<Animate>;
     [Get.Named]: Array<Named>;
     [Get.Move]: Array<Move>;
-    [Get.ClickControl]: Array<ClickControl>;
+    [Get.PathFind]: Array<PathFind>;
     [Get.Collide]: Array<Collide>;
     [Get.Trigger]: Array<Trigger>;
     [Get.RayTarget]: Array<RayTarget>;
