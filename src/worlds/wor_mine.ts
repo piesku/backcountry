@@ -6,6 +6,7 @@ import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
 import {click_control} from "../components/com_control_click.js";
 import {player_control} from "../components/com_control_player.js";
+import {health} from "../components/com_health.js";
 import {Get} from "../components/com_index.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
@@ -18,7 +19,7 @@ import {snd_miss} from "../sounds/snd_miss.js";
 import {snd_music} from "../sounds/snd_music.js";
 import {snd_shoot} from "../sounds/snd_shoot.js";
 
-let map_size = 30;
+let map_size = 15;
 
 export function world_mine(game: Game) {
     game.world = [];
@@ -89,6 +90,13 @@ export function world_mine(game: Game) {
                 using: [light([1, 1, 1], 20)],
             },
         ],
+    });
+
+    // Villain.
+    game.add({
+        translation: [(map_size / 2 - 2) * 8, 5, (map_size / 2 - 2) * 8],
+        using: [collide(true, [4, 7, 3]), ray_target(RayFlag.Attackable), health(3)],
+        children: [get_character_blueprint(game)],
     });
 
     // Camera.

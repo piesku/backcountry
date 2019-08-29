@@ -22,11 +22,11 @@ export function create_tile(size: number, size_y = size, probability: number = 0
     } as Model;
 }
 
-export function create_block(size: number) {
+export function create_block(size: number, height: number) {
     let offsets = [];
     for (let x = 0; x < size; x++) {
         for (let y = 0; y < size; y++) {
-            for (let z = 0; z < size; z++) {
+            for (let z = 0; z < height; z++) {
                 offsets.push(
                     x - size / 2 + 0.5,
                     z - size / 2 + 0.5,
@@ -39,7 +39,7 @@ export function create_block(size: number) {
 
     return {
         offsets: Float32Array.from(offsets),
-        size: [size, size, size],
+        size: [size, height, size],
     } as Model;
 }
 
