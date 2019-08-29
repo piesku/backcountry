@@ -85,12 +85,20 @@ export function world_map(game: Game) {
     game.add(angle_camera_blueprint);
 
     // Buildings
-    let buildings_count = 3; //~~((map_size * 8) / 35);
+    let buildings_count = 6; //~~((map_size * 8) / 35);
     // let starting_position = 76.5;
-    let starting_position = 20;
+    let starting_position = 0;
     let building_x_tile = 20;
     for (let i = 0; i < buildings_count; i++) {
         let building_blu = get_building_blueprint(game);
+
+        let building_x = building_blu.size[0] / 8;
+        let building_z = building_blu.size[2] / 8;
+        for (let z = starting_position; z < starting_position + building_z; z++) {
+            for (let x = building_x_tile; x < building_x_tile + building_x; x++) {
+                game.distance_field[x][z] = "a";
+            }
+        }
 
         game.add({
             translation: [
@@ -101,7 +109,7 @@ export function world_map(game: Game) {
             children: [building_blu.blu],
         });
 
-        starting_position += building_blu.size[2] / 8 + 1;
+        starting_position += building_blu.size[2] / 8 + ~~(Math.random() * 2) + 1;
     }
 
     // Villain.
