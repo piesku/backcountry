@@ -23,7 +23,7 @@ export function Intro() {
                 BACK<br />COUNTRY
                 <hr style="border: solid #D45230 10px;" />
                 <button
-                    onclick="game.dispatch(${Action.ChangeWorld}, 'map');"
+                    onclick="game.dispatch(${Action.ChangeWorld}, 'mine');"
                     style="color: #FFE8C6;"
                 >
                     PLAY

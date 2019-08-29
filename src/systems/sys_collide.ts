@@ -19,7 +19,7 @@ export function sys_collide(game: Game, delta: number) {
             all_colliders.push(collider);
 
             // Prepare the collider for this tick's detection.
-            collider.collisions.length = 0;
+            collider.collisions = [];
             if (collider.new) {
                 collider.new = false;
                 compute_aabb(transform, collider);
@@ -114,20 +114,9 @@ function compute_aabb(transform: Transform, collide: Collide) {
 }
 
 function intersect_aabb(a: Collide, b: Collide) {
-    let distance_x = a.center[0] - b.center[0];
-    if (a.half[0] + b.half[0] - Math.abs(distance_x)) {
-        return false;
-    }
-
-    let distance_y = a.center[1] - b.center[1];
-    if (a.half[1] + b.half[1] - Math.abs(distance_y)) {
-        return false;
-    }
-
-    let distance_z = a.center[2] - b.center[2];
-    if (a.half[2] + b.half[2] - Math.abs(distance_z)) {
-        return false;
-    }
-
-    return true;
+    return (
+        Math.abs(a.center[0] - b.center[0]) < a.half[0] + b.half[0] &&
+        Math.abs(a.center[1] - b.center[1]) < a.half[1] + b.half[1] &&
+        Math.abs(a.center[2] - b.center[2]) < a.half[2] + b.half[2]
+    );
 }

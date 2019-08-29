@@ -12,6 +12,7 @@ import {Mimic} from "./com_mimic";
 import {Move} from "./com_move";
 import {Named} from "./com_named";
 import {Navigable} from "./com_navigable";
+import {Portal} from "./com_portal";
 import {RayTarget} from "./com_ray_target";
 import {Render} from "./com_render";
 import {Select} from "./com_select";
@@ -40,6 +41,7 @@ export const enum Get {
     Mimic,
     EmitParticles,
     Cull,
+    Portal,
 }
 
 export interface ComponentData {
@@ -63,4 +65,5 @@ export interface ComponentData {
     [Get.Mimic]: Array<Mimic>;
     [Get.EmitParticles]: Array<EmitParticles>;
     [Get.Cull]: Array<Cull>;
+    [Get.Portal]: Array<Portal>;
 }

@@ -25,7 +25,7 @@ export function mat_create(
     };
 
     // Reflect uniforms.
-    material.uniforms = {};
+    // material.uniforms = {};
     let uniform_count = gl.getProgramParameter(material.program, gl.ACTIVE_UNIFORMS);
     for (let i = 0; i < uniform_count; ++i) {
         let {name} = gl.getActiveUniform(material.program, i)!;

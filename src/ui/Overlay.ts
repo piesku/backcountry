@@ -3,7 +3,7 @@ import {html} from "./html.js";
 
 export function Overlay() {
     return html`
-        ${["intro", "map"].map(
+        ${["intro", "map", "mine"].map(
             name =>
                 html`
                     <button
