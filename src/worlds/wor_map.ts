@@ -1,7 +1,12 @@
 import {angle_camera_blueprint} from "../blueprints/blu_angle_camera.js";
-import {get_building_blueprint} from "../blueprints/blu_building.js";
+import {
+    BuildingColors,
+    get_building_blueprint,
+    main_building_palette,
+} from "../blueprints/blu_building.js";
 import {get_character_blueprint} from "../blueprints/blu_character.js";
 import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
+import {create_line} from "../blueprints/blu_tools.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
 import {click_control} from "../components/com_control_click.js";
@@ -13,6 +18,7 @@ import {move} from "../components/com_move.js";
 import {named} from "../components/com_named.js";
 import {find_navigable} from "../components/com_navigable.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
+import {render_vox} from "../components/com_render_vox.js";
 import {shoot} from "../components/com_shoot.js";
 import {trigger_world} from "../components/com_trigger.js";
 import {Game} from "../game.js";
@@ -21,7 +27,10 @@ import {snd_music} from "../sounds/snd_music.js";
 import {snd_shoot} from "../sounds/snd_shoot.js";
 
 export function world_map(game: Game) {
-    let map_size = 50;
+    let map_size = 40;
+
+    let fence_line = 30;
+    let fence_height = 4;
 
     game.world = [];
     game.distance_field = [];
@@ -32,8 +41,11 @@ export function world_map(game: Game) {
     for (let x = 0; x < map_size; x++) {
         game.distance_field[x] = [];
         for (let y = 0; y < map_size; y++) {
-            let is_walkable = true; //Math.random() > 0.04;
-            game.distance_field[x][y] = is_walkable ? Infinity : "a";
+            let is_fence = x === fence_line;
+            // cactuses & stones here
+            let is_walkable = is_fence ? true : true;
+
+            game.distance_field[x][y] = is_walkable && !is_fence ? Infinity : "a";
             let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y);
 
             game.add({
@@ -43,6 +55,29 @@ export function world_map(game: Game) {
         }
     }
 
+    //fence
+    // TODO: Move to blueprint
+    let fence_offsets = create_line(
+        [4, fence_height, -map_size * 4],
+        [4, fence_height, map_size * 4],
+        BuildingColors.wood
+    );
+
+    for (let i = -(map_size / 2) * 8; i < (map_size / 2) * 8; i += 6) {
+        fence_offsets.push(
+            ...create_line([4, 0, i], [4, fence_height + 2, i], BuildingColors.wood)
+        );
+    }
+
+    game.add({
+        translation: [(-(map_size / 2) + fence_line) * 8 - 4, 0, -3],
+        using: [
+            render_vox(
+                {offsets: Float32Array.from(fence_offsets), size: [1, 1, 1]},
+                main_building_palette
+            ),
+        ],
+    });
     // Directional light and Soundtrack
     game.add({
         translation: [1, 2, -1],
@@ -77,10 +112,10 @@ export function world_map(game: Game) {
     game.add(angle_camera_blueprint);
 
     // Buildings
-    let buildings_count = 6; //~~((map_size * 8) / 35);
+    let buildings_count = 4; //~~((map_size * 8) / 35);
     // let starting_position = 76.5;
     let starting_position = 0;
-    let building_x_tile = 20;
+    let building_x_tile = 10;
     for (let i = 0; i < buildings_count; i++) {
         let building_blu = get_building_blueprint(game);
 

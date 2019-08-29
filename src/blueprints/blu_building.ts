@@ -2,7 +2,7 @@ import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
 import {create_line} from "./blu_tools.js";
 
-let main_palette = [0.6, 0.4, 0, 0.4, 0.2, 0, 0.14, 0, 0, 0.2, 0.8, 1];
+export let main_building_palette = [0.6, 0.4, 0, 0.4, 0.2, 0, 0.14, 0, 0, 0.2, 0.8, 1];
 
 let additional_colors = [
     [0.87, 0.87, 0.87, 0.73, 0.73, 0.73],
@@ -10,7 +10,7 @@ let additional_colors = [
     [0.67, 0, 0, 0.54, 0, 0],
 ];
 
-const enum BuildingColors {
+export const enum BuildingColors {
     light_wood = 0,
     wood = 1,
     dark_wood = 2,
@@ -21,7 +21,7 @@ const enum BuildingColors {
 
 export function get_building_blueprint(game: Game) {
     let palette = [
-        ...main_palette,
+        ...main_building_palette,
         ...additional_colors[~~(Math.random() * additional_colors.length)],
     ];
 
