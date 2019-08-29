@@ -33,19 +33,19 @@ export function world_map(game: Game) {
     let fence_height = 4;
 
     game.world = [];
-    game.distance_field = [];
+    game.grid = [];
 
     game.gl.clearColor(1, 0.3, 0.3, 1);
 
     // Ground.
     for (let x = 0; x < map_size; x++) {
-        game.distance_field[x] = [];
+        game.grid[x] = [];
         for (let y = 0; y < map_size; y++) {
             let is_fence = x === fence_line;
             // cactuses & stones here
             let is_walkable = is_fence ? true : true;
 
-            game.distance_field[x][y] = is_walkable && !is_fence ? Infinity : "a";
+            game.grid[x][y] = is_walkable && !is_fence ? Infinity : NaN;
             let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y);
 
             game.add({
@@ -123,16 +123,14 @@ export function world_map(game: Game) {
         let building_z = building_blu.size[2] / 8;
         for (let z = starting_position; z < starting_position + building_z; z++) {
             for (let x = building_x_tile; x < building_x_tile + building_x; x++) {
-                game.distance_field[x][z] = "a";
+                game.grid[x][z] = NaN;
             }
         }
 
         // Door
-        game.distance_field[building_x_tile + building_x - 1][
-            starting_position + building_z - 1
-        ] = game.distance_field[building_x_tile + building_x - 1][
-            starting_position + building_z - 2
-        ] = Infinity;
+        game.grid[building_x_tile + building_x - 1][starting_position + building_z - 1] = game.grid[
+            building_x_tile + building_x - 1
+        ][starting_position + building_z - 2] = Infinity;
 
         game.add({
             translation: [

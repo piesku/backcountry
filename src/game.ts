@@ -72,7 +72,7 @@ export interface EventState {
 
 export class Game implements ComponentData {
     public world: Array<number>;
-    public distance_field: Array<Array<number | string>> = [];
+    public grid: Array<Array<number>> = [];
     public [Get.Transform]: Array<Transform> = [];
     public [Get.Render]: Array<Render> = [];
     public [Get.Camera]: Array<Camera> = [];

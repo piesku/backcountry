@@ -21,16 +21,16 @@ let map_size = 5;
 
 export function world_house(game: Game) {
     game.world = [];
-    game.distance_field = [];
+    game.grid = [];
 
     game.gl.clearColor(1, 0.3, 0.3, 1);
 
     // Ground.
     for (let x = 0; x < map_size; x++) {
-        game.distance_field[x] = [];
+        game.grid[x] = [];
         for (let y = 0; y < map_size; y++) {
             let is_walkable = Math.random() > 0.04;
-            game.distance_field[x][y] = is_walkable ? Infinity : "a";
+            game.grid[x][y] = is_walkable ? Infinity : NaN;
             let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y);
 
             game.add({
