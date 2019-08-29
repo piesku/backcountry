@@ -137,6 +137,11 @@ export function get_character_blueprint(game: Game): Blueprint {
                             keyframes: [
                                 {
                                     timestamp: 0.0,
+                                    rotation: from_euler([], 0, 5, 0),
+                                },
+                                {
+                                    timestamp: 0.5,
+                                    rotation: from_euler([], 0, -5, 0),
                                 },
                             ],
                         },
@@ -164,7 +169,12 @@ export function get_character_blueprint(game: Game): Blueprint {
                         idle: {
                             keyframes: [
                                 {
-                                    timestamp: 0.0,
+                                    timestamp: 0,
+                                    rotation: from_euler([], 5, 0, 0),
+                                },
+                                {
+                                    timestamp: 0.5,
+                                    rotation: from_euler([], -5, 0, 0),
                                 },
                             ],
                         },
@@ -200,7 +210,12 @@ export function get_character_blueprint(game: Game): Blueprint {
                         idle: {
                             keyframes: [
                                 {
-                                    timestamp: 0.0,
+                                    timestamp: 0,
+                                    rotation: from_euler([], -5, 0, 0),
+                                },
+                                {
+                                    timestamp: 0.5,
+                                    rotation: from_euler([], 5, 0, 0),
                                 },
                             ],
                         },
@@ -236,7 +251,12 @@ export function get_character_blueprint(game: Game): Blueprint {
                         idle: {
                             keyframes: [
                                 {
-                                    timestamp: 0.0,
+                                    timestamp: 0,
+                                    rotation: from_euler([], 5, 0, 0),
+                                },
+                                {
+                                    timestamp: 1,
+                                    rotation: from_euler([], 5, 0, 0),
                                 },
                             ],
                         },
@@ -264,14 +284,19 @@ export function get_character_blueprint(game: Game): Blueprint {
                 ],
             },
             {
-                // right foot
+                // left foot
                 translation: [-0.5, -2, 0.5],
                 using: [
                     animate({
                         idle: {
                             keyframes: [
                                 {
-                                    timestamp: 0.0,
+                                    timestamp: 0,
+                                    rotation: from_euler([], -5, 0, 0),
+                                },
+                                {
+                                    timestamp: 1,
+                                    rotation: from_euler([], -5, 0, 0),
                                 },
                             ],
                         },
