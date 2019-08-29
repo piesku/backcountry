@@ -6,7 +6,7 @@ import {Shoot} from "../components/com_shoot.js";
 import {Transform} from "../components/com_transform.js";
 import {Entity, Game} from "../game.js";
 import {Mat} from "../materials/mat_index.js";
-import {scale} from "../math/vec3.js";
+import {get_translation} from "../math/mat4.js";
 import {Cube} from "../shapes/Cube.js";
 import {Line} from "../shapes/Line.js";
 
@@ -78,8 +78,8 @@ function wireframe_collider(game: Game, entity: Entity) {
 
     if (!wireframe) {
         let box = game.add({
-            translation: collide.center,
-            scale: scale([], collide.half, 2),
+            translation: get_translation([], anchor.world),
+            scale: collide.size,
             using: [render_basic(game.materials[Mat.Wireframe], Cube, [0, 1, 0, 1])],
         });
         wireframes.set(collide, {
@@ -87,8 +87,7 @@ function wireframe_collider(game: Game, entity: Entity) {
             transform: game[Get.Transform][box],
         });
     } else if (collide.dynamic) {
-        wireframe.transform.translation = collide.center;
-        scale(wireframe.transform.scale, collide.half, 2);
+        get_translation(wireframe.transform.translation, anchor.world);
         wireframe.transform.dirty = true;
     }
 }

@@ -13,12 +13,9 @@ import {named} from "../components/com_named.js";
 import {find_navigable} from "../components/com_navigable.js";
 import {portal} from "../components/com_portal.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
-import {render_basic} from "../components/com_render_basic.js";
 import {shoot} from "../components/com_shoot.js";
 import {trigger} from "../components/com_trigger.js";
 import {Game} from "../game.js";
-import {Mat} from "../materials/mat_index.js";
-import {Cube} from "../shapes/Cube.js";
 import {snd_miss} from "../sounds/snd_miss.js";
 import {snd_shoot} from "../sounds/snd_shoot.js";
 import {world_map} from "./wor_map.js";
@@ -48,13 +45,7 @@ export function world_house(game: Game) {
 
     game.add({
         translation: [5, 5, 5],
-        scale: [8, 8, 8],
-        using: [
-            collide(false),
-            trigger(Action.EnterArea),
-            portal(world_map),
-            render_basic(game.materials[Mat.Wireframe], Cube, [0, 1, 1, 1]),
-        ],
+        using: [collide(false, [8, 8, 8]), trigger(Action.EnterArea), portal(world_map)],
     });
 
     // Directional light
