@@ -1,7 +1,7 @@
 import {Animate} from "../components/com_animate.js";
 import {AudioSource} from "../components/com_audio_source.js";
 import {Get} from "../components/com_index.js";
-import {find_navigable} from "../components/com_navigable.js";
+import {find_navigable, Navigable} from "../components/com_navigable.js";
 import {RayFlag} from "../components/com_ray_target.js";
 import {Select} from "../components/com_select.js";
 import {components_of_type} from "../components/com_transform.js";
@@ -39,51 +39,10 @@ function update(game: Game, entity: Entity, cursor: Select) {
 
     if (game.event.mouse_0_down) {
         if (cursor.hit.other.flags & RayFlag.Navigable) {
-            let player_control = game[Get.PlayerControl][entity];
-            let destination = game[Get.Navigable][cursor.hit.other.entity];
-            let route: Array<[number, number]> = [];
-
-            // reset the depth field
-            for (let x = 0; x < game.grid.length; x++) {
-                for (let y = 0; y < game.grid[0].length; y++) {
-                    if (!Number.isNaN(game.grid[x][y])) {
-                        game.grid[x][y] = Infinity;
-                    }
-                }
+            let route = get_route(game, entity, game[Get.Navigable][cursor.hit.other.entity]);
+            if (route) {
+                game[Get.ClickControl][entity].route = route;
             }
-            game.grid[player_control.x][player_control.y] = 0;
-            calculate_distance(game, player_control.x, player_control.y, player_control.diagonal);
-
-            // Bail out early if the destination is not accessible (Infinity) or non-walkable (NaN).
-            if (!(game.grid[destination.x][destination.y] < Infinity)) {
-                return;
-            }
-
-            while (!(destination.x === player_control.x && destination.y === player_control.y)) {
-                route.push([destination.x, destination.y]);
-
-                let neighbors = get_neighbors(
-                    game,
-                    destination.x,
-                    destination.y,
-                    player_control.diagonal
-                );
-
-                for (let i = 0; i < neighbors.length; i++) {
-                    let neighbor_coords = neighbors[i];
-                    if (
-                        game.grid[neighbor_coords.x][neighbor_coords.y] <
-                        game.grid[destination.x][destination.y]
-                    ) {
-                        destination =
-                            game[Get.Navigable][
-                                find_navigable(game, neighbor_coords.x, neighbor_coords.y)
-                            ];
-                    }
-                }
-            }
-
-            game[Get.ClickControl][entity].route = route;
         }
 
         if (cursor.hit.other.flags & RayFlag.Attackable) {
@@ -132,4 +91,44 @@ function calculate_distance(game: Game, x: number, y: number, diagonal: boolean)
             }
         }
     }
+}
+
+function get_route(game: Game, entity: Entity, destination: Navigable) {
+    let player_control = game[Get.PlayerControl][entity];
+
+    // reset the depth field
+    for (let x = 0; x < game.grid.length; x++) {
+        for (let y = 0; y < game.grid[0].length; y++) {
+            if (!Number.isNaN(game.grid[x][y])) {
+                game.grid[x][y] = Infinity;
+            }
+        }
+    }
+    game.grid[player_control.x][player_control.y] = 0;
+    calculate_distance(game, player_control.x, player_control.y, player_control.diagonal);
+
+    // Bail out early if the destination is not accessible (Infinity) or non-walkable (NaN).
+    if (!(game.grid[destination.x][destination.y] < Infinity)) {
+        return false;
+    }
+
+    let route: Array<[number, number]> = [];
+    while (!(destination.x === player_control.x && destination.y === player_control.y)) {
+        route.push([destination.x, destination.y]);
+
+        let neighbors = get_neighbors(game, destination.x, destination.y, player_control.diagonal);
+
+        for (let i = 0; i < neighbors.length; i++) {
+            let neighbor_coords = neighbors[i];
+            if (
+                game.grid[neighbor_coords.x][neighbor_coords.y] <
+                game.grid[destination.x][destination.y]
+            ) {
+                destination =
+                    game[Get.Navigable][find_navigable(game, neighbor_coords.x, neighbor_coords.y)];
+            }
+        }
+    }
+
+    return route;
 }
