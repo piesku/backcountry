@@ -57,6 +57,8 @@ function update(game: Game, entity: Entity, cursor: Select) {
             }
             game.grid[player_x][player_y] = 0;
             calculate_distance(game, player_x, player_y, player_control.diagonal);
+
+            // Bail out early if the destination is not accessible (Infinity) or non-walkable (NaN).
             if (!(game.grid[route_navigable.x][route_navigable.y] < Infinity)) {
                 return;
             }
@@ -123,10 +125,12 @@ function calculate_distance(game: Game, x: number, y: number, diagonal: boolean)
     let frontier = [{x, y}];
     let current;
     while ((current = frontier.shift())) {
-        for (let cell of get_neighbors(game, current.x, current.y, diagonal)) {
-            if (game.grid[cell.x][cell.y] > game.grid[current.x][current.y] + 1) {
-                game.grid[cell.x][cell.y] = game.grid[current.x][current.y] + 1;
-                frontier.push(cell);
+        if (game.grid[current.x][current.y] < 15) {
+            for (let cell of get_neighbors(game, current.x, current.y, diagonal)) {
+                if (game.grid[cell.x][cell.y] > game.grid[current.x][current.y] + 1) {
+                    game.grid[cell.x][cell.y] = game.grid[current.x][current.y] + 1;
+                    frontier.push(cell);
+                }
             }
         }
     }
