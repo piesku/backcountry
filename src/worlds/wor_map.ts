@@ -33,7 +33,7 @@ export function world_map(game: Game) {
         game.distance_field[x] = [];
         for (let y = 0; y < map_size; y++) {
             let is_walkable = true; //Math.random() > 0.04;
-            game.distance_field[x][y] = is_walkable ? Infinity : "a";
+            game.distance_field[x][y] = is_walkable ? Infinity : NaN;
             let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y);
 
             game.add({
@@ -88,7 +88,7 @@ export function world_map(game: Game) {
         let building_z = building_blu.size[2] / 8;
         for (let z = starting_position; z < starting_position + building_z; z++) {
             for (let x = building_x_tile; x < building_x_tile + building_x; x++) {
-                game.distance_field[x][z] = "a";
+                game.distance_field[x][z] = NaN;
             }
         }
 

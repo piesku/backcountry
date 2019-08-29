@@ -50,14 +50,14 @@ function update(game: Game, entity: Entity, cursor: Select) {
             // reset the depth field
             for (let x = 0; x < game.distance_field.length; x++) {
                 for (let y = 0; y < game.distance_field[0].length; y++) {
-                    if (typeof game.distance_field[x][y] === "number") {
+                    if (!Number.isNaN(game.distance_field[x][y])) {
                         game.distance_field[x][y] = Infinity;
                     }
                 }
             }
             game.distance_field[player_x][player_y] = 0;
             calculate_distance(game, player_x, player_y, player_control.diagonal);
-            if (game.distance_field[route_navigable.x][route_navigable.y] === Infinity) {
+            if (!(game.distance_field[route_navigable.x][route_navigable.y] < Infinity)) {
                 return;
             }
 
@@ -127,10 +127,9 @@ function calculate_distance(game: Game, x: number, y: number, diagonal: boolean)
         for (let cell of get_neighbors(game, current.x, current.y, diagonal)) {
             if (
                 game.distance_field[cell.x][cell.y] >
-                (game.distance_field[current.x][current.y] as number) + 1
+                game.distance_field[current.x][current.y] + 1
             ) {
-                game.distance_field[cell.x][cell.y] =
-                    (game.distance_field[current.x][current.y] as number) + 1;
+                game.distance_field[cell.x][cell.y] = game.distance_field[current.x][current.y] + 1;
                 frontier.push(cell);
             }
         }

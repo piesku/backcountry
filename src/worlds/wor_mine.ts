@@ -31,7 +31,7 @@ export function world_mine(game: Game) {
         game.distance_field[x] = [];
         for (let y = 0; y < map_size; y++) {
             if (x == 0 || x == map_size - 1 || y == 0 || y == map_size - 1) {
-                game.distance_field[x][y] = "a";
+                game.distance_field[x][y] = NaN;
             } else {
                 game.distance_field[x][y] = Infinity;
             }
@@ -129,7 +129,7 @@ function generate_maze(game: Game, [x1, x2]: number[], [y1, y2]: number[], size:
                 } else if (i == randomPassage) {
                     continue;
                 }
-                game.distance_field[i][bisection] = "a";
+                game.distance_field[i][bisection] = NaN;
             }
             generate_maze(game, [x1, bisection], [y1, y2], size);
             generate_maze(game, [bisection, x2], [y1, y2], size);
@@ -159,7 +159,7 @@ function generate_maze(game: Game, [x1, x2]: number[], [y1, y2]: number[], size:
                 } else if (i == randomPassage) {
                     continue;
                 }
-                game.distance_field[bisection][i] = "a";
+                game.distance_field[bisection][i] = NaN;
             }
             generate_maze(game, [x1, x2], [y1, bisection], size);
             generate_maze(game, [x1, x2], [bisection, y2], size);

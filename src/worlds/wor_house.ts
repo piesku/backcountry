@@ -30,7 +30,7 @@ export function world_house(game: Game) {
         game.distance_field[x] = [];
         for (let y = 0; y < map_size; y++) {
             let is_walkable = Math.random() > 0.04;
-            game.distance_field[x][y] = is_walkable ? Infinity : "a";
+            game.distance_field[x][y] = is_walkable ? Infinity : NaN;
             let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y);
 
             game.add({
