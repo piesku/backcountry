@@ -29,8 +29,11 @@ import {snd_shoot} from "../sounds/snd_shoot.js";
 export function world_map(game: Game) {
     let map_size = 40;
 
+    let has_active_bounty = true;
+
     let fence_line = 30;
     let fence_height = 4;
+    let fence_gate_size = 16;
 
     game.world = [];
     game.distance_field = [];
@@ -56,17 +59,61 @@ export function world_map(game: Game) {
     }
 
     //fence
+    let fence_width = (map_size * 8 - fence_gate_size) / 2;
     // TODO: Move to blueprint
-    let fence_offsets = create_line(
-        [4, fence_height, -map_size * 4],
-        [4, fence_height, map_size * 4],
-        BuildingColors.wood
+    let fence_offsets = [
+        ...create_line(
+            [4, fence_height, -map_size * 4],
+            [4, fence_height, -map_size * 4 + fence_width],
+            BuildingColors.wood
+        ),
+        ...create_line(
+            [4, fence_height, -map_size * 4 + fence_width + fence_gate_size],
+            [4, fence_height, map_size * 4],
+            BuildingColors.wood
+        ),
+    ];
+
+    // gate
+    fence_offsets.push(
+        ...create_line(
+            [4, 0, -map_size * 4 + fence_width],
+            [4, 20, -map_size * 4 + fence_width],
+            BuildingColors.wood
+        ),
+        ...create_line(
+            [4, 0, -map_size * 4 + fence_width + fence_gate_size],
+            [4, 20, -map_size * 4 + fence_width + fence_gate_size],
+            BuildingColors.wood
+        ),
+        ...create_line(
+            [4, 20, -map_size * 4 + fence_width],
+            [4, 20, -map_size * 4 + fence_width + fence_gate_size + 1],
+            BuildingColors.wood
+        )
     );
 
-    for (let i = -(map_size / 2) * 8; i < (map_size / 2) * 8; i += 6) {
+    if (!has_active_bounty) {
         fence_offsets.push(
-            ...create_line([4, 0, i], [4, fence_height + 2, i], BuildingColors.wood)
+            ...create_line(
+                [4, fence_height, -map_size * 4 + fence_width],
+                [4, fence_height, -map_size * 4 + fence_width + fence_gate_size],
+                BuildingColors.wood
+            )
         );
+    } else {
+        for (let i = 0; i < fence_gate_size / 8; i++) {
+            console.log(fence_line, fence_width / 8);
+            game.distance_field[fence_line][fence_width / 8 + i] = Infinity;
+        }
+    }
+
+    for (let i = -(map_size / 2) * 8; i < (map_size / 2) * 8; i += 6) {
+        if (i < -map_size * 4 + fence_width || i > -map_size * 4 + fence_width + fence_gate_size) {
+            fence_offsets.push(
+                ...create_line([4, 0, i], [4, fence_height + 2, i], BuildingColors.wood)
+            );
+        }
     }
 
     game.add({
