@@ -43,11 +43,6 @@ export function world_map(game: Game) {
         }
     }
 
-    game.add({
-        translation: [15, 5, 15],
-        using: [collide(false, [8, 8, 8]), trigger_world("house")],
-    });
-
     // Directional light and Soundtrack
     game.add({
         translation: [1, 2, -1],
@@ -100,7 +95,18 @@ export function world_map(game: Game) {
         // Door
         game.distance_field[building_x_tile + building_x - 1][
             starting_position + building_z - 1
+        ] = game.distance_field[building_x_tile + building_x - 1][
+            starting_position + building_z - 2
         ] = Infinity;
+
+        game.add({
+            translation: [
+                (-(map_size / 2) + building_x_tile + building_x - 1.5) * 8,
+                5,
+                (-(map_size / 2) + starting_position + building_z - 1.5) * 8,
+            ],
+            using: [collide(false, [8, 8, 8]), trigger_world("house")],
+        });
 
         game.add({
             translation: [
