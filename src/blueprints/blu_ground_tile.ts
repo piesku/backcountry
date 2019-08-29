@@ -13,7 +13,7 @@ import {Blueprint} from "./blu_common.js";
 import {get_block_blueprint} from "./blu_ground_block.js";
 import {create_tile} from "./blu_tools.js";
 
-let palette = [1, 0.8, 0.4, 0.6, 0.4, 0];
+let initial_palette = [1, 0.8, 0.4, 0.6, 0.4, 0];
 let tile_size = 8;
 
 let non_walkable_tile_models = [Models.GROUND8];
@@ -22,7 +22,8 @@ export function get_tile_blueprint(
     game: Game,
     is_walkable: boolean,
     x: number = 0,
-    y: number = 0
+    y: number = 0,
+    palette: number[] = initial_palette
 ): Blueprint {
     let tile_model = is_walkable
         ? create_tile(tile_size)

@@ -1,6 +1,7 @@
 import {angle_camera_blueprint} from "../blueprints/blu_angle_camera.js";
 import {get_character_blueprint} from "../blueprints/blu_character.js";
 import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
+import {get_mine_wall_blueprint} from "../blueprints/blu_mine_wall.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
 import {click_control} from "../components/com_control_click.js";
@@ -17,7 +18,7 @@ import {snd_miss} from "../sounds/snd_miss.js";
 import {snd_music} from "../sounds/snd_music.js";
 import {snd_shoot} from "../sounds/snd_shoot.js";
 
-let map_size = 15;
+let map_size = 30;
 
 export function world_mine(game: Game) {
     game.world = [];
@@ -40,16 +41,23 @@ export function world_mine(game: Game) {
 
     generate_maze(game, [0, map_size - 1], [0, map_size - 1], map_size);
 
+    let palette = [0.6, 0.4, 0, 0.55, 0, 0];
     // Ground.
     for (let x = 0; x < map_size; x++) {
         for (let y = 0; y < map_size; y++) {
             let is_walkable = game.distance_field[x][y] == Infinity;
             // let is_walkable = true; //Math.random() > 0.04;
-            let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y);
+            let tile_blueprint = is_walkable
+                ? get_tile_blueprint(game, is_walkable, x, y, palette)
+                : get_mine_wall_blueprint(palette);
 
             game.add({
                 ...tile_blueprint,
-                translation: [(-(map_size / 2) + x) * 8, 0, (-(map_size / 2) + y) * 8],
+                translation: [
+                    (-(map_size / 2) + x) * 8,
+                    tile_blueprint.translation![1],
+                    (-(map_size / 2) + y) * 8,
+                ],
             });
         }
     }
@@ -66,7 +74,7 @@ export function world_mine(game: Game) {
         translation: [player_position[0], 5, player_position[2]],
         using: [
             named("player"),
-            player_control(1, 1),
+            player_control(1, 1, false),
             click_control(),
             move(25, 0),
             collide(true, [4, 7, 1]),

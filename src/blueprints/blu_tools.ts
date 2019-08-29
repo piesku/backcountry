@@ -2,6 +2,7 @@ import {Vec3} from "../math/index.js";
 import {distance, lerp} from "../math/vec3.js";
 import {Model} from "../model.js";
 
+// This can be replaced with `create_block`
 export function create_tile(size: number, size_y = size, probability: number = 0.01) {
     let offsets = [];
     for (let x = 0; x < size; x++) {
@@ -18,6 +19,27 @@ export function create_tile(size: number, size_y = size, probability: number = 0
     return {
         offsets: Float32Array.from(offsets),
         size: [size, 1, size_y],
+    } as Model;
+}
+
+export function create_block(size: number) {
+    let offsets = [];
+    for (let x = 0; x < size; x++) {
+        for (let y = 0; y < size; y++) {
+            for (let z = 0; z < size; z++) {
+                offsets.push(
+                    x - size / 2 + 0.5,
+                    z - size / 2 + 0.5,
+                    y - size / 2 + 0.5,
+                    Math.random() > 0.4 ? 0 : 1
+                );
+            }
+        }
+    }
+
+    return {
+        offsets: Float32Array.from(offsets),
+        size: [size, size, size],
     } as Model;
 }
 
