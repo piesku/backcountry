@@ -40,9 +40,8 @@ function update(game: Game, entity: Entity, cursor: Select) {
     if (game.event.mouse_0_down) {
         if (cursor.hit.other.flags & RayFlag.Navigable) {
             let player_control = game[Get.PlayerControl][entity];
-            let route_entity = cursor.hit.other.entity;
-            let route_navigable = game[Get.Navigable][route_entity];
-            let route: any = [];
+            let destination = game[Get.Navigable][cursor.hit.other.entity];
+            let route: Array<[number, number]> = [];
 
             let player_x = player_control.x;
             let player_y = player_control.y;
@@ -59,17 +58,17 @@ function update(game: Game, entity: Entity, cursor: Select) {
             calculate_distance(game, player_x, player_y, player_control.diagonal);
 
             // Bail out early if the destination is not accessible (Infinity) or non-walkable (NaN).
-            if (!(game.grid[route_navigable.x][route_navigable.y] < Infinity)) {
+            if (!(game.grid[destination.x][destination.y] < Infinity)) {
                 return;
             }
 
-            while (!(route_navigable.x === player_x && route_navigable.y === player_y)) {
-                route.push([route_navigable.x, route_navigable.y]);
+            while (!(destination.x === player_x && destination.y === player_y)) {
+                route.push([destination.x, destination.y]);
 
                 let neighbors = get_neighbors(
                     game,
-                    route_navigable.x,
-                    route_navigable.y,
+                    destination.x,
+                    destination.y,
                     player_control.diagonal
                 );
 
@@ -77,10 +76,12 @@ function update(game: Game, entity: Entity, cursor: Select) {
                     let neighbor_coords = neighbors[i];
                     if (
                         game.grid[neighbor_coords.x][neighbor_coords.y] <
-                        game.grid[route_navigable.x][route_navigable.y]
+                        game.grid[destination.x][destination.y]
                     ) {
-                        route_entity = find_navigable(game, neighbor_coords.x, neighbor_coords.y);
-                        route_navigable = game[Get.Navigable][route_entity];
+                        destination =
+                            game[Get.Navigable][
+                                find_navigable(game, neighbor_coords.x, neighbor_coords.y)
+                            ];
                     }
                 }
             }
