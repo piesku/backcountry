@@ -26,9 +26,9 @@ import {snd_music} from "../sounds/snd_music.js";
 import {snd_shoot} from "../sounds/snd_shoot.js";
 import {world_house} from "./wor_house.js";
 
-let map_size = 30;
-
 export function world_map(game: Game) {
+    let map_size = 30;
+
     game.world = [];
     game.distance_field = [];
 
@@ -111,14 +111,4 @@ export function world_map(game: Game) {
         using: [collide(true, [4, 7, 3]), ray_target(RayFlag.Attackable), health(3)],
         children: [get_character_blueprint(game)],
     });
-}
-
-function world_position_too_tile(game: Game, x: number, z: number) {
-    x = ~~(x / 8 + map_size / 2);
-    z = ~~(z / 8 + map_size / 2);
-    console.log(x, z);
-    let navigable = find_navigable(game, x, z);
-    let translation = game[Get.Transform][navigable].translation;
-    game[Get.Transform][navigable].translation = [translation[0], -3, translation[2]];
-    game[Get.Transform][navigable].dirty = true;
 }

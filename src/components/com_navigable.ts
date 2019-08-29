@@ -14,10 +14,11 @@ export function navigable(x: number, y: number) {
 }
 
 export function find_navigable(game: Game, x: number, y: number) {
-    for (let i = 0; i < game[Get.Navigable].length; i++) {
-        let navigable = game[Get.Navigable][i];
-        if (navigable && navigable.x === x && navigable.y === y) {
-            return i;
+    for (let i = 0; i < game.world.length; i++) {
+        if (game.world[i] & (1 << Get.Navigable)) {
+            if (game[Get.Navigable][i].x === x && game[Get.Navigable][i].y === y) {
+                return i;
+            }
         }
     }
     throw `No entity with coords ${x}, ${y}.`;
