@@ -48,16 +48,16 @@ function update(game: Game, entity: Entity, cursor: Select) {
             let player_y = player_control.y;
 
             // reset the depth field
-            for (let x = 0; x < game.distance_field.length; x++) {
-                for (let y = 0; y < game.distance_field[0].length; y++) {
-                    if (!Number.isNaN(game.distance_field[x][y])) {
-                        game.distance_field[x][y] = Infinity;
+            for (let x = 0; x < game.grid.length; x++) {
+                for (let y = 0; y < game.grid[0].length; y++) {
+                    if (!Number.isNaN(game.grid[x][y])) {
+                        game.grid[x][y] = Infinity;
                     }
                 }
             }
-            game.distance_field[player_x][player_y] = 0;
+            game.grid[player_x][player_y] = 0;
             calculate_distance(game, player_x, player_y, player_control.diagonal);
-            if (!(game.distance_field[route_navigable.x][route_navigable.y] < Infinity)) {
+            if (!(game.grid[route_navigable.x][route_navigable.y] < Infinity)) {
                 return;
             }
 
@@ -74,8 +74,8 @@ function update(game: Game, entity: Entity, cursor: Select) {
                 for (let i = 0; i < neighbors.length; i++) {
                     let neighbor_coords = neighbors[i];
                     if (
-                        game.distance_field[neighbor_coords.x][neighbor_coords.y] <
-                        game.distance_field[route_navigable.x][route_navigable.y]
+                        game.grid[neighbor_coords.x][neighbor_coords.y] <
+                        game.grid[route_navigable.x][route_navigable.y]
                     ) {
                         route_entity = find_navigable(game, neighbor_coords.x, neighbor_coords.y);
                         route_navigable = game[Get.Navigable][route_entity];
@@ -115,8 +115,7 @@ function get_neighbors(game: Game, x: number, y: number, diagonal: boolean) {
     }
 
     return directions.filter(
-        ({x, y}) =>
-            x >= 0 && x < game.distance_field.length && y >= 0 && y < game.distance_field[0].length
+        ({x, y}) => x >= 0 && x < game.grid.length && y >= 0 && y < game.grid[0].length
     );
 }
 
@@ -125,11 +124,8 @@ function calculate_distance(game: Game, x: number, y: number, diagonal: boolean)
     let current;
     while ((current = frontier.shift())) {
         for (let cell of get_neighbors(game, current.x, current.y, diagonal)) {
-            if (
-                game.distance_field[cell.x][cell.y] >
-                game.distance_field[current.x][current.y] + 1
-            ) {
-                game.distance_field[cell.x][cell.y] = game.distance_field[current.x][current.y] + 1;
+            if (game.grid[cell.x][cell.y] > game.grid[current.x][current.y] + 1) {
+                game.grid[cell.x][cell.y] = game.grid[current.x][current.y] + 1;
                 frontier.push(cell);
             }
         }
