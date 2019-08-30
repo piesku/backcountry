@@ -1,10 +1,8 @@
 import {Action} from "../actions.js";
 import {html} from "./html.js";
-import {Overlay} from "./Overlay.js";
 
 export function Wanted(house_seed: number) {
     return html`
-        ${Overlay()}
         <div
             style="
                 position: absolute;

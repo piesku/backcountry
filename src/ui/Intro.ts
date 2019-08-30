@@ -1,10 +1,8 @@
 import {Action} from "../actions.js";
 import {html} from "./html.js";
-import {Overlay} from "./Overlay.js";
 
-export function Intro() {
+export function Intro(town_seed: number) {
     return html`
-        ${Overlay()}
         <div
             style="
                 position: absolute;
@@ -23,7 +21,7 @@ export function Intro() {
                 BACK<br />COUNTRY
                 <hr style="border: solid #D45230 10px;" />
                 <button
-                    onclick="game.dispatch(${Action.ChangeWorld}, 'map');"
+                    onclick="game.dispatch(${Action.ChangeWorld}, 'map', ${town_seed});"
                     style="color: #FFE8C6;"
                 >
                     PLAY
