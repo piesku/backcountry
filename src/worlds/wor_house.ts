@@ -43,7 +43,7 @@ export function world_house(game: Game) {
 
     game.add({
         translation: [5, 5, 5],
-        using: [collide(false, [8, 8, 8]), trigger_world("map")],
+        using: [collide(false, [8, 8, 8]), trigger_world("map", game.state.seed_town)],
     });
 
     // Directional light
@@ -84,8 +84,8 @@ export function world_house(game: Game) {
 
     // Sheriff.
     game.add({
-        translation: [-5, 5, 5],
-        using: [collide(true, [8, 8, 8]), trigger_world("wanted")],
+        translation: [-10, 5, 10],
+        using: [collide(true, [8, 8, 8]), trigger_world("wanted", Math.random())],
         children: [get_character_blueprint(game)],
     });
 }

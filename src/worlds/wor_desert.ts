@@ -21,7 +21,7 @@ import {snd_music} from "../sounds/snd_music.js";
 import {snd_shoot} from "../sounds/snd_shoot.js";
 
 export function world_desert(game: Game) {
-    // set_seed(game.state.seed_bounty!);
+    set_seed(game.state.seed_bounty);
     let map_size = 50;
 
     game.world = [];

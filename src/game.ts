@@ -115,7 +115,8 @@ export class Game implements ComponentData {
         world: "intro",
         seed_player: 9870987,
         seed_town: 103,
-        seed_bounty: 104,
+        seed_house: 0,
+        seed_bounty: 0,
     };
 
     public materials: Array<Material> = [];
