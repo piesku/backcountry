@@ -1,8 +1,9 @@
 import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
+import {element, integer, rand} from "../math/random.js";
 import {create_line} from "./blu_tools.js";
 
-let main_palette = [0.6, 0.4, 0, 0.4, 0.2, 0, 0.14, 0, 0, 0.2, 0.8, 1];
+export let main_building_palette = [0.6, 0.4, 0, 0.4, 0.2, 0, 0.14, 0, 0, 0.2, 0.8, 1];
 
 let additional_colors = [
     [0.87, 0.87, 0.87, 0.73, 0.73, 0.73],
@@ -10,7 +11,7 @@ let additional_colors = [
     [0.67, 0, 0, 0.54, 0, 0],
 ];
 
-const enum BuildingColors {
+export const enum BuildingColors {
     light_wood = 0,
     wood = 1,
     dark_wood = 2,
@@ -20,22 +21,19 @@ const enum BuildingColors {
 }
 
 export function get_building_blueprint(game: Game) {
-    let palette = [
-        ...main_palette,
-        ...additional_colors[~~(Math.random() * additional_colors.length)],
-    ];
+    let palette = [...main_building_palette, ...(element(additional_colors) as number[])];
 
-    let has_tall_front_facade = Math.random() > 0.3;
-    let has_windows = Math.random() > 0.4;
-    let has_pillars = Math.random() > 0.4;
-    let has_fence = Math.random() > 0.2;
-    let is_painted = Math.random() > 0.4;
+    let has_tall_front_facade = rand() > 0.3;
+    let has_windows = rand() > 0.4;
+    let has_pillars = rand() > 0.4;
+    let has_fence = rand() > 0.2;
+    let is_painted = rand() > 0.4;
     let building_size = [
-        20 + ~~(Math.random() * 2) * 8,
-        30 + ~~(Math.random() * 6) * 8,
-        15 + ~~(Math.random() * 10), // height
+        20 + integer() * 8,
+        30 + integer(0, 5) * 8,
+        15 + integer(0, 9), // height
     ];
-    let porch_size = 8; //7 + ~~(Math.random() * 3);
+    let porch_size = 8; //7 + integer(0, 2);
 
     let offsets: number[] = [];
 
@@ -144,8 +142,8 @@ export function get_building_blueprint(game: Game) {
         }
     } else {
         // BANNER
-        let banner_height = 5 + ~~(Math.random() * 3);
-        let bannner_width = ~~(building_size[1] * 0.75 + Math.random() * building_size[1] * 0.2);
+        let banner_height = 5 + integer(0, 2);
+        let bannner_width = ~~(building_size[1] * 0.75 + rand() * building_size[1] * 0.2);
         let banner_offset = ~~((building_size[1] - bannner_width) / 2);
         for (let x = 2; x < bannner_width; x++) {
             for (let y = 0; y < banner_height; y++) {
@@ -155,7 +153,7 @@ export function get_building_blueprint(game: Game) {
                         y -
                         ~~(banner_height / 2),
                     banner_offset + x,
-                    Math.random() > 0.3 || // 1/3 chance, but only when not on a border
+                    rand() > 0.3 || // 1/3 chance, but only when not on a border
                         x == 2 ||
                         x == bannner_width - 1 ||
                         y == 0 ||

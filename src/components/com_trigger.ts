@@ -17,6 +17,6 @@ export function trigger(action: Action, ...args: Array<unknown>) {
     };
 }
 
-export function trigger_world(name: string) {
-    return trigger(Action.ChangeWorld, name);
+export function trigger_world(name: string, seed: number) {
+    return trigger(Action.ChangeWorld, name, seed);
 }

@@ -1,4 +1,5 @@
 import {Vec3} from "../math/index.js";
+import {rand} from "../math/random.js";
 import {distance, lerp} from "../math/vec3.js";
 import {Model} from "../model.js";
 
@@ -11,7 +12,7 @@ export function create_tile(size: number, size_y = size, probability: number = 0
                 x - size / 2 + 0.5,
                 0.5,
                 y - size_y / 2 + 0.5,
-                Math.random() > probability ? 0 : 1
+                rand() > probability ? 0 : 1
             );
         }
     }
@@ -31,7 +32,7 @@ export function create_block(size: number, height: number) {
                     x - size / 2 + 0.5,
                     z - size / 2 + 0.5,
                     y - size / 2 + 0.5,
-                    Math.random() > 0.4 ? 0 : 1
+                    rand() > 0.4 ? 0 : 1
                 );
             }
         }

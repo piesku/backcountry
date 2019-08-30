@@ -1,10 +1,9 @@
-import {Action, effect} from "./actions.js";
+import {Action, effect, GameState} from "./actions.js";
 import {Blueprint} from "./blueprints/blu_common.js";
 import {Animate} from "./components/com_animate.js";
 import {AudioSource} from "./components/com_audio_source.js";
 import {Camera} from "./components/com_camera.js";
 import {Collide} from "./components/com_collide.js";
-import {ClickControl} from "./components/com_control_click.js";
 import {PlayerControl} from "./components/com_control_player.js";
 import {Cull} from "./components/com_cull.js";
 import {EmitParticles} from "./components/com_emit_particles.js";
@@ -15,6 +14,7 @@ import {Mimic} from "./components/com_mimic.js";
 import {Move} from "./components/com_move.js";
 import {Named} from "./components/com_named.js";
 import {Navigable} from "./components/com_navigable.js";
+import {PathFind} from "./components/com_path_find.js";
 import {RayTarget} from "./components/com_ray_target.js";
 import {Render} from "./components/com_render.js";
 import {Select} from "./components/com_select.js";
@@ -46,7 +46,6 @@ import {sys_shoot} from "./systems/sys_shoot.js";
 import {sys_transform} from "./systems/sys_transform.js";
 import {sys_trigger} from "./systems/sys_trigger.js";
 import {sys_ui} from "./systems/sys_ui.js";
-import {INIT_UI_STATE, reducer, UIState} from "./ui/state.js";
 
 const MAX_ENTITIES = 10000;
 
@@ -67,7 +66,7 @@ export interface EventState {
 
 export class Game implements ComponentData {
     public world: Array<number>;
-    public distance_field: Array<Array<number | string>> = [];
+    public grid: Array<Array<number>> = [];
     public [Get.Transform]: Array<Transform> = [];
     public [Get.Render]: Array<Render> = [];
     public [Get.Camera]: Array<Camera> = [];
@@ -76,7 +75,7 @@ export class Game implements ComponentData {
     public [Get.Animate]: Array<Animate> = [];
     public [Get.Named]: Array<Named> = [];
     public [Get.Move]: Array<Move> = [];
-    public [Get.ClickControl]: Array<ClickControl> = [];
+    public [Get.PathFind]: Array<PathFind> = [];
     public [Get.Collide]: Array<Collide> = [];
     public [Get.Trigger]: Array<Trigger> = [];
     public [Get.RayTarget]: Array<RayTarget> = [];
@@ -103,10 +102,14 @@ export class Game implements ComponentData {
         mouse_y: 0,
         wheel_y: 0,
     };
-    public state: UIState = INIT_UI_STATE;
-    public dispatch = (action: Action, ...args: Array<unknown>) => {
-        this.state = reducer(this.state, action, args);
-        effect(this, action, args);
+
+    public dispatch = (action: Action, ...args: Array<unknown>) => effect(this, action, args);
+    public state: GameState = {
+        world: "intro",
+        seed_player: 9870987,
+        seed_town: 103,
+        seed_house: 0,
+        seed_bounty: 0,
     };
 
     public materials: Array<Material> = [];
