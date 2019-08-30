@@ -1,4 +1,4 @@
-export const enum Models { 
+export const enum Models {
     ROCK = 0,
     BODY = 1,
     FOOT = 2,
