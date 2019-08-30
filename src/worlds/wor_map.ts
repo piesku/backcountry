@@ -23,7 +23,7 @@ import {snd_shoot} from "../sounds/snd_shoot.js";
 
 export function world_map(game: Game) {
     let map_size = 40;
-    let has_active_bounty = false;
+    let has_active_bounty = true;
 
     let fence_line = 30;
     let fence_height = 4;

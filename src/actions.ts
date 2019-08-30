@@ -1,4 +1,5 @@
 import {Entity, Game} from "./game.js";
+import {world_desert} from "./worlds/wor_desert.js";
 import {world_house} from "./worlds/wor_house.js";
 import {world_intro} from "./worlds/wor_intro.js";
 import {world_map} from "./worlds/wor_map.js";
@@ -24,6 +25,8 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                     return setTimeout(world_wanted, 0, game);
                 case "mine":
                     return setTimeout(world_mine, 0, game);
+                case "desert":
+                    return setTimeout(world_desert, 0, game);
             }
         }
         case Action.HitEnemy: {
