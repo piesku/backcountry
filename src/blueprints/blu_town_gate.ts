@@ -9,8 +9,7 @@ export function get_town_gate_blueprint(
     map_size: number,
     height: number,
     gate_size: number,
-    fence_line: number,
-    open: boolean
+    fence_line: number
 ): Blueprint {
     //fence
     let fence_width = (map_size * 8 - gate_size) / 2;
@@ -47,7 +46,11 @@ export function get_town_gate_blueprint(
         )
     );
 
-    if (!open) {
+    if (game.state.seed_bounty) {
+        for (let i = 0; i < gate_size / 8; i++) {
+            game.grid[fence_line][fence_width / 8 + i] = Infinity;
+        }
+    } else {
         fence_offsets.push(
             ...create_line(
                 [4, height, -map_size * 4 + fence_width],
@@ -55,10 +58,6 @@ export function get_town_gate_blueprint(
                 BuildingColors.wood
             )
         );
-    } else {
-        for (let i = 0; i < gate_size / 8; i++) {
-            game.grid[fence_line][fence_width / 8 + i] = Infinity;
-        }
     }
 
     for (let i = -(map_size / 2) * 8; i < (map_size / 2) * 8; i += 6) {

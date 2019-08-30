@@ -1,4 +1,5 @@
 import {Entity, Game} from "./game.js";
+import {rand} from "./math/random.js";
 import {world_house} from "./worlds/wor_house.js";
 import {world_intro} from "./worlds/wor_intro.js";
 import {world_map} from "./worlds/wor_map.js";
@@ -21,6 +22,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                 case "house":
                     return setTimeout(world_house, 0, game);
                 case "wanted":
+                    game.state.seed_bounty = rand() * 100;
                     return setTimeout(world_wanted, 0, game);
                 case "mine":
                     return setTimeout(world_mine, 0, game);

@@ -4,12 +4,14 @@ export interface UIState {
     world: string;
     seed_player: number;
     seed_town: number;
+    seed_bounty?: number;
 }
 
 export const INIT_UI_STATE: UIState = {
     world: "intro",
     seed_player: 102,
     seed_town: 103,
+    seed_bounty: undefined,
 };
 
 export function reducer(state: UIState, action: Action, args: Array<unknown>): UIState {

@@ -15,19 +15,20 @@ import {path_find} from "../components/com_path_find.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {shoot} from "../components/com_shoot.js";
 import {Game} from "../game.js";
-import {set_seed} from "../math/random.js";
+import {integer, set_seed} from "../math/random.js";
 import {snd_miss} from "../sounds/snd_miss.js";
 import {snd_music} from "../sounds/snd_music.js";
 import {snd_shoot} from "../sounds/snd_shoot.js";
 
 export function world_mine(game: Game) {
-    let map_size = 15;
+    set_seed(game.state.seed_bounty!);
 
     game.world = [];
     game.grid = [];
 
     game.gl.clearColor(1, 0.3, 0.3, 1);
 
+    let map_size = 15;
     for (let x = 0; x < map_size; x++) {
         game.grid[x] = [];
         for (let y = 0; y < map_size; y++) {
@@ -46,7 +47,7 @@ export function world_mine(game: Game) {
     for (let x = 0; x < map_size; x++) {
         for (let y = 0; y < map_size; y++) {
             let is_walkable = game.grid[x][y] == Infinity;
-            // let is_walkable = true; //Math.random() > 0.04;
+            // let is_walkable = true; // rand() > 0.04;
             let tile_blueprint = is_walkable
                 ? get_tile_blueprint(game, is_walkable, x, y, palette)
                 : get_mine_wall_blueprint(palette);
@@ -66,6 +67,14 @@ export function world_mine(game: Game) {
     game.add({
         translation: [1, 2, -1],
         using: [light([0.5, 0.5, 0.5], 0), audio_source({music: snd_music}, "music")],
+    });
+
+    // Villain.
+    set_seed(game.state.seed_bounty!);
+    game.add({
+        translation: [(map_size / 2 - 2) * 8, 5, (map_size / 2 - 2) * 8],
+        using: [collide(true, [4, 7, 3]), ray_target(RayFlag.Attackable), health(3)],
+        children: [get_character_blueprint(game)],
     });
 
     let player_position = game[Get.Transform][find_navigable(game, 1, 1)].translation;
@@ -92,13 +101,6 @@ export function world_mine(game: Game) {
         ],
     });
 
-    // Villain.
-    game.add({
-        translation: [(map_size / 2 - 2) * 8, 5, (map_size / 2 - 2) * 8],
-        using: [collide(true, [4, 7, 3]), ray_target(RayFlag.Attackable), health(3)],
-        children: [get_character_blueprint(game)],
-    });
-
     // Camera.
     game.add(angle_camera_blueprint);
 }
@@ -112,7 +114,7 @@ function generate_maze(game: Game, [x1, x2]: number[], [y1, y2]: number[], size:
             let bisection = Math.ceil((x1 + x2) / 2);
             let max = y2 - 1;
             let min = y1 + 1;
-            let randomPassage = ~~(Math.random() * (max - min + 1)) + min;
+            let randomPassage = integer(min, max);
             let first = false;
             let second = false;
             if (game.grid[y2][bisection] == Infinity) {
@@ -142,7 +144,7 @@ function generate_maze(game: Game, [x1, x2]: number[], [y1, y2]: number[], size:
             let bisection = Math.ceil((y1 + y2) / 2);
             let max = x2 - 1;
             let min = x1 + 1;
-            let randomPassage = ~~(Math.random() * (max - min + 1)) + min;
+            let randomPassage = integer(min, max);
             let first = false;
             let second = false;
             if (game.grid[bisection][x2] == Infinity) {
