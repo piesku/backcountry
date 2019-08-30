@@ -40,7 +40,9 @@ export function world_map(game: Game) {
         for (let y = 0; y < map_size; y++) {
             let is_fence = x === fence_line;
             // cactuses & stones here
-            let is_walkable = is_fence ? true : true;
+            // We set this to true, because we don't want props to be
+            // generated on the fence line
+            let is_walkable = is_fence ? true : Math.random() > 0.04 ? true : false;
 
             game.grid[x][y] = is_walkable && !is_fence ? Infinity : NaN;
             let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y);
