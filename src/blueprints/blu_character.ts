@@ -1,6 +1,7 @@
-import {animate} from "../components/com_animate.js";
+import {animate, AnimationFlag} from "../components/com_animate.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
+import {ease_in_out_quart, ease_out_quart} from "../math/easing.js";
 import {from_euler} from "../math/quat.js";
 import {element, rand} from "../math/random.js";
 import {Models} from "../models_map.js";
@@ -150,12 +151,34 @@ export function get_character_blueprint(game: Game): Blueprint {
                                 },
                             ],
                         },
+                        select: {
+                            keyframes: [
+                                {
+                                    timestamp: 0.0,
+                                    translation: [0, 0, 0],
+                                    rotation: from_euler([], 0, 0, 0),
+                                },
+                                {
+                                    timestamp: 0.2,
+                                    translation: [0, 2, 0],
+                                    rotation: from_euler([], 15, 0, 0),
+                                    ease: ease_in_out_quart,
+                                },
+                                {
+                                    timestamp: 0.4,
+                                    translation: [0, 0, 0],
+                                    rotation: from_euler([], 0, 0, 0),
+                                    ease: ease_out_quart,
+                                },
+                            ],
+                            flags: AnimationFlag.None,
+                        },
                     }),
                 ],
                 children: [get_hat(game, palette)],
             },
             {
-                // left hand
+                // right arm
                 translation: [1.5, 0, 0.5],
                 using: [
                     animate({
@@ -183,6 +206,28 @@ export function get_character_blueprint(game: Game): Blueprint {
                                 },
                             ],
                         },
+                        select: {
+                            keyframes: [
+                                {
+                                    timestamp: 0.0,
+                                    translation: [1.5, 0, 0.5],
+                                    rotation: from_euler([], 0, 0, 0),
+                                },
+                                {
+                                    timestamp: 0.2,
+                                    translation: [1.5, 2, 0.5],
+                                    rotation: from_euler([], 0, 0, 135),
+                                    ease: ease_in_out_quart,
+                                },
+                                {
+                                    timestamp: 0.4,
+                                    translation: [1.5, 0, 0.5],
+                                    rotation: from_euler([], 0, 0, 0),
+                                    ease: ease_out_quart,
+                                },
+                            ],
+                            flags: AnimationFlag.None,
+                        },
                     }),
                 ],
                 children: [
@@ -194,7 +239,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                 ],
             },
             {
-                // right hand
+                // left arm
                 translation: [-1.5, 0, 0.5],
                 using: [
                     animate({
@@ -221,6 +266,28 @@ export function get_character_blueprint(game: Game): Blueprint {
                                     rotation: from_euler([], 60, 0, 0),
                                 },
                             ],
+                        },
+                        select: {
+                            keyframes: [
+                                {
+                                    timestamp: 0.0,
+                                    translation: [-1.5, 0, 0.5],
+                                    rotation: from_euler([], 0, 0, 0),
+                                },
+                                {
+                                    timestamp: 0.2,
+                                    translation: [-1.5, 2, 0.5],
+                                    rotation: from_euler([], 0, 0, -135),
+                                    ease: ease_in_out_quart,
+                                },
+                                {
+                                    timestamp: 0.4,
+                                    translation: [-1.5, 0, 0.5],
+                                    rotation: from_euler([], 0, 0, 0),
+                                    ease: ease_out_quart,
+                                },
+                            ],
+                            flags: AnimationFlag.None,
                         },
                     }),
                 ],
@@ -261,6 +328,28 @@ export function get_character_blueprint(game: Game): Blueprint {
                                 },
                             ],
                         },
+                        select: {
+                            keyframes: [
+                                {
+                                    timestamp: 0.0,
+                                    translation: [0.5, -2, 0.5],
+                                    rotation: from_euler([], 0, 0, 0),
+                                },
+                                {
+                                    timestamp: 0.2,
+                                    translation: [0.5, 0, 0.5],
+                                    rotation: from_euler([], 0, 0, 45),
+                                    ease: ease_in_out_quart,
+                                },
+                                {
+                                    timestamp: 0.4,
+                                    translation: [0.5, -2, 0.5],
+                                    rotation: from_euler([], 0, 0, 0),
+                                    ease: ease_out_quart,
+                                },
+                            ],
+                            flags: AnimationFlag.None,
+                        },
                     }),
                 ],
                 children: [
@@ -298,6 +387,28 @@ export function get_character_blueprint(game: Game): Blueprint {
                                     rotation: from_euler([], -45, 0, 0),
                                 },
                             ],
+                        },
+                        select: {
+                            keyframes: [
+                                {
+                                    timestamp: 0.0,
+                                    translation: [-0.5, -2, 0.5],
+                                    rotation: from_euler([], 0, 0, 0),
+                                },
+                                {
+                                    timestamp: 0.2,
+                                    translation: [-0.5, 0, 0.5],
+                                    rotation: from_euler([], 0, 0, -45),
+                                    ease: ease_in_out_quart,
+                                },
+                                {
+                                    timestamp: 0.4,
+                                    translation: [-0.5, -2, 0.5],
+                                    rotation: from_euler([], 0, 0, 0),
+                                    ease: ease_out_quart,
+                                },
+                            ],
+                            flags: AnimationFlag.None,
                         },
                     }),
                 ],

@@ -9,7 +9,7 @@ import {normalize, subtract, transform_point} from "../math/vec3.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Camera) | (1 << Get.Select);
 const TARGET = (1 << Get.Transform) | (1 << Get.Collide) | (1 << Get.RayTarget);
-const ANIMATED = RayFlag.Navigable;
+const ANIMATED = RayFlag.Navigable | RayFlag.Player;
 
 export function sys_select(game: Game, delta: number) {
     game.targets = [];
