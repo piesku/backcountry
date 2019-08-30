@@ -1,9 +1,9 @@
+import {GameState} from "../actions.js";
 import {Intro} from "./Intro.js";
 import {Overlay} from "./Overlay.js";
-import {UIState} from "./state.js";
 import {Wanted} from "./Wanted.js";
 
-export function App(state: UIState) {
+export function App(state: GameState) {
     switch (state.world) {
         case "intro":
             return Intro();

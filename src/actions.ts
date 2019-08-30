@@ -6,6 +6,13 @@ import {world_map} from "./worlds/wor_map.js";
 import {world_mine} from "./worlds/wor_mine.js";
 import {world_wanted} from "./worlds/wor_wanted.js";
 
+export interface GameState {
+    world: string;
+    seed_player: number;
+    seed_town: number;
+    seed_bounty?: number;
+}
+
 export const enum Action {
     ChangeWorld,
     HitEnemy,
@@ -14,7 +21,8 @@ export const enum Action {
 export function effect(game: Game, action: Action, args: Array<unknown>) {
     switch (action) {
         case Action.ChangeWorld: {
-            switch (args[0] as string) {
+            game.state.world = args[0] as string;
+            switch (game.state.world) {
                 case "intro":
                     return setTimeout(world_intro, 0, game);
                 case "map":
