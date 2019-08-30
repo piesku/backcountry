@@ -42,7 +42,7 @@ export function world_mine(game: Game) {
 
     generate_maze(game, [0, map_size - 1], [0, map_size - 1], map_size);
 
-    let palette = [0.6, 0.4, 0, 0.55, 0, 0];
+    let palette = [0.2, 0.2, 0.2, 0.5, 0.5, 0.5];
     // Ground.
     for (let x = 0; x < map_size; x++) {
         for (let y = 0; y < map_size; y++) {
