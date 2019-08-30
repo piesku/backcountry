@@ -14,6 +14,7 @@ import {find_navigable} from "../components/com_navigable.js";
 import {path_find} from "../components/com_path_find.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {shoot} from "../components/com_shoot.js";
+import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
 import {set_seed} from "../math/random.js";
 import {snd_miss} from "../sounds/snd_miss.js";
@@ -87,7 +88,8 @@ export function world_desert(game: Game) {
         translation: [player_position[0], 5, player_position[2]],
         using: [
             named("player"),
-            player_control(1, 1),
+            player_control(),
+            walking(1, 1),
             path_find(),
             move(25, 0),
             collide(true, [4, 7, 1]),

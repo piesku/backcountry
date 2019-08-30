@@ -11,6 +11,7 @@ import {Mimic} from "./com_mimic";
 import {Move} from "./com_move";
 import {Named} from "./com_named";
 import {Navigable} from "./com_navigable";
+import {NPC} from "./com_npc.js";
 import {PathFind} from "./com_path_find";
 import {RayTarget} from "./com_ray_target";
 import {Render} from "./com_render";
@@ -42,6 +43,7 @@ export const enum Get {
     EmitParticles,
     Cull,
     Walking,
+    NPC,
 }
 
 export interface ComponentData {
@@ -66,4 +68,5 @@ export interface ComponentData {
     [Get.EmitParticles]: Array<EmitParticles>;
     [Get.Cull]: Array<Cull>;
     [Get.Walking]: Array<Walking>;
+    [Get.NPC]: Array<NPC>;
 }

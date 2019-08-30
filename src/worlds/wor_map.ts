@@ -11,6 +11,7 @@ import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
 import {named} from "../components/com_named.js";
 import {find_navigable} from "../components/com_navigable.js";
+import {npc} from "../components/com_npc.js";
 import {path_find} from "../components/com_path_find.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {shoot} from "../components/com_shoot.js";
@@ -108,8 +109,8 @@ export function world_map(game: Game) {
 
     // Cowboys.
     game.add({
-        translation: [15, 5, -15],
-        using: [],
+        translation: [8, 5, 8],
+        using: [npc(), path_find(), walking(21, 21)],
         children: [get_character_blueprint(game)],
     });
 
@@ -117,6 +118,7 @@ export function world_map(game: Game) {
         game[Get.Transform][find_navigable(game, ~~(map_size / 2), ~~(map_size / 2))].translation;
 
     // Player.
+    // console.log(player_position, ~~(map_size / 2));
     set_seed(game.state.seed_player);
     game.add({
         translation: [player_position[0], 5, player_position[2]],

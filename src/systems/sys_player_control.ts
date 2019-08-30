@@ -44,6 +44,15 @@ function update(game: Game, entity: Entity, cursor: Select) {
 
     if (game.event.mouse_0_down) {
         if (cursor.hit.other.flags & RayFlag.Navigable) {
+            // reset the depth field
+            for (let x = 0; x < game.grid.length; x++) {
+                for (let y = 0; y < game.grid[0].length; y++) {
+                    if (!Number.isNaN(game.grid[x][y])) {
+                        game.grid[x][y] = Infinity;
+                    }
+                }
+            }
+
             let route = get_route(game, entity, game[Get.Navigable][cursor.hit.other.entity]);
             if (route) {
                 game[Get.PathFind][entity].route = route;
@@ -98,17 +107,8 @@ function calculate_distance(game: Game, x: number, y: number, diagonal: boolean)
     }
 }
 
-function get_route(game: Game, entity: Entity, destination: Navigable) {
+export function get_route(game: Game, entity: Entity, destination: Navigable) {
     let walking = game[Get.Walking][entity];
-
-    // reset the depth field
-    for (let x = 0; x < game.grid.length; x++) {
-        for (let y = 0; y < game.grid[0].length; y++) {
-            if (!Number.isNaN(game.grid[x][y])) {
-                game.grid[x][y] = Infinity;
-            }
-        }
-    }
 
     game.grid[walking.x][walking.y] = 0;
     calculate_distance(game, walking.x, walking.y, walking.diagonal);

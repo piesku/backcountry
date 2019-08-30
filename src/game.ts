@@ -14,6 +14,7 @@ import {Mimic} from "./components/com_mimic.js";
 import {Move} from "./components/com_move.js";
 import {Named} from "./components/com_named.js";
 import {Navigable} from "./components/com_navigable.js";
+import {NPC} from "./components/com_npc.js";
 import {PathFind} from "./components/com_path_find.js";
 import {RayTarget} from "./components/com_ray_target.js";
 import {Render} from "./components/com_render.js";
@@ -30,6 +31,7 @@ import {mat_particles} from "./materials/mat_particles.js";
 import {mat_wireframe} from "./materials/mat_wireframe.js";
 import {Model} from "./model.js";
 import {palette} from "./palette.js";
+import {sys_ai} from "./systems/sys_ai.js";
 import {sys_aim} from "./systems/sys_aim.js";
 import {sys_animate} from "./systems/sys_animate.js";
 import {sys_audio} from "./systems/sys_audio.js";
@@ -94,6 +96,7 @@ export class Game implements ComponentData {
     public [Get.EmitParticles]: Array<EmitParticles> = [];
     public [Get.Cull]: Array<Cull> = [];
     public [Get.Walking]: Array<Walking> = [];
+    public [Get.NPC]: Array<NPC> = [];
 
     public canvas: HTMLCanvasElement;
     public gl: WebGL2RenderingContext;
@@ -184,6 +187,7 @@ export class Game implements ComponentData {
         sys_select(this, delta);
         sys_player_control(this, delta);
         // Game logic.
+        sys_ai(this, delta);
         sys_aim(this, delta);
         sys_navigate(this, delta);
         sys_animate(this, delta);

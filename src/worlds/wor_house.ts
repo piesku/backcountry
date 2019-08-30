@@ -13,6 +13,7 @@ import {path_find} from "../components/com_path_find.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {shoot} from "../components/com_shoot.js";
 import {trigger_world} from "../components/com_trigger.js";
+import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
 import {rand, set_seed} from "../math/random.js";
 import {snd_miss} from "../sounds/snd_miss.js";
@@ -62,7 +63,8 @@ export function world_house(game: Game) {
         translation: [player_position[0], 5, player_position[2]],
         using: [
             named("player"),
-            player_control(Math.floor(map_size / 2), Math.floor(map_size / 2)),
+            player_control(),
+            walking(Math.floor(map_size / 2), Math.floor(map_size / 2)),
             path_find(),
             move(25, 0),
             collide(true, [4, 7, 1]),
