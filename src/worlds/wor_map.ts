@@ -17,6 +17,7 @@ import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {shoot} from "../components/com_shoot.js";
 import {trigger_world} from "../components/com_trigger.js";
 import {Game} from "../game.js";
+import {set_seed} from "../math/random.js";
 import {snd_miss} from "../sounds/snd_miss.js";
 import {snd_music} from "../sounds/snd_music.js";
 import {snd_shoot} from "../sounds/snd_shoot.js";
@@ -71,33 +72,6 @@ export function world_map(game: Game) {
         using: [light([0.5, 0.5, 0.5], 0), audio_source({music: snd_music}, "music")],
     });
 
-    let player_position =
-        game[Get.Transform][find_navigable(game, ~~(map_size / 2), ~~(map_size / 2))].translation;
-    // Player.
-    game.add({
-        translation: [player_position[0], 5, player_position[2]],
-        using: [
-            named("player"),
-            player_control(~~(map_size / 2), ~~(map_size / 2)),
-            path_find(),
-            move(25, 0),
-            collide(true, [4, 7, 1]),
-            ray_target(RayFlag.None),
-            shoot(1),
-            audio_source({shoot: snd_shoot, miss: snd_miss}),
-        ],
-        children: [
-            get_character_blueprint(game),
-            {
-                translation: [0, 25, 0],
-                using: [light([1, 1, 1], 20)],
-            },
-        ],
-    });
-
-    // Camera.
-    game.add(angle_camera_blueprint);
-
     // Buildings
     let buildings_count = 4; //~~((map_size * 8) / 35);
     // let starting_position = 76.5;
@@ -146,4 +120,33 @@ export function world_map(game: Game) {
         using: [collide(true, [4, 7, 3]), ray_target(RayFlag.Attackable), health(3)],
         children: [get_character_blueprint(game)],
     });
+
+    let player_position =
+        game[Get.Transform][find_navigable(game, ~~(map_size / 2), ~~(map_size / 2))].translation;
+
+    // Player.
+    set_seed(game.state.seed_player);
+    game.add({
+        translation: [player_position[0], 5, player_position[2]],
+        using: [
+            named("player"),
+            player_control(~~(map_size / 2), ~~(map_size / 2)),
+            path_find(),
+            move(25, 0),
+            collide(true, [4, 7, 1]),
+            ray_target(RayFlag.None),
+            shoot(1),
+            audio_source({shoot: snd_shoot, miss: snd_miss}),
+        ],
+        children: [
+            get_character_blueprint(game),
+            {
+                translation: [0, 25, 0],
+                using: [light([1, 1, 1], 20)],
+            },
+        ],
+    });
+
+    // Camera.
+    game.add(angle_camera_blueprint);
 }

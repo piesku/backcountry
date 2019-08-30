@@ -15,6 +15,7 @@ import {path_find} from "../components/com_path_find.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {shoot} from "../components/com_shoot.js";
 import {Game} from "../game.js";
+import {set_seed} from "../math/random.js";
 import {snd_miss} from "../sounds/snd_miss.js";
 import {snd_music} from "../sounds/snd_music.js";
 import {snd_shoot} from "../sounds/snd_shoot.js";
@@ -69,6 +70,7 @@ export function world_mine(game: Game) {
 
     let player_position = game[Get.Transform][find_navigable(game, 1, 1)].translation;
     // Player.
+    set_seed(game.state.seed_player);
     game.add({
         translation: [player_position[0], 5, player_position[2]],
         using: [

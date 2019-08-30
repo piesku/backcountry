@@ -4,7 +4,7 @@ export function set_seed(new_seed: number) {
     seed = new_seed;
 }
 
-function rand() {
+export function rand() {
     seed = (seed * 16807) % 2147483647;
     return (seed - 1) / 2147483646;
 }
