@@ -21,6 +21,6 @@ function update(game: Game, entity: Entity) {
         let direction = transform_point([], shoot.target, transform.self);
         direction[1] = 0;
         normalize(direction, direction);
-        move.yaws.push(rotation_to([], [0, 0, 1], direction));
+        move.yaw = rotation_to([], [0, 0, 1], direction);
     }
 }

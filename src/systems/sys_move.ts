@@ -2,9 +2,8 @@ import {Animate} from "../components/com_animate.js";
 import {Get} from "../components/com_index.js";
 import {components_of_type} from "../components/com_transform.js";
 import {Entity, Game} from "../game.js";
-import {Quat, Vec3} from "../math/index.js";
 import {multiply} from "../math/quat.js";
-import {add, normalize, scale} from "../math/vec3.js";
+import {add, scale} from "../math/vec3.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Move);
 
@@ -21,32 +20,21 @@ function update(game: Game, entity: Entity, delta: number) {
     let move = game[Get.Move][entity];
     for (let animate of components_of_type<Animate>(game, transform, Get.Animate)) {
         if (!animate.trigger) {
-            animate.trigger = move.directions.length ? "move" : "idle";
+            animate.trigger = move.dir ? "move" : "idle";
         }
     }
 
-    if (move.directions.length) {
-        let direction = move.directions.reduce(add_directions);
-        normalize(direction, direction);
-        scale(direction, direction, move.move_speed * delta);
-        add(transform.translation, transform.translation, direction);
+    if (move.dir) {
+        scale(move.dir, move.dir, move.move_speed * delta);
+        add(transform.translation, transform.translation, move.dir);
         transform.dirty = true;
-        move.directions = [];
+        move.dir = undefined;
     }
 
-    if (move.yaws.length) {
-        let yaw = move.yaws.reduce(multiply_rotations);
+    if (move.yaw) {
         // Yaw is applied relative to the world space.
-        multiply(transform.rotation, yaw, transform.rotation);
+        multiply(transform.rotation, move.yaw, transform.rotation);
         transform.dirty = true;
-        move.yaws = [];
+        move.yaw = undefined;
     }
-}
-
-function add_directions(acc: Vec3, cur: Vec3) {
-    return add(acc, acc, cur);
-}
-
-function multiply_rotations(acc: Quat, cur: Quat) {
-    return multiply(acc, acc, cur);
 }
