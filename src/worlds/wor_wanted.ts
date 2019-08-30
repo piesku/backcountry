@@ -3,8 +3,10 @@ import {animate, AnimationFlag} from "../components/com_animate.js";
 import {camera_ortho} from "../components/com_camera.js";
 import {light} from "../components/com_light.js";
 import {Game} from "../game.js";
+import {set_seed} from "../math/random.js";
 
 export function world_wanted(game: Game) {
+    set_seed(game.state.seed_bounty!);
     game.world = [];
     game.gl.clearColor(1, 0.8, 0.6, 1);
 

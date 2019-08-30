@@ -14,6 +14,7 @@ import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {shoot} from "../components/com_shoot.js";
 import {trigger_world} from "../components/com_trigger.js";
 import {Game} from "../game.js";
+import {rand, set_seed} from "../math/random.js";
 import {snd_miss} from "../sounds/snd_miss.js";
 import {snd_shoot} from "../sounds/snd_shoot.js";
 
@@ -29,7 +30,7 @@ export function world_house(game: Game) {
     for (let x = 0; x < map_size; x++) {
         game.grid[x] = [];
         for (let y = 0; y < map_size; y++) {
-            let is_walkable = Math.random() > 0.04;
+            let is_walkable = rand() > 0.04;
             game.grid[x][y] = is_walkable ? Infinity : NaN;
             let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y);
 
@@ -56,6 +57,7 @@ export function world_house(game: Game) {
             find_navigable(game, Math.floor(map_size / 2), Math.floor(map_size / 2))
         ].translation;
     // Player.
+    set_seed(game.state.seed_player);
     game.add({
         translation: [player_position[0], 5, player_position[2]],
         using: [

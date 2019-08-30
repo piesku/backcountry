@@ -1,4 +1,4 @@
-import {Action, effect} from "./actions.js";
+import {Action, effect, GameState} from "./actions.js";
 import {Blueprint} from "./blueprints/blu_common.js";
 import {Animate} from "./components/com_animate.js";
 import {AudioSource} from "./components/com_audio_source.js";
@@ -51,7 +51,6 @@ import {sys_shoot} from "./systems/sys_shoot.js";
 import {sys_transform} from "./systems/sys_transform.js";
 import {sys_trigger} from "./systems/sys_trigger.js";
 import {sys_ui} from "./systems/sys_ui.js";
-import {INIT_UI_STATE, reducer, UIState} from "./ui/state.js";
 
 const MAX_ENTITIES = 10000;
 
@@ -108,10 +107,13 @@ export class Game implements ComponentData {
         mouse_y: 0,
         wheel_y: 0,
     };
-    public state: UIState = INIT_UI_STATE;
-    public dispatch = (action: Action, ...args: Array<unknown>) => {
-        this.state = reducer(this.state, action, args);
-        effect(this, action, args);
+
+    public dispatch = (action: Action, ...args: Array<unknown>) => effect(this, action, args);
+    public state: GameState = {
+        world: "intro",
+        seed_player: 102,
+        seed_town: 103,
+        seed_bounty: undefined,
     };
 
     public materials: Array<Material> = [];

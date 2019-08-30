@@ -17,11 +17,13 @@ import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {shoot} from "../components/com_shoot.js";
 import {trigger_world} from "../components/com_trigger.js";
 import {Game} from "../game.js";
+import {integer, rand, set_seed} from "../math/random.js";
 import {snd_miss} from "../sounds/snd_miss.js";
 import {snd_music} from "../sounds/snd_music.js";
 import {snd_shoot} from "../sounds/snd_shoot.js";
 
 export function world_map(game: Game) {
+    set_seed(game.state.seed_town);
     let map_size = 40;
     let has_active_bounty = true;
 
@@ -42,7 +44,7 @@ export function world_map(game: Game) {
             // cactuses & stones here
             // We set this to true, because we don't want props to be
             // generated on the fence line
-            let is_walkable = is_fence ? true : Math.random() > 0.04 ? true : false;
+            let is_walkable = is_fence ? true : rand() > 0.04 ? true : false;
 
             game.grid[x][y] = is_walkable && !is_fence ? Infinity : NaN;
             let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y);
@@ -54,49 +56,13 @@ export function world_map(game: Game) {
         }
     }
 
-    game.add(
-        get_town_gate_blueprint(
-            game,
-            map_size,
-            fence_height,
-            fence_gate_size,
-            fence_line,
-            has_active_bounty
-        )
-    );
+    game.add(get_town_gate_blueprint(game, map_size, fence_height, fence_gate_size, fence_line));
 
     // Directional light and Soundtrack
     game.add({
         translation: [1, 2, -1],
         using: [light([0.5, 0.5, 0.5], 0), audio_source({music: snd_music}, "music")],
     });
-
-    let player_position =
-        game[Get.Transform][find_navigable(game, ~~(map_size / 2), ~~(map_size / 2))].translation;
-    // Player.
-    game.add({
-        translation: [player_position[0], 5, player_position[2]],
-        using: [
-            named("player"),
-            player_control(~~(map_size / 2), ~~(map_size / 2)),
-            path_find(),
-            move(25, 0),
-            collide(true, [4, 7, 1]),
-            ray_target(RayFlag.None),
-            shoot(1),
-            audio_source({shoot: snd_shoot, miss: snd_miss}),
-        ],
-        children: [
-            get_character_blueprint(game),
-            {
-                translation: [0, 25, 0],
-                using: [light([1, 1, 1], 20)],
-            },
-        ],
-    });
-
-    // Camera.
-    game.add(angle_camera_blueprint);
 
     // Buildings
     let buildings_count = 4; //~~((map_size * 8) / 35);
@@ -137,7 +103,7 @@ export function world_map(game: Game) {
             children: [building_blu.blu],
         });
 
-        starting_position += building_blu.size[2] / 8 + ~~(Math.random() * 2) + 1;
+        starting_position += building_blu.size[2] / 8 + integer(1, 2);
     }
 
     // Villain.
@@ -146,4 +112,33 @@ export function world_map(game: Game) {
         using: [collide(true, [4, 7, 3]), ray_target(RayFlag.Attackable), health(3)],
         children: [get_character_blueprint(game)],
     });
+
+    let player_position =
+        game[Get.Transform][find_navigable(game, ~~(map_size / 2), ~~(map_size / 2))].translation;
+
+    // Player.
+    set_seed(game.state.seed_player);
+    game.add({
+        translation: [player_position[0], 5, player_position[2]],
+        using: [
+            named("player"),
+            player_control(~~(map_size / 2), ~~(map_size / 2)),
+            path_find(),
+            move(25, 0),
+            collide(true, [4, 7, 1]),
+            ray_target(RayFlag.None),
+            shoot(1),
+            audio_source({shoot: snd_shoot, miss: snd_miss}),
+        ],
+        children: [
+            get_character_blueprint(game),
+            {
+                translation: [0, 25, 0],
+                using: [light([1, 1, 1], 20)],
+            },
+        ],
+    });
+
+    // Camera.
+    game.add(angle_camera_blueprint);
 }
