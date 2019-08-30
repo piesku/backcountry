@@ -7,13 +7,19 @@ import {create_line} from "./blu_tools.js";
 let palette = [0, 0.8, 0];
 
 export function get_cactus_blueprint(): Blueprint {
-    let height = 5 + ~~(Math.random() * 5);
+    let height = 3 + ~~(Math.random() * 5);
 
     // Cactuses do have trunks, right?
-    let trunk = create_line([0, 1, 0], [0, height, 0], 0);
+    let trunk = create_line(
+        [0, 1, 0],
+        [0, height + (height < 4 ? 1 : ~~(Math.random() * 5)), 0],
+        0
+    );
 
-    let branch_height = 2 + ~~(Math.random() * (height - 3));
-    let branch_length = 3 + ~~(Math.random() * 3);
+    let branch_height =
+        height < 4 && Math.random() > 0.5 ? height : 3 + ~~(Math.random() * (height - 3));
+    let branch_length =
+        branch_height == height && Math.random() > 0.5 ? 2 : 3 + ~~(Math.random() * 3);
 
     trunk.push(
         ...create_line(

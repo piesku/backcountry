@@ -19,28 +19,22 @@ export function get_block_blueprint(game: Game): Blueprint {
 }
 
 function create_model() {
-    let size = [1, 1, 1],
-        number_of_elements = ~~(Math.random() * 3) + 1;
+    let number_of_elements = ~~(Math.random() * 3) + 1;
     let offsets = [];
-
+    let is_double = false;
     for (let x = 0; x < number_of_elements; x++) {
         let y = ~~(Math.random() * 2) - 1;
-        if (y > 0) {
-            size[2]++;
-        } else if (y < 0) {
-            size[2]++;
-        }
 
         offsets.push(x, 0, y, 0);
 
-        if (Math.random() < 0.3 && size[1] != 2) {
-            size[1] = 2;
+        if (Math.random() < 0.3 && !is_double) {
+            is_double = true;
             offsets.push(x, 1, y, 0);
         }
     }
 
     return {
         offsets: Float32Array.from(offsets),
-        size,
+        size: [1, 1, 1],
     } as Model;
 }
