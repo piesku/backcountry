@@ -6,7 +6,6 @@ import {get_town_gate_blueprint} from "../blueprints/blu_town_gate.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
 import {player_control} from "../components/com_control_player.js";
-import {health} from "../components/com_health.js";
 import {Get} from "../components/com_index.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
@@ -16,6 +15,7 @@ import {path_find} from "../components/com_path_find.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {shoot} from "../components/com_shoot.js";
 import {trigger_world} from "../components/com_trigger.js";
+import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
 import {integer, rand, set_seed} from "../math/random.js";
 import {snd_miss} from "../sounds/snd_miss.js";
@@ -106,10 +106,10 @@ export function world_map(game: Game) {
         starting_position += building_blu.size[2] / 8 + integer(1, 2);
     }
 
-    // Villain.
+    // Cowboys.
     game.add({
         translation: [15, 5, -15],
-        using: [collide(true, [4, 7, 3]), ray_target(RayFlag.Attackable), health(3)],
+        using: [],
         children: [get_character_blueprint(game)],
     });
 
@@ -122,7 +122,8 @@ export function world_map(game: Game) {
         translation: [player_position[0], 5, player_position[2]],
         using: [
             named("player"),
-            player_control(~~(map_size / 2), ~~(map_size / 2)),
+            player_control(),
+            walking(~~(map_size / 2), ~~(map_size / 2)),
             path_find(),
             move(25, 0),
             collide(true, [4, 7, 1]),

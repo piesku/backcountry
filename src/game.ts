@@ -21,6 +21,7 @@ import {Select} from "./components/com_select.js";
 import {Shoot} from "./components/com_shoot.js";
 import {transform, Transform} from "./components/com_transform.js";
 import {Trigger} from "./components/com_trigger.js";
+import {Walking} from "./components/com_walking.js";
 import {Material} from "./materials/mat_common.js";
 import {mat_gouraud} from "./materials/mat_gouraud.js";
 import {Mat} from "./materials/mat_index.js";
@@ -92,6 +93,7 @@ export class Game implements ComponentData {
     public [Get.Mimic]: Array<Mimic> = [];
     public [Get.EmitParticles]: Array<EmitParticles> = [];
     public [Get.Cull]: Array<Cull> = [];
+    public [Get.Walking]: Array<Walking> = [];
 
     public canvas: HTMLCanvasElement;
     public gl: WebGL2RenderingContext;

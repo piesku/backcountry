@@ -8,7 +8,12 @@ import {components_of_type} from "../components/com_transform.js";
 import {Entity, Game} from "../game.js";
 import {get_translation} from "../math/mat4.js";
 
-const QUERY = (1 << Get.Transform) | (1 << Get.Shoot) | (1 << Get.PlayerControl);
+const QUERY =
+    (1 << Get.Transform) |
+    (1 << Get.Shoot) |
+    (1 << Get.PlayerControl) |
+    (1 << Get.Walking) |
+    (1 << Get.PathFind);
 
 export function sys_player_control(game: Game, delta: number) {
     let camera = game.cameras[0];
@@ -94,7 +99,7 @@ function calculate_distance(game: Game, x: number, y: number, diagonal: boolean)
 }
 
 function get_route(game: Game, entity: Entity, destination: Navigable) {
-    let player_control = game[Get.PlayerControl][entity];
+    let walking = game[Get.Walking][entity];
 
     // reset the depth field
     for (let x = 0; x < game.grid.length; x++) {
@@ -104,8 +109,9 @@ function get_route(game: Game, entity: Entity, destination: Navigable) {
             }
         }
     }
-    game.grid[player_control.x][player_control.y] = 0;
-    calculate_distance(game, player_control.x, player_control.y, player_control.diagonal);
+
+    game.grid[walking.x][walking.y] = 0;
+    calculate_distance(game, walking.x, walking.y, walking.diagonal);
 
     // Bail out early if the destination is not accessible (Infinity) or non-walkable (NaN).
     if (!(game.grid[destination.x][destination.y] < Infinity)) {
@@ -113,10 +119,10 @@ function get_route(game: Game, entity: Entity, destination: Navigable) {
     }
 
     let route: Array<[number, number]> = [];
-    while (!(destination.x === player_control.x && destination.y === player_control.y)) {
+    while (!(destination.x === walking.x && destination.y === walking.y)) {
         route.push([destination.x, destination.y]);
 
-        let neighbors = get_neighbors(game, destination.x, destination.y, player_control.diagonal);
+        let neighbors = get_neighbors(game, destination.x, destination.y, walking.diagonal);
 
         for (let i = 0; i < neighbors.length; i++) {
             let neighbor_coords = neighbors[i];

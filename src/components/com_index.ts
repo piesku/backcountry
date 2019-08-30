@@ -18,6 +18,7 @@ import {Select} from "./com_select";
 import {Shoot} from "./com_shoot";
 import {Transform} from "./com_transform";
 import {Trigger} from "./com_trigger";
+import {Walking} from "./com_walking";
 
 export const enum Get {
     Transform,
@@ -40,6 +41,7 @@ export const enum Get {
     Mimic,
     EmitParticles,
     Cull,
+    Walking,
 }
 
 export interface ComponentData {
@@ -63,4 +65,5 @@ export interface ComponentData {
     [Get.Mimic]: Array<Mimic>;
     [Get.EmitParticles]: Array<EmitParticles>;
     [Get.Cull]: Array<Cull>;
+    [Get.Walking]: Array<Walking>;
 }

@@ -5,7 +5,7 @@ import {get_translation} from "../math/mat4.js";
 import {rotation_to} from "../math/quat.js";
 import {length, normalize, subtract, transform_point} from "../math/vec3.js";
 
-const QUERY = (1 << Get.Transform) | (1 << Get.Move) | (1 << Get.PathFind);
+const QUERY = (1 << Get.Transform) | (1 << Get.Move) | (1 << Get.PathFind) | (1 << Get.Walking);
 
 export function sys_navigate(game: Game, delta: number) {
     for (let i = 0; i < game.world.length; i++) {
@@ -17,7 +17,7 @@ export function sys_navigate(game: Game, delta: number) {
 
 function update(game: Game, entity: Entity) {
     let control = game[Get.PathFind][entity];
-    let player_control = game[Get.PlayerControl][entity];
+    let walking = game[Get.Walking][entity];
 
     if (!control.destination) {
         if (control.route.length) {
@@ -44,8 +44,8 @@ function update(game: Game, entity: Entity) {
         move.yaws.push(rotation_to([], [0, 0, 1], movement));
 
         if (length(subtract([], world_destination, world_position)) < 1) {
-            player_control.x = control.destination_x;
-            player_control.y = control.destination_y;
+            walking.x = control.destination_x;
+            walking.y = control.destination_y;
             control.destination = null;
         }
     }
