@@ -1,6 +1,7 @@
 import {angle_camera_blueprint} from "../blueprints/blu_angle_camera.js";
 import {get_character_blueprint} from "../blueprints/blu_character.js";
 import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
+import {get_mine_entrance_blueprint} from "../blueprints/blu_mine_entrance.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
 import {player_control} from "../components/com_control_player.js";
@@ -14,11 +15,13 @@ import {path_find} from "../components/com_path_find.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {shoot} from "../components/com_shoot.js";
 import {Game} from "../game.js";
+import {set_seed} from "../math/random.js";
 import {snd_miss} from "../sounds/snd_miss.js";
 import {snd_music} from "../sounds/snd_music.js";
 import {snd_shoot} from "../sounds/snd_shoot.js";
 
 export function world_desert(game: Game) {
+    // set_seed(game.state.seed_bounty!);
     let map_size = 50;
 
     game.world = [];
@@ -64,6 +67,20 @@ export function world_desert(game: Game) {
         using: [light([0.5, 0.5, 0.5], 0), audio_source({music: snd_music}, "music")],
     });
 
+    // Villain.
+    game.add({
+        translation: [(map_size / 2 - 2) * 8, 5, (map_size / 2 - 2) * 8],
+        using: [collide(true, [4, 7, 3]), ray_target(RayFlag.Attackable), health(3)],
+        children: [get_character_blueprint(game)],
+    });
+
+    let entrance = get_mine_entrance_blueprint(game);
+    game.add({
+        translation: [(map_size / 2 - 15) * 8, 0, (map_size / 2 - 12) * 8],
+        ...entrance,
+    });
+
+    set_seed(game.state.seed_player);
     let player_position = game[Get.Transform][find_navigable(game, 1, 1)].translation;
     // Player.
     game.add({
@@ -85,13 +102,6 @@ export function world_desert(game: Game) {
                 using: [light([1, 1, 1], 20)],
             },
         ],
-    });
-
-    // Villain.
-    game.add({
-        translation: [(map_size / 2 - 2) * 8, 5, (map_size / 2 - 2) * 8],
-        using: [collide(true, [4, 7, 3]), ray_target(RayFlag.Attackable), health(3)],
-        children: [get_character_blueprint(game)],
     });
 
     // Camera.
