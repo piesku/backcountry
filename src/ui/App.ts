@@ -8,7 +8,7 @@ export function App(state: GameState) {
         case "intro":
             return Intro();
         case "wanted":
-            return Wanted();
+            return Wanted(state.seed_house);
         default:
             return Overlay();
     }

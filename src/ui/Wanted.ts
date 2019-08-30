@@ -2,7 +2,7 @@ import {Action} from "../actions.js";
 import {html} from "./html.js";
 import {Overlay} from "./Overlay.js";
 
-export function Wanted() {
+export function Wanted(house_seed: number) {
     return html`
         ${Overlay()}
         <div
@@ -29,7 +29,10 @@ export function Wanted() {
                 font: 10vh Impact;
             "
         >
-            <button onclick="game.dispatch(${Action.ChangeWorld}, 'mine');" style="color: #FFE8C6;">
+            <button
+                onclick="game.dispatch(${Action.ChangeWorld}, 'house', ${house_seed});"
+                style="color: #FFE8C6;"
+            >
                 ACCEPT BOUNTY
             </button>
         </div>

@@ -11,7 +11,8 @@ export interface GameState {
     world: string;
     seed_player: number;
     seed_town: number;
-    seed_bounty?: number;
+    seed_bounty: number;
+    seed_house: number;
 }
 
 export const enum Action {
@@ -31,6 +32,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                 case "map":
                     return setTimeout(world_map, 0, game);
                 case "house":
+                    game.state.seed_house = seed;
                     return setTimeout(world_house, 0, game);
                 case "wanted":
                     game.state.seed_bounty = seed;
