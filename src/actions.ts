@@ -1,5 +1,5 @@
 import {Entity, Game} from "./game.js";
-import {rand} from "./math/random.js";
+import {set_seed} from "./math/random.js";
 import {world_desert} from "./worlds/wor_desert.js";
 import {world_house} from "./worlds/wor_house.js";
 import {world_intro} from "./worlds/wor_intro.js";
@@ -22,8 +22,10 @@ export const enum Action {
 export function effect(game: Game, action: Action, args: Array<unknown>) {
     switch (action) {
         case Action.ChangeWorld: {
-            game.state.world = args[0] as string;
-            switch (game.state.world) {
+            let [world, seed] = args as [string, number];
+            game.state.world = world;
+            set_seed(seed);
+            switch (world) {
                 case "intro":
                     return setTimeout(world_intro, 0, game);
                 case "map":
@@ -31,7 +33,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                 case "house":
                     return setTimeout(world_house, 0, game);
                 case "wanted":
-                    game.state.seed_bounty = rand() * 100;
+                    game.state.seed_bounty = seed;
                     return setTimeout(world_wanted, 0, game);
                 case "mine":
                     return setTimeout(world_mine, 0, game);

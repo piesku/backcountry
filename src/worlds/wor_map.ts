@@ -91,7 +91,7 @@ export function world_map(game: Game) {
                 5,
                 (-(map_size / 2) + starting_position + building_z - 1.5) * 8,
             ],
-            using: [collide(false, [8, 8, 8]), trigger_world("house")],
+            using: [collide(false, [8, 8, 8]), trigger_world("house", rand())],
         });
 
         game.add({
