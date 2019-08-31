@@ -1,6 +1,6 @@
 import {angle_camera_blueprint} from "../blueprints/blu_angle_camera.js";
 import {get_character_blueprint} from "../blueprints/blu_character.js";
-import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
+import {get_house_tile_blueprint} from "../blueprints/blu_house_tile.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
 import {player_control} from "../components/com_control_player.js";
@@ -33,7 +33,7 @@ export function world_house(game: Game) {
         for (let y = 0; y < map_size; y++) {
             let is_walkable = rand() > 0.04;
             game.grid[x][y] = is_walkable ? Infinity : NaN;
-            let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y);
+            let tile_blueprint = get_house_tile_blueprint(game, x, y);
 
             game.add({
                 ...tile_blueprint,
