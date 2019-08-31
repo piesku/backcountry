@@ -85,7 +85,8 @@ export function world_house(game: Game) {
 
     // Sheriff.
     game.add({
-        translation: [-10, 5, 10],
+        translation: [-12, 5, 12],
+        rotation: [0, 1, 0, 0],
         using: [collide(true, [8, 8, 8]), trigger_world("wanted", Math.random())],
         children: [get_character_blueprint(game)],
     });
