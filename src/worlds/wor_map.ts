@@ -118,8 +118,6 @@ export function world_map(game: Game) {
                 using: [npc(), path_find(), walking(x, y, true), move(integer(15, 25), 0)],
                 children: [get_character_blueprint(game)],
             });
-        } else {
-            console.log("nan cowboy");
         }
     }
 

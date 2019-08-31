@@ -5,18 +5,18 @@ import {get_mine_entrance_blueprint} from "../blueprints/blu_mine_entrance.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
 import {player_control} from "../components/com_control_player.js";
-import {health} from "../components/com_health.js";
 import {Get} from "../components/com_index.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
 import {named} from "../components/com_named.js";
 import {find_navigable} from "../components/com_navigable.js";
+import {npc} from "../components/com_npc.js";
 import {path_find} from "../components/com_path_find.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {shoot} from "../components/com_shoot.js";
 import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
-import {set_seed} from "../math/random.js";
+import {integer, set_seed} from "../math/random.js";
 import {snd_miss} from "../sounds/snd_miss.js";
 import {snd_music} from "../sounds/snd_music.js";
 import {snd_shoot} from "../sounds/snd_shoot.js";
@@ -68,12 +68,19 @@ export function world_desert(game: Game) {
         using: [light([0.5, 0.5, 0.5], 0), audio_source({music: snd_music}, "music")],
     });
 
-    // Villain.
-    game.add({
-        translation: [(map_size / 2 - 2) * 8, 5, (map_size / 2 - 2) * 8],
-        using: [collide(true, [4, 7, 3]), ray_target(RayFlag.Attackable), health(3)],
-        children: [get_character_blueprint(game)],
-    });
+    // Cowboys.
+    let cowboys_count = 5;
+    for (let i = 0; i < cowboys_count; i++) {
+        let x = integer(0, map_size);
+        let y = integer(0, map_size);
+        if (game.grid[x] && game.grid[x][y] && !isNaN(game.grid[x][y])) {
+            game.add({
+                translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
+                using: [npc(), path_find(), walking(x, y, true), move(integer(15, 25), 0)],
+                children: [get_character_blueprint(game)],
+            });
+        }
+    }
 
     let entrance = get_mine_entrance_blueprint(game);
     game.add({
