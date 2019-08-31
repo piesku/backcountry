@@ -57,12 +57,7 @@ export function get_house_tile_blueprint(game: Game, x: number = 0, y: number = 
 
     return {
         rotation: from_euler([], 0, integer(0, 3) * 90, 0),
-        using: [
-            collide(false, [8, 1, 8]),
-            cull(Get.Collide),
-            ray_target(RayFlag.Navigable),
-            navigable(x, y),
-        ],
+        using: [collide(false, [8, 1, 8]), ray_target(RayFlag.Navigable), navigable(x, y)],
         children: [tile],
     };
 }
