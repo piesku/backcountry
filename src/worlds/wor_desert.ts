@@ -21,7 +21,7 @@ import {snd_music} from "../sounds/snd_music.js";
 import {snd_shoot} from "../sounds/snd_shoot.js";
 
 export function world_desert(game: Game) {
-    set_seed(game.state.seed_bounty);
+    set_seed(game.seed_bounty);
     let map_size = 50;
 
     game.world = [];
@@ -80,7 +80,7 @@ export function world_desert(game: Game) {
         ...entrance,
     });
 
-    set_seed(game.state.seed_player);
+    set_seed(game.seed_player);
     let player_position = game[Get.Transform][find_navigable(game, 1, 1)].translation;
     // Player.
     game.add({

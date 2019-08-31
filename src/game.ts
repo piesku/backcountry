@@ -69,7 +69,7 @@ export interface EventState {
     wheel_y: number;
 }
 
-export class Game implements ComponentData {
+export class Game implements ComponentData, GameState {
     public world: Array<number>;
     public grid: Array<Array<number>> = [];
     public [Get.Transform]: Array<Transform> = [];
@@ -109,13 +109,11 @@ export class Game implements ComponentData {
     };
 
     public dispatch = (action: Action, ...args: Array<unknown>) => effect(this, action, args);
-    public state: GameState = {
-        world: "intro",
-        seed_player: 9870987,
-        seed_town: 103,
-        seed_house: 0,
-        seed_bounty: 0,
-    };
+    public world_name = "intro";
+    public seed_player = 9870987;
+    public seed_town = 103;
+    public seed_house = 0;
+    public seed_bounty = 0;
 
     public materials: Array<Material> = [];
     public cameras: Array<Camera> = [];

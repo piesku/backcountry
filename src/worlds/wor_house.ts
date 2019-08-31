@@ -43,7 +43,7 @@ export function world_house(game: Game) {
 
     game.add({
         translation: [5, 5, 5],
-        using: [collide(false, [8, 8, 8]), trigger_world("map", game.state.seed_town)],
+        using: [collide(false, [8, 8, 8]), trigger_world("map", game.seed_town)],
     });
 
     // Directional light
@@ -57,7 +57,7 @@ export function world_house(game: Game) {
             find_navigable(game, Math.floor(map_size / 2), Math.floor(map_size / 2))
         ].translation;
     // Player.
-    set_seed(game.state.seed_player);
+    set_seed(game.seed_player);
     game.add({
         translation: [player_position[0], 5, player_position[2]],
         using: [
