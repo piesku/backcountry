@@ -7,9 +7,8 @@ export interface Move {
     readonly move_speed: number;
     /** Radians per second. */
     readonly rotate_speed: number;
-    /** Movement directions in self space, normalized. */
-    directions: Array<Vec3>;
-    yaws: Array<Quat>;
+    dir?: Vec3;
+    yaw?: Quat;
 }
 
 export function move(move_speed: number = 3.5, rotate_speed: number = 0.5) {
@@ -18,8 +17,6 @@ export function move(move_speed: number = 3.5, rotate_speed: number = 0.5) {
         game[Get.Move][entity] = <Move>{
             move_speed,
             rotate_speed,
-            directions: [],
-            yaws: [],
         };
     };
 }

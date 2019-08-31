@@ -14,6 +14,7 @@ import {Mimic} from "./components/com_mimic.js";
 import {Move} from "./components/com_move.js";
 import {Named} from "./components/com_named.js";
 import {Navigable} from "./components/com_navigable.js";
+import {NPC} from "./components/com_npc.js";
 import {PathFind} from "./components/com_path_find.js";
 import {RayTarget} from "./components/com_ray_target.js";
 import {Render} from "./components/com_render.js";
@@ -21,12 +22,14 @@ import {Select} from "./components/com_select.js";
 import {Shoot} from "./components/com_shoot.js";
 import {transform, Transform} from "./components/com_transform.js";
 import {Trigger} from "./components/com_trigger.js";
+import {Walking} from "./components/com_walking.js";
 import {Material} from "./materials/mat_common.js";
 import {Mat} from "./materials/mat_index.js";
 import {mat_instanced} from "./materials/mat_instanced.js";
 import {mat_particles} from "./materials/mat_particles.js";
 import {Model} from "./model.js";
 import {palette} from "./palette.js";
+import {sys_ai} from "./systems/sys_ai.js";
 import {sys_aim} from "./systems/sys_aim.js";
 import {sys_animate} from "./systems/sys_animate.js";
 import {sys_audio} from "./systems/sys_audio.js";
@@ -64,7 +67,7 @@ export interface EventState {
     wheel_y: number;
 }
 
-export class Game implements ComponentData {
+export class Game implements ComponentData, GameState {
     public world: Array<number>;
     public grid: Array<Array<number>> = [];
     public [Get.Transform]: Array<Transform> = [];
@@ -87,6 +90,8 @@ export class Game implements ComponentData {
     public [Get.Mimic]: Array<Mimic> = [];
     public [Get.EmitParticles]: Array<EmitParticles> = [];
     public [Get.Cull]: Array<Cull> = [];
+    public [Get.Walking]: Array<Walking> = [];
+    public [Get.NPC]: Array<NPC> = [];
 
     public canvas: HTMLCanvasElement;
     public gl: WebGL2RenderingContext;
@@ -104,13 +109,11 @@ export class Game implements ComponentData {
     };
 
     public dispatch = (action: Action, ...args: Array<unknown>) => effect(this, action, args);
-    public state: GameState = {
-        world: "intro",
-        seed_player: 9870987,
-        seed_town: 103,
-        seed_house: 0,
-        seed_bounty: 0,
-    };
+    public world_name = "intro";
+    public seed_player = 45;
+    public seed_town = 103;
+    public seed_house = 0;
+    public seed_bounty = 0;
 
     public materials: Array<Material> = [];
     public cameras: Array<Camera> = [];
@@ -173,6 +176,7 @@ export class Game implements ComponentData {
         sys_select(this, delta);
         sys_player_control(this, delta);
         // Game logic.
+        sys_ai(this, delta);
         sys_aim(this, delta);
         sys_navigate(this, delta);
         sys_animate(this, delta);

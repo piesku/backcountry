@@ -8,7 +8,7 @@ import {world_mine} from "./worlds/wor_mine.js";
 import {world_wanted} from "./worlds/wor_wanted.js";
 
 export interface GameState {
-    world: string;
+    world_name: string;
     seed_player: number;
     seed_town: number;
     seed_bounty: number;
@@ -24,7 +24,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
     switch (action) {
         case Action.ChangeWorld: {
             let [world, seed] = args as [string, number];
-            game.state.world = world;
+            game.world_name = world;
             set_seed(seed);
             switch (world) {
                 case "intro":
@@ -32,10 +32,10 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                 case "map":
                     return setTimeout(world_map, 0, game);
                 case "house":
-                    game.state.seed_house = seed;
+                    game.seed_house = seed;
                     return setTimeout(world_house, 0, game);
                 case "wanted":
-                    game.state.seed_bounty = seed;
+                    game.seed_bounty = seed;
                     return setTimeout(world_wanted, 0, game);
                 case "mine":
                     return setTimeout(world_mine, 0, game);

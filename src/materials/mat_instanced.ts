@@ -10,8 +10,8 @@ let vertex = `#version 300 es
     uniform vec3 camera_pos;
 
     uniform int light_count;
-    uniform vec3 light_positions[10];
-    uniform vec4 light_details[10];
+    uniform vec3 light_positions[20];
+    uniform vec4 light_details[20];
 
     layout(location=${InstancedAttribute.position}) in vec3 position;
     layout(location=${InstancedAttribute.normal}) in vec3 normal;

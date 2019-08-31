@@ -10,7 +10,7 @@ export function world_intro(game: Game) {
     game.gl.clearColor(0.95, 0.73, 0.35, 1);
 
     // Player.
-    set_seed(game.state.seed_player);
+    set_seed(game.seed_player);
     game.add({
         using: [],
         children: [get_character_blueprint(game)],

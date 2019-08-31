@@ -206,6 +206,29 @@ export function get_character_blueprint(game: Game): Blueprint {
                                 },
                             ],
                         },
+                        shoot: {
+                            keyframes: [
+                                {
+                                    timestamp: 0,
+                                    rotation: from_euler([], 50, 0, 0),
+                                },
+                                {
+                                    timestamp: 0.1,
+                                    rotation: from_euler([], 90, 0, 0),
+                                    ease: ease_out_quart,
+                                },
+                                {
+                                    timestamp: 0.13,
+                                    rotation: from_euler([], 110, 0, 0),
+                                },
+                                {
+                                    timestamp: 0.3,
+                                    rotation: from_euler([], 0, 0, 0),
+                                    ease: ease_out_quart,
+                                },
+                            ],
+                            flags: AnimationFlag.None,
+                        },
                         select: {
                             keyframes: [
                                 {
@@ -235,7 +258,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                         translation: [0, -1, 0],
                         using: [render_vox(game.models[Models.HAND], palette)],
                     },
-                    left_hand_item,
+                    right_hand_item,
                 ],
             },
             {
@@ -296,7 +319,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                         translation: [0, -1, 0],
                         using: [render_vox(game.models[Models.HAND], palette)],
                     },
-                    right_hand_item,
+                    left_hand_item,
                 ],
             },
             {
