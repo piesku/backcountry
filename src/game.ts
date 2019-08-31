@@ -115,7 +115,7 @@ export class Game implements ComponentData, GameState {
 
     public dispatch = (action: Action, ...args: Array<unknown>) => effect(this, action, args);
     public world_name = "intro";
-    public seed_player = 9870987;
+    public seed_player = 45;
     public seed_town = 103;
     public seed_house = 0;
     public seed_bounty = 0;
