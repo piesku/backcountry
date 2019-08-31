@@ -18,6 +18,7 @@ import {shoot} from "../components/com_shoot.js";
 import {trigger_world} from "../components/com_trigger.js";
 import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
+import {from_euler} from "../math/quat.js";
 import {integer, rand, set_seed} from "../math/random.js";
 import {snd_miss} from "../sounds/snd_miss.js";
 import {snd_music} from "../sounds/snd_music.js";
@@ -108,11 +109,21 @@ export function world_map(game: Game) {
     }
 
     // Cowboys.
-    game.add({
-        translation: [8, 5, 8],
-        using: [npc(), path_find(), walking(21, 21)],
-        children: [get_character_blueprint(game)],
-    });
+    let cowboys_count = 5;
+    for (let i = 0; i < cowboys_count; i++) {
+        let x = integer(0, map_size);
+        let y = integer(0, map_size);
+        if (game.grid[x] && game.grid[x][y] && !isNaN(game.grid[x][y])) {
+            game.add({
+                translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
+                rotation: from_euler([], 0, integer(0, 3) * 90, 0),
+                using: [npc(), path_find(), walking(x, y, true), move(integer(15, 25), 0)],
+                children: [get_character_blueprint(game)],
+            });
+        } else {
+            console.log("nan cowboy");
+        }
+    }
 
     let player_position =
         game[Get.Transform][find_navigable(game, ~~(map_size / 2), ~~(map_size / 2))].translation;
