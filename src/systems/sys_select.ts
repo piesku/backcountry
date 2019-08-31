@@ -1,10 +1,15 @@
+import {Animate} from "../components/com_animate.js";
+import {AudioSource} from "../components/com_audio_source.js";
 import {Get} from "../components/com_index.js";
+import {RayFlag} from "../components/com_ray_target.js";
+import {components_of_type} from "../components/com_transform.js";
 import {Entity, Game} from "../game.js";
 import {raycast} from "../math/raycast.js";
 import {normalize, subtract, transform_point} from "../math/vec3.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Camera) | (1 << Get.Select);
 const TARGET = (1 << Get.Transform) | (1 << Get.Collide) | (1 << Get.RayTarget);
+const ANIMATED = RayFlag.Navigable | RayFlag.Player;
 
 export function sys_select(game: Game, delta: number) {
     game.targets = [];
@@ -40,4 +45,18 @@ function update(game: Game, entity: Entity) {
     subtract(direction, target, origin);
     normalize(direction, direction);
     select.hit = raycast(game, origin, direction);
+
+    if (
+        select.hit &&
+        select.hit.other.flags & ANIMATED &&
+        (game.event.mouse_0_down || game.event.mouse_2_down)
+    ) {
+        let transform = game[Get.Transform][select.hit.other.entity];
+        for (let animate of components_of_type<Animate>(game, transform, Get.Animate)) {
+            animate.trigger = "select";
+        }
+        for (let audio of components_of_type<AudioSource>(game, transform, Get.AudioSource)) {
+            audio.trigger = "select";
+        }
+    }
 }

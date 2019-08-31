@@ -72,11 +72,6 @@ function update(game: Game, entity: Entity, delta: number) {
             );
             transform.dirty = true;
         }
-
-        if (current_keyframe.scale && next_keyframe.scale) {
-            lerp(transform.scale, current_keyframe.scale, next_keyframe.scale, interpolant);
-            transform.dirty = true;
-        }
     }
 
     // 4. Check if the animation is still running.

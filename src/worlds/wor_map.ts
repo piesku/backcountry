@@ -25,10 +25,8 @@ import {snd_music} from "../sounds/snd_music.js";
 import {snd_shoot} from "../sounds/snd_shoot.js";
 
 export function world_map(game: Game) {
-    set_seed(game.state.seed_town);
+    set_seed(game.seed_town);
     let map_size = 40;
-    let has_active_bounty = true;
-
     let fence_line = 30;
     let fence_height = 4;
     let fence_gate_size = 16;
@@ -129,8 +127,7 @@ export function world_map(game: Game) {
         game[Get.Transform][find_navigable(game, ~~(map_size / 2), ~~(map_size / 2))].translation;
 
     // Player.
-    // console.log(player_position, ~~(map_size / 2));
-    set_seed(game.state.seed_player);
+    set_seed(game.seed_player);
     game.add({
         translation: [player_position[0], 5, player_position[2]],
         using: [
@@ -140,7 +137,7 @@ export function world_map(game: Game) {
             path_find(),
             move(25, 0),
             collide(true, [4, 7, 1]),
-            ray_target(RayFlag.None),
+            ray_target(RayFlag.Player),
             shoot(1),
             audio_source({shoot: snd_shoot, miss: snd_miss}),
         ],

@@ -22,7 +22,7 @@ import {snd_music} from "../sounds/snd_music.js";
 import {snd_shoot} from "../sounds/snd_shoot.js";
 
 export function world_mine(game: Game) {
-    set_seed(game.state.seed_bounty);
+    set_seed(game.seed_bounty);
 
     game.world = [];
     game.grid = [];
@@ -71,7 +71,7 @@ export function world_mine(game: Game) {
     });
 
     // Villain.
-    set_seed(game.state.seed_bounty);
+    set_seed(game.seed_bounty);
     game.add({
         translation: [(map_size / 2 - 2) * 8, 5, (map_size / 2 - 2) * 8],
         using: [collide(true, [4, 7, 3]), ray_target(RayFlag.Attackable), health(3)],
@@ -80,7 +80,7 @@ export function world_mine(game: Game) {
 
     let player_position = game[Get.Transform][find_navigable(game, 1, 1)].translation;
     // Player.
-    set_seed(game.state.seed_player);
+    set_seed(game.seed_player);
     game.add({
         translation: [player_position[0], 5, player_position[2]],
         using: [

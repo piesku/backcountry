@@ -20,4 +20,6 @@ export const enum RayFlag {
     None = 1 << 0,
     Navigable = 1 << 1,
     Attackable = 1 << 2,
+    Interactable = 1 << 3,
+    Player = 1 << 4,
 }
