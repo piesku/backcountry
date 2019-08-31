@@ -136,7 +136,7 @@ export function world_map(game: Game) {
             walking(~~(map_size / 2), ~~(map_size / 2)),
             path_find(),
             move(25, 0),
-            collide(true, [4, 7, 1]),
+            collide(true, [3, 7, 3]),
             ray_target(RayFlag.Player),
             shoot(1),
             audio_source({shoot: snd_shoot, miss: snd_miss}),

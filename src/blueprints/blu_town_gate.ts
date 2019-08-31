@@ -1,4 +1,6 @@
+import {collide} from "../components/com_collide.js";
 import {render_vox} from "../components/com_render_vox.js";
+import {trigger_world} from "../components/com_trigger.js";
 import {Game} from "../game.js";
 import {BuildingColors, main_building_palette} from "./blu_building.js";
 import {Blueprint} from "./blu_common.js";
@@ -73,6 +75,12 @@ export function get_town_gate_blueprint(
                 {offsets: Float32Array.from(fence_offsets), size: [1, 1, 1]},
                 main_building_palette
             ),
+        ],
+        children: [
+            {
+                translation: [20, 0, 0],
+                using: [collide(false, [8, 8, 800]), trigger_world("desert", game.seed_bounty)],
+            },
         ],
     };
 }
