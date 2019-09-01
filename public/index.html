@@ -59,11 +59,11 @@
         window.toggle = function toggle(button) {
             if (running) {
                 running = false;
-                window.game.stop();
+                window.game.Stop();
                 button.textContent = "resume";
             } else {
                 running = true;
-                window.game.start();
+                window.game.Start();
                 button.textContent = "pause";
             }
         };
