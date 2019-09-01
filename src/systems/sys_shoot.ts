@@ -23,8 +23,8 @@ export function sys_shoot(game: Game, delta: number) {
 
 function update(game: Game, entity: Entity) {
     let shoot = game[Get.Shoot][entity];
-    if (shoot.target) {
-        console.log(`Shot fired at ${shoot.target}`);
+    if (shoot.Target) {
+        console.log(`Shot fired at ${shoot.Target}`);
 
         // TODO Emit particles.
         // TODO Add other effects.
@@ -35,7 +35,7 @@ function update(game: Game, entity: Entity) {
         let hit = raycast(game, origin, direction);
         if (hit && hit.other.Flags & RayFlag.Attackable) {
             let health = game[Get.Health][hit.other.Entity];
-            health.Damages.push(shoot.damage);
+            health.Damages.push(shoot.Damage);
             game.dispatch(Action.HitEnemy, hit.other.Entity);
             for (let audio of components_of_type<AudioSource>(game, transform, Get.AudioSource)) {
                 audio.Trigger = snd_shoot;
@@ -55,5 +55,5 @@ function update(game: Game, entity: Entity) {
         }
     }
 
-    shoot.target = null;
+    shoot.Target = null;
 }

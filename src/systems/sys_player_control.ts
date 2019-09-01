@@ -39,12 +39,12 @@ function update(game: Game, entity: Entity, cursor: Select) {
 
         if (cursor.Hit.other.Flags & RayFlag.Attackable) {
             let other_transform = game[Get.Transform][cursor.Hit.other.Entity];
-            game[Get.Shoot][entity].target = get_translation([], other_transform.world);
+            game[Get.Shoot][entity].Target = get_translation([], other_transform.world);
         }
     }
 
     if (game.event.mouse_2_down) {
-        game[Get.Shoot][entity].target = cursor.Hit.contact;
+        game[Get.Shoot][entity].Target = cursor.Hit.contact;
     }
 }
 

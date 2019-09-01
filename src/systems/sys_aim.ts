@@ -16,11 +16,11 @@ export function sys_aim(game: Game, delta: number) {
 
 function update(game: Game, entity: Entity) {
     let shoot = game[Get.Shoot][entity];
-    if (shoot.target) {
+    if (shoot.Target) {
         let transform = game[Get.Transform][entity];
         let move = game[Get.Move][entity];
 
-        let diff = subtract([], shoot.target, transform.translation);
+        let diff = subtract([], shoot.Target, transform.translation);
         diff[1] = 0;
         normalize(diff, diff);
         move.Yaw = rotation_to([], get_forward([], transform.world), diff);
