@@ -39,13 +39,13 @@ export function sys_render(game: Game, delta: number) {
                 let {gl, program, uniforms} = current_material;
                 gl.useProgram(program);
                 // TODO Support more than one camera.
-                gl.uniformMatrix4fv(uniforms.pv, false, game.cameras[0].pv);
+                gl.uniformMatrix4fv(uniforms.Upv, false, game.cameras[0].pv);
 
                 switch (render.kind) {
                     case RenderKind.Instanced:
-                        gl.uniform1i(uniforms.light_count, game.lights.length);
-                        gl.uniform3fv(uniforms.light_positions, light_positions);
-                        gl.uniform4fv(uniforms.light_details, light_details);
+                        gl.uniform1i(uniforms.Ulight_count, game.lights.length);
+                        gl.uniform3fv(uniforms.Ulight_positions, light_positions);
+                        gl.uniform4fv(uniforms.Ulight_details, light_details);
                         break;
                 }
             }
@@ -68,9 +68,9 @@ export function sys_render(game: Game, delta: number) {
 
 function draw_instanced(game: Game, transform: Transform, render: RenderInstanced) {
     let {gl, mode, uniforms} = render.material;
-    gl.uniformMatrix4fv(uniforms.world, false, transform.world);
-    gl.uniformMatrix4fv(uniforms.self, false, transform.self);
-    gl.uniform3fv(uniforms.palette, render.palette || game.palette);
+    gl.uniformMatrix4fv(uniforms.Uworld, false, transform.world);
+    gl.uniformMatrix4fv(uniforms.Uself, false, transform.self);
+    gl.uniform3fv(uniforms.Upalette, render.palette || game.palette);
     gl.bindVertexArray(render.vao);
     gl.drawElementsInstanced(mode, render.index_count, gl.UNSIGNED_SHORT, 0, render.instance_count);
     gl.bindVertexArray(null);
@@ -78,10 +78,10 @@ function draw_instanced(game: Game, transform: Transform, render: RenderInstance
 
 function draw_particles(render: RenderParticles, emitter: EmitParticles) {
     let {gl, mode, uniforms} = render.material;
-    gl.uniform1f(uniforms.size, emitter.size);
-    gl.uniform1f(uniforms.vertical, emitter.vertical);
-    gl.uniform3fv(uniforms.start_color, render.start_color);
-    gl.uniform3fv(uniforms.end_color, render.end_color);
+    gl.uniform1f(uniforms.Usize, emitter.size);
+    gl.uniform1f(uniforms.Uvertical, emitter.vertical);
+    gl.uniform3fv(uniforms.Ustart_color, render.start_color);
+    gl.uniform3fv(uniforms.Uend_color, render.end_color);
 
     gl.bindBuffer(gl.ARRAY_BUFFER, render.buffer);
     gl.bufferData(gl.ARRAY_BUFFER, Float32Array.from(emitter.instances), gl.DYNAMIC_DRAW);

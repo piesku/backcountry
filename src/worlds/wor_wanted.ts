@@ -1,5 +1,5 @@
 import {get_character_blueprint} from "../blueprints/blu_character.js";
-import {animate, AnimationFlag} from "../components/com_animate.js";
+import {Anim, animate, AnimationFlag} from "../components/com_animate.js";
 import {camera_ortho} from "../components/com_camera.js";
 import {light} from "../components/com_light.js";
 import {Game} from "../game.js";
@@ -14,7 +14,7 @@ export function world_wanted(game: Game) {
     game.add({
         using: [
             animate({
-                idle: {
+                [Anim.Idle]: {
                     keyframes: [
                         {
                             timestamp: 0,

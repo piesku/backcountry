@@ -18,9 +18,7 @@ import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
 import {integer, set_seed} from "../math/random.js";
-import {snd_miss} from "../sounds/snd_miss.js";
 import {snd_music} from "../sounds/snd_music.js";
-import {snd_shoot} from "../sounds/snd_shoot.js";
 
 export function world_mine(game: Game) {
     set_seed(game.seed_bounty);
@@ -68,7 +66,7 @@ export function world_mine(game: Game) {
     // Directional light and Soundtrack
     game.add({
         translation: [1, 2, -1],
-        using: [light([0.5, 0.5, 0.5], 0), audio_source({music: snd_music}, "music")],
+        using: [light([0.5, 0.5, 0.5], 0), audio_source(snd_music)],
     });
 
     // Cowboys.
@@ -100,7 +98,7 @@ export function world_mine(game: Game) {
             collide(true, [4, 7, 1]),
             ray_target(RayFlag.None),
             shoot(1),
-            audio_source({shoot: snd_shoot, miss: snd_miss}),
+            audio_source(),
         ],
         children: [
             get_character_blueprint(game),

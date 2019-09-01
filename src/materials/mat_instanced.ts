@@ -1,17 +1,17 @@
 import {InstancedAttribute} from "../components/com_render_vox.js";
 import {mat_create} from "./mat_common.js";
 
-let vertex = `#version 300 es
-    uniform mat4 pv;
-    uniform mat4 world;
-    uniform mat4 self;
-    uniform vec4 color;
-    uniform vec3 palette[16];
-    uniform vec3 camera_pos;
+let vertex = `#version 300 es\n
+    uniform mat4 Upv;
+    uniform mat4 Uworld;
+    uniform mat4 Uself;
+    uniform vec4 Ucolor;
+    uniform vec3 Upalette[16];
+    uniform vec3 Ucamera_pos;
 
-    uniform int light_count;
-    uniform vec3 light_positions[20];
-    uniform vec4 light_details[20];
+    uniform int Ulight_count;
+    uniform vec3 Ulight_positions[20];
+    uniform vec4 Ulight_details[20];
 
     layout(location=${InstancedAttribute.position}) in vec3 position;
     layout(location=${InstancedAttribute.normal}) in vec3 normal;
@@ -22,28 +22,28 @@ let vertex = `#version 300 es
     const float fog_dist = 50.0;
 
     void main() {
-        vec4 world_pos = world * vec4(position + offset.xyz, 1.0);
-        vec3 world_normal = normalize((vec4(normal, 0.0) * self).xyz);
-        gl_Position = pv * world_pos;
+        vec4 world_pos = Uworld * vec4(position + offset.xyz, 1.0);
+        vec3 world_normal = normalize((vec4(normal, 0.0) * Uself).xyz);
+        gl_Position = Upv * world_pos;
 
-        vec3 rgb = palette[int(offset[3])].rgb * 0.1;
-        for (int i = 0; i < light_count; i++) {
-            if (light_details[i].a == 0.0) {
+        vec3 rgb = Upalette[int(offset[3])].rgb * 0.1;
+        for (int i = 0; i < Ulight_count; i++) {
+            if (Ulight_details[i].a == 0.0) {
                 // A directional light.
-                vec3 light_normal = normalize(light_positions[i]);
+                vec3 light_normal = normalize(Ulight_positions[i]);
                 float diffuse_factor = max(dot(world_normal, light_normal), 0.0);
-                rgb += palette[int(offset[3])].rgb * light_details[i].rgb * diffuse_factor;
+                rgb += Upalette[int(offset[3])].rgb * Ulight_details[i].rgb * diffuse_factor;
             } else {
                 // A point light.
-                vec3 light_dir = light_positions[i] - world_pos.xyz ;
+                vec3 light_dir = Ulight_positions[i] - world_pos.xyz ;
                 vec3 light_normal = normalize(light_dir);
                 float light_dist = length(light_dir);
 
                 float diffuse_factor = max(dot(world_normal, light_normal), 0.0);
                 float distance_factor = light_dist * light_dist;
-                float intensity_factor = light_details[i].a;
+                float intensity_factor = Ulight_details[i].a;
 
-                rgb += palette[int(offset[3])].rgb * light_details[i].rgb * diffuse_factor
+                rgb += Upalette[int(offset[3])].rgb * Ulight_details[i].rgb * diffuse_factor
                         * intensity_factor / distance_factor;
             }
         }
@@ -52,7 +52,7 @@ let vertex = `#version 300 es
     }
 `;
 
-let fragment = `#version 300 es
+let fragment = `#version 300 es\n
     precision mediump float;
 
     in vec4 vert_color;
