@@ -47,7 +47,7 @@ function update(game: Game, entity: Entity) {
         }
 
         for (let animate of components_of_type<Animate>(game, transform, Get.Animate)) {
-            animate.trigger = Anim.Shoot;
+            animate.Trigger = Anim.Shoot;
         }
 
         for (let emitter of components_of_type<EmitParticles>(game, transform, Get.EmitParticles)) {

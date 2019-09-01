@@ -19,8 +19,8 @@ function update(game: Game, entity: Entity, delta: number) {
     let transform = game[Get.Transform][entity];
     let move = game[Get.Move][entity];
     for (let animate of components_of_type<Animate>(game, transform, Get.Animate)) {
-        if (!animate.trigger) {
-            animate.trigger = move.dir ? Anim.Move : Anim.Idle;
+        if (!animate.Trigger) {
+            animate.Trigger = move.dir ? Anim.Move : Anim.Idle;
         }
     }
 

@@ -24,29 +24,29 @@ export function get_house_tile_blueprint(game: Game, x: number = 0, y: number = 
             audio_source(),
             animate({
                 [Anim.Idle]: {
-                    keyframes: [
+                    Keyframes: [
                         {
-                            timestamp: 0,
-                            translation: [0, 0, 0],
+                            Timestamp: 0,
+                            Translation: [0, 0, 0],
                         },
                     ],
                 },
                 [Anim.Select]: {
-                    keyframes: [
+                    Keyframes: [
                         {
-                            timestamp: 0,
-                            translation: [0, 0, 0],
+                            Timestamp: 0,
+                            Translation: [0, 0, 0],
                         },
                         {
-                            timestamp: 0.1,
-                            translation: [0, -0.5, 0],
+                            Timestamp: 0.1,
+                            Translation: [0, -0.5, 0],
                         },
                         {
-                            timestamp: 0.2,
-                            translation: [0, 0, 0],
+                            Timestamp: 0.2,
+                            Translation: [0, 0, 0],
                         },
                     ],
-                    flags: AnimationFlag.None,
+                    Flags: AnimationFlag.None,
                 },
             }),
         ],

@@ -54,7 +54,7 @@ function update(game: Game, entity: Entity) {
     ) {
         let transform = game[Get.Transform][select.hit.other.entity];
         for (let animate of components_of_type<Animate>(game, transform, Get.Animate)) {
-            animate.trigger = Anim.Select;
+            animate.Trigger = Anim.Select;
         }
         for (let audio of components_of_type<AudioSource>(game, transform, Get.AudioSource)) {
             audio.trigger = snd_click;

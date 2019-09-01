@@ -15,21 +15,21 @@ export function world_wanted(game: Game) {
         using: [
             animate({
                 [Anim.Idle]: {
-                    keyframes: [
+                    Keyframes: [
                         {
-                            timestamp: 0,
-                            rotation: [0, 0, 0, 1],
+                            Timestamp: 0,
+                            Rotation: [0, 0, 0, 1],
                         },
                         {
-                            timestamp: 2,
-                            rotation: [0, 1, 0, 0],
+                            Timestamp: 2,
+                            Rotation: [0, 1, 0, 0],
                         },
                         {
-                            timestamp: 4,
-                            rotation: [0, 0, 0, -1],
+                            Timestamp: 4,
+                            Rotation: [0, 0, 0, -1],
                         },
                     ],
-                    flags: AnimationFlag.Loop,
+                    Flags: AnimationFlag.Loop,
                 },
             }),
         ],

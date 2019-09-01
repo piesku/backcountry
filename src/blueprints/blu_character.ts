@@ -128,50 +128,50 @@ export function get_character_blueprint(game: Game): Blueprint {
                     render_vox(game.models[Models.BODY], palette),
                     animate({
                         [Anim.Idle]: {
-                            keyframes: [
+                            Keyframes: [
                                 {
-                                    timestamp: 0.0,
-                                    rotation: from_euler([], 0, 5, 0),
+                                    Timestamp: 0.0,
+                                    Rotation: from_euler([], 0, 5, 0),
                                 },
                                 {
-                                    timestamp: 0.5,
-                                    rotation: from_euler([], 0, -5, 0),
+                                    Timestamp: 0.5,
+                                    Rotation: from_euler([], 0, -5, 0),
                                 },
                             ],
                         },
                         [Anim.Move]: {
-                            keyframes: [
+                            Keyframes: [
                                 {
-                                    timestamp: 0.0,
-                                    rotation: from_euler([], 0, 5, 0),
+                                    Timestamp: 0.0,
+                                    Rotation: from_euler([], 0, 5, 0),
                                 },
                                 {
-                                    timestamp: 0.2,
-                                    rotation: from_euler([], 0, -5, 0),
+                                    Timestamp: 0.2,
+                                    Rotation: from_euler([], 0, -5, 0),
                                 },
                             ],
                         },
                         [Anim.Select]: {
-                            keyframes: [
+                            Keyframes: [
                                 {
-                                    timestamp: 0.0,
-                                    translation: [0, 0, 0],
-                                    rotation: from_euler([], 0, 0, 0),
+                                    Timestamp: 0.0,
+                                    Translation: [0, 0, 0],
+                                    Rotation: from_euler([], 0, 0, 0),
                                 },
                                 {
-                                    timestamp: 0.2,
-                                    translation: [0, 2, 0],
-                                    rotation: from_euler([], 15, 0, 0),
-                                    ease: ease_in_out_quart,
+                                    Timestamp: 0.2,
+                                    Translation: [0, 2, 0],
+                                    Rotation: from_euler([], 15, 0, 0),
+                                    Ease: ease_in_out_quart,
                                 },
                                 {
-                                    timestamp: 0.4,
-                                    translation: [0, 0, 0],
-                                    rotation: from_euler([], 0, 0, 0),
-                                    ease: ease_out_quart,
+                                    Timestamp: 0.4,
+                                    Translation: [0, 0, 0],
+                                    Rotation: from_euler([], 0, 0, 0),
+                                    Ease: ease_out_quart,
                                 },
                             ],
-                            flags: AnimationFlag.None,
+                            Flags: AnimationFlag.None,
                         },
                     }),
                 ],
@@ -183,73 +183,73 @@ export function get_character_blueprint(game: Game): Blueprint {
                 using: [
                     animate({
                         [Anim.Idle]: {
-                            keyframes: [
+                            Keyframes: [
                                 {
-                                    timestamp: 0,
-                                    rotation: from_euler([], 5, 0, 0),
+                                    Timestamp: 0,
+                                    Rotation: from_euler([], 5, 0, 0),
                                 },
                                 {
-                                    timestamp: 0.5,
-                                    rotation: from_euler([], -5, 0, 0),
+                                    Timestamp: 0.5,
+                                    Rotation: from_euler([], -5, 0, 0),
                                 },
                             ],
                         },
                         [Anim.Move]: {
-                            keyframes: [
+                            Keyframes: [
                                 {
-                                    timestamp: 0,
-                                    rotation: from_euler([], 60, 0, 0),
+                                    Timestamp: 0,
+                                    Rotation: from_euler([], 60, 0, 0),
                                 },
                                 {
-                                    timestamp: 0.2,
-                                    rotation: from_euler([], -30, 0, 0),
+                                    Timestamp: 0.2,
+                                    Rotation: from_euler([], -30, 0, 0),
                                 },
                             ],
                         },
                         [Anim.Shoot]: {
-                            keyframes: [
+                            Keyframes: [
                                 {
-                                    timestamp: 0,
-                                    rotation: from_euler([], 50, 0, 0),
+                                    Timestamp: 0,
+                                    Rotation: from_euler([], 50, 0, 0),
                                 },
                                 {
-                                    timestamp: 0.1,
-                                    rotation: from_euler([], 90, 0, 0),
-                                    ease: ease_out_quart,
+                                    Timestamp: 0.1,
+                                    Rotation: from_euler([], 90, 0, 0),
+                                    Ease: ease_out_quart,
                                 },
                                 {
-                                    timestamp: 0.13,
-                                    rotation: from_euler([], 110, 0, 0),
+                                    Timestamp: 0.13,
+                                    Rotation: from_euler([], 110, 0, 0),
                                 },
                                 {
-                                    timestamp: 0.3,
-                                    rotation: from_euler([], 0, 0, 0),
-                                    ease: ease_out_quart,
+                                    Timestamp: 0.3,
+                                    Rotation: from_euler([], 0, 0, 0),
+                                    Ease: ease_out_quart,
                                 },
                             ],
-                            flags: AnimationFlag.None,
+                            Flags: AnimationFlag.None,
                         },
                         [Anim.Select]: {
-                            keyframes: [
+                            Keyframes: [
                                 {
-                                    timestamp: 0.0,
-                                    translation: [1.5, 0, 0.5],
-                                    rotation: from_euler([], 0, 0, 0),
+                                    Timestamp: 0.0,
+                                    Translation: [1.5, 0, 0.5],
+                                    Rotation: from_euler([], 0, 0, 0),
                                 },
                                 {
-                                    timestamp: 0.2,
-                                    translation: [1.5, 2, 0.5],
-                                    rotation: from_euler([], 0, 0, 135),
-                                    ease: ease_in_out_quart,
+                                    Timestamp: 0.2,
+                                    Translation: [1.5, 2, 0.5],
+                                    Rotation: from_euler([], 0, 0, 135),
+                                    Ease: ease_in_out_quart,
                                 },
                                 {
-                                    timestamp: 0.4,
-                                    translation: [1.5, 0, 0.5],
-                                    rotation: from_euler([], 0, 0, 0),
-                                    ease: ease_out_quart,
+                                    Timestamp: 0.4,
+                                    Translation: [1.5, 0, 0.5],
+                                    Rotation: from_euler([], 0, 0, 0),
+                                    Ease: ease_out_quart,
                                 },
                             ],
-                            flags: AnimationFlag.None,
+                            Flags: AnimationFlag.None,
                         },
                     }),
                 ],
@@ -267,50 +267,50 @@ export function get_character_blueprint(game: Game): Blueprint {
                 using: [
                     animate({
                         [Anim.Idle]: {
-                            keyframes: [
+                            Keyframes: [
                                 {
-                                    timestamp: 0,
-                                    rotation: from_euler([], -5, 0, 0),
+                                    Timestamp: 0,
+                                    Rotation: from_euler([], -5, 0, 0),
                                 },
                                 {
-                                    timestamp: 0.5,
-                                    rotation: from_euler([], 5, 0, 0),
+                                    Timestamp: 0.5,
+                                    Rotation: from_euler([], 5, 0, 0),
                                 },
                             ],
                         },
                         [Anim.Move]: {
-                            keyframes: [
+                            Keyframes: [
                                 {
-                                    timestamp: 0,
-                                    rotation: from_euler([], -30, 0, 0),
+                                    Timestamp: 0,
+                                    Rotation: from_euler([], -30, 0, 0),
                                 },
                                 {
-                                    timestamp: 0.2,
-                                    rotation: from_euler([], 60, 0, 0),
+                                    Timestamp: 0.2,
+                                    Rotation: from_euler([], 60, 0, 0),
                                 },
                             ],
                         },
                         [Anim.Select]: {
-                            keyframes: [
+                            Keyframes: [
                                 {
-                                    timestamp: 0.0,
-                                    translation: [-1.5, 0, 0.5],
-                                    rotation: from_euler([], 0, 0, 0),
+                                    Timestamp: 0.0,
+                                    Translation: [-1.5, 0, 0.5],
+                                    Rotation: from_euler([], 0, 0, 0),
                                 },
                                 {
-                                    timestamp: 0.2,
-                                    translation: [-1.5, 2, 0.5],
-                                    rotation: from_euler([], 0, 0, -135),
-                                    ease: ease_in_out_quart,
+                                    Timestamp: 0.2,
+                                    Translation: [-1.5, 2, 0.5],
+                                    Rotation: from_euler([], 0, 0, -135),
+                                    Ease: ease_in_out_quart,
                                 },
                                 {
-                                    timestamp: 0.4,
-                                    translation: [-1.5, 0, 0.5],
-                                    rotation: from_euler([], 0, 0, 0),
-                                    ease: ease_out_quart,
+                                    Timestamp: 0.4,
+                                    Translation: [-1.5, 0, 0.5],
+                                    Rotation: from_euler([], 0, 0, 0),
+                                    Ease: ease_out_quart,
                                 },
                             ],
-                            flags: AnimationFlag.None,
+                            Flags: AnimationFlag.None,
                         },
                     }),
                 ],
@@ -328,50 +328,50 @@ export function get_character_blueprint(game: Game): Blueprint {
                 using: [
                     animate({
                         [Anim.Idle]: {
-                            keyframes: [
+                            Keyframes: [
                                 {
-                                    timestamp: 0,
-                                    rotation: from_euler([], 5, 0, 0),
+                                    Timestamp: 0,
+                                    Rotation: from_euler([], 5, 0, 0),
                                 },
                                 {
-                                    timestamp: 1,
-                                    rotation: from_euler([], 5, 0, 0),
+                                    Timestamp: 1,
+                                    Rotation: from_euler([], 5, 0, 0),
                                 },
                             ],
                         },
                         [Anim.Move]: {
-                            keyframes: [
+                            Keyframes: [
                                 {
-                                    timestamp: 0,
-                                    rotation: from_euler([], -45, 0, 0),
+                                    Timestamp: 0,
+                                    Rotation: from_euler([], -45, 0, 0),
                                 },
                                 {
-                                    timestamp: 0.2,
-                                    rotation: from_euler([], 45, 0, 0),
+                                    Timestamp: 0.2,
+                                    Rotation: from_euler([], 45, 0, 0),
                                 },
                             ],
                         },
                         [Anim.Select]: {
-                            keyframes: [
+                            Keyframes: [
                                 {
-                                    timestamp: 0.0,
-                                    translation: [0.5, -2, 0.5],
-                                    rotation: from_euler([], 0, 0, 0),
+                                    Timestamp: 0.0,
+                                    Translation: [0.5, -2, 0.5],
+                                    Rotation: from_euler([], 0, 0, 0),
                                 },
                                 {
-                                    timestamp: 0.2,
-                                    translation: [0.5, 0, 0.5],
-                                    rotation: from_euler([], 0, 0, 45),
-                                    ease: ease_in_out_quart,
+                                    Timestamp: 0.2,
+                                    Translation: [0.5, 0, 0.5],
+                                    Rotation: from_euler([], 0, 0, 45),
+                                    Ease: ease_in_out_quart,
                                 },
                                 {
-                                    timestamp: 0.4,
-                                    translation: [0.5, -2, 0.5],
-                                    rotation: from_euler([], 0, 0, 0),
-                                    ease: ease_out_quart,
+                                    Timestamp: 0.4,
+                                    Translation: [0.5, -2, 0.5],
+                                    Rotation: from_euler([], 0, 0, 0),
+                                    Ease: ease_out_quart,
                                 },
                             ],
-                            flags: AnimationFlag.None,
+                            Flags: AnimationFlag.None,
                         },
                     }),
                 ],
@@ -388,50 +388,50 @@ export function get_character_blueprint(game: Game): Blueprint {
                 using: [
                     animate({
                         [Anim.Idle]: {
-                            keyframes: [
+                            Keyframes: [
                                 {
-                                    timestamp: 0,
-                                    rotation: from_euler([], -5, 0, 0),
+                                    Timestamp: 0,
+                                    Rotation: from_euler([], -5, 0, 0),
                                 },
                                 {
-                                    timestamp: 1,
-                                    rotation: from_euler([], -5, 0, 0),
+                                    Timestamp: 1,
+                                    Rotation: from_euler([], -5, 0, 0),
                                 },
                             ],
                         },
                         [Anim.Move]: {
-                            keyframes: [
+                            Keyframes: [
                                 {
-                                    timestamp: 0,
-                                    rotation: from_euler([], 45, 0, 0),
+                                    Timestamp: 0,
+                                    Rotation: from_euler([], 45, 0, 0),
                                 },
                                 {
-                                    timestamp: 0.2,
-                                    rotation: from_euler([], -45, 0, 0),
+                                    Timestamp: 0.2,
+                                    Rotation: from_euler([], -45, 0, 0),
                                 },
                             ],
                         },
                         [Anim.Select]: {
-                            keyframes: [
+                            Keyframes: [
                                 {
-                                    timestamp: 0.0,
-                                    translation: [-0.5, -2, 0.5],
-                                    rotation: from_euler([], 0, 0, 0),
+                                    Timestamp: 0.0,
+                                    Translation: [-0.5, -2, 0.5],
+                                    Rotation: from_euler([], 0, 0, 0),
                                 },
                                 {
-                                    timestamp: 0.2,
-                                    translation: [-0.5, 0, 0.5],
-                                    rotation: from_euler([], 0, 0, -45),
-                                    ease: ease_in_out_quart,
+                                    Timestamp: 0.2,
+                                    Translation: [-0.5, 0, 0.5],
+                                    Rotation: from_euler([], 0, 0, -45),
+                                    Ease: ease_in_out_quart,
                                 },
                                 {
-                                    timestamp: 0.4,
-                                    translation: [-0.5, -2, 0.5],
-                                    rotation: from_euler([], 0, 0, 0),
-                                    ease: ease_out_quart,
+                                    Timestamp: 0.4,
+                                    Translation: [-0.5, -2, 0.5],
+                                    Rotation: from_euler([], 0, 0, 0),
+                                    Ease: ease_out_quart,
                                 },
                             ],
-                            flags: AnimationFlag.None,
+                            Flags: AnimationFlag.None,
                         },
                     }),
                 ],
