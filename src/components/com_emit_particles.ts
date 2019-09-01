@@ -30,7 +30,7 @@ export function emit_particles(
     Time: number = 0
 ) {
     return (game: Game) => (entity: Entity) => {
-        game.world[entity] |= 1 << Get.EmitParticles;
+        game.World[entity] |= 1 << Get.EmitParticles;
         game[Get.EmitParticles][entity] = <EmitParticles>{
             Lifespan,
             Frequency,

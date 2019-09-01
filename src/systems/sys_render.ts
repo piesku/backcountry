@@ -13,13 +13,13 @@ import {get_translation} from "../math/mat4.js";
 const QUERY = (1 << Get.Transform) | (1 << Get.Render);
 
 export function sys_render(game: Game, delta: number) {
-    game.gl.clear(game.gl.COLOR_BUFFER_BIT | game.gl.DEPTH_BUFFER_BIT);
+    game.GL.clear(game.GL.COLOR_BUFFER_BIT | game.GL.DEPTH_BUFFER_BIT);
 
     let light_positions: Array<number> = [];
     let light_details: Array<number> = [];
 
-    for (let i = 0; i < game.lights.length; i++) {
-        let light = game.lights[i];
+    for (let i = 0; i < game.Lights.length; i++) {
+        let light = game.Lights[i];
         let transform = game[Get.Transform][light.Entity];
         let position = get_translation([], transform.World);
         light_positions.push(...position);
@@ -29,8 +29,8 @@ export function sys_render(game: Game, delta: number) {
     // Keep track of the current material to minimize switching.
     let current_material = null;
 
-    for (let i = 0; i < game.world.length; i++) {
-        if ((game.world[i] & QUERY) === QUERY) {
+    for (let i = 0; i < game.World.length; i++) {
+        if ((game.World[i] & QUERY) === QUERY) {
             let transform = game[Get.Transform][i];
             let render = game[Get.Render][i];
 
@@ -41,12 +41,12 @@ export function sys_render(game: Game, delta: number) {
                 let {gl, program, uniforms} = current_material;
                 gl.useProgram(program);
                 // TODO Support more than one camera.
-                gl.uniformMatrix4fv(uniforms.Upv, false, game.cameras[0].PV);
+                gl.uniformMatrix4fv(uniforms.Upv, false, game.Cameras[0].PV);
 
                 switch (render.Kind) {
                     case RenderKind.Shaded:
                     case RenderKind.Instanced:
-                        gl.uniform1i(uniforms.Ulight_count, game.lights.length);
+                        gl.uniform1i(uniforms.Ulight_count, game.Lights.length);
                         gl.uniform3fv(uniforms.Ulight_positions, light_positions);
                         gl.uniform4fv(uniforms.Ulight_details, light_details);
                         break;
@@ -98,7 +98,7 @@ function draw_instanced(game: Game, transform: Transform, render: RenderInstance
     let {gl, mode, uniforms} = render.Material;
     gl.uniformMatrix4fv(uniforms.Uworld, false, transform.World);
     gl.uniformMatrix4fv(uniforms.Uself, false, transform.Self);
-    gl.uniform3fv(uniforms.Upalette, render.Palette || game.palette);
+    gl.uniform3fv(uniforms.Upalette, render.Palette || game.Palette);
     gl.bindVertexArray(render.VAO);
     gl.drawElementsInstanced(mode, render.IndexCount, gl.UNSIGNED_SHORT, 0, render.InstanceCount);
     gl.bindVertexArray(null);

@@ -27,7 +27,7 @@ export function transform(
     Scale: Vec3 = [1, 1, 1]
 ) {
     return (game: Game) => (Entity: Entity) => {
-        game.world[Entity] |= 1 << Get.Transform;
+        game.World[Entity] |= 1 << Get.Transform;
         game[Get.Transform][Entity] = <Transform>{
             Entity,
             World: create(),
@@ -54,7 +54,7 @@ export function* components_of_type<T>(
     transform: Transform,
     component: Get
 ): IterableIterator<T> {
-    if (game.world[transform.Entity] & (1 << component)) {
+    if (game.World[transform.Entity] & (1 << component)) {
         yield (game[component][transform.Entity] as unknown) as T;
     }
     for (let child of transform.Children) {

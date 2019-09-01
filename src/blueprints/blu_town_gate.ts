@@ -47,9 +47,9 @@ export function get_town_gate_blueprint(
         )
     );
 
-    if (game.seed_bounty) {
+    if (game.SeedBounty) {
         for (let i = 0; i < gate_size / 8; i++) {
-            game.grid[fence_line][fence_width / 8 + i] = Infinity;
+            game.Grid[fence_line][fence_width / 8 + i] = Infinity;
         }
     } else {
         fence_offsets.push(
@@ -78,7 +78,7 @@ export function get_town_gate_blueprint(
         Children: [
             {
                 Translation: [20, 0, 0],
-                Using: [collide(false, [8, 8, 800]), trigger_world("desert", game.seed_bounty)],
+                Using: [collide(false, [8, 8, 800]), trigger_world("desert", game.SeedBounty)],
             },
         ],
     };

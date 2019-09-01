@@ -4,8 +4,8 @@ import {Entity, Game} from "../game.js";
 const QUERY = (1 << Get.Transform) | (1 << Get.Collide) | (1 << Get.Trigger);
 
 export function sys_trigger(game: Game, delta: number) {
-    for (let i = 0; i < game.world.length; i++) {
-        if ((game.world[i] & QUERY) === QUERY) {
+    for (let i = 0; i < game.World.length; i++) {
+        if ((game.World[i] & QUERY) === QUERY) {
             update(game, i);
         }
     }
@@ -14,6 +14,6 @@ export function sys_trigger(game: Game, delta: number) {
 function update(game: Game, entity: Entity) {
     if (game[Get.Collide][entity].Collisions.length > 0) {
         let trigger = game[Get.Trigger][entity];
-        game.dispatch(trigger.Action, ...trigger.Args, entity);
+        game.Dispatch(trigger.Action, ...trigger.Args, entity);
     }
 }

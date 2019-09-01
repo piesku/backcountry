@@ -21,7 +21,7 @@ export function sys_debug(game: Game, delta: number) {
     for (let [key, wireframe] of wireframes) {
         if (
             // If the entity doesn't have TRANSFORM...
-            !(game.world[wireframe.anchor.Entity] & (1 << Get.Transform)) ||
+            !(game.World[wireframe.anchor.Entity] & (1 << Get.Transform)) ||
             // ...or if it's not the same TRANSFORM.
             game[Get.Transform][wireframe.anchor.Entity] !== wireframe.anchor
         ) {
@@ -30,23 +30,23 @@ export function sys_debug(game: Game, delta: number) {
         }
     }
 
-    for (let i = 0; i < game.world.length; i++) {
-        if (game.world[i] & (1 << Get.Transform)) {
+    for (let i = 0; i < game.World.length; i++) {
+        if (game.World[i] & (1 << Get.Transform)) {
             // Draw colliders first. If the collider's wireframe overlaps
             // exactly with the transform's wireframe, we want the collider to
             // take priority.
-            if (game.world[i] & (1 << Get.Collide)) {
+            if (game.World[i] & (1 << Get.Collide)) {
                 wireframe_collider(game, i);
             }
 
             // Draw invisible entities.
-            if (!(game.world[i] & (1 << Get.Render))) {
+            if (!(game.World[i] & (1 << Get.Render))) {
                 wireframe_entity(game, i);
             } else if (game[Get.Render][i].Kind === RenderKind.Particles) {
                 wireframe_entity(game, i);
             }
 
-            if (game.world[i] & (1 << Get.Shoot)) {
+            if (game.World[i] & (1 << Get.Shoot)) {
                 wireframe_ray(game, i);
             }
         }
@@ -59,7 +59,7 @@ function wireframe_entity(game: Game, entity: Entity) {
 
     if (!wireframe) {
         let box = game.add({
-            Using: [render_basic(game.materials[Mat.Wireframe], Cube, [1, 0, 1, 1])],
+            Using: [render_basic(game.Materials[Mat.Wireframe], Cube, [1, 0, 1, 1])],
         });
         let wireframe_transform = game[Get.Transform][box];
         wireframe_transform.World = anchor.World;
@@ -80,7 +80,7 @@ function wireframe_collider(game: Game, entity: Entity) {
         let box = game.add({
             Translation: get_translation([], anchor.World),
             Scale: collide.Size,
-            Using: [render_basic(game.materials[Mat.Wireframe], Cube, [0, 1, 0, 1])],
+            Using: [render_basic(game.Materials[Mat.Wireframe], Cube, [0, 1, 0, 1])],
         });
         wireframes.set(collide, {
             anchor,
@@ -99,7 +99,7 @@ function wireframe_ray(game: Game, entity: Entity) {
 
     if (!wireframe) {
         let line = game.add({
-            Using: [render_basic(game.materials[Mat.Wireframe], Line, [1, 1, 0, 1])],
+            Using: [render_basic(game.Materials[Mat.Wireframe], Line, [1, 1, 0, 1])],
         });
         let wireframe_transform = game[Get.Transform][line];
         wireframe_transform.World = anchor.World;

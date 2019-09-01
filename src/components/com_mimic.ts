@@ -10,7 +10,7 @@ export interface Mimic {
 
 export function mimic(Target: Entity, Stiffness: number = 0.1) {
     return (game: Game) => (entity: Entity) => {
-        game.world[entity] |= 1 << Get.Mimic;
+        game.World[entity] |= 1 << Get.Mimic;
         game[Get.Mimic][entity] = <Mimic>{Target, Stiffness};
     };
 }

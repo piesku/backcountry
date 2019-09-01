@@ -14,8 +14,8 @@ import {snd_shoot} from "../sounds/snd_shoot.js";
 const QUERY = (1 << Get.Transform) | (1 << Get.Shoot);
 
 export function sys_shoot(game: Game, delta: number) {
-    for (let i = 0; i < game.world.length; i++) {
-        if ((game.world[i] & QUERY) === QUERY) {
+    for (let i = 0; i < game.World.length; i++) {
+        if ((game.World[i] & QUERY) === QUERY) {
             update(game, i);
         }
     }
@@ -36,7 +36,7 @@ function update(game: Game, entity: Entity) {
         if (hit && hit.Other.Flags & RayFlag.Attackable) {
             let health = game[Get.Health][hit.Other.Entity];
             health.Damages.push(shoot.Damage);
-            game.dispatch(Action.HitEnemy, hit.Other.Entity);
+            game.Dispatch(Action.HitEnemy, hit.Other.Entity);
             for (let audio of components_of_type<AudioSource>(game, transform, Get.AudioSource)) {
                 audio.Trigger = snd_shoot;
             }

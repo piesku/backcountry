@@ -15,11 +15,11 @@ export interface RenderParticles {
 
 export function render_particles(ColorStart: Vec3, ColorEnd: Vec3) {
     return (game: Game) => (entity: Entity) => {
-        game.world[entity] |= 1 << Get.Render;
+        game.World[entity] |= 1 << Get.Render;
         game[Get.Render][entity] = <RenderParticles>{
             Kind: RenderKind.Particles,
-            Material: game.materials[Mat.Particles],
-            Buffer: game.gl.createBuffer(),
+            Material: game.Materials[Mat.Particles],
+            Buffer: game.GL.createBuffer(),
             ColorStart,
             ColorEnd,
         };

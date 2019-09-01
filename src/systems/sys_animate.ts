@@ -1,14 +1,14 @@
-import {Anim, AnimationFlag, AnimationKeyframe} from "../components/com_animate.js";
-import {Get} from "../components/com_index.js";
-import {Entity, Game} from "../game.js";
-import {slerp} from "../math/quat.js";
-import {lerp} from "../math/vec3.js";
+import { Anim, AnimationFlag, AnimationKeyframe } from "../components/com_animate.js";
+import { Get } from "../components/com_index.js";
+import { Entity, Game } from "../game.js";
+import { slerp } from "../math/quat.js";
+import { lerp } from "../math/vec3.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Animate);
 
 export function sys_animate(game: Game, delta: number) {
-    for (let i = 0; i < game.world.length; i++) {
-        if ((game.world[i] & QUERY) === QUERY) {
+    for (let i = 0; i < game.World.length; i++) {
+        if ((game.World[i] & QUERY) === QUERY) {
             update(game, i, delta);
         }
     }

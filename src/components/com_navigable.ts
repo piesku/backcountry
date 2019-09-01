@@ -8,14 +8,14 @@ export interface Navigable {
 
 export function navigable(X: number, Y: number) {
     return (game: Game) => (entity: Entity) => {
-        game.world[entity] |= 1 << Get.Navigable;
+        game.World[entity] |= 1 << Get.Navigable;
         game[Get.Navigable][entity] = <Navigable>{X, Y};
     };
 }
 
 export function find_navigable(game: Game, x: number, y: number) {
-    for (let i = 0; i < game.world.length; i++) {
-        if (game.world[i] & (1 << Get.Navigable)) {
+    for (let i = 0; i < game.World.length; i++) {
+        if (game.World[i] & (1 << Get.Navigable)) {
             if (game[Get.Navigable][i].X === x && game[Get.Navigable][i].Y === y) {
                 return i;
             }

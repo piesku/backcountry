@@ -12,12 +12,12 @@ export function create_shotgun(game: Game) {
         Translation: [
             0.5,
             -(
-                Math.round(game.models[Models.GUN2].size[1] / 2) +
-                game.models[Models.HAND].size[1] / 2
+                Math.round(game.Models[Models.GUN2].size[1] / 2) +
+                game.Models[Models.HAND].size[1] / 2
             ),
             0,
         ],
-        Using: [render_vox(game.models[Models.GUN2])],
+        Using: [render_vox(game.Models[Models.GUN2])],
         Children: [
             {
                 Translation: [0, 1, -2],

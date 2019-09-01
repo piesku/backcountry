@@ -9,7 +9,7 @@ export interface Health {
 
 export function health(Max: number) {
     return (game: Game) => (entity: Entity) => {
-        game.world[entity] |= 1 << Get.Health;
+        game.World[entity] |= 1 << Get.Health;
         game[Get.Health][entity] = <Health>{
             Max,
             current: Max,

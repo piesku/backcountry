@@ -10,7 +10,7 @@ export interface Shoot {
 
 export function shoot(Damage: number) {
     return (game: Game) => (entity: Entity) => {
-        game.world[entity] |= 1 << Get.Shoot;
+        game.World[entity] |= 1 << Get.Shoot;
         game[Get.Shoot][entity] = <Shoot>{
             Damage,
             Target: null,

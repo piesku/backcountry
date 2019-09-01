@@ -19,11 +19,11 @@ export function render_vox(model: Model, Palette?: Array<number>) {
     let {offsets} = model;
     let shape = Cube;
     return (game: Game) => (entity: Entity) => {
-        game.world[entity] |= 1 << Get.Render;
+        game.World[entity] |= 1 << Get.Render;
         game[Get.Render][entity] = <RenderInstanced>{
             Kind: RenderKind.Instanced,
-            Material: game.materials[Mat.Instanced],
-            VAO: buffer(game.gl, shape, offsets),
+            Material: game.Materials[Mat.Instanced],
+            VAO: buffer(game.GL, shape, offsets),
             IndexCount: shape.indices.length,
             InstanceCount: offsets.length / 4,
             Palette,

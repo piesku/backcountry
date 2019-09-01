@@ -7,8 +7,8 @@ import {get_neighbors} from "./sys_player_control.js";
 const QUERY = (1 << Get.Transform) | (1 << Get.NPC) | (1 << Get.Walking) | (1 << Get.PathFind);
 
 export function sys_ai(game: Game, delta: number) {
-    for (let i = 0; i < game.world.length; i++) {
-        if ((game.world[i] & QUERY) === QUERY) {
+    for (let i = 0; i < game.World.length; i++) {
+        if ((game.World[i] & QUERY) === QUERY) {
             update(game, i);
         }
     }
@@ -20,7 +20,7 @@ function update(game: Game, entity: Entity) {
 
     if (!path_find.Route.length) {
         let destination_depth = integer(1, 15);
-        while (destination_depth === game.grid[walking.X][walking.Y]) {
+        while (destination_depth === game.Grid[walking.X][walking.Y]) {
             destination_depth = integer(1, 15);
         }
 
@@ -34,7 +34,7 @@ function update(game: Game, entity: Entity) {
 function get_route(game: Game, entity: Entity, destination_depth: number) {
     let walking = game[Get.Walking][entity];
     let current_cell = game[Get.Navigable][find_navigable(game, walking.X, walking.Y)];
-    let current_depth = game.grid[walking.X][walking.Y];
+    let current_depth = game.Grid[walking.X][walking.Y];
     let modifier = destination_depth > current_depth ? 1 : -1;
 
     let route: Array<[number, number]> = [];
@@ -46,7 +46,7 @@ function get_route(game: Game, entity: Entity, destination_depth: number) {
     while (destination_depth !== current_depth) {
         if (route.length > 10) {
             destination_depth = integer(1, 15);
-            current_depth = game.grid[walking.X][walking.Y];
+            current_depth = game.Grid[walking.X][walking.Y];
             modifier = destination_depth > current_depth ? 1 : -1;
         }
 
@@ -59,14 +59,14 @@ function get_route(game: Game, entity: Entity, destination_depth: number) {
         for (let i = 0; i < neighbors.length; i++) {
             let neighbor_coords = neighbors[i];
             if (
-                game.grid[neighbor_coords.x][neighbor_coords.y] ===
+                game.Grid[neighbor_coords.x][neighbor_coords.y] ===
                 current_depth + 1 * modifier
                 //  ||
                 // game.grid[neighbor_coords.x][neighbor_coords.y] === current_depth
             ) {
                 current_cell =
                     game[Get.Navigable][find_navigable(game, neighbor_coords.x, neighbor_coords.y)];
-                current_depth = game.grid[current_cell.X][current_cell.Y];
+                current_depth = game.Grid[current_cell.X][current_cell.Y];
                 break;
             }
         }

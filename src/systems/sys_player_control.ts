@@ -13,11 +13,11 @@ const QUERY =
     (1 << Get.PathFind);
 
 export function sys_player_control(game: Game, delta: number) {
-    let camera = game.cameras[0];
-    if (game.world[camera.Entity] & (1 << Get.Select)) {
+    let camera = game.Cameras[0];
+    if (game.World[camera.Entity] & (1 << Get.Select)) {
         let cursor = game[Get.Select][camera.Entity];
-        for (let i = 0; i < game.world.length; i++) {
-            if ((game.world[i] & QUERY) === QUERY) {
+        for (let i = 0; i < game.World.length; i++) {
+            if ((game.World[i] & QUERY) === QUERY) {
                 update(game, i, cursor);
             }
         }
@@ -29,7 +29,7 @@ function update(game: Game, entity: Entity, cursor: Select) {
         return;
     }
 
-    if (game.event.mouse_0_down) {
+    if (game.Event.mouse_0_down) {
         if (cursor.Hit.Other.Flags & RayFlag.Navigable) {
             let route = get_route(game, entity, game[Get.Navigable][cursor.Hit.Other.Entity]);
             if (route) {
@@ -43,7 +43,7 @@ function update(game: Game, entity: Entity, cursor: Select) {
         }
     }
 
-    if (game.event.mouse_2_down) {
+    if (game.Event.mouse_2_down) {
         game[Get.Shoot][entity].Target = cursor.Hit.Contact;
     }
 }
@@ -66,7 +66,7 @@ export function get_neighbors(game: Game, x: number, y: number, diagonal: boolea
     }
 
     return directions.filter(
-        ({x, y}) => x >= 0 && x < game.grid.length && y >= 0 && y < game.grid[0].length
+        ({x, y}) => x >= 0 && x < game.Grid.length && y >= 0 && y < game.Grid[0].length
     );
 }
 
@@ -74,10 +74,10 @@ export function calculate_distance(game: Game, x: number, y: number, diagonal: b
     let frontier = [{x, y}];
     let current;
     while ((current = frontier.shift())) {
-        if (game.grid[current.x][current.y] < 15) {
+        if (game.Grid[current.x][current.y] < 15) {
             for (let cell of get_neighbors(game, current.x, current.y, diagonal)) {
-                if (game.grid[cell.x][cell.y] > game.grid[current.x][current.y] + 1) {
-                    game.grid[cell.x][cell.y] = game.grid[current.x][current.y] + 1;
+                if (game.Grid[cell.x][cell.y] > game.Grid[current.x][current.y] + 1) {
+                    game.Grid[cell.x][cell.y] = game.Grid[current.x][current.y] + 1;
                     frontier.push(cell);
                 }
             }
@@ -89,18 +89,18 @@ function get_route(game: Game, entity: Entity, destination: Navigable) {
     let walking = game[Get.Walking][entity];
 
     // reset the depth field
-    for (let x = 0; x < game.grid.length; x++) {
-        for (let y = 0; y < game.grid[0].length; y++) {
-            if (!Number.isNaN(game.grid[x][y])) {
-                game.grid[x][y] = Infinity;
+    for (let x = 0; x < game.Grid.length; x++) {
+        for (let y = 0; y < game.Grid[0].length; y++) {
+            if (!Number.isNaN(game.Grid[x][y])) {
+                game.Grid[x][y] = Infinity;
             }
         }
     }
-    game.grid[walking.X][walking.Y] = 0;
+    game.Grid[walking.X][walking.Y] = 0;
     calculate_distance(game, walking.X, walking.Y, walking.Diagonal);
 
     // Bail out early if the destination is not accessible (Infinity) or non-walkable (NaN).
-    if (!(game.grid[destination.X][destination.Y] < Infinity)) {
+    if (!(game.Grid[destination.X][destination.Y] < Infinity)) {
         return false;
     }
 
@@ -113,8 +113,8 @@ function get_route(game: Game, entity: Entity, destination: Navigable) {
         for (let i = 0; i < neighbors.length; i++) {
             let neighbor_coords = neighbors[i];
             if (
-                game.grid[neighbor_coords.x][neighbor_coords.y] <
-                game.grid[destination.X][destination.Y]
+                game.Grid[neighbor_coords.x][neighbor_coords.y] <
+                game.Grid[destination.X][destination.Y]
             ) {
                 destination =
                     game[Get.Navigable][find_navigable(game, neighbor_coords.x, neighbor_coords.y)];

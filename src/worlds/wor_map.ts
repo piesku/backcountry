@@ -23,20 +23,20 @@ import {integer, rand, set_seed} from "../math/random.js";
 import {snd_music} from "../sounds/snd_music.js";
 
 export function world_map(game: Game) {
-    set_seed(game.seed_town);
+    set_seed(game.SeedTown);
     let map_size = 40;
     let fence_line = 30;
     let fence_height = 4;
     let fence_gate_size = 16;
 
-    game.world = [];
-    game.grid = [];
+    game.World = [];
+    game.Grid = [];
 
-    game.gl.clearColor(1, 0.3, 0.3, 1);
+    game.GL.clearColor(1, 0.3, 0.3, 1);
 
     // Ground.
     for (let x = 0; x < map_size; x++) {
-        game.grid[x] = [];
+        game.Grid[x] = [];
         for (let y = 0; y < map_size; y++) {
             let is_fence = x === fence_line;
             // cactuses & stones here
@@ -44,7 +44,7 @@ export function world_map(game: Game) {
             // generated on the fence line
             let is_walkable = is_fence ? true : rand() > 0.04 ? true : false;
 
-            game.grid[x][y] = is_walkable && !is_fence ? Infinity : NaN;
+            game.Grid[x][y] = is_walkable && !is_fence ? Infinity : NaN;
             let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y);
 
             game.add({
@@ -74,12 +74,12 @@ export function world_map(game: Game) {
         let building_z = building_blu.size[2] / 8;
         for (let z = starting_position; z < starting_position + building_z; z++) {
             for (let x = building_x_tile; x < building_x_tile + building_x; x++) {
-                game.grid[x][z] = NaN;
+                game.Grid[x][z] = NaN;
             }
         }
 
         // Door
-        game.grid[building_x_tile + building_x - 1][starting_position + building_z - 1] = game.grid[
+        game.Grid[building_x_tile + building_x - 1][starting_position + building_z - 1] = game.Grid[
             building_x_tile + building_x - 1
         ][starting_position + building_z - 2] = Infinity;
 
@@ -109,7 +109,7 @@ export function world_map(game: Game) {
     for (let i = 0; i < cowboys_count; i++) {
         let x = integer(0, map_size);
         let y = integer(0, map_size);
-        if (game.grid[x] && game.grid[x][y] && !isNaN(game.grid[x][y])) {
+        if (game.Grid[x] && game.Grid[x][y] && !isNaN(game.Grid[x][y])) {
             game.add({
                 Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
                 Rotation: from_euler([], 0, integer(0, 3) * 90, 0),
@@ -123,7 +123,7 @@ export function world_map(game: Game) {
         game[Get.Transform][find_navigable(game, ~~(map_size / 2), ~~(map_size / 2))].Translation;
 
     // Player.
-    set_seed(game.seed_player);
+    set_seed(game.SeedPlayer);
     game.add({
         Translation: [player_position[0], 5, player_position[2]],
         Using: [

@@ -20,16 +20,16 @@ import {set_seed} from "../math/random.js";
 let map_size = 5;
 
 export function world_house(game: Game) {
-    game.world = [];
-    game.grid = [];
+    game.World = [];
+    game.Grid = [];
 
-    game.gl.clearColor(1, 0.3, 0.3, 1);
+    game.GL.clearColor(1, 0.3, 0.3, 1);
 
     // Ground.
     for (let x = 0; x < map_size; x++) {
-        game.grid[x] = [];
+        game.Grid[x] = [];
         for (let y = 0; y < map_size; y++) {
-            game.grid[x][y] = Infinity;
+            game.Grid[x][y] = Infinity;
             let tile_blueprint = get_house_tile_blueprint(game, x, y);
 
             game.add({
@@ -41,7 +41,7 @@ export function world_house(game: Game) {
 
     game.add({
         Translation: [5, 5, 5],
-        Using: [collide(false, [8, 8, 8]), trigger_world("map", game.seed_town)],
+        Using: [collide(false, [8, 8, 8]), trigger_world("map", game.SeedTown)],
     });
 
     // Directional light
@@ -55,7 +55,7 @@ export function world_house(game: Game) {
             find_navigable(game, Math.floor(map_size / 2), Math.floor(map_size / 2))
         ].Translation;
     // Player.
-    set_seed(game.seed_player);
+    set_seed(game.SeedPlayer);
     game.add({
         Translation: [player_position[0], 5, player_position[2]],
         Using: [

@@ -9,7 +9,7 @@ export interface Trigger {
 
 export function trigger(Action: Action, ...Args: Array<unknown>) {
     return (game: Game) => (entity: Entity) => {
-        game.world[entity] |= 1 << Get.Trigger;
+        game.World[entity] |= 1 << Get.Trigger;
         game[Get.Trigger][entity] = <Trigger>{
             Action,
             Args,

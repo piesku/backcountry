@@ -10,7 +10,7 @@ export const lamp_blueprint = <Blueprint>{
     Children: [
         {
             Translation: [0, 0, 4.5],
-            Using: [(game: Game) => render_vox(game.models[Models.LAMP])(game), cull(Get.Render)],
+            Using: [(game: Game) => render_vox(game.Models[Models.LAMP])(game), cull(Get.Render)],
         },
         {
             Translation: [0, 1, 7],

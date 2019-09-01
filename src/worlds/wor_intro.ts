@@ -6,11 +6,11 @@ import {from_euler} from "../math/quat.js";
 import {set_seed} from "../math/random.js";
 
 export function world_intro(game: Game) {
-    game.world = [];
-    game.gl.clearColor(0.95, 0.73, 0.35, 1);
+    game.World = [];
+    game.GL.clearColor(0.95, 0.73, 0.35, 1);
 
     // Player.
-    set_seed(game.seed_player);
+    set_seed(game.SeedPlayer);
     game.add({
         Using: [],
         Children: [get_character_blueprint(game)],

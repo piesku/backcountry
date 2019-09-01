@@ -84,8 +84,8 @@ export function get_building_blueprint(game: Game) {
 
     if (has_windows && has_tall_front_facade) {
         // WINDOWS
-        let window_width = game.models[Models.WINDOW].size[2];
-        let window_height = game.models[Models.WINDOW].size[1];
+        let window_width = game.Models[Models.WINDOW].size[2];
+        let window_height = game.Models[Models.WINDOW].size[1];
 
         for (
             let offset = window_width;
@@ -100,7 +100,7 @@ export function get_building_blueprint(game: Game) {
                     building_size[1] - offset - window_width / 2,
                 ],
                 Using: [
-                    (game: Game) => render_vox(game.models[Models.WINDOW])(game),
+                    (game: Game) => render_vox(game.Models[Models.WINDOW])(game),
                     cull(Get.Render),
                 ],
             });

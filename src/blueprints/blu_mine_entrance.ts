@@ -63,7 +63,7 @@ export function get_mine_entrance_blueprint(game: Game) {
             wooden_part,
             {
                 Translation: [0, 0, 12],
-                Using: [collide(false, [8, 8, 8]), trigger_world("mine", game.seed_bounty)],
+                Using: [collide(false, [8, 8, 8]), trigger_world("mine", game.SeedBounty)],
             },
         ],
     };

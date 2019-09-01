@@ -18,11 +18,11 @@ export function camera_perspective(fovy: number, near: number, far: number) {
         let Projection = perspective(
             create(),
             fovy,
-            game.canvas.width / game.canvas.height,
+            game.Canvas.width / game.Canvas.height,
             near,
             far
         );
-        game.world[Entity] |= 1 << Get.Camera;
+        game.World[Entity] |= 1 << Get.Camera;
         game[Get.Camera][Entity] = <Camera>{
             Entity,
             Position: [],
@@ -40,13 +40,13 @@ export function camera_ortho(radius: number, near: number, far: number) {
         let Projection = ortho(
             create(),
             radius,
-            radius * (game.canvas.width / game.canvas.height),
+            radius * (game.Canvas.width / game.Canvas.height),
             -radius,
-            -radius * (game.canvas.width / game.canvas.height),
+            -radius * (game.Canvas.width / game.Canvas.height),
             near,
             far
         );
-        game.world[Entity] |= 1 << Get.Camera;
+        game.World[Entity] |= 1 << Get.Camera;
         game[Get.Camera][Entity] = <Camera>{
             Entity,
             Position: [],
