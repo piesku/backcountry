@@ -228,27 +228,27 @@ export function get_building_blueprint(game: Game) {
         );
     }
 
-    let size: [number, number, number] = [
+    let Size: [number, number, number] = [
         building_size[0] + 3 + porch_size + 1,
         building_size[2],
         building_size[1] + 2,
     ];
 
     return {
-        blu: <Blueprint>{
+        Blueprint: <Blueprint>{
             Translation: [0, 1.5, 0],
             // rotation: from_euler([], 0, 270, 0),
             Using: [
                 render_vox(
                     {
                         offsets: Float32Array.from(offsets),
-                        size,
+                        size: Size,
                     },
                     palette
                 ),
             ],
             Children,
         },
-        size,
+        Size,
     };
 }
