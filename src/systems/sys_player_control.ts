@@ -96,8 +96,8 @@ function get_route(game: Game, entity: Entity, destination: Navigable) {
             }
         }
     }
-    game.grid[walking.x][walking.y] = 0;
-    calculate_distance(game, walking.x, walking.y, walking.diagonal);
+    game.grid[walking.X][walking.Y] = 0;
+    calculate_distance(game, walking.X, walking.Y, walking.Diagonal);
 
     // Bail out early if the destination is not accessible (Infinity) or non-walkable (NaN).
     if (!(game.grid[destination.X][destination.Y] < Infinity)) {
@@ -105,10 +105,10 @@ function get_route(game: Game, entity: Entity, destination: Navigable) {
     }
 
     let route: Array<[number, number]> = [];
-    while (!(destination.X === walking.x && destination.Y === walking.y)) {
+    while (!(destination.X === walking.X && destination.Y === walking.Y)) {
         route.push([destination.X, destination.Y]);
 
-        let neighbors = get_neighbors(game, destination.X, destination.Y, walking.diagonal);
+        let neighbors = get_neighbors(game, destination.X, destination.Y, walking.Diagonal);
 
         for (let i = 0; i < neighbors.length; i++) {
             let neighbor_coords = neighbors[i];

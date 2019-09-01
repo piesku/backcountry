@@ -39,8 +39,8 @@ function update(game: Game, entity: Entity) {
 
         let diff = subtract([], world_destination, transform.Translation);
         if (length(diff) < 1) {
-            walking.x = control.DestinationX;
-            walking.y = control.DestinationY;
+            walking.X = control.DestinationX;
+            walking.Y = control.DestinationY;
             control.Destination = null;
         }
 
