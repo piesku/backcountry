@@ -8,7 +8,7 @@ import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
-import {integer, rand} from "../math/random.js";
+import {rand} from "../math/random.js";
 import {get_cactus_blueprint} from "./blu_cactus.js";
 import {Blueprint, create_tile} from "./blu_common.js";
 import {get_block_blueprint} from "./blu_ground_block.js";
@@ -73,7 +73,7 @@ export function get_tile_blueprint(
     let using = is_walkable ? [ray_target(RayFlag.Navigable), navigable(x, y)] : [];
     return {
         translation: [0, 0, 0],
-        rotation: from_euler([], 0, integer(0, 3) * 90, 0),
+        rotation: from_euler([], 0, 0, 0),
         using: [collide(false, [8, 1, 8]), cull(Get.Collide), ...using],
         children: [tile],
     };
