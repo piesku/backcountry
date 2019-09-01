@@ -33,10 +33,10 @@ function update(game: Game, entity: Entity) {
         let origin = get_translation([], transform.World);
         let direction = get_forward([], transform.World);
         let hit = raycast(game, origin, direction);
-        if (hit && hit.other.Flags & RayFlag.Attackable) {
-            let health = game[Get.Health][hit.other.Entity];
+        if (hit && hit.Other.Flags & RayFlag.Attackable) {
+            let health = game[Get.Health][hit.Other.Entity];
             health.Damages.push(shoot.Damage);
-            game.dispatch(Action.HitEnemy, hit.other.Entity);
+            game.dispatch(Action.HitEnemy, hit.Other.Entity);
             for (let audio of components_of_type<AudioSource>(game, transform, Get.AudioSource)) {
                 audio.Trigger = snd_shoot;
             }

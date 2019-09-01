@@ -30,21 +30,21 @@ function update(game: Game, entity: Entity, cursor: Select) {
     }
 
     if (game.event.mouse_0_down) {
-        if (cursor.Hit.other.Flags & RayFlag.Navigable) {
-            let route = get_route(game, entity, game[Get.Navigable][cursor.Hit.other.Entity]);
+        if (cursor.Hit.Other.Flags & RayFlag.Navigable) {
+            let route = get_route(game, entity, game[Get.Navigable][cursor.Hit.Other.Entity]);
             if (route) {
                 game[Get.PathFind][entity].Route = route;
             }
         }
 
-        if (cursor.Hit.other.Flags & RayFlag.Attackable) {
-            let other_transform = game[Get.Transform][cursor.Hit.other.Entity];
+        if (cursor.Hit.Other.Flags & RayFlag.Attackable) {
+            let other_transform = game[Get.Transform][cursor.Hit.Other.Entity];
             game[Get.Shoot][entity].Target = get_translation([], other_transform.World);
         }
     }
 
     if (game.event.mouse_2_down) {
-        game[Get.Shoot][entity].Target = cursor.Hit.contact;
+        game[Get.Shoot][entity].Target = cursor.Hit.Contact;
     }
 }
 
