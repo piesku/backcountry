@@ -16,8 +16,6 @@ import {trigger_world} from "../components/com_trigger.js";
 import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
 import {set_seed} from "../math/random.js";
-import {snd_miss} from "../sounds/snd_miss.js";
-import {snd_shoot} from "../sounds/snd_shoot.js";
 
 let map_size = 5;
 
@@ -69,7 +67,7 @@ export function world_house(game: Game) {
             collide(true, [4, 7, 1]),
             ray_target(RayFlag.None),
             shoot(1),
-            audio_source({shoot: snd_shoot, miss: snd_miss}),
+            audio_source(),
         ],
         children: [
             get_character_blueprint(game),

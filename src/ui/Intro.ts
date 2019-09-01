@@ -21,7 +21,7 @@ export function Intro(town_seed: number) {
                 BACK<br />COUNTRY
                 <hr style="border: solid #D45230 10px;" />
                 <button
-                    onclick="game.dispatch(${Action.ChangeWorld}, 'map', ${town_seed});"
+                    onclick="$(${Action.ChangeWorld}, 'map', ${town_seed});"
                     style="color: #FFE8C6;"
                 >
                     PLAY
