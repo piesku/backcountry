@@ -229,7 +229,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                             ],
                             flags: AnimationFlag.None,
                         },
-                        [Anim.Shoot]: {
+                        [Anim.Select]: {
                             keyframes: [
                                 {
                                     timestamp: 0.0,
