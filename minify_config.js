@@ -5,7 +5,6 @@ export default {
     output: {
         file: "public/opt/game.min.js",
         format: "iife",
-        name: "backcountry",
     },
     plugins: [minify({comments: false})],
 };
