@@ -27,8 +27,8 @@ function update(game: Game, entity: Entity) {
         // transforms above and below the frustum, with a padding.
         Math.abs(camera_position[1]) > 1 / game.cameras[0].Projection[5] + 8
     ) {
-        game.world[entity] &= ~(1 << cull.component);
+        game.world[entity] &= ~(1 << cull.Component);
     } else {
-        game.world[entity] |= 1 << cull.component;
+        game.world[entity] |= 1 << cull.Component;
     }
 }
