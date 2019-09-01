@@ -79,14 +79,14 @@ function wireframe_collider(game: Game, entity: Entity) {
     if (!wireframe) {
         let box = game.add({
             translation: get_translation([], anchor.world),
-            scale: collide.size,
+            scale: collide.Size,
             using: [render_basic(game.materials[Mat.Wireframe], Cube, [0, 1, 0, 1])],
         });
         wireframes.set(collide, {
             anchor,
             transform: game[Get.Transform][box],
         });
-    } else if (collide.dynamic) {
+    } else if (collide.Dynamic) {
         get_translation(wireframe.transform.translation, anchor.world);
         wireframe.transform.dirty = true;
     }

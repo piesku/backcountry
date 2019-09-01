@@ -37,12 +37,12 @@ export function raycast(game: Game, origin: Vec3, direction: Vec3) {
 
 function inside(origin: Vec3, aabb: Collide) {
     return (
-        origin[0] >= aabb.min[0] &&
-        origin[0] <= aabb.max[0] &&
-        origin[1] >= aabb.min[1] &&
-        origin[1] <= aabb.max[1] &&
-        origin[2] >= aabb.min[2] &&
-        origin[2] <= aabb.max[2]
+        origin[0] >= aabb.Min[0] &&
+        origin[0] <= aabb.Max[0] &&
+        origin[1] >= aabb.Min[1] &&
+        origin[1] <= aabb.Max[1] &&
+        origin[2] >= aabb.Min[2] &&
+        origin[2] <= aabb.Max[2]
     );
 }
 
@@ -51,8 +51,8 @@ function distance(origin: Vec3, direction: Vec3, aabb: Collide) {
     let min_hi = +Infinity;
 
     for (let i = 0; i < 3; i++) {
-        let lo = (aabb.min[i] - origin[i]) / direction[i];
-        let hi = (aabb.max[i] - origin[i]) / direction[i];
+        let lo = (aabb.Min[i] - origin[i]) / direction[i];
+        let hi = (aabb.Max[i] - origin[i]) / direction[i];
 
         if (lo > hi) {
             [lo, hi] = [hi, lo];

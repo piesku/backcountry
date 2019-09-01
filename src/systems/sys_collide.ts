@@ -18,11 +18,11 @@ export function sys_collide(game: Game, delta: number) {
             all_colliders.push(collider);
 
             // Prepare the collider for this tick's detection.
-            collider.collisions = [];
-            if (collider.new) {
-                collider.new = false;
+            collider.Collisions = [];
+            if (collider.New) {
+                collider.New = false;
                 compute_aabb(transform, collider);
-            } else if (collider.dynamic) {
+            } else if (collider.Dynamic) {
                 compute_aabb(transform, collider);
                 dyn_colliders.push(collider);
             }
@@ -45,26 +45,26 @@ function check_collisions(collider: Collide, colliders: Collide[]) {
     for (let i = 0; i < colliders.length; i++) {
         let other = colliders[i];
         if (collider !== other && intersect_aabb(collider, other)) {
-            collider.collisions.push(other);
-            other.collisions.push(collider);
+            collider.Collisions.push(other);
+            other.Collisions.push(collider);
         }
     }
 }
 
 function compute_aabb(transform: Transform, collide: Collide) {
     let world_position = get_translation([], transform.world);
-    let half = scale([], collide.size, 0.5);
-    subtract(collide.min, world_position, half);
-    add(collide.max, world_position, half);
+    let half = scale([], collide.Size, 0.5);
+    subtract(collide.Min, world_position, half);
+    add(collide.Max, world_position, half);
 }
 
 function intersect_aabb(a: Collide, b: Collide) {
     return (
-        a.min[0] < b.max[0] &&
-        a.max[0] > b.min[0] &&
-        a.min[1] < b.max[1] &&
-        a.max[1] > b.min[1] &&
-        a.min[2] < b.max[2] &&
-        a.max[2] > b.min[2]
+        a.Min[0] < b.Max[0] &&
+        a.Max[0] > b.Min[0] &&
+        a.Min[1] < b.Max[1] &&
+        a.Max[1] > b.Min[1] &&
+        a.Min[2] < b.Max[2] &&
+        a.Max[2] > b.Min[2]
     );
 }
