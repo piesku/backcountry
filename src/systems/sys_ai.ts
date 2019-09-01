@@ -18,7 +18,7 @@ function update(game: Game, entity: Entity) {
     let path_find = game[Get.PathFind][entity];
     let walking = game[Get.Walking][entity];
 
-    if (!path_find.route.length) {
+    if (!path_find.Route.length) {
         let destination_depth = integer(1, 15);
         while (destination_depth === game.grid[walking.x][walking.y]) {
             destination_depth = integer(1, 15);
@@ -26,7 +26,7 @@ function update(game: Game, entity: Entity) {
 
         let route = get_route(game, entity, destination_depth);
         if (route) {
-            path_find.route = route;
+            path_find.Route = route;
         }
     }
 }

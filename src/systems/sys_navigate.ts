@@ -19,29 +19,29 @@ function update(game: Game, entity: Entity) {
     let control = game[Get.PathFind][entity];
     let walking = game[Get.Walking][entity];
 
-    if (!control.destination) {
-        if (control.route.length) {
-            let dest = control.route.pop() as [number, number];
+    if (!control.Destination) {
+        if (control.Route.length) {
+            let dest = control.Route.pop() as [number, number];
             let destination_entity = find_navigable(game, dest[0], dest[1]);
-            control.destination_x = dest[0];
-            control.destination_y = dest[1];
-            control.destination = game[Get.Transform][destination_entity].translation;
+            control.DestinationX = dest[0];
+            control.DestinationY = dest[1];
+            control.Destination = game[Get.Transform][destination_entity].translation;
         }
     }
 
-    if (control.destination) {
+    if (control.Destination) {
         let transform = game[Get.Transform][entity];
         let world_destination = [
-            control.destination[0],
+            control.Destination[0],
             transform.translation[1],
-            control.destination[2],
+            control.Destination[2],
         ];
 
         let diff = subtract([], world_destination, transform.translation);
         if (length(diff) < 1) {
-            walking.x = control.destination_x;
-            walking.y = control.destination_y;
-            control.destination = null;
+            walking.x = control.DestinationX;
+            walking.y = control.DestinationY;
+            control.Destination = null;
         }
 
         normalize(diff, diff);
