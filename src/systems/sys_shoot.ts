@@ -8,6 +8,8 @@ import {components_of_type} from "../components/com_transform.js";
 import {Entity, Game} from "../game.js";
 import {get_forward, get_translation} from "../math/mat4.js";
 import {raycast} from "../math/raycast.js";
+import {snd_miss} from "../sounds/snd_miss.js";
+import {snd_shoot} from "../sounds/snd_shoot.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Shoot);
 
@@ -36,11 +38,11 @@ function update(game: Game, entity: Entity) {
             health.damages.push(shoot.damage);
             game.dispatch(Action.HitEnemy, hit.other.entity);
             for (let audio of components_of_type<AudioSource>(game, transform, Get.AudioSource)) {
-                audio.trigger = "shoot";
+                audio.trigger = snd_shoot;
             }
         } else {
             for (let audio of components_of_type<AudioSource>(game, transform, Get.AudioSource)) {
-                audio.trigger = "miss";
+                audio.trigger = snd_miss;
             }
         }
 

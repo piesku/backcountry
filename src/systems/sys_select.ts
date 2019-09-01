@@ -6,6 +6,7 @@ import {components_of_type} from "../components/com_transform.js";
 import {Entity, Game} from "../game.js";
 import {raycast} from "../math/raycast.js";
 import {normalize, subtract, transform_point} from "../math/vec3.js";
+import {snd_click} from "../sounds/snd_click.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Camera) | (1 << Get.Select);
 const TARGET = (1 << Get.Transform) | (1 << Get.Collide) | (1 << Get.RayTarget);
@@ -56,7 +57,7 @@ function update(game: Game, entity: Entity) {
             animate.trigger = Anim.Select;
         }
         for (let audio of components_of_type<AudioSource>(game, transform, Get.AudioSource)) {
-            audio.trigger = "select";
+            audio.trigger = snd_click;
         }
     }
 }

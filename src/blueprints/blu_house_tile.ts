@@ -9,7 +9,6 @@ import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
 import {integer} from "../math/random.js";
-import {snd_click} from "../sounds/snd_click.js";
 import {Blueprint} from "./blu_common.js";
 import {create_tile} from "./blu_tools.js";
 
@@ -23,7 +22,7 @@ export function get_house_tile_blueprint(game: Game, x: number = 0, y: number = 
         using: [
             render_vox(tile_model, house_palette),
             cull(Get.Render),
-            audio_source({select: snd_click}),
+            audio_source(),
             animate({
                 [Anim.Idle]: {
                     keyframes: [
