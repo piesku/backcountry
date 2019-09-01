@@ -9,8 +9,7 @@ import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
 import {integer} from "../math/random.js";
-import {Blueprint} from "./blu_common.js";
-import {create_tile} from "./blu_tools.js";
+import {Blueprint, create_tile} from "./blu_common.js";
 
 let house_palette = [0.6, 0.4, 0, 0.4, 0.2, 0];
 let tile_size = 8;

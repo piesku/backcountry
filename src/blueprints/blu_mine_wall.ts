@@ -3,9 +3,8 @@ import {cull} from "../components/com_cull.js";
 import {Get} from "../components/com_index.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {rand} from "../math/random.js";
-import {Blueprint} from "./blu_common.js";
+import {Blueprint, create_block} from "./blu_common.js";
 import {lamp_blueprint} from "./blu_lamp.js";
-import {create_block} from "./blu_tools.js";
 
 let initial_palette = [1, 0.8, 0.4, 0.6, 0.4, 0];
 let tile_size = 8;

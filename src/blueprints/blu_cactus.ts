@@ -2,8 +2,7 @@ import {cull} from "../components/com_cull.js";
 import {Get} from "../components/com_index.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {integer, rand} from "../math/random.js";
-import {Blueprint} from "./blu_common.js";
-import {create_line} from "./blu_tools.js";
+import {Blueprint, create_line} from "./blu_common.js";
 
 let palette = [0, 0.8, 0];
 

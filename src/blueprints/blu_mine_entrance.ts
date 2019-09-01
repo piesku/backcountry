@@ -3,9 +3,8 @@ import {render_vox} from "../components/com_render_vox.js";
 import {trigger_world} from "../components/com_trigger.js";
 import {Game} from "../game.js";
 import {BuildingColors, main_building_palette} from "./blu_building.js";
-import {Blueprint} from "./blu_common.js";
+import {Blueprint, create_line} from "./blu_common.js";
 import {get_rock_blueprint} from "./blu_rock.js";
-import {create_line} from "./blu_tools.js";
 
 export function get_mine_entrance_blueprint(game: Game): Blueprint {
     let rock_model = get_rock_blueprint(game);

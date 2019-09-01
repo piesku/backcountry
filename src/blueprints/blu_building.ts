@@ -1,7 +1,11 @@
+import {cull} from "../components/com_cull.js";
+import {Get} from "../components/com_index.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
+import {from_euler} from "../math/quat.js";
 import {element, integer, rand} from "../math/random.js";
-import {create_line} from "./blu_tools.js";
+import {Models} from "../models_map.js";
+import {create_line} from "./blu_common.js";
 
 export let main_building_palette = [0.6, 0.4, 0, 0.4, 0.2, 0, 0.14, 0, 0, 0.2, 0.8, 1];
 
@@ -24,7 +28,7 @@ export function get_building_blueprint(game: Game) {
     let palette = [...main_building_palette, ...(element(additional_colors) as number[])];
 
     let has_tall_front_facade = rand() > 0.3;
-    let has_windows = rand() > 0.4;
+    let has_windows = rand() > 0.2;
     let has_pillars = rand() > 0.4;
     let has_fence = rand() > 0.2;
     let is_painted = rand() > 0.4;
@@ -36,6 +40,7 @@ export function get_building_blueprint(game: Game) {
     let porch_size = 8; //7 + integer(0, 2);
 
     let offsets: number[] = [];
+    let children = [];
 
     // WALLS
     for (let x = 1; x < building_size[0]; x++) {
@@ -79,66 +84,26 @@ export function get_building_blueprint(game: Game) {
 
     if (has_windows && has_tall_front_facade) {
         // WINDOWS
-        let window_width = Math.round(building_size[0] / 4);
-        let window_height = ~~(building_size[2] * 0.4) + 1;
+        let window_width = game.models[Models.WINDOW].size[2];
+        let window_height = game.models[Models.WINDOW].size[1];
 
         for (
             let offset = window_width;
             offset < building_size[1] - window_width - 1;
             offset += window_width * 3
         ) {
-            offsets.push(
-                ...create_line(
-                    [building_size[0] + 1, building_size[2], building_size[1] - offset],
-                    [
-                        building_size[0] + 1,
-                        building_size[2] + window_height,
-                        building_size[1] - offset,
-                    ],
-                    BuildingColors.wood
-                ),
-                ...create_line(
-                    [
-                        building_size[0] + 1,
-                        building_size[2],
-                        building_size[1] - offset - window_width,
-                    ],
-                    [
-                        building_size[0] + 1,
-                        building_size[2] + window_height,
-                        building_size[1] - offset - window_width,
-                    ],
-                    BuildingColors.wood
-                )
-            );
-
-            for (let i = 0; i < window_height; i++) {
-                offsets.push(
-                    ...create_line(
-                        [building_size[0] + 1, building_size[2] + i, building_size[1] - offset - 1],
-                        [
-                            building_size[0] + 1,
-                            building_size[2] + i,
-                            building_size[1] - offset - window_width - 1,
-                        ],
-                        i === 0 || i === window_height - 1
-                            ? BuildingColors.wood
-                            : BuildingColors.windows
-                    )
-                );
-            }
-
-            offsets.push(
-                ...create_line(
-                    [building_size[0] + 2, building_size[2], building_size[1] - offset],
-                    [
-                        building_size[0] + 2,
-                        building_size[2],
-                        building_size[1] - offset - window_width - 1,
-                    ],
-                    BuildingColors.wood
-                )
-            );
+            children.push({
+                rotation: from_euler([], 0, integer(0, 2) * 180, 0),
+                translation: [
+                    building_size[0] + 1,
+                    building_size[2] + window_height / 2,
+                    building_size[1] - offset - window_width / 2,
+                ],
+                using: [
+                    (game: Game) => render_vox(game.models[Models.WINDOW])(game),
+                    cull(Get.Render),
+                ],
+            });
         }
     } else {
         // BANNER
@@ -282,6 +247,7 @@ export function get_building_blueprint(game: Game) {
                     palette
                 ),
             ],
+            children,
         },
         size,
     };

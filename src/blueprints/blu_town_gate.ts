@@ -3,8 +3,7 @@ import {render_vox} from "../components/com_render_vox.js";
 import {trigger_world} from "../components/com_trigger.js";
 import {Game} from "../game.js";
 import {BuildingColors, main_building_palette} from "./blu_building.js";
-import {Blueprint} from "./blu_common.js";
-import {create_line} from "./blu_tools.js";
+import {Blueprint, create_line} from "./blu_common.js";
 
 export function get_town_gate_blueprint(
     game: Game,
