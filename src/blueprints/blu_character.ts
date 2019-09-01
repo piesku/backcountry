@@ -84,8 +84,8 @@ function create_custom_palette(colors: CustomColors) {
 
 export function get_hat(game: Game, palette: Array<number>): Blueprint {
     let hat_index = element(hat_models) as Models;
-    let body_height = game.Models[Models.BODY].size[1];
-    let hat_height = game.Models[hat_index].size[1];
+    let body_height = game.Models[Models.BODY].Size[1];
+    let hat_height = game.Models[hat_index].Size[1];
     let is_rotated = rand() > 0.8;
 
     return {

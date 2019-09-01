@@ -46,8 +46,8 @@ export function get_mine_entrance_blueprint(game: Game) {
         using: [
             render_vox(
                 {
-                    offsets: Float32Array.from(wooden_part_offset),
-                    size: [0, 0, 0],
+                    Offsets: Float32Array.from(wooden_part_offset),
+                    Size: [0, 0, 0],
                 },
                 [...main_building_palette, 0.53, 0.53, 0.53]
             ),

@@ -45,8 +45,8 @@ export function get_cactus_blueprint(): Blueprint {
         Using: [
             render_vox(
                 {
-                    offsets: Float32Array.from(trunk),
-                    size: [0, 0, 0],
+                    Offsets: Float32Array.from(trunk),
+                    Size: [0, 0, 0],
                 },
                 palette
             ),

@@ -11,7 +11,7 @@ export function create_gun(game: Game) {
         Rotation: from_euler([], 270, 0, 0),
         Translation: [
             0,
-            -(game.Models[Models.GUN1].size[1] / 2 + game.Models[Models.HAND].size[1] / 2),
+            -(game.Models[Models.GUN1].Size[1] / 2 + game.Models[Models.HAND].Size[1] / 2),
             0,
         ],
         Using: [render_vox(game.Models[Models.GUN1])],

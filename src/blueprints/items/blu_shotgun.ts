@@ -12,8 +12,8 @@ export function create_shotgun(game: Game) {
         Translation: [
             0.5,
             -(
-                Math.round(game.Models[Models.GUN2].size[1] / 2) +
-                game.Models[Models.HAND].size[1] / 2
+                Math.round(game.Models[Models.GUN2].Size[1] / 2) +
+                game.Models[Models.HAND].Size[1] / 2
             ),
             0,
         ],
