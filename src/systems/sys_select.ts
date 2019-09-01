@@ -32,9 +32,9 @@ function update(game: Game, entity: Entity) {
     let camera = game[Get.Camera][entity];
     let select = game[Get.Select][entity];
 
-    let x = (game.Input.mouse_x / game.Canvas.width) * 2 - 1;
+    let x = (game.Input.mx / game.Canvas.width) * 2 - 1;
     // In the browser, +Y is down. Invert it, so that in NDC it's up.
-    let y = -(game.Input.mouse_y / game.Canvas.height) * 2 + 1;
+    let y = -(game.Input.my / game.Canvas.height) * 2 + 1;
     let origin = [x, y, -1];
     let target = [x, y, 1];
     let direction = [0, 0, 0];
@@ -47,11 +47,7 @@ function update(game: Game, entity: Entity) {
     normalize(direction, direction);
     select.Hit = raycast(game, origin, direction);
 
-    if (
-        select.Hit &&
-        select.Hit.Other.Flags & ANIMATED &&
-        (game.Event.mouse_0_down || game.Event.mouse_2_down)
-    ) {
+    if (select.Hit && select.Hit.Other.Flags & ANIMATED && (game.Event.m0d || game.Event.m2d)) {
         let transform = game[Get.Transform][select.Hit.Other.Entity];
         for (let animate of components_of_type<Animate>(game, transform, Get.Animate)) {
             animate.Trigger = Anim.Select;

@@ -29,7 +29,7 @@ function update(game: Game, entity: Entity, cursor: Select) {
         return;
     }
 
-    if (game.Event.mouse_0_down) {
+    if (game.Event.m0d) {
         if (cursor.Hit.Other.Flags & RayFlag.Navigable) {
             let route = get_route(game, entity, game[Get.Navigable][cursor.Hit.Other.Entity]);
             if (route) {
@@ -43,7 +43,7 @@ function update(game: Game, entity: Entity, cursor: Select) {
         }
     }
 
-    if (game.Event.mouse_2_down) {
+    if (game.Event.m2d) {
         game[Get.Shoot][entity].Target = cursor.Hit.Contact;
     }
 }

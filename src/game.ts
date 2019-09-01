@@ -61,15 +61,14 @@ export type Entity = number;
 
 export interface InputState {
     [k: string]: number;
-    mouse_x: number;
-    mouse_y: number;
+    mx: number;
+    my: number;
 }
 
 export interface EventState {
     [k: string]: number;
-    mouse_x: number;
-    mouse_y: number;
-    wheel_y: number;
+    mx: number;
+    my: number;
 }
 
 export class Game implements ComponentData, GameState {
@@ -104,13 +103,12 @@ export class Game implements ComponentData, GameState {
     public UI: HTMLElement = document.querySelector("main")!;
 
     public Input: InputState = {
-        mouse_x: 0,
-        mouse_y: 0,
+        mx: 0,
+        my: 0,
     };
     public Event: EventState = {
-        mouse_x: 0,
-        mouse_y: 0,
-        wheel_y: 0,
+        mx: 0,
+        my: 0,
     };
 
     public Dispatch = (action: Action, ...args: Array<unknown>) => effect(this, action, args);
@@ -143,18 +141,16 @@ export class Game implements ComponentData, GameState {
         window.addEventListener("keyup", evt => (this.Input[evt.code] = 0));
         this.Canvas.addEventListener("contextmenu", evt => evt.preventDefault());
         this.Canvas.addEventListener("mousedown", evt => {
-            this.Input[`mouse_${evt.button}`] = 1;
-            this.Event[`mouse_${evt.button}_down`] = 1;
+            this.Input[`m${evt.button}`] = 1;
+            this.Event[`m${evt.button}d`] = 1;
         });
         this.Canvas.addEventListener("mouseup", evt => {
-            this.Input[`mouse_${evt.button}`] = 0;
-            this.Event[`mouse_${evt.button}_up`] = 1;
+            this.Input[`m${evt.button}`] = 0;
+            this.Event[`m${evt.button}u`] = 1;
         });
         this.Canvas.addEventListener("mousemove", evt => {
-            this.Input.mouse_x = evt.offsetX;
-            this.Input.mouse_y = evt.offsetY;
-            this.Event.mouse_x = evt.movementX;
-            this.Event.mouse_y = evt.movementY;
+            this.Input.mx = evt.offsetX;
+            this.Input.my = evt.offsetY;
         });
 
         this.GL = this.Canvas.getContext("webgl2")!;
