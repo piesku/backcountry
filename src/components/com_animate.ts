@@ -6,10 +6,10 @@ export interface Animate {
     /** Animation states store the state of clips' playback. */
     readonly states: {
         /** The idle animation is required. */
-        idle: AnimationState;
-        [k: string]: AnimationState;
+        [Anim.Idle]: AnimationState;
+        [k: number]: AnimationState;
     };
-    /** The clip played currently. Defaults to "idle". */
+    /** The clip played currently. Defaults to Anim.Idle. */
     current: AnimationState;
     /** The name of the clip to play next. */
     trigger?: Anim;
@@ -81,7 +81,7 @@ export interface AnimationState {
 }
 
 export const enum Anim {
-    Idle,
+    Idle = 1,
     Move,
     Shoot,
     Select,
