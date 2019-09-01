@@ -1,9 +1,9 @@
 import {AudioClip} from "../components/com_audio_source";
 
 export let snd_click = <AudioClip>{
-    tracks: [
+    Tracks: [
         {
-            instrument: [
+            Instrument: [
                 7,
                 true,
                 "lowpass",
@@ -16,8 +16,8 @@ export let snd_click = <AudioClip>{
                 8,
                 [[0, 4, 1, 0, 3, "sine", 8, false, false, 7, 7, 7]],
             ],
-            notes: [69],
+            Notes: [69],
         },
     ],
-    exit: 0.2,
+    Exit: 0.2,
 };

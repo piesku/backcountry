@@ -38,11 +38,11 @@ function update(game: Game, entity: Entity) {
             health.damages.push(shoot.damage);
             game.dispatch(Action.HitEnemy, hit.other.entity);
             for (let audio of components_of_type<AudioSource>(game, transform, Get.AudioSource)) {
-                audio.trigger = snd_shoot;
+                audio.Trigger = snd_shoot;
             }
         } else {
             for (let audio of components_of_type<AudioSource>(game, transform, Get.AudioSource)) {
-                audio.trigger = snd_miss;
+                audio.Trigger = snd_miss;
             }
         }
 

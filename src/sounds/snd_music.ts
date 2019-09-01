@@ -1,10 +1,10 @@
 import {AudioClip} from "../components/com_audio_source";
 
 export let snd_music = <AudioClip>{
-    bpm: 110,
-    tracks: [
+    BPM: 110,
+    Tracks: [
         {
-            instrument: [
+            Instrument: [
                 7,
                 true,
                 "bandpass",
@@ -18,7 +18,7 @@ export let snd_music = <AudioClip>{
                 [[0, 7, 2, 2, 8, "triangle", 8, false, false, 7, 7, 7]],
             ],
 
-            notes: [
+            Notes: [
                 69,
                 74,
                 69,
@@ -121,5 +121,5 @@ export let snd_music = <AudioClip>{
             ],
         },
     ],
-    exit: 20,
+    Exit: 20,
 };
