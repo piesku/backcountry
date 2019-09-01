@@ -1,7 +1,7 @@
 import {ShadedAttribute} from "../components/com_render_shaded.js";
 import {mat_create} from "./mat_common.js";
 
-let vertex = `#version 300 es
+let vertex = `#version 300 es\n
     uniform mat4 pv;
     uniform mat4 world;
     uniform mat4 self;
@@ -37,7 +37,7 @@ let vertex = `#version 300 es
     }
 `;
 
-let fragment = `#version 300 es
+let fragment = `#version 300 es\n
     precision mediump float;
 
     flat in vec4 vert_color;

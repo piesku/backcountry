@@ -16,7 +16,7 @@ export interface GameState {
 }
 
 export const enum Action {
-    ChangeWorld,
+    ChangeWorld = 1,
     HitEnemy,
 }
 

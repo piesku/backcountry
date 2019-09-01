@@ -6,7 +6,7 @@ export const enum ParticleAttribute {
     age = 3,
 }
 
-let vertex = `#version 300 es
+let vertex = `#version 300 es\n
     uniform mat4 pv;
     uniform vec3 camera_pos;
     uniform float size;
@@ -35,7 +35,7 @@ let vertex = `#version 300 es
     }
 `;
 
-let fragment = `#version 300 es
+let fragment = `#version 300 es\n
     precision mediump float;
 
     in vec4 vert_color;
