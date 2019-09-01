@@ -35,7 +35,7 @@ function update(game: Game, entity: Entity) {
         let hit = raycast(game, origin, direction);
         if (hit && hit.other.flags & RayFlag.Attackable) {
             let health = game[Get.Health][hit.other.entity];
-            health.damages.push(shoot.damage);
+            health.Damages.push(shoot.damage);
             game.dispatch(Action.HitEnemy, hit.other.entity);
             for (let audio of components_of_type<AudioSource>(game, transform, Get.AudioSource)) {
                 audio.Trigger = snd_shoot;

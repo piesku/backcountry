@@ -13,12 +13,12 @@ export function sys_health(game: Game, delta: number) {
 
 function update(game: Game, entity: Entity) {
     let health = game[Get.Health][entity];
-    for (let i = 0; i < health.damages.length; i++) {
-        health.current -= health.damages[i];
+    for (let i = 0; i < health.Damages.length; i++) {
+        health.current -= health.Damages[i];
         if (health.current <= 0) {
             console.log(`Entity #${entity} has died.`);
             game.destroy(entity);
         }
     }
-    health.damages = [];
+    health.Damages = [];
 }
