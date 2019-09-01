@@ -33,6 +33,7 @@ function update(game: Game, entity: Entity, cursor: Select) {
         if (cursor.Hit.Other.Flags & RayFlag.Navigable) {
             let route = get_route(game, entity, game[Get.Navigable][cursor.Hit.Other.Entity]);
             if (route) {
+                console.log(JSON.stringify(route));
                 game[Get.PathFind][entity].Route = route;
             }
         }
