@@ -50,9 +50,9 @@ function get_route(game: Game, entity: Entity, destination_depth: number) {
             modifier = destination_depth > current_depth ? 1 : -1;
         }
 
-        route.push([current_cell.x, current_cell.y]);
+        route.push([current_cell.X, current_cell.Y]);
 
-        let neighbors = get_neighbors(game, current_cell.x, current_cell.y, walking.diagonal).sort(
+        let neighbors = get_neighbors(game, current_cell.X, current_cell.Y, walking.diagonal).sort(
             () => 0.5 - Math.random()
         );
 
@@ -66,7 +66,7 @@ function get_route(game: Game, entity: Entity, destination_depth: number) {
             ) {
                 current_cell =
                     game[Get.Navigable][find_navigable(game, neighbor_coords.x, neighbor_coords.y)];
-                current_depth = game.grid[current_cell.x][current_cell.y];
+                current_depth = game.grid[current_cell.X][current_cell.Y];
                 break;
             }
         }
