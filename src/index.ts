@@ -4,6 +4,8 @@ import {world_intro} from "./worlds/wor_intro.js";
 
 let game = new Game();
 // @ts-ignore
+window.$ = game.dispatch;
+// @ts-ignore
 window.game = game;
 
 async function start() {

@@ -28,7 +28,7 @@ export function Wanted(house_seed: number) {
             "
         >
             <button
-                onclick="game.dispatch(${Action.ChangeWorld}, 'house', ${house_seed});"
+                onclick="$(${Action.ChangeWorld}, 'house', ${house_seed});"
                 style="color: #FFE8C6;"
             >
                 ACCEPT BOUNTY
