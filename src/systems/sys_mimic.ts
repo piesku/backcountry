@@ -6,20 +6,20 @@ import {lerp as lerp_vec3} from "../math/vec3.js";
 const QUERY = (1 << Get.Transform) | (1 << Get.Mimic);
 
 export function sys_mimic(game: Game, delta: number) {
-    for (let i = 0; i < game.world.length; i++) {
-        if ((game.world[i] & QUERY) === QUERY) {
+    for (let i = 0; i < game.World.length; i++) {
+        if ((game.World[i] & QUERY) === QUERY) {
             let follower_transform = game[Get.Transform][i];
             let follower_mimic = game[Get.Mimic][i];
-            let target_transform = game[Get.Transform][follower_mimic.target];
-            let target_world_position = get_translation([], target_transform.world);
+            let target_transform = game[Get.Transform][follower_mimic.Target];
+            let target_world_position = get_translation([], target_transform.World);
             // XXX Follower must be a top-level transform for this to work.
-            follower_transform.translation = lerp_vec3(
+            follower_transform.Translation = lerp_vec3(
                 [],
-                follower_transform.translation,
+                follower_transform.Translation,
                 target_world_position,
-                follower_mimic.stiffness
+                follower_mimic.Stiffness
             );
-            follower_transform.dirty = true;
+            follower_transform.Dirty = true;
         }
     }
 }

@@ -8,8 +8,8 @@ import {length, normalize, subtract} from "../math/vec3.js";
 const QUERY = (1 << Get.Transform) | (1 << Get.Move) | (1 << Get.PathFind) | (1 << Get.Walking);
 
 export function sys_navigate(game: Game, delta: number) {
-    for (let i = 0; i < game.world.length; i++) {
-        if ((game.world[i] & QUERY) === QUERY) {
+    for (let i = 0; i < game.World.length; i++) {
+        if ((game.World[i] & QUERY) === QUERY) {
             update(game, i);
         }
     }
@@ -19,34 +19,34 @@ function update(game: Game, entity: Entity) {
     let control = game[Get.PathFind][entity];
     let walking = game[Get.Walking][entity];
 
-    if (!control.destination) {
-        if (control.route.length) {
-            let dest = control.route.pop() as [number, number];
+    if (!control.Destination) {
+        if (control.Route.length) {
+            let dest = control.Route.pop() as [number, number];
             let destination_entity = find_navigable(game, dest[0], dest[1]);
-            control.destination_x = dest[0];
-            control.destination_y = dest[1];
-            control.destination = game[Get.Transform][destination_entity].translation;
+            control.DestinationX = dest[0];
+            control.DestinationY = dest[1];
+            control.Destination = game[Get.Transform][destination_entity].Translation;
         }
     }
 
-    if (control.destination) {
+    if (control.Destination) {
         let transform = game[Get.Transform][entity];
         let world_destination = [
-            control.destination[0],
-            transform.translation[1],
-            control.destination[2],
+            control.Destination[0],
+            transform.Translation[1],
+            control.Destination[2],
         ];
 
-        let diff = subtract([], world_destination, transform.translation);
+        let diff = subtract([], world_destination, transform.Translation);
         if (length(diff) < 1) {
-            walking.x = control.destination_x;
-            walking.y = control.destination_y;
-            control.destination = null;
+            walking.X = control.DestinationX;
+            walking.Y = control.DestinationY;
+            control.Destination = null;
         }
 
         normalize(diff, diff);
         let move = game[Get.Move][entity];
-        move.dir = diff;
-        move.yaw = rotation_to([], get_forward([], transform.world), diff);
+        move.Direction = diff;
+        move.Yaw = rotation_to([], get_forward([], transform.World), diff);
     }
 }

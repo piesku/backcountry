@@ -3,11 +3,10 @@ import {render_vox} from "../components/com_render_vox.js";
 import {trigger_world} from "../components/com_trigger.js";
 import {Game} from "../game.js";
 import {BuildingColors, main_building_palette} from "./blu_building.js";
-import {Blueprint} from "./blu_common.js";
+import {Blueprint, create_line} from "./blu_common.js";
 import {get_rock_blueprint} from "./blu_rock.js";
-import {create_line} from "./blu_tools.js";
 
-export function get_mine_entrance_blueprint(game: Game): Blueprint {
+export function get_mine_entrance_blueprint(game: Game) {
     let rock_model = get_rock_blueprint(game);
     let wooden_part_length = 24;
     let half_entrrance_width = 6;
@@ -47,24 +46,24 @@ export function get_mine_entrance_blueprint(game: Game): Blueprint {
         using: [
             render_vox(
                 {
-                    offsets: Float32Array.from(wooden_part_offset),
-                    size: [0, 0, 0],
+                    Offsets: Float32Array.from(wooden_part_offset),
+                    Size: [0, 0, 0],
                 },
                 [...main_building_palette, 0.53, 0.53, 0.53]
             ),
         ],
     };
 
-    return {
-        children: [
+    return <Blueprint>{
+        Children: [
             {
                 ...rock_model,
-                scale: [4, 4, 4],
+                Scale: [4, 4, 4],
             },
             wooden_part,
             {
-                translation: [0, 0, 12],
-                using: [collide(false, [8, 8, 8]), trigger_world("mine", game.seed_bounty)],
+                Translation: [0, 0, 12],
+                Using: [collide(false, [8, 8, 8]), trigger_world("mine", game.SeedBounty)],
             },
         ],
     };

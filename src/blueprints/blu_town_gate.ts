@@ -3,8 +3,7 @@ import {render_vox} from "../components/com_render_vox.js";
 import {trigger_world} from "../components/com_trigger.js";
 import {Game} from "../game.js";
 import {BuildingColors, main_building_palette} from "./blu_building.js";
-import {Blueprint} from "./blu_common.js";
-import {create_line} from "./blu_tools.js";
+import {Blueprint, create_line} from "./blu_common.js";
 
 export function get_town_gate_blueprint(
     game: Game,
@@ -48,9 +47,9 @@ export function get_town_gate_blueprint(
         )
     );
 
-    if (game.seed_bounty) {
+    if (game.SeedBounty) {
         for (let i = 0; i < gate_size / 8; i++) {
-            game.grid[fence_line][fence_width / 8 + i] = Infinity;
+            game.Grid[fence_line][fence_width / 8 + i] = Infinity;
         }
     } else {
         fence_offsets.push(
@@ -69,17 +68,17 @@ export function get_town_gate_blueprint(
     }
 
     return {
-        translation: [(-(map_size / 2) + fence_line) * 8 - 4, 0, -3],
-        using: [
+        Translation: [(-(map_size / 2) + fence_line) * 8 - 4, 0, -3],
+        Using: [
             render_vox(
-                {offsets: Float32Array.from(fence_offsets), size: [1, 1, 1]},
+                {Offsets: Float32Array.from(fence_offsets), Size: [1, 1, 1]},
                 main_building_palette
             ),
         ],
-        children: [
+        Children: [
             {
-                translation: [20, 0, 0],
-                using: [collide(false, [8, 8, 800]), trigger_world("desert", game.seed_bounty)],
+                Translation: [20, 0, 0],
+                Using: [collide(false, [8, 8, 800]), trigger_world("desert", game.SeedBounty)],
             },
         ],
     };

@@ -8,8 +8,8 @@ import {add, scale} from "../math/vec3.js";
 const QUERY = (1 << Get.Transform) | (1 << Get.Move);
 
 export function sys_move(game: Game, delta: number) {
-    for (let i = 0; i < game.world.length; i++) {
-        if ((game.world[i] & QUERY) === QUERY) {
+    for (let i = 0; i < game.World.length; i++) {
+        if ((game.World[i] & QUERY) === QUERY) {
             update(game, i, delta);
         }
     }
@@ -19,22 +19,22 @@ function update(game: Game, entity: Entity, delta: number) {
     let transform = game[Get.Transform][entity];
     let move = game[Get.Move][entity];
     for (let animate of components_of_type<Animate>(game, transform, Get.Animate)) {
-        if (!animate.trigger) {
-            animate.trigger = move.dir ? Anim.Move : Anim.Idle;
+        if (!animate.Trigger) {
+            animate.Trigger = move.Direction ? Anim.Move : Anim.Idle;
         }
     }
 
-    if (move.dir) {
-        scale(move.dir, move.dir, move.move_speed * delta);
-        add(transform.translation, transform.translation, move.dir);
-        transform.dirty = true;
-        move.dir = undefined;
+    if (move.Direction) {
+        scale(move.Direction, move.Direction, move.MoveSpeed * delta);
+        add(transform.Translation, transform.Translation, move.Direction);
+        transform.Dirty = true;
+        move.Direction = undefined;
     }
 
-    if (move.yaw) {
+    if (move.Yaw) {
         // Yaw is applied relative to the world space.
-        multiply(transform.rotation, move.yaw, transform.rotation);
-        transform.dirty = true;
-        move.yaw = undefined;
+        multiply(transform.Rotation, move.Yaw, transform.Rotation);
+        transform.Dirty = true;
+        move.Yaw = undefined;
     }
 }

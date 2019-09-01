@@ -6,51 +6,51 @@ import {Game} from "../game.js";
 import {set_seed} from "../math/random.js";
 
 export function world_wanted(game: Game) {
-    set_seed(game.seed_bounty);
-    game.world = [];
-    game.gl.clearColor(1, 0.8, 0.6, 1);
+    set_seed(game.SeedBounty);
+    game.World = [];
+    game.GL.clearColor(1, 0.8, 0.6, 1);
 
     // Player.
-    game.add({
-        using: [
+    game.Add({
+        Using: [
             animate({
                 [Anim.Idle]: {
-                    keyframes: [
+                    Keyframes: [
                         {
-                            timestamp: 0,
-                            rotation: [0, 0, 0, 1],
+                            Timestamp: 0,
+                            Rotation: [0, 0, 0, 1],
                         },
                         {
-                            timestamp: 2,
-                            rotation: [0, 1, 0, 0],
+                            Timestamp: 2,
+                            Rotation: [0, 1, 0, 0],
                         },
                         {
-                            timestamp: 4,
-                            rotation: [0, 0, 0, -1],
+                            Timestamp: 4,
+                            Rotation: [0, 0, 0, -1],
                         },
                     ],
-                    flags: AnimationFlag.Loop,
+                    Flags: AnimationFlag.Loop,
                 },
             }),
         ],
-        children: [get_character_blueprint(game)],
+        Children: [get_character_blueprint(game)],
     });
 
     // Camera.
-    game.add({
-        translation: [0, 2, 10],
-        using: [camera_ortho(10, 1, 100)],
+    game.Add({
+        Translation: [0, 2, 10],
+        Using: [camera_ortho(10, 1, 100)],
     });
 
     // Directional light.
-    game.add({
-        translation: [1, 1, 1],
-        using: [light([0.5, 0.5, 0.5], 0)],
+    game.Add({
+        Translation: [1, 1, 1],
+        Using: [light([0.5, 0.5, 0.5], 0)],
     });
 
     // Point light.
-    game.add({
-        translation: [-15, 15, 15],
-        using: [light([1, 1, 1], 25)],
+    game.Add({
+        Translation: [-15, 15, 15],
+        Using: [light([1, 1, 1], 25)],
     });
 }

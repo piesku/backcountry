@@ -4,12 +4,12 @@ import {world_intro} from "./worlds/wor_intro.js";
 
 let game = new Game();
 // @ts-ignore
-window.$ = game.dispatch;
+window.$ = game.Dispatch;
 
 async function start() {
-    game.models = await load("./models.tfu");
+    game.Models = await load("./models.tfu");
     world_intro(game);
-    game.start();
+    game.Start();
 }
 
 start();
