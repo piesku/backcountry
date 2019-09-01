@@ -13,15 +13,15 @@ const TARGET = (1 << Get.Transform) | (1 << Get.Collide) | (1 << Get.RayTarget);
 const ANIMATED = RayFlag.Navigable | RayFlag.Player;
 
 export function sys_select(game: Game, delta: number) {
-    game.targets = [];
-    for (let i = 0; i < game.world.length; i++) {
-        if ((game.world[i] & TARGET) === TARGET) {
-            game.targets.push(game[Get.RayTarget][i]);
+    game.Targets = [];
+    for (let i = 0; i < game.World.length; i++) {
+        if ((game.World[i] & TARGET) === TARGET) {
+            game.Targets.push(game[Get.RayTarget][i]);
         }
     }
 
-    for (let i = 0; i < game.world.length; i++) {
-        if ((game.world[i] & QUERY) === QUERY) {
+    for (let i = 0; i < game.World.length; i++) {
+        if ((game.World[i] & QUERY) === QUERY) {
             update(game, i);
         }
     }
@@ -32,32 +32,32 @@ function update(game: Game, entity: Entity) {
     let camera = game[Get.Camera][entity];
     let select = game[Get.Select][entity];
 
-    let x = (game.input.mouse_x / game.canvas.width) * 2 - 1;
+    let x = (game.Input.mouse_x / game.Canvas.width) * 2 - 1;
     // In the browser, +Y is down. Invert it, so that in NDC it's up.
-    let y = -(game.input.mouse_y / game.canvas.height) * 2 + 1;
+    let y = -(game.Input.mouse_y / game.Canvas.height) * 2 + 1;
     let origin = [x, y, -1];
     let target = [x, y, 1];
     let direction = [0, 0, 0];
 
-    transform_point(origin, origin, camera.unproject);
-    transform_point(origin, origin, transform.world);
-    transform_point(target, target, camera.unproject);
-    transform_point(target, target, transform.world);
+    transform_point(origin, origin, camera.Unproject);
+    transform_point(origin, origin, transform.World);
+    transform_point(target, target, camera.Unproject);
+    transform_point(target, target, transform.World);
     subtract(direction, target, origin);
     normalize(direction, direction);
-    select.hit = raycast(game, origin, direction);
+    select.Hit = raycast(game, origin, direction);
 
     if (
-        select.hit &&
-        select.hit.other.flags & ANIMATED &&
-        (game.event.mouse_0_down || game.event.mouse_2_down)
+        select.Hit &&
+        select.Hit.Other.Flags & ANIMATED &&
+        (game.Event.mouse_0_down || game.Event.mouse_2_down)
     ) {
-        let transform = game[Get.Transform][select.hit.other.entity];
+        let transform = game[Get.Transform][select.Hit.Other.Entity];
         for (let animate of components_of_type<Animate>(game, transform, Get.Animate)) {
-            animate.trigger = Anim.Select;
+            animate.Trigger = Anim.Select;
         }
         for (let audio of components_of_type<AudioSource>(game, transform, Get.AudioSource)) {
-            audio.trigger = snd_click;
+            audio.Trigger = snd_click;
         }
     }
 }

@@ -20,21 +20,21 @@ import {integer, set_seed} from "../math/random.js";
 import {snd_music} from "../sounds/snd_music.js";
 
 export function world_desert(game: Game) {
-    set_seed(game.seed_bounty);
+    set_seed(game.SeedBounty);
     let map_size = 50;
 
-    game.world = [];
-    game.grid = [];
+    game.World = [];
+    game.Grid = [];
 
-    game.gl.clearColor(1, 0.3, 0.3, 1);
+    game.GL.clearColor(1, 0.3, 0.3, 1);
 
     for (let x = 0; x < map_size; x++) {
-        game.grid[x] = [];
+        game.Grid[x] = [];
         for (let y = 0; y < map_size; y++) {
             if (x == 0 || x == map_size - 1 || y == 0 || y == map_size - 1) {
-                game.grid[x][y] = NaN;
+                game.Grid[x][y] = NaN;
             } else {
-                game.grid[x][y] = Infinity;
+                game.Grid[x][y] = Infinity;
             }
         }
     }
@@ -44,16 +44,16 @@ export function world_desert(game: Game) {
     // Ground.
     for (let x = 0; x < map_size; x++) {
         for (let y = 0; y < map_size; y++) {
-            let is_walkable = game.grid[x][y] == Infinity || Math.random() > 0.5;
-            game.grid[x][y] = is_walkable ? Infinity : NaN;
+            let is_walkable = game.Grid[x][y] == Infinity || Math.random() > 0.5;
+            game.Grid[x][y] = is_walkable ? Infinity : NaN;
 
             let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y);
 
-            game.add({
+            game.Add({
                 ...tile_blueprint,
-                translation: [
+                Translation: [
                     (-(map_size / 2) + x) * 8,
-                    tile_blueprint.translation![1],
+                    tile_blueprint.Translation![1],
                     (-(map_size / 2) + y) * 8,
                 ],
             });
@@ -61,9 +61,9 @@ export function world_desert(game: Game) {
     }
 
     // Directional light and Soundtrack
-    game.add({
-        translation: [1, 2, -1],
-        using: [light([0.5, 0.5, 0.5], 0), audio_source(snd_music)],
+    game.Add({
+        Translation: [1, 2, -1],
+        Using: [light([0.5, 0.5, 0.5], 0), audio_source(snd_music)],
     });
 
     // Cowboys.
@@ -71,27 +71,27 @@ export function world_desert(game: Game) {
     for (let i = 0; i < cowboys_count; i++) {
         let x = integer(0, map_size);
         let y = integer(0, map_size);
-        if (game.grid[x] && game.grid[x][y] && !isNaN(game.grid[x][y])) {
-            game.add({
-                translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
-                using: [npc(), path_find(), walking(x, y, true), move(integer(15, 25), 0)],
-                children: [get_character_blueprint(game)],
+        if (game.Grid[x] && game.Grid[x][y] && !isNaN(game.Grid[x][y])) {
+            game.Add({
+                Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
+                Using: [npc(), path_find(), walking(x, y, true), move(integer(15, 25), 0)],
+                Children: [get_character_blueprint(game)],
             });
         }
     }
 
     let entrance = get_mine_entrance_blueprint(game);
-    game.add({
-        translation: [(map_size / 2 - 15) * 8, 0, (map_size / 2 - 12) * 8],
+    game.Add({
+        Translation: [(map_size / 2 - 15) * 8, 0, (map_size / 2 - 12) * 8],
         ...entrance,
     });
 
-    set_seed(game.seed_player);
-    let player_position = game[Get.Transform][find_navigable(game, 1, 1)].translation;
+    set_seed(game.SeedPlayer);
+    let player_position = game[Get.Transform][find_navigable(game, 1, 1)].Translation;
     // Player.
-    game.add({
-        translation: [player_position[0], 5, player_position[2]],
-        using: [
+    game.Add({
+        Translation: [player_position[0], 5, player_position[2]],
+        Using: [
             named("player"),
             player_control(),
             walking(1, 1),
@@ -102,17 +102,17 @@ export function world_desert(game: Game) {
             shoot(1),
             audio_source(),
         ],
-        children: [
+        Children: [
             get_character_blueprint(game),
             {
-                translation: [0, 25, 0],
-                using: [light([1, 1, 1], 20)],
+                Translation: [0, 25, 0],
+                Using: [light([1, 1, 1], 20)],
             },
         ],
     });
 
     // Camera.
-    game.add(angle_camera_blueprint);
+    game.Add(angle_camera_blueprint);
 }
 
 function generate_maze(game: Game, [x1, x2]: number[], [y1, y2]: number[], size: number) {
@@ -127,11 +127,11 @@ function generate_maze(game: Game, [x1, x2]: number[], [y1, y2]: number[], size:
             let randomPassage = ~~(Math.random() * (max - min + 1)) + min;
             let first = false;
             let second = false;
-            if (game.grid[y2][bisection] == Infinity) {
+            if (game.Grid[y2][bisection] == Infinity) {
                 randomPassage = max;
                 first = true;
             }
-            if (game.grid[y1][bisection] == Infinity) {
+            if (game.Grid[y1][bisection] == Infinity) {
                 randomPassage = min;
                 second = true;
             }
@@ -143,7 +143,7 @@ function generate_maze(game: Game, [x1, x2]: number[], [y1, y2]: number[], size:
                 } else if (i == randomPassage) {
                     continue;
                 }
-                game.grid[i][bisection] = NaN;
+                game.Grid[i][bisection] = NaN;
             }
             generate_maze(game, [x1, bisection], [y1, y2], size);
             generate_maze(game, [bisection, x2], [y1, y2], size);
@@ -157,11 +157,11 @@ function generate_maze(game: Game, [x1, x2]: number[], [y1, y2]: number[], size:
             let randomPassage = ~~(Math.random() * (max - min + 1)) + min;
             let first = false;
             let second = false;
-            if (game.grid[bisection][x2] == Infinity) {
+            if (game.Grid[bisection][x2] == Infinity) {
                 randomPassage = max;
                 first = true;
             }
-            if (game.grid[bisection][x1] == Infinity) {
+            if (game.Grid[bisection][x1] == Infinity) {
                 randomPassage = min;
                 second = true;
             }
@@ -173,7 +173,7 @@ function generate_maze(game: Game, [x1, x2]: number[], [y1, y2]: number[], size:
                 } else if (i == randomPassage) {
                     continue;
                 }
-                game.grid[bisection][i] = NaN;
+                game.Grid[bisection][i] = NaN;
             }
             generate_maze(game, [x1, x2], [y1, bisection], size);
             generate_maze(game, [x1, x2], [bisection, y2], size);

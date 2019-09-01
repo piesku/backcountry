@@ -27,54 +27,54 @@ export function get_tile_blueprint(
     let tile_model = create_tile(tile_size);
 
     let tile: Blueprint = {
-        using: [
+        Using: [
             render_vox(tile_model, palette),
             cull(Get.Render),
             audio_source(),
             animate({
                 [Anim.Idle]: {
-                    keyframes: [
+                    Keyframes: [
                         {
-                            timestamp: 0,
-                            translation: [0, 0, 0],
+                            Timestamp: 0,
+                            Translation: [0, 0, 0],
                         },
                     ],
                 },
                 [Anim.Select]: {
-                    keyframes: [
+                    Keyframes: [
                         {
-                            timestamp: 0,
-                            translation: [0, 0, 0],
+                            Timestamp: 0,
+                            Translation: [0, 0, 0],
                         },
                         {
-                            timestamp: 0.1,
-                            translation: [0, -0.5, 0],
+                            Timestamp: 0.1,
+                            Translation: [0, -0.5, 0],
                         },
                         {
-                            timestamp: 0.2,
-                            translation: [0, 0, 0],
+                            Timestamp: 0.2,
+                            Translation: [0, 0, 0],
                         },
                     ],
-                    flags: AnimationFlag.None,
+                    Flags: AnimationFlag.None,
                 },
             }),
         ],
-        children: [],
+        Children: [],
     };
 
     if (rand() > 0.85 && is_walkable) {
-        tile.children!.push(get_block_blueprint(game));
+        tile.Children!.push(get_block_blueprint(game));
     }
 
     if (!is_walkable) {
-        tile.children!.push(rand() > 0.5 ? get_cactus_blueprint() : get_rock_blueprint(game));
+        tile.Children!.push(rand() > 0.5 ? get_cactus_blueprint() : get_rock_blueprint(game));
     }
 
     let using = is_walkable ? [ray_target(RayFlag.Navigable), navigable(x, y)] : [];
     return {
-        translation: [0, 0, 0],
-        rotation: from_euler([], 0, integer(0, 3) * 90, 0),
-        using: [collide(false, [8, 1, 8]), cull(Get.Collide), ...using],
-        children: [tile],
+        Translation: [0, 0, 0],
+        Rotation: from_euler([], 0, integer(0, 3) * 90, 0),
+        Using: [collide(false, [8, 1, 8]), cull(Get.Collide), ...using],
+        Children: [tile],
     };
 }

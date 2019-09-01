@@ -1,9 +1,9 @@
 import {AudioClip} from "../components/com_audio_source";
 
 export let snd_miss = <AudioClip>{
-    tracks: [
+    Tracks: [
         {
-            instrument: [
+            Instrument: [
                 11,
                 true,
                 "lowpass",
@@ -16,8 +16,8 @@ export let snd_miss = <AudioClip>{
                 4,
                 [[1, 10, 0, 0, 5], [0, 7, 1, 1, 5, "triangle", 8, false, true, 2, 3, 11]],
             ],
-            notes: [57],
+            Notes: [57],
         },
     ],
-    exit: 0.2,
+    Exit: 0.2,
 };

@@ -5,7 +5,7 @@ import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
 import {element, integer, rand} from "../math/random.js";
 import {Models} from "../models_map.js";
-import {create_line} from "./blu_common.js";
+import {Blueprint, create_line} from "./blu_common.js";
 
 export let main_building_palette = [0.6, 0.4, 0, 0.4, 0.2, 0, 0.14, 0, 0, 0.2, 0.8, 1];
 
@@ -40,7 +40,7 @@ export function get_building_blueprint(game: Game) {
     let porch_size = 8; //7 + integer(0, 2);
 
     let offsets: number[] = [];
-    let children = [];
+    let Children: Array<Blueprint> = [];
 
     // WALLS
     for (let x = 1; x < building_size[0]; x++) {
@@ -84,23 +84,23 @@ export function get_building_blueprint(game: Game) {
 
     if (has_windows && has_tall_front_facade) {
         // WINDOWS
-        let window_width = game.models[Models.WINDOW].size[2];
-        let window_height = game.models[Models.WINDOW].size[1];
+        let window_width = game.Models[Models.WINDOW].Size[2];
+        let window_height = game.Models[Models.WINDOW].Size[1];
 
         for (
             let offset = window_width;
             offset < building_size[1] - window_width - 1;
             offset += window_width * 3
         ) {
-            children.push({
-                rotation: from_euler([], 0, integer(0, 2) * 180, 0),
-                translation: [
+            Children.push({
+                Rotation: from_euler([], 0, integer(0, 2) * 180, 0),
+                Translation: [
                     building_size[0] + 1,
                     building_size[2] + window_height / 2,
                     building_size[1] - offset - window_width / 2,
                 ],
-                using: [
-                    (game: Game) => render_vox(game.models[Models.WINDOW])(game),
+                Using: [
+                    (game: Game) => render_vox(game.Models[Models.WINDOW])(game),
                     cull(Get.Render),
                 ],
             });
@@ -228,27 +228,27 @@ export function get_building_blueprint(game: Game) {
         );
     }
 
-    let size: [number, number, number] = [
+    let Size: [number, number, number] = [
         building_size[0] + 3 + porch_size + 1,
         building_size[2],
         building_size[1] + 2,
     ];
 
     return {
-        blu: {
-            translation: [0, 1.5, 0],
+        Blueprint: <Blueprint>{
+            Translation: [0, 1.5, 0],
             // rotation: from_euler([], 0, 270, 0),
-            using: [
+            Using: [
                 render_vox(
                     {
-                        offsets: Float32Array.from(offsets),
-                        size,
+                        Offsets: Float32Array.from(offsets),
+                        Size,
                     },
                     palette
                 ),
             ],
-            children,
+            Children,
         },
-        size,
+        Size,
     };
 }
