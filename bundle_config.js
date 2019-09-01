@@ -3,6 +3,5 @@ export default {
     output: {
         file: "public/opt/game.rollup.js",
         format: "iife",
-        name: "backcountry",
     },
 };
