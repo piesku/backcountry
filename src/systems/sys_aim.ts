@@ -7,8 +7,8 @@ import {normalize, subtract} from "../math/vec3.js";
 const QUERY = (1 << Get.Transform) | (1 << Get.Shoot);
 
 export function sys_aim(game: Game, delta: number) {
-    for (let i = 0; i < game.world.length; i++) {
-        if ((game.world[i] & QUERY) === QUERY) {
+    for (let i = 0; i < game.World.length; i++) {
+        if ((game.World[i] & QUERY) === QUERY) {
             update(game, i);
         }
     }
@@ -16,13 +16,13 @@ export function sys_aim(game: Game, delta: number) {
 
 function update(game: Game, entity: Entity) {
     let shoot = game[Get.Shoot][entity];
-    if (shoot.target) {
+    if (shoot.Target) {
         let transform = game[Get.Transform][entity];
         let move = game[Get.Move][entity];
 
-        let diff = subtract([], shoot.target, transform.translation);
+        let diff = subtract([], shoot.Target, transform.Translation);
         diff[1] = 0;
         normalize(diff, diff);
-        move.yaw = rotation_to([], get_forward([], transform.world), diff);
+        move.Yaw = rotation_to([], get_forward([], transform.World), diff);
     }
 }

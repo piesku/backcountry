@@ -7,29 +7,26 @@ import {Get} from "./com_index.js";
 import {RenderKind} from "./com_render.js";
 
 export interface RenderInstanced {
-    readonly kind: RenderKind.Instanced;
-    readonly material: Material;
-    readonly vao: WebGLVertexArrayObject;
-    readonly index_count: number;
-    readonly instance_count: number;
-    readonly palette?: Array<number>;
+    readonly Kind: RenderKind.Instanced;
+    readonly Material: Material;
+    readonly VAO: WebGLVertexArrayObject;
+    readonly IndexCount: number;
+    readonly InstanceCount: number;
+    readonly Palette?: Array<number>;
 }
 
-export function render_vox(model: Model, palette?: Array<number>) {
-    let {offsets} = model;
+export function render_vox(model: Model, Palette?: Array<number>) {
+    let {Offsets} = model;
     let shape = Cube;
     return (game: Game) => (entity: Entity) => {
-        let vao = buffer(game.gl, shape, offsets);
-        let material = game.materials[Mat.Instanced];
-
-        game.world[entity] |= 1 << Get.Render;
+        game.World[entity] |= 1 << Get.Render;
         game[Get.Render][entity] = <RenderInstanced>{
-            kind: RenderKind.Instanced,
-            material,
-            vao,
-            index_count: shape.indices.length,
-            instance_count: offsets.length / 4,
-            palette,
+            Kind: RenderKind.Instanced,
+            Material: game.Materials[Mat.Instanced],
+            VAO: buffer(game.GL, shape, Offsets),
+            IndexCount: shape.indices.length,
+            InstanceCount: Offsets.length / 4,
+            Palette,
         };
     };
 }

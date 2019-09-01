@@ -12,19 +12,19 @@ let tile_size = 8;
 export function get_mine_wall_blueprint(palette: number[] = initial_palette): Blueprint {
     let tile_model = create_block(tile_size, ~~(tile_size * 0.78));
 
-    let children: Array<Blueprint> = [
+    let Children: Array<Blueprint> = [
         {
-            using: [render_vox(tile_model, palette), cull(Get.Render)],
+            Using: [render_vox(tile_model, palette), cull(Get.Render)],
         },
     ];
 
     if (rand() < 0.1) {
-        children.push(lamp_blueprint);
+        Children.push(lamp_blueprint);
     }
 
     return {
-        translation: [0, tile_size / 2, 0],
-        using: [collide(false, [8, 1, 8]), cull(Get.Collide)],
-        children,
+        Translation: [0, tile_size / 2, 0],
+        Using: [collide(false, [8, 1, 8]), cull(Get.Collide)],
+        Children,
     };
 }

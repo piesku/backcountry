@@ -23,7 +23,7 @@ public/opt/game.terser.js: public/opt/game.trim.js
 	@echo -n "Minifying... "
 	@npx --quiet terser $< \
 		--mangle toplevel \
-		--mangle-props regex=/^[^U]/,reserved=[$(shell tr "\n" "," < reserved_properties.txt)] \
+		--mangle-props regex=/^[A-Z]/ \
 		--compress booleans_as_integers,drop_console,ecma=6,passes=3,pure_getters,toplevel,unsafe,unsafe_math \
 	> $@
 	@echo "Done"

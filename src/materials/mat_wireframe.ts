@@ -2,13 +2,13 @@ import {BasicAttribute} from "../components/com_render_basic.js";
 import {mat_create} from "./mat_common.js";
 
 let vertex = `#version 300 es\n
-    uniform mat4 Upv;
-    uniform mat4 Uworld;
+    uniform mat4 pv;
+    uniform mat4 world;
 
     layout(location=${BasicAttribute.position}) in vec3 position;
 
     void main() {
-        gl_Position = Upv * Uworld * vec4(position, 1.0);
+        gl_Position = pv * world * vec4(position, 1.0);
     }
 `;
 

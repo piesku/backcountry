@@ -7,11 +7,11 @@ import {Model} from "../model";
 export type Mixin = (game: Game) => (entity: Entity) => void;
 
 export interface Blueprint {
-    translation?: Vec3;
-    rotation?: Quat;
-    scale?: Vec3;
-    using?: Array<Mixin>;
-    children?: Array<Blueprint>;
+    Translation?: Vec3;
+    Rotation?: Quat;
+    Scale?: Vec3;
+    Using?: Array<Mixin>;
+    Children?: Array<Blueprint>;
 }
 
 export function create_tile(size: number, size_y = size, probability: number = 0.01) {
@@ -28,8 +28,8 @@ export function create_tile(size: number, size_y = size, probability: number = 0
     }
 
     return {
-        offsets: Float32Array.from(offsets),
-        size: [size, 1, size_y],
+        Offsets: Float32Array.from(offsets),
+        Size: [size, 1, size_y],
     } as Model;
 }
 
@@ -49,8 +49,8 @@ export function create_block(size: number, height: number) {
     }
 
     return {
-        offsets: Float32Array.from(offsets),
-        size: [size, height, size],
+        Offsets: Float32Array.from(offsets),
+        Size: [size, height, size],
     } as Model;
 }
 

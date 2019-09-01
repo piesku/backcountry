@@ -4,19 +4,19 @@ import {Get} from "./com_index.js";
 
 export interface Move {
     /** Units per second. */
-    readonly move_speed: number;
+    readonly MoveSpeed: number;
     /** Radians per second. */
-    readonly rotate_speed: number;
-    dir?: Vec3;
-    yaw?: Quat;
+    readonly RotateSpeed: number;
+    Direction?: Vec3;
+    Yaw?: Quat;
 }
 
-export function move(move_speed: number = 3.5, rotate_speed: number = 0.5) {
+export function move(MoveSpeed: number = 3.5, RotateSpeed: number = 0.5) {
     return (game: Game) => (entity: Entity) => {
-        game.world[entity] |= 1 << Get.Move;
+        game.World[entity] |= 1 << Get.Move;
         game[Get.Move][entity] = <Move>{
-            move_speed,
-            rotate_speed,
+            MoveSpeed,
+            RotateSpeed,
         };
     };
 }

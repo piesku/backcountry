@@ -14,8 +14,8 @@ import {snd_shoot} from "../sounds/snd_shoot.js";
 const QUERY = (1 << Get.Transform) | (1 << Get.Shoot);
 
 export function sys_shoot(game: Game, delta: number) {
-    for (let i = 0; i < game.world.length; i++) {
-        if ((game.world[i] & QUERY) === QUERY) {
+    for (let i = 0; i < game.World.length; i++) {
+        if ((game.World[i] & QUERY) === QUERY) {
             update(game, i);
         }
     }
@@ -23,37 +23,37 @@ export function sys_shoot(game: Game, delta: number) {
 
 function update(game: Game, entity: Entity) {
     let shoot = game[Get.Shoot][entity];
-    if (shoot.target) {
-        console.log(`Shot fired at ${shoot.target}`);
+    if (shoot.Target) {
+        console.log(`Shot fired at ${shoot.Target}`);
 
         // TODO Emit particles.
         // TODO Add other effects.
 
         let transform = game[Get.Transform][entity];
-        let origin = get_translation([], transform.world);
-        let direction = get_forward([], transform.world);
+        let origin = get_translation([], transform.World);
+        let direction = get_forward([], transform.World);
         let hit = raycast(game, origin, direction);
-        if (hit && hit.other.flags & RayFlag.Attackable) {
-            let health = game[Get.Health][hit.other.entity];
-            health.damages.push(shoot.damage);
-            game.dispatch(Action.HitEnemy, hit.other.entity);
+        if (hit && hit.Other.Flags & RayFlag.Attackable) {
+            let health = game[Get.Health][hit.Other.Entity];
+            health.Damages.push(shoot.Damage);
+            game.Dispatch(Action.HitEnemy, hit.Other.Entity);
             for (let audio of components_of_type<AudioSource>(game, transform, Get.AudioSource)) {
-                audio.trigger = snd_shoot;
+                audio.Trigger = snd_shoot;
             }
         } else {
             for (let audio of components_of_type<AudioSource>(game, transform, Get.AudioSource)) {
-                audio.trigger = snd_miss;
+                audio.Trigger = snd_miss;
             }
         }
 
         for (let animate of components_of_type<Animate>(game, transform, Get.Animate)) {
-            animate.trigger = Anim.Shoot;
+            animate.Trigger = Anim.Shoot;
         }
 
         for (let emitter of components_of_type<EmitParticles>(game, transform, Get.EmitParticles)) {
-            emitter.time = 0.2;
+            emitter.Time = 0.2;
         }
     }
 
-    shoot.target = null;
+    shoot.Target = null;
 }

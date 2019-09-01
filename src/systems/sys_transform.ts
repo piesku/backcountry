@@ -6,36 +6,36 @@ import {from_rotation_translation_scale, invert, multiply} from "../math/mat4.js
 const QUERY = 1 << Get.Transform;
 
 export function sys_transform(game: Game, delta: number) {
-    for (let i = 0; i < game.world.length; i++) {
-        if ((game.world[i] & QUERY) === QUERY) {
+    for (let i = 0; i < game.World.length; i++) {
+        if ((game.World[i] & QUERY) === QUERY) {
             update(game[Get.Transform][i]);
         }
     }
 }
 
 function update(transform: Transform) {
-    if (transform.dirty) {
-        transform.dirty = false;
+    if (transform.Dirty) {
+        transform.Dirty = false;
         set_children_as_dirty(transform);
 
         from_rotation_translation_scale(
-            transform.world,
-            transform.rotation,
-            transform.translation,
-            transform.scale
+            transform.World,
+            transform.Rotation,
+            transform.Translation,
+            transform.Scale
         );
 
-        if (transform.parent) {
-            multiply(transform.world, transform.parent.world, transform.world);
+        if (transform.Parent) {
+            multiply(transform.World, transform.Parent.World, transform.World);
         }
 
-        invert(transform.self, transform.world);
+        invert(transform.Self, transform.World);
     }
 }
 
 function set_children_as_dirty(transform: Transform) {
-    for (let child of transform.children) {
-        child.dirty = true;
+    for (let child of transform.Children) {
+        child.Dirty = true;
         set_children_as_dirty(child);
     }
 }

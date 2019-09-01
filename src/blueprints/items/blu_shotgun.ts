@@ -8,20 +8,20 @@ import {Blueprint} from "../blu_common.js";
 
 export function create_shotgun(game: Game) {
     return <Blueprint>{
-        rotation: from_euler([], 270, 0, 0),
-        translation: [
+        Rotation: from_euler([], 270, 0, 0),
+        Translation: [
             0.5,
             -(
-                Math.round(game.models[Models.GUN2].size[1] / 2) +
-                game.models[Models.HAND].size[1] / 2
+                Math.round(game.Models[Models.GUN2].Size[1] / 2) +
+                game.Models[Models.HAND].Size[1] / 2
             ),
             0,
         ],
-        using: [render_vox(game.models[Models.GUN2])],
-        children: [
+        Using: [render_vox(game.Models[Models.GUN2])],
+        Children: [
             {
-                translation: [0, 1, -2],
-                using: [
+                Translation: [0, 1, -2],
+                Using: [
                     emit_particles(0.2, 0.03, 5, 5),
                     render_particles([0.0, 0.0, 0.0], [1.0, 1.0, 1.0]),
                 ],

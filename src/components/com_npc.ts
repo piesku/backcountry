@@ -5,7 +5,7 @@ export interface NPC {}
 
 export function npc() {
     return (game: Game) => (entity: Entity) => {
-        game.world[entity] |= 1 << Get.NPC;
+        game.World[entity] |= 1 << Get.NPC;
         game[Get.NPC][entity] = <NPC>{};
     };
 }

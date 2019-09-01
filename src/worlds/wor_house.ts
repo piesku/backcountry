@@ -24,26 +24,31 @@ import {Models} from "../models_map.js";
 let map_size = 5;
 
 export function world_house(game: Game) {
-    game.world = [];
-    game.grid = [];
+    game.World = [];
+    game.Grid = [];
 
-    game.gl.clearColor(1, 0.3, 0.3, 1);
+    game.GL.clearColor(1, 0.3, 0.3, 1);
 
     let wall_offsets = [];
     let wall_height = 20;
 
     // Ground.
     for (let x = 0; x < map_size; x++) {
-        game.grid[x] = [];
+        game.Grid[x] = [];
         for (let y = 0; y < map_size; y++) {
-            game.grid[x][y] = Infinity;
+            game.Grid[x][y] = Infinity;
             let tile_blueprint = get_house_tile_blueprint(game, x, y);
-            game.add({
+
+            game.Add({
                 ...tile_blueprint,
-                translation: [(-(map_size / 2) + x) * 8, 0, (-(map_size / 2) + y) * 8],
+                Translation: [(-(map_size / 2) + x) * 8, 0, (-(map_size / 2) + y) * 8],
             });
         }
     }
+    game.Add({
+        Translation: [5, 5, 5],
+        Using: [collide(false, [8, 8, 8]), trigger_world("map", game.SeedTown)],
+    });
 
     // for (let x = -(map_size / 2) * 8; x < (map_size / 2) * 8; x++) {
     //     wall_offsets.push(
@@ -86,32 +91,28 @@ export function world_house(game: Game) {
     // });
 
     //window
-    game.add({
-        rotation: from_euler([], 0, integer(0, 2) * 180, 0),
-        translation: [(map_size / 2) * 8 - 2.9, 10, -(map_size / 2 - 2) * 8],
-        using: [(game: Game) => render_vox(game.models[Models.WINDOW])(game), cull(Get.Render)],
-    });
-
-    game.add({
-        translation: [5, 5, 5],
-        using: [collide(false, [8, 8, 8]), trigger_world("map", game.seed_town)],
+    game.Add({
+        Rotation: from_euler([], 0, integer(0, 2) * 180, 0),
+        Translation: [(map_size / 2) * 8 - 2.9, 10, -(map_size / 2 - 2) * 8],
+        Using: [(game: Game) => render_vox(game.Models[Models.WINDOW])(game), cull(Get.Render)],
     });
 
     // Directional light
-    game.add({
-        translation: [1, 2, -1],
-        using: [light([0.5, 0.5, 0.5], 0)],
+    game.Add({
+        Translation: [1, 2, -1],
+        Using: [light([0.5, 0.5, 0.5], 0)],
     });
 
     let player_position =
         game[Get.Transform][
             find_navigable(game, Math.floor(map_size / 2), Math.floor(map_size / 2))
-        ].translation;
+        ].Translation;
+
     // Player.
-    set_seed(game.seed_player);
-    game.add({
-        translation: [player_position[0], 5, player_position[2]],
-        using: [
+    set_seed(game.SeedPlayer);
+    game.Add({
+        Translation: [player_position[0], 5, player_position[2]],
+        Using: [
             named("player"),
             player_control(),
             walking(Math.floor(map_size / 2), Math.floor(map_size / 2)),
@@ -122,23 +123,23 @@ export function world_house(game: Game) {
             shoot(1),
             audio_source(),
         ],
-        children: [
+        Children: [
             get_character_blueprint(game),
             {
-                translation: [0, 25, 0],
-                using: [light([1, 1, 1], 20)],
+                Translation: [0, 25, 0],
+                Using: [light([1, 1, 1], 20)],
             },
         ],
     });
 
     // Camera.
-    game.add(angle_camera_blueprint);
+    game.Add(angle_camera_blueprint);
 
     // Sheriff.
-    game.add({
-        translation: [-12, 5, 12],
-        rotation: [0, 1, 0, 0],
-        using: [collide(true, [8, 8, 8]), trigger_world("wanted", Math.random())],
-        children: [get_character_blueprint(game)],
+    game.Add({
+        Translation: [-12, 5, 12],
+        Rotation: [0, 1, 0, 0],
+        Using: [collide(true, [8, 8, 8]), trigger_world("wanted", Math.random())],
+        Children: [get_character_blueprint(game)],
     });
 }
