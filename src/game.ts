@@ -24,7 +24,6 @@ import {transform, Transform} from "./components/com_transform.js";
 import {Trigger} from "./components/com_trigger.js";
 import {Walking} from "./components/com_walking.js";
 import {Material} from "./materials/mat_common.js";
-import {mat_gouraud} from "./materials/mat_gouraud.js";
 import {Mat} from "./materials/mat_index.js";
 import {mat_instanced} from "./materials/mat_instanced.js";
 import {mat_particles} from "./materials/mat_particles.js";
@@ -159,7 +158,6 @@ export class Game implements ComponentData, GameState {
         this.GL.frontFace(this.GL.CW);
 
         this.Materials[Mat.Wireframe] = mat_wireframe(this.GL);
-        this.Materials[Mat.Gouraud] = mat_gouraud(this.GL);
         this.Materials[Mat.Instanced] = mat_instanced(this.GL);
         this.Materials[Mat.Particles] = mat_particles(this.GL);
     }
