@@ -20,21 +20,21 @@ function update(game: Game, entity: Entity, delta: number) {
     let move = game[Get.Move][entity];
     for (let animate of components_of_type<Animate>(game, transform, Get.Animate)) {
         if (!animate.Trigger) {
-            animate.Trigger = move.dir ? Anim.Move : Anim.Idle;
+            animate.Trigger = move.Direction ? Anim.Move : Anim.Idle;
         }
     }
 
-    if (move.dir) {
-        scale(move.dir, move.dir, move.move_speed * delta);
-        add(transform.translation, transform.translation, move.dir);
+    if (move.Direction) {
+        scale(move.Direction, move.Direction, move.MoveSpeed * delta);
+        add(transform.translation, transform.translation, move.Direction);
         transform.dirty = true;
-        move.dir = undefined;
+        move.Direction = undefined;
     }
 
-    if (move.yaw) {
+    if (move.Yaw) {
         // Yaw is applied relative to the world space.
-        multiply(transform.rotation, move.yaw, transform.rotation);
+        multiply(transform.rotation, move.Yaw, transform.rotation);
         transform.dirty = true;
-        move.yaw = undefined;
+        move.Yaw = undefined;
     }
 }

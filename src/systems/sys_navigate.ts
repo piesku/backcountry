@@ -46,7 +46,7 @@ function update(game: Game, entity: Entity) {
 
         normalize(diff, diff);
         let move = game[Get.Move][entity];
-        move.dir = diff;
-        move.yaw = rotation_to([], get_forward([], transform.world), diff);
+        move.Direction = diff;
+        move.Yaw = rotation_to([], get_forward([], transform.world), diff);
     }
 }

@@ -23,6 +23,6 @@ function update(game: Game, entity: Entity) {
         let diff = subtract([], shoot.target, transform.translation);
         diff[1] = 0;
         normalize(diff, diff);
-        move.yaw = rotation_to([], get_forward([], transform.world), diff);
+        move.Yaw = rotation_to([], get_forward([], transform.world), diff);
     }
 }
