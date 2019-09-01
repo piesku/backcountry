@@ -32,12 +32,12 @@ let hat_models = [
 type Color = [number, number, number];
 
 interface CustomColors {
-    shirt?: Color;
-    pants?: Color;
-    hat?: Color;
-    extra?: Color;
-    skin?: Color;
-    hair?: Color;
+    Shirt?: Color;
+    Pants?: Color;
+    Hat?: Color;
+    Extra?: Color;
+    Skin?: Color;
+    Hair?: Color;
 }
 
 let shirt_colors: Array<Color> = [[1, 0, 0], [0, 1, 0], [0, 0, 1], [1, 1, 1]];
@@ -55,28 +55,28 @@ let pants_colors: Array<Color> = [
 
 function create_custom_palette(colors: CustomColors) {
     let new_palette = palette.slice();
-    if (colors.shirt) {
-        new_palette.splice(0, 3, ...colors.shirt);
+    if (colors.Shirt) {
+        new_palette.splice(0, 3, ...colors.Shirt);
     }
 
-    if (colors.pants) {
-        new_palette.splice(3, 3, ...colors.pants);
+    if (colors.Pants) {
+        new_palette.splice(3, 3, ...colors.Pants);
     }
 
-    if (colors.hat) {
-        new_palette.splice(6, 3, ...colors.hat);
+    if (colors.Hat) {
+        new_palette.splice(6, 3, ...colors.Hat);
     }
 
-    if (colors.extra) {
-        new_palette.splice(9, 3, ...colors.extra);
+    if (colors.Extra) {
+        new_palette.splice(9, 3, ...colors.Extra);
     }
 
-    if (colors.skin) {
-        new_palette.splice(12, 3, ...colors.skin);
+    if (colors.Skin) {
+        new_palette.splice(12, 3, ...colors.Skin);
     }
 
-    if (colors.hair) {
-        new_palette.splice(15, 3, ...colors.hair);
+    if (colors.Hair) {
+        new_palette.splice(15, 3, ...colors.Hair);
     }
 
     return new_palette;
@@ -106,12 +106,12 @@ export function get_character_blueprint(game: Game): Blueprint {
     let hair_color = element(hair_colors) as Color;
 
     let palette = create_custom_palette({
-        shirt: shirt_color,
-        pants: pants_color,
-        hat: hat_color,
-        extra: extra_color,
-        skin: skin_color,
-        hair: hair_color,
+        Shirt: shirt_color,
+        Pants: pants_color,
+        Hat: hat_color,
+        Extra: extra_color,
+        Skin: skin_color,
+        Hair: hair_color,
     });
 
     let items = [create_gun, create_gun, create_shotgun];
