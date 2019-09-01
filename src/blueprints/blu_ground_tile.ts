@@ -1,4 +1,4 @@
-import {animate, AnimationFlag} from "../components/com_animate.js";
+import {Anim, animate, AnimationFlag} from "../components/com_animate.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
 import {cull} from "../components/com_cull.js";
@@ -34,7 +34,7 @@ export function get_tile_blueprint(
             cull(Get.Render),
             audio_source({select: snd_click}),
             animate({
-                idle: {
+                [Anim.Idle]: {
                     keyframes: [
                         {
                             timestamp: 0,
@@ -42,7 +42,7 @@ export function get_tile_blueprint(
                         },
                     ],
                 },
-                select: {
+                [Anim.Select]: {
                     keyframes: [
                         {
                             timestamp: 0,

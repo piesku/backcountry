@@ -1,5 +1,5 @@
 import {Action} from "../actions.js";
-import {Animate} from "../components/com_animate.js";
+import {Anim, Animate} from "../components/com_animate.js";
 import {AudioSource} from "../components/com_audio_source.js";
 import {EmitParticles} from "../components/com_emit_particles.js";
 import {Get} from "../components/com_index.js";
@@ -45,7 +45,7 @@ function update(game: Game, entity: Entity) {
         }
 
         for (let animate of components_of_type<Animate>(game, transform, Get.Animate)) {
-            animate.trigger = "shoot";
+            animate.trigger = Anim.Shoot;
         }
 
         for (let emitter of components_of_type<EmitParticles>(game, transform, Get.EmitParticles)) {

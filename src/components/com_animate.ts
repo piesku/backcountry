@@ -12,10 +12,10 @@ export interface Animate {
     /** The clip played currently. Defaults to "idle". */
     current: AnimationState;
     /** The name of the clip to play next. */
-    trigger?: string;
+    trigger?: Anim;
 }
 
-export function animate(clips: {idle: AnimationClip; [k: string]: AnimationClip}) {
+export function animate(clips: {[Anim.Idle]: AnimationClip; [k: number]: AnimationClip}) {
     return (game: Game) => (entity: Entity) => {
         let states: Record<string, AnimationState> = {};
         for (let name in clips) {
@@ -36,7 +36,7 @@ export function animate(clips: {idle: AnimationClip; [k: string]: AnimationClip}
         game.world[entity] |= 1 << Get.Animate;
         game[Get.Animate][entity] = <Animate>{
             states,
-            current: states["idle"],
+            current: states[Anim.Idle],
         };
     };
 }
@@ -78,4 +78,11 @@ export interface AnimationState {
     duration: number;
     /** Current playback timestamp. */
     time: number;
+}
+
+export const enum Anim {
+    Idle,
+    Move,
+    Shoot,
+    Select,
 }

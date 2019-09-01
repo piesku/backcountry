@@ -14,7 +14,7 @@ public/opt/game.trim.js: public/opt/game.rollup.js
 public/opt/game.terser.js: public/opt/game.trim.js
 	npx --quiet terser $< \
 		--mangle toplevel \
-		--mangle-props keep_quoted,reserved=[createVertexArray,bindVertexArray,vertexAttribDivisor,drawElementsInstanced] \
+		--mangle-props reserved=[createVertexArray,bindVertexArray,vertexAttribDivisor,drawElementsInstanced] \
 		--compress booleans_as_integers,drop_console,ecma=6,passes=3,pure_getters,toplevel,unsafe,unsafe_math \
 	> $@
 

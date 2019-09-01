@@ -1,4 +1,4 @@
-import {animate, AnimationFlag} from "../components/com_animate.js";
+import {Anim, animate, AnimationFlag} from "../components/com_animate.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
 import {ease_in_out_quart, ease_out_quart} from "../math/easing.js";
@@ -127,7 +127,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                 using: [
                     render_vox(game.models[Models.BODY], palette),
                     animate({
-                        idle: {
+                        [Anim.Idle]: {
                             keyframes: [
                                 {
                                     timestamp: 0.0,
@@ -139,7 +139,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                                 },
                             ],
                         },
-                        move: {
+                        [Anim.Move]: {
                             keyframes: [
                                 {
                                     timestamp: 0.0,
@@ -151,7 +151,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                                 },
                             ],
                         },
-                        select: {
+                        [Anim.Select]: {
                             keyframes: [
                                 {
                                     timestamp: 0.0,
@@ -182,7 +182,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                 translation: [1.5, 0, 0.5],
                 using: [
                     animate({
-                        idle: {
+                        [Anim.Idle]: {
                             keyframes: [
                                 {
                                     timestamp: 0,
@@ -194,7 +194,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                                 },
                             ],
                         },
-                        move: {
+                        [Anim.Move]: {
                             keyframes: [
                                 {
                                     timestamp: 0,
@@ -206,7 +206,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                                 },
                             ],
                         },
-                        shoot: {
+                        [Anim.Shoot]: {
                             keyframes: [
                                 {
                                     timestamp: 0,
@@ -229,7 +229,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                             ],
                             flags: AnimationFlag.None,
                         },
-                        select: {
+                        [Anim.Shoot]: {
                             keyframes: [
                                 {
                                     timestamp: 0.0,
@@ -266,7 +266,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                 translation: [-1.5, 0, 0.5],
                 using: [
                     animate({
-                        idle: {
+                        [Anim.Idle]: {
                             keyframes: [
                                 {
                                     timestamp: 0,
@@ -278,7 +278,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                                 },
                             ],
                         },
-                        move: {
+                        [Anim.Move]: {
                             keyframes: [
                                 {
                                     timestamp: 0,
@@ -290,7 +290,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                                 },
                             ],
                         },
-                        select: {
+                        [Anim.Select]: {
                             keyframes: [
                                 {
                                     timestamp: 0.0,
@@ -327,7 +327,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                 translation: [0.5, -2, 0.5],
                 using: [
                     animate({
-                        idle: {
+                        [Anim.Idle]: {
                             keyframes: [
                                 {
                                     timestamp: 0,
@@ -339,7 +339,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                                 },
                             ],
                         },
-                        move: {
+                        [Anim.Move]: {
                             keyframes: [
                                 {
                                     timestamp: 0,
@@ -351,7 +351,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                                 },
                             ],
                         },
-                        select: {
+                        [Anim.Select]: {
                             keyframes: [
                                 {
                                     timestamp: 0.0,
@@ -387,7 +387,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                 translation: [-0.5, -2, 0.5],
                 using: [
                     animate({
-                        idle: {
+                        [Anim.Idle]: {
                             keyframes: [
                                 {
                                     timestamp: 0,
@@ -399,7 +399,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                                 },
                             ],
                         },
-                        move: {
+                        [Anim.Move]: {
                             keyframes: [
                                 {
                                     timestamp: 0,
@@ -411,7 +411,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                                 },
                             ],
                         },
-                        select: {
+                        [Anim.Select]: {
                             keyframes: [
                                 {
                                     timestamp: 0.0,
