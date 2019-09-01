@@ -5,16 +5,16 @@ import {Get} from "./com_index.js";
 import {RenderKind} from "./com_render.js";
 
 export interface RenderBasic {
-    readonly kind: RenderKind.Basic;
-    readonly material: Material;
-    readonly vao: WebGLVertexArrayObject;
-    readonly count: number;
-    color: Vec4;
+    readonly Kind: RenderKind.Basic;
+    readonly Material: Material;
+    readonly VAO: WebGLVertexArrayObject;
+    readonly Count: number;
+    Color: Vec4;
 }
 
 let vaos: WeakMap<Shape, WebGLVertexArrayObject> = new WeakMap();
 
-export function render_basic(material: Material, shape: Shape, color: Vec4) {
+export function render_basic(Material: Material, shape: Shape, Color: Vec4) {
     return (game: Game) => (entity: Entity) => {
         if (!vaos.has(shape)) {
             // We only need to create the VAO once.
@@ -23,11 +23,11 @@ export function render_basic(material: Material, shape: Shape, color: Vec4) {
 
         game.world[entity] |= 1 << Get.Render;
         game[Get.Render][entity] = <RenderBasic>{
-            kind: RenderKind.Basic,
-            material,
-            vao: vaos.get(shape),
-            count: shape.indices.length,
-            color,
+            Kind: RenderKind.Basic,
+            Material,
+            VAO: vaos.get(shape),
+            Count: shape.indices.length,
+            Color,
         };
     };
 }

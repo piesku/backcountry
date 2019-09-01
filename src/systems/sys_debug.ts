@@ -42,7 +42,7 @@ export function sys_debug(game: Game, delta: number) {
             // Draw invisible entities.
             if (!(game.world[i] & (1 << Get.Render))) {
                 wireframe_entity(game, i);
-            } else if (game[Get.Render][i].kind === RenderKind.Particles) {
+            } else if (game[Get.Render][i].Kind === RenderKind.Particles) {
                 wireframe_entity(game, i);
             }
 
