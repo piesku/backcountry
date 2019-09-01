@@ -41,14 +41,14 @@ export function sys_render(game: Game, delta: number) {
                 let {gl, program, uniforms} = current_material;
                 gl.useProgram(program);
                 // TODO Support more than one camera.
-                gl.uniformMatrix4fv(uniforms.Upv, false, game.Cameras[0].PV);
+                gl.uniformMatrix4fv(uniforms.pv, false, game.Cameras[0].PV);
 
                 switch (render.Kind) {
                     case RenderKind.Shaded:
                     case RenderKind.Instanced:
-                        gl.uniform1i(uniforms.Ulight_count, game.Lights.length);
-                        gl.uniform3fv(uniforms.Ulight_positions, light_positions);
-                        gl.uniform4fv(uniforms.Ulight_details, light_details);
+                        gl.uniform1i(uniforms.light_count, game.Lights.length);
+                        gl.uniform3fv(uniforms.light_positions, light_positions);
+                        gl.uniform4fv(uniforms.light_details, light_details);
                         break;
                 }
             }
@@ -77,8 +77,8 @@ export function sys_render(game: Game, delta: number) {
 
 function draw_basic(transform: Transform, render: RenderBasic) {
     let {gl, mode, uniforms} = render.Material;
-    gl.uniformMatrix4fv(uniforms.Uworld, false, transform.World);
-    gl.uniform4fv(uniforms.Ucolor, render.Color);
+    gl.uniformMatrix4fv(uniforms.world, false, transform.World);
+    gl.uniform4fv(uniforms.color, render.Color);
     gl.bindVertexArray(render.VAO);
     gl.drawElements(mode, render.Count, gl.UNSIGNED_SHORT, 0);
     gl.bindVertexArray(null);
@@ -86,9 +86,9 @@ function draw_basic(transform: Transform, render: RenderBasic) {
 
 function draw_shaded(transform: Transform, render: RenderShaded) {
     let {gl, mode, uniforms} = render.Material;
-    gl.uniformMatrix4fv(uniforms.Uworld, false, transform.World);
-    gl.uniformMatrix4fv(uniforms.Uself, false, transform.Self);
-    gl.uniform4fv(uniforms.Ucolor, render.Color);
+    gl.uniformMatrix4fv(uniforms.world, false, transform.World);
+    gl.uniformMatrix4fv(uniforms.self, false, transform.Self);
+    gl.uniform4fv(uniforms.color, render.Color);
     gl.bindVertexArray(render.VAO);
     gl.drawElements(mode, render.Count, gl.UNSIGNED_SHORT, 0);
     gl.bindVertexArray(null);
@@ -96,9 +96,9 @@ function draw_shaded(transform: Transform, render: RenderShaded) {
 
 function draw_instanced(game: Game, transform: Transform, render: RenderInstanced) {
     let {gl, mode, uniforms} = render.Material;
-    gl.uniformMatrix4fv(uniforms.Uworld, false, transform.World);
-    gl.uniformMatrix4fv(uniforms.Uself, false, transform.Self);
-    gl.uniform3fv(uniforms.Upalette, render.Palette || game.Palette);
+    gl.uniformMatrix4fv(uniforms.world, false, transform.World);
+    gl.uniformMatrix4fv(uniforms.self, false, transform.Self);
+    gl.uniform3fv(uniforms.palette, render.Palette || game.Palette);
     gl.bindVertexArray(render.VAO);
     gl.drawElementsInstanced(mode, render.IndexCount, gl.UNSIGNED_SHORT, 0, render.InstanceCount);
     gl.bindVertexArray(null);
@@ -106,10 +106,10 @@ function draw_instanced(game: Game, transform: Transform, render: RenderInstance
 
 function draw_particles(render: RenderParticles, emitter: EmitParticles) {
     let {gl, mode, uniforms} = render.Material;
-    gl.uniform1f(uniforms.Usize, emitter.Size);
-    gl.uniform1f(uniforms.Uvertical, emitter.Vertical);
-    gl.uniform3fv(uniforms.Ustart_color, render.ColorStart);
-    gl.uniform3fv(uniforms.Uend_color, render.ColorEnd);
+    gl.uniform1f(uniforms.size, emitter.Size);
+    gl.uniform1f(uniforms.vertical, emitter.Vertical);
+    gl.uniform3fv(uniforms.start_color, render.ColorStart);
+    gl.uniform3fv(uniforms.end_color, render.ColorEnd);
 
     gl.bindBuffer(gl.ARRAY_BUFFER, render.Buffer);
     gl.bufferData(gl.ARRAY_BUFFER, Float32Array.from(emitter.Instances), gl.DYNAMIC_DRAW);
