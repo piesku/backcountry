@@ -17,28 +17,28 @@ function update(game: Game, entity: Entity, delta: number) {
     let emitter = game[Get.EmitParticles][entity];
     let transform = game[Get.Transform][entity];
 
-    emitter.since_last += delta;
-    if (emitter.time > 0 && emitter.since_last > emitter.frequency) {
-        emitter.time -= delta;
-        emitter.since_last = 0;
-        let particle = <Particle>{id: Math.random(), origin: [0, 0, 0], age: 0};
-        get_translation(particle.origin, transform.world);
-        emitter.particles.push(particle);
+    emitter.SinceLast += delta;
+    if (emitter.Time > 0 && emitter.SinceLast > emitter.Frequency) {
+        emitter.Time -= delta;
+        emitter.SinceLast = 0;
+        let particle = <Particle>{Id: Math.random(), Origin: [0, 0, 0], Age: 0};
+        get_translation(particle.Origin, transform.world);
+        emitter.Particles.push(particle);
     }
 
     // A flat continuous array of particle data, from which a Float32Array
     // is created in sys_render and sent as a vertex attribute array.
-    emitter.instances = [];
-    for (let i = 0; i < emitter.particles.length; ) {
-        let particle = emitter.particles[i];
-        particle.age += delta;
-        if (particle.age > emitter.lifespan) {
-            emitter.particles.shift();
+    emitter.Instances = [];
+    for (let i = 0; i < emitter.Particles.length; ) {
+        let particle = emitter.Particles[i];
+        particle.Age += delta;
+        if (particle.Age > emitter.Lifespan) {
+            emitter.Particles.shift();
         } else {
-            emitter.instances.push(
-                particle.id,
-                ...particle.origin,
-                particle.age / emitter.lifespan
+            emitter.Instances.push(
+                particle.Id,
+                ...particle.Origin,
+                particle.Age / emitter.Lifespan
             );
             i++;
         }

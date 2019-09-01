@@ -51,7 +51,7 @@ function update(game: Game, entity: Entity) {
         }
 
         for (let emitter of components_of_type<EmitParticles>(game, transform, Get.EmitParticles)) {
-            emitter.time = 0.2;
+            emitter.Time = 0.2;
         }
     }
 

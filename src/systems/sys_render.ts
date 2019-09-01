@@ -65,7 +65,7 @@ export function sys_render(game: Game, delta: number) {
                     break;
                 case RenderKind.Particles: {
                     let emitter = game[Get.EmitParticles][i];
-                    if (emitter.instances.length) {
+                    if (emitter.Instances.length) {
                         draw_particles(render, emitter);
                     }
                     break;
@@ -106,18 +106,18 @@ function draw_instanced(game: Game, transform: Transform, render: RenderInstance
 
 function draw_particles(render: RenderParticles, emitter: EmitParticles) {
     let {gl, mode, uniforms} = render.material;
-    gl.uniform1f(uniforms.Usize, emitter.size);
-    gl.uniform1f(uniforms.Uvertical, emitter.vertical);
+    gl.uniform1f(uniforms.Usize, emitter.Size);
+    gl.uniform1f(uniforms.Uvertical, emitter.Vertical);
     gl.uniform3fv(uniforms.Ustart_color, render.start_color);
     gl.uniform3fv(uniforms.Uend_color, render.end_color);
 
     gl.bindBuffer(gl.ARRAY_BUFFER, render.buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, Float32Array.from(emitter.instances), gl.DYNAMIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, Float32Array.from(emitter.Instances), gl.DYNAMIC_DRAW);
     gl.enableVertexAttribArray(ParticleAttribute.id);
     gl.vertexAttribPointer(1, 1, gl.FLOAT, false, 5 * 4, 0);
     gl.enableVertexAttribArray(ParticleAttribute.origin);
     gl.vertexAttribPointer(2, 3, gl.FLOAT, false, 5 * 4, 1 * 4);
     gl.enableVertexAttribArray(ParticleAttribute.age);
     gl.vertexAttribPointer(3, 1, gl.FLOAT, false, 5 * 4, 4 * 4);
-    gl.drawArrays(mode, 0, emitter.particles.length);
+    gl.drawArrays(mode, 0, emitter.Particles.length);
 }
