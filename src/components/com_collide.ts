@@ -19,10 +19,10 @@ export interface Collide {
 }
 
 export function collide(Dynamic: boolean = true, Size: [number, number, number] = [1, 1, 1]) {
-    return (game: Game) => (entity: Entity) => {
-        game.world[entity] |= 1 << Get.Collide;
-        game[Get.Collide][entity] = <Collide>{
-            Entity: entity,
+    return (game: Game) => (Entity: Entity) => {
+        game.world[Entity] |= 1 << Get.Collide;
+        game[Get.Collide][Entity] = <Collide>{
+            Entity,
             New: true,
             Dynamic,
             Size,

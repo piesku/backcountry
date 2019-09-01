@@ -20,10 +20,10 @@ export function sys_render(game: Game, delta: number) {
 
     for (let i = 0; i < game.lights.length; i++) {
         let light = game.lights[i];
-        let transform = game[Get.Transform][light.entity];
+        let transform = game[Get.Transform][light.Entity];
         let position = get_translation([], transform.world);
         light_positions.push(...position);
-        light_details.push(...light.color, light.intensity);
+        light_details.push(...light.Color, light.Intensity);
     }
 
     // Keep track of the current material to minimize switching.
