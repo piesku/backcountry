@@ -45,14 +45,14 @@ function update(game: Game, entity: Entity) {
     transform_point(target, target, transform.world);
     subtract(direction, target, origin);
     normalize(direction, direction);
-    select.hit = raycast(game, origin, direction);
+    select.Hit = raycast(game, origin, direction);
 
     if (
-        select.hit &&
-        select.hit.other.Flags & ANIMATED &&
+        select.Hit &&
+        select.Hit.other.Flags & ANIMATED &&
         (game.event.mouse_0_down || game.event.mouse_2_down)
     ) {
-        let transform = game[Get.Transform][select.hit.other.Entity];
+        let transform = game[Get.Transform][select.Hit.other.Entity];
         for (let animate of components_of_type<Animate>(game, transform, Get.Animate)) {
             animate.Trigger = Anim.Select;
         }

@@ -25,26 +25,26 @@ export function sys_player_control(game: Game, delta: number) {
 }
 
 function update(game: Game, entity: Entity, cursor: Select) {
-    if (!cursor.hit) {
+    if (!cursor.Hit) {
         return;
     }
 
     if (game.event.mouse_0_down) {
-        if (cursor.hit.other.Flags & RayFlag.Navigable) {
-            let route = get_route(game, entity, game[Get.Navigable][cursor.hit.other.Entity]);
+        if (cursor.Hit.other.Flags & RayFlag.Navigable) {
+            let route = get_route(game, entity, game[Get.Navigable][cursor.Hit.other.Entity]);
             if (route) {
                 game[Get.PathFind][entity].Route = route;
             }
         }
 
-        if (cursor.hit.other.Flags & RayFlag.Attackable) {
-            let other_transform = game[Get.Transform][cursor.hit.other.Entity];
+        if (cursor.Hit.other.Flags & RayFlag.Attackable) {
+            let other_transform = game[Get.Transform][cursor.Hit.other.Entity];
             game[Get.Shoot][entity].target = get_translation([], other_transform.world);
         }
     }
 
     if (game.event.mouse_2_down) {
-        game[Get.Shoot][entity].target = cursor.hit.contact;
+        game[Get.Shoot][entity].target = cursor.Hit.contact;
     }
 }
 
