@@ -41,7 +41,7 @@ export function sys_render(game: Game, delta: number) {
                 let {gl, program, uniforms} = current_material;
                 gl.useProgram(program);
                 // TODO Support more than one camera.
-                gl.uniformMatrix4fv(uniforms.Upv, false, game.cameras[0].pv);
+                gl.uniformMatrix4fv(uniforms.Upv, false, game.cameras[0].PV);
 
                 switch (render.kind) {
                     case RenderKind.Shaded:

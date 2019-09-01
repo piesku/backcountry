@@ -39,9 +39,9 @@ function update(game: Game, entity: Entity) {
     let target = [x, y, 1];
     let direction = [0, 0, 0];
 
-    transform_point(origin, origin, camera.unproject);
+    transform_point(origin, origin, camera.Unproject);
     transform_point(origin, origin, transform.world);
-    transform_point(target, target, camera.unproject);
+    transform_point(target, target, camera.Unproject);
     transform_point(target, target, transform.world);
     subtract(direction, target, origin);
     normalize(direction, direction);

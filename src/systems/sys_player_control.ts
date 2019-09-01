@@ -14,8 +14,8 @@ const QUERY =
 
 export function sys_player_control(game: Game, delta: number) {
     let camera = game.cameras[0];
-    if (game.world[camera.entity] & (1 << Get.Select)) {
-        let cursor = game[Get.Select][camera.entity];
+    if (game.world[camera.Entity] & (1 << Get.Select)) {
+        let cursor = game[Get.Select][camera.Entity];
         for (let i = 0; i < game.world.length; i++) {
             if ((game.world[i] & QUERY) === QUERY) {
                 update(game, i, cursor);

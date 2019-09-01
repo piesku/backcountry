@@ -4,18 +4,18 @@ import {create, invert, ortho, perspective} from "../math/mat4.js";
 import {Get} from "./com_index.js";
 
 export interface Camera {
-    entity: Entity;
-    position: Vec3;
-    projection: Mat4;
-    unproject: Mat4;
-    view: Mat4;
-    pv: Mat4;
-    cull: boolean;
+    Entity: Entity;
+    Position: Vec3;
+    Projection: Mat4;
+    Unproject: Mat4;
+    View: Mat4;
+    PV: Mat4;
+    Cull: boolean;
 }
 
 export function camera_perspective(fovy: number, near: number, far: number) {
     return (game: Game) => (entity: Entity) => {
-        let projection = perspective(
+        let Projection = perspective(
             create(),
             fovy,
             game.canvas.width / game.canvas.height,
@@ -24,20 +24,20 @@ export function camera_perspective(fovy: number, near: number, far: number) {
         );
         game.world[entity] |= 1 << Get.Camera;
         game[Get.Camera][entity] = <Camera>{
-            entity,
-            position: [],
-            projection,
-            unproject: invert([], projection),
-            view: create(),
-            pv: create(),
-            cull: false,
+            Entity: entity,
+            Position: [],
+            Projection,
+            Unproject: invert([], Projection),
+            View: create(),
+            PV: create(),
+            Cull: false,
         };
     };
 }
 
 export function camera_ortho(radius: number, near: number, far: number) {
     return (game: Game) => (entity: Entity) => {
-        let projection = ortho(
+        let Projection = ortho(
             create(),
             radius,
             radius * (game.canvas.width / game.canvas.height),
@@ -48,13 +48,13 @@ export function camera_ortho(radius: number, near: number, far: number) {
         );
         game.world[entity] |= 1 << Get.Camera;
         game[Get.Camera][entity] = <Camera>{
-            entity,
-            position: [],
-            projection,
-            unproject: invert([], projection),
-            view: create(),
-            pv: create(),
-            cull: true,
+            Entity: entity,
+            Position: [],
+            Projection,
+            Unproject: invert([], Projection),
+            View: create(),
+            PV: create(),
+            Cull: true,
         };
     };
 }
