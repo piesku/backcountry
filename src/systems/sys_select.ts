@@ -49,10 +49,10 @@ function update(game: Game, entity: Entity) {
 
     if (
         select.hit &&
-        select.hit.other.flags & ANIMATED &&
+        select.hit.other.Flags & ANIMATED &&
         (game.event.mouse_0_down || game.event.mouse_2_down)
     ) {
-        let transform = game[Get.Transform][select.hit.other.entity];
+        let transform = game[Get.Transform][select.hit.other.Entity];
         for (let animate of components_of_type<Animate>(game, transform, Get.Animate)) {
             animate.Trigger = Anim.Select;
         }

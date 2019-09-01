@@ -13,7 +13,7 @@ export function raycast(game: Game, origin: Vec3, direction: Vec3) {
     let nearest_t = Infinity;
     let nearest_i = null;
     for (let i = 0; i < game.targets.length; i++) {
-        let aabb = game[Get.Collide][game.targets[i].entity];
+        let aabb = game[Get.Collide][game.targets[i].Entity];
         if (!inside(origin, aabb)) {
             let t = distance(origin, direction, aabb);
             if (t < nearest_t) {

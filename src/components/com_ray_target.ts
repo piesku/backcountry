@@ -2,16 +2,16 @@ import {Entity, Game} from "../game.js";
 import {Get} from "./com_index.js";
 
 export interface RayTarget {
-    entity: Entity;
-    flags: RayFlag;
+    Entity: Entity;
+    Flags: RayFlag;
 }
 
-export function ray_target(flags: RayFlag) {
-    return (game: Game) => (entity: Entity) => {
-        game.world[entity] |= 1 << Get.RayTarget;
-        game[Get.RayTarget][entity] = <RayTarget>{
-            entity,
-            flags,
+export function ray_target(Flags: RayFlag) {
+    return (game: Game) => (Entity: Entity) => {
+        game.world[Entity] |= 1 << Get.RayTarget;
+        game[Get.RayTarget][Entity] = <RayTarget>{
+            Entity,
+            Flags,
         };
     };
 }
