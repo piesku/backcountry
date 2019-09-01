@@ -7,11 +7,11 @@ import {Model} from "../model";
 export type Mixin = (game: Game) => (entity: Entity) => void;
 
 export interface Blueprint {
-    translation?: Vec3;
-    rotation?: Quat;
-    scale?: Vec3;
-    using?: Array<Mixin>;
-    children?: Array<Blueprint>;
+    Translation?: Vec3;
+    Rotation?: Quat;
+    Scale?: Vec3;
+    Using?: Array<Mixin>;
+    Children?: Array<Blueprint>;
 }
 
 export function create_tile(size: number, size_y = size, probability: number = 0.01) {

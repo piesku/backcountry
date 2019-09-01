@@ -42,7 +42,7 @@ export function get_cactus_blueprint(): Blueprint {
     );
 
     return {
-        using: [
+        Using: [
             render_vox(
                 {
                     offsets: Float32Array.from(trunk),

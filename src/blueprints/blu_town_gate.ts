@@ -68,17 +68,17 @@ export function get_town_gate_blueprint(
     }
 
     return {
-        translation: [(-(map_size / 2) + fence_line) * 8 - 4, 0, -3],
-        using: [
+        Translation: [(-(map_size / 2) + fence_line) * 8 - 4, 0, -3],
+        Using: [
             render_vox(
                 {offsets: Float32Array.from(fence_offsets), size: [1, 1, 1]},
                 main_building_palette
             ),
         ],
-        children: [
+        Children: [
             {
-                translation: [20, 0, 0],
-                using: [collide(false, [8, 8, 800]), trigger_world("desert", game.seed_bounty)],
+                Translation: [20, 0, 0],
+                Using: [collide(false, [8, 8, 800]), trigger_world("desert", game.seed_bounty)],
             },
         ],
     };

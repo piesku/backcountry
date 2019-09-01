@@ -5,7 +5,7 @@ import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
 import {element, integer, rand} from "../math/random.js";
 import {Models} from "../models_map.js";
-import {create_line} from "./blu_common.js";
+import {Blueprint, create_line} from "./blu_common.js";
 
 export let main_building_palette = [0.6, 0.4, 0, 0.4, 0.2, 0, 0.14, 0, 0, 0.2, 0.8, 1];
 
@@ -40,7 +40,7 @@ export function get_building_blueprint(game: Game) {
     let porch_size = 8; //7 + integer(0, 2);
 
     let offsets: number[] = [];
-    let children = [];
+    let Children: Array<Blueprint> = [];
 
     // WALLS
     for (let x = 1; x < building_size[0]; x++) {
@@ -92,14 +92,14 @@ export function get_building_blueprint(game: Game) {
             offset < building_size[1] - window_width - 1;
             offset += window_width * 3
         ) {
-            children.push({
-                rotation: from_euler([], 0, integer(0, 2) * 180, 0),
-                translation: [
+            Children.push({
+                Rotation: from_euler([], 0, integer(0, 2) * 180, 0),
+                Translation: [
                     building_size[0] + 1,
                     building_size[2] + window_height / 2,
                     building_size[1] - offset - window_width / 2,
                 ],
-                using: [
+                Using: [
                     (game: Game) => render_vox(game.models[Models.WINDOW])(game),
                     cull(Get.Render),
                 ],
@@ -235,10 +235,10 @@ export function get_building_blueprint(game: Game) {
     ];
 
     return {
-        blu: {
-            translation: [0, 1.5, 0],
+        blu: <Blueprint>{
+            Translation: [0, 1.5, 0],
             // rotation: from_euler([], 0, 270, 0),
-            using: [
+            Using: [
                 render_vox(
                     {
                         offsets: Float32Array.from(offsets),
@@ -247,7 +247,7 @@ export function get_building_blueprint(game: Game) {
                     palette
                 ),
             ],
-            children,
+            Children,
         },
         size,
     };

@@ -18,7 +18,7 @@ export function get_house_tile_blueprint(game: Game, x: number = 0, y: number = 
     let tile_model = create_tile(tile_size);
 
     let tile: Blueprint = {
-        using: [
+        Using: [
             render_vox(tile_model, house_palette),
             cull(Get.Render),
             audio_source(),
@@ -50,12 +50,12 @@ export function get_house_tile_blueprint(game: Game, x: number = 0, y: number = 
                 },
             }),
         ],
-        children: [],
+        Children: [],
     };
 
     return {
-        rotation: from_euler([], 0, integer(0, 3) * 90, 0),
-        using: [collide(false, [8, 1, 8]), ray_target(RayFlag.Navigable), navigable(x, y)],
-        children: [tile],
+        Rotation: from_euler([], 0, integer(0, 3) * 90, 0),
+        Using: [collide(false, [8, 1, 8]), ray_target(RayFlag.Navigable), navigable(x, y)],
+        Children: [tile],
     };
 }

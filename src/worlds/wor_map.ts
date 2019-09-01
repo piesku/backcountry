@@ -49,7 +49,7 @@ export function world_map(game: Game) {
 
             game.add({
                 ...tile_blueprint,
-                translation: [(-(map_size / 2) + x) * 8, 0, (-(map_size / 2) + y) * 8],
+                Translation: [(-(map_size / 2) + x) * 8, 0, (-(map_size / 2) + y) * 8],
             });
         }
     }
@@ -58,8 +58,8 @@ export function world_map(game: Game) {
 
     // Directional light and Soundtrack
     game.add({
-        translation: [1, 2, -1],
-        using: [light([0.5, 0.5, 0.5], 0), audio_source(snd_music)],
+        Translation: [1, 2, -1],
+        Using: [light([0.5, 0.5, 0.5], 0), audio_source(snd_music)],
     });
 
     // Buildings
@@ -84,21 +84,21 @@ export function world_map(game: Game) {
         ][starting_position + building_z - 2] = Infinity;
 
         game.add({
-            translation: [
+            Translation: [
                 (-(map_size / 2) + building_x_tile + building_x - 1.5) * 8,
                 5,
                 (-(map_size / 2) + starting_position + building_z - 1.5) * 8,
             ],
-            using: [collide(false, [8, 8, 8]), trigger_world("house", rand())],
+            Using: [collide(false, [8, 8, 8]), trigger_world("house", rand())],
         });
 
         game.add({
-            translation: [
+            Translation: [
                 (-(map_size / 2) + building_x_tile) * 8 - 1.5,
                 0,
                 (-(map_size / 2) + starting_position) * 8 - 3.5,
             ],
-            children: [building_blu.blu],
+            Children: [building_blu.blu],
         });
 
         starting_position += building_blu.size[2] / 8 + integer(1, 2);
@@ -111,10 +111,10 @@ export function world_map(game: Game) {
         let y = integer(0, map_size);
         if (game.grid[x] && game.grid[x][y] && !isNaN(game.grid[x][y])) {
             game.add({
-                translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
-                rotation: from_euler([], 0, integer(0, 3) * 90, 0),
-                using: [npc(), path_find(), walking(x, y, true), move(integer(15, 25), 0)],
-                children: [get_character_blueprint(game)],
+                Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
+                Rotation: from_euler([], 0, integer(0, 3) * 90, 0),
+                Using: [npc(), path_find(), walking(x, y, true), move(integer(15, 25), 0)],
+                Children: [get_character_blueprint(game)],
             });
         }
     }
@@ -125,8 +125,8 @@ export function world_map(game: Game) {
     // Player.
     set_seed(game.seed_player);
     game.add({
-        translation: [player_position[0], 5, player_position[2]],
-        using: [
+        Translation: [player_position[0], 5, player_position[2]],
+        Using: [
             named("player"),
             player_control(),
             walking(~~(map_size / 2), ~~(map_size / 2)),
@@ -137,11 +137,11 @@ export function world_map(game: Game) {
             shoot(1),
             audio_source(),
         ],
-        children: [
+        Children: [
             get_character_blueprint(game),
             {
-                translation: [0, 25, 0],
-                using: [light([1, 1, 1], 20)],
+                Translation: [0, 25, 0],
+                Using: [light([1, 1, 1], 20)],
             },
         ],
     });

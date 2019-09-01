@@ -12,23 +12,23 @@ export function world_intro(game: Game) {
     // Player.
     set_seed(game.seed_player);
     game.add({
-        using: [],
-        children: [get_character_blueprint(game)],
+        Using: [],
+        Children: [get_character_blueprint(game)],
     });
 
     // Camera.
     game.add({
-        translation: [-5, 0, 15],
-        rotation: from_euler([], 0, -45, 0),
-        using: [camera_perspective(1, 1, 100)],
+        Translation: [-5, 0, 15],
+        Rotation: from_euler([], 0, -45, 0),
+        Using: [camera_perspective(1, 1, 100)],
     });
 
     // Light.
     game.add({
-        translation: [-15, 15, 15],
-        children: [
+        Translation: [-15, 15, 15],
+        Children: [
             {
-                using: [light([1, 1, 1], 25)],
+                Using: [light([1, 1, 1], 25)],
             },
         ],
     });

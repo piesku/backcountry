@@ -7,14 +7,14 @@ import {Models} from "../models_map.js";
 import {Blueprint} from "./blu_common.js";
 
 export const lamp_blueprint = <Blueprint>{
-    children: [
+    Children: [
         {
-            translation: [0, 0, 4.5],
-            using: [(game: Game) => render_vox(game.models[Models.LAMP])(game), cull(Get.Render)],
+            Translation: [0, 0, 4.5],
+            Using: [(game: Game) => render_vox(game.models[Models.LAMP])(game), cull(Get.Render)],
         },
         {
-            translation: [0, 1, 7],
-            using: [cull(Get.Light), light([1, 0.5, 0], 5)],
+            Translation: [0, 1, 7],
+            Using: [cull(Get.Light), light([1, 0.5, 0], 5)],
         },
     ],
 };

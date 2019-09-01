@@ -89,11 +89,11 @@ export function get_hat(game: Game, palette: Array<number>): Blueprint {
     let is_rotated = rand() > 0.8;
 
     return {
-        translation: is_rotated
+        Translation: is_rotated
             ? [0, body_height / 2 - 2, hat_height / 2 + 1]
             : [0, hat_height / 2 + body_height / 2, 0],
-        rotation: is_rotated ? from_euler([], 90, 0, 0) : [0, 1, 0, 0],
-        using: [(game: Game) => render_vox(game.models[hat_index], palette)(game)],
+        Rotation: is_rotated ? from_euler([], 90, 0, 0) : [0, 1, 0, 0],
+        Using: [(game: Game) => render_vox(game.models[hat_index], palette)(game)],
     };
 }
 
@@ -120,11 +120,11 @@ export function get_character_blueprint(game: Game): Blueprint {
     let left_hand_item = rand() > 0.5 ? {} : (element(items) as Mixin)(game);
 
     return {
-        rotation: [0, 1, 0, 0],
-        children: [
+        Rotation: [0, 1, 0, 0],
+        Children: [
             {
                 //body
-                using: [
+                Using: [
                     render_vox(game.models[Models.BODY], palette),
                     animate({
                         [Anim.Idle]: {
@@ -175,12 +175,12 @@ export function get_character_blueprint(game: Game): Blueprint {
                         },
                     }),
                 ],
-                children: [get_hat(game, palette)],
+                Children: [get_hat(game, palette)],
             },
             {
                 // right arm
-                translation: [1.5, 0, 0.5],
-                using: [
+                Translation: [1.5, 0, 0.5],
+                Using: [
                     animate({
                         [Anim.Idle]: {
                             Keyframes: [
@@ -253,18 +253,18 @@ export function get_character_blueprint(game: Game): Blueprint {
                         },
                     }),
                 ],
-                children: [
+                Children: [
                     {
-                        translation: [0, -1, 0],
-                        using: [render_vox(game.models[Models.HAND], palette)],
+                        Translation: [0, -1, 0],
+                        Using: [render_vox(game.models[Models.HAND], palette)],
                     },
                     right_hand_item,
                 ],
             },
             {
                 // left arm
-                translation: [-1.5, 0, 0.5],
-                using: [
+                Translation: [-1.5, 0, 0.5],
+                Using: [
                     animate({
                         [Anim.Idle]: {
                             Keyframes: [
@@ -314,18 +314,18 @@ export function get_character_blueprint(game: Game): Blueprint {
                         },
                     }),
                 ],
-                children: [
+                Children: [
                     {
-                        translation: [0, -1, 0],
-                        using: [render_vox(game.models[Models.HAND], palette)],
+                        Translation: [0, -1, 0],
+                        Using: [render_vox(game.models[Models.HAND], palette)],
                     },
                     left_hand_item,
                 ],
             },
             {
                 // right foot
-                translation: [0.5, -2, 0.5],
-                using: [
+                Translation: [0.5, -2, 0.5],
+                Using: [
                     animate({
                         [Anim.Idle]: {
                             Keyframes: [
@@ -375,17 +375,17 @@ export function get_character_blueprint(game: Game): Blueprint {
                         },
                     }),
                 ],
-                children: [
+                Children: [
                     {
-                        translation: [0, -1.5, 0],
-                        using: [render_vox(game.models[Models.FOOT], palette)],
+                        Translation: [0, -1.5, 0],
+                        Using: [render_vox(game.models[Models.FOOT], palette)],
                     },
                 ],
             },
             {
                 // left foot
-                translation: [-0.5, -2, 0.5],
-                using: [
+                Translation: [-0.5, -2, 0.5],
+                Using: [
                     animate({
                         [Anim.Idle]: {
                             Keyframes: [
@@ -435,10 +435,10 @@ export function get_character_blueprint(game: Game): Blueprint {
                         },
                     }),
                 ],
-                children: [
+                Children: [
                     {
-                        translation: [0, -1.5, 0],
-                        using: [render_vox(game.models[Models.FOOT], palette)],
+                        Translation: [0, -1.5, 0],
+                        Using: [render_vox(game.models[Models.FOOT], palette)],
                     },
                 ],
             },

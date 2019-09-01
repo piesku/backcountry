@@ -12,7 +12,7 @@ export function world_wanted(game: Game) {
 
     // Player.
     game.add({
-        using: [
+        Using: [
             animate({
                 [Anim.Idle]: {
                     Keyframes: [
@@ -33,24 +33,24 @@ export function world_wanted(game: Game) {
                 },
             }),
         ],
-        children: [get_character_blueprint(game)],
+        Children: [get_character_blueprint(game)],
     });
 
     // Camera.
     game.add({
-        translation: [0, 2, 10],
-        using: [camera_ortho(10, 1, 100)],
+        Translation: [0, 2, 10],
+        Using: [camera_ortho(10, 1, 100)],
     });
 
     // Directional light.
     game.add({
-        translation: [1, 1, 1],
-        using: [light([0.5, 0.5, 0.5], 0)],
+        Translation: [1, 1, 1],
+        Using: [light([0.5, 0.5, 0.5], 0)],
     });
 
     // Point light.
     game.add({
-        translation: [-15, 15, 15],
-        using: [light([1, 1, 1], 25)],
+        Translation: [-15, 15, 15],
+        Using: [light([1, 1, 1], 25)],
     });
 }

@@ -6,7 +6,7 @@ import {BuildingColors, main_building_palette} from "./blu_building.js";
 import {Blueprint, create_line} from "./blu_common.js";
 import {get_rock_blueprint} from "./blu_rock.js";
 
-export function get_mine_entrance_blueprint(game: Game): Blueprint {
+export function get_mine_entrance_blueprint(game: Game) {
     let rock_model = get_rock_blueprint(game);
     let wooden_part_length = 24;
     let half_entrrance_width = 6;
@@ -54,16 +54,16 @@ export function get_mine_entrance_blueprint(game: Game): Blueprint {
         ],
     };
 
-    return {
-        children: [
+    return <Blueprint>{
+        Children: [
             {
                 ...rock_model,
-                scale: [4, 4, 4],
+                Scale: [4, 4, 4],
             },
             wooden_part,
             {
-                translation: [0, 0, 12],
-                using: [collide(false, [8, 8, 8]), trigger_world("mine", game.seed_bounty)],
+                Translation: [0, 0, 12],
+                Using: [collide(false, [8, 8, 8]), trigger_world("mine", game.seed_bounty)],
             },
         ],
     };

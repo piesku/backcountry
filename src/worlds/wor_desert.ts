@@ -51,9 +51,9 @@ export function world_desert(game: Game) {
 
             game.add({
                 ...tile_blueprint,
-                translation: [
+                Translation: [
                     (-(map_size / 2) + x) * 8,
-                    tile_blueprint.translation![1],
+                    tile_blueprint.Translation![1],
                     (-(map_size / 2) + y) * 8,
                 ],
             });
@@ -62,8 +62,8 @@ export function world_desert(game: Game) {
 
     // Directional light and Soundtrack
     game.add({
-        translation: [1, 2, -1],
-        using: [light([0.5, 0.5, 0.5], 0), audio_source(snd_music)],
+        Translation: [1, 2, -1],
+        Using: [light([0.5, 0.5, 0.5], 0), audio_source(snd_music)],
     });
 
     // Cowboys.
@@ -73,16 +73,16 @@ export function world_desert(game: Game) {
         let y = integer(0, map_size);
         if (game.grid[x] && game.grid[x][y] && !isNaN(game.grid[x][y])) {
             game.add({
-                translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
-                using: [npc(), path_find(), walking(x, y, true), move(integer(15, 25), 0)],
-                children: [get_character_blueprint(game)],
+                Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
+                Using: [npc(), path_find(), walking(x, y, true), move(integer(15, 25), 0)],
+                Children: [get_character_blueprint(game)],
             });
         }
     }
 
     let entrance = get_mine_entrance_blueprint(game);
     game.add({
-        translation: [(map_size / 2 - 15) * 8, 0, (map_size / 2 - 12) * 8],
+        Translation: [(map_size / 2 - 15) * 8, 0, (map_size / 2 - 12) * 8],
         ...entrance,
     });
 
@@ -90,8 +90,8 @@ export function world_desert(game: Game) {
     let player_position = game[Get.Transform][find_navigable(game, 1, 1)].Translation;
     // Player.
     game.add({
-        translation: [player_position[0], 5, player_position[2]],
-        using: [
+        Translation: [player_position[0], 5, player_position[2]],
+        Using: [
             named("player"),
             player_control(),
             walking(1, 1),
@@ -102,11 +102,11 @@ export function world_desert(game: Game) {
             shoot(1),
             audio_source(),
         ],
-        children: [
+        Children: [
             get_character_blueprint(game),
             {
-                translation: [0, 25, 0],
-                using: [light([1, 1, 1], 20)],
+                Translation: [0, 25, 0],
+                Using: [light([1, 1, 1], 20)],
             },
         ],
     });

@@ -14,7 +14,7 @@ export function get_mine_wall_blueprint(palette: number[] = initial_palette): Bl
 
     let children: Array<Blueprint> = [
         {
-            using: [render_vox(tile_model, palette), cull(Get.Render)],
+            Using: [render_vox(tile_model, palette), cull(Get.Render)],
         },
     ];
 
@@ -23,8 +23,8 @@ export function get_mine_wall_blueprint(palette: number[] = initial_palette): Bl
     }
 
     return {
-        translation: [0, tile_size / 2, 0],
-        using: [collide(false, [8, 1, 8]), cull(Get.Collide)],
-        children,
+        Translation: [0, tile_size / 2, 0],
+        Using: [collide(false, [8, 1, 8]), cull(Get.Collide)],
+        Children: children,
     };
 }

@@ -34,20 +34,20 @@ export function world_house(game: Game) {
 
             game.add({
                 ...tile_blueprint,
-                translation: [(-(map_size / 2) + x) * 8, 0, (-(map_size / 2) + y) * 8],
+                Translation: [(-(map_size / 2) + x) * 8, 0, (-(map_size / 2) + y) * 8],
             });
         }
     }
 
     game.add({
-        translation: [5, 5, 5],
-        using: [collide(false, [8, 8, 8]), trigger_world("map", game.seed_town)],
+        Translation: [5, 5, 5],
+        Using: [collide(false, [8, 8, 8]), trigger_world("map", game.seed_town)],
     });
 
     // Directional light
     game.add({
-        translation: [1, 2, -1],
-        using: [light([0.5, 0.5, 0.5], 0)],
+        Translation: [1, 2, -1],
+        Using: [light([0.5, 0.5, 0.5], 0)],
     });
 
     let player_position =
@@ -57,8 +57,8 @@ export function world_house(game: Game) {
     // Player.
     set_seed(game.seed_player);
     game.add({
-        translation: [player_position[0], 5, player_position[2]],
-        using: [
+        Translation: [player_position[0], 5, player_position[2]],
+        Using: [
             named("player"),
             player_control(),
             walking(Math.floor(map_size / 2), Math.floor(map_size / 2)),
@@ -69,11 +69,11 @@ export function world_house(game: Game) {
             shoot(1),
             audio_source(),
         ],
-        children: [
+        Children: [
             get_character_blueprint(game),
             {
-                translation: [0, 25, 0],
-                using: [light([1, 1, 1], 20)],
+                Translation: [0, 25, 0],
+                Using: [light([1, 1, 1], 20)],
             },
         ],
     });
@@ -83,9 +83,9 @@ export function world_house(game: Game) {
 
     // Sheriff.
     game.add({
-        translation: [-12, 5, 12],
-        rotation: [0, 1, 0, 0],
-        using: [collide(true, [8, 8, 8]), trigger_world("wanted", Math.random())],
-        children: [get_character_blueprint(game)],
+        Translation: [-12, 5, 12],
+        Rotation: [0, 1, 0, 0],
+        Using: [collide(true, [8, 8, 8]), trigger_world("wanted", Math.random())],
+        Children: [get_character_blueprint(game)],
     });
 }
