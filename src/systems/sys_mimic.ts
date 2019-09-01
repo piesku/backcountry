@@ -10,14 +10,14 @@ export function sys_mimic(game: Game, delta: number) {
         if ((game.world[i] & QUERY) === QUERY) {
             let follower_transform = game[Get.Transform][i];
             let follower_mimic = game[Get.Mimic][i];
-            let target_transform = game[Get.Transform][follower_mimic.target];
+            let target_transform = game[Get.Transform][follower_mimic.Target];
             let target_world_position = get_translation([], target_transform.world);
             // XXX Follower must be a top-level transform for this to work.
             follower_transform.translation = lerp_vec3(
                 [],
                 follower_transform.translation,
                 target_world_position,
-                follower_mimic.stiffness
+                follower_mimic.Stiffness
             );
             follower_transform.dirty = true;
         }
