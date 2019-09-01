@@ -39,7 +39,7 @@ function update(game: Game, entity: Entity, cursor: Select) {
 
         if (cursor.Hit.other.Flags & RayFlag.Attackable) {
             let other_transform = game[Get.Transform][cursor.Hit.other.Entity];
-            game[Get.Shoot][entity].Target = get_translation([], other_transform.world);
+            game[Get.Shoot][entity].Target = get_translation([], other_transform.World);
         }
     }
 

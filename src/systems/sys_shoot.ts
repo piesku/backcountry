@@ -30,8 +30,8 @@ function update(game: Game, entity: Entity) {
         // TODO Add other effects.
 
         let transform = game[Get.Transform][entity];
-        let origin = get_translation([], transform.world);
-        let direction = get_forward([], transform.world);
+        let origin = get_translation([], transform.World);
+        let direction = get_forward([], transform.World);
         let hit = raycast(game, origin, direction);
         if (hit && hit.other.Flags & RayFlag.Attackable) {
             let health = game[Get.Health][hit.other.Entity];

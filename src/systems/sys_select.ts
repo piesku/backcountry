@@ -40,9 +40,9 @@ function update(game: Game, entity: Entity) {
     let direction = [0, 0, 0];
 
     transform_point(origin, origin, camera.Unproject);
-    transform_point(origin, origin, transform.world);
+    transform_point(origin, origin, transform.World);
     transform_point(target, target, camera.Unproject);
-    transform_point(target, target, transform.world);
+    transform_point(target, target, transform.World);
     subtract(direction, target, origin);
     normalize(direction, direction);
     select.Hit = raycast(game, origin, direction);

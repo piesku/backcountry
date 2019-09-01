@@ -55,22 +55,22 @@ function update(game: Game, entity: Entity, delta: number) {
 
         if (current_keyframe.Translation && next_keyframe.Translation) {
             lerp(
-                transform.translation,
+                transform.Translation,
                 current_keyframe.Translation,
                 next_keyframe.Translation,
                 interpolant
             );
-            transform.dirty = true;
+            transform.Dirty = true;
         }
 
         if (current_keyframe.Rotation && next_keyframe.Rotation) {
             slerp(
-                transform.rotation,
+                transform.Rotation,
                 current_keyframe.Rotation,
                 next_keyframe.Rotation,
                 interpolant
             );
-            transform.dirty = true;
+            transform.Dirty = true;
         }
     }
 

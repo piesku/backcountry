@@ -21,7 +21,7 @@ export function sys_render(game: Game, delta: number) {
     for (let i = 0; i < game.lights.length; i++) {
         let light = game.lights[i];
         let transform = game[Get.Transform][light.Entity];
-        let position = get_translation([], transform.world);
+        let position = get_translation([], transform.World);
         light_positions.push(...position);
         light_details.push(...light.Color, light.Intensity);
     }
@@ -77,7 +77,7 @@ export function sys_render(game: Game, delta: number) {
 
 function draw_basic(transform: Transform, render: RenderBasic) {
     let {gl, mode, uniforms} = render.Material;
-    gl.uniformMatrix4fv(uniforms.Uworld, false, transform.world);
+    gl.uniformMatrix4fv(uniforms.Uworld, false, transform.World);
     gl.uniform4fv(uniforms.Ucolor, render.Color);
     gl.bindVertexArray(render.VAO);
     gl.drawElements(mode, render.Count, gl.UNSIGNED_SHORT, 0);
@@ -86,8 +86,8 @@ function draw_basic(transform: Transform, render: RenderBasic) {
 
 function draw_shaded(transform: Transform, render: RenderShaded) {
     let {gl, mode, uniforms} = render.Material;
-    gl.uniformMatrix4fv(uniforms.Uworld, false, transform.world);
-    gl.uniformMatrix4fv(uniforms.Uself, false, transform.self);
+    gl.uniformMatrix4fv(uniforms.Uworld, false, transform.World);
+    gl.uniformMatrix4fv(uniforms.Uself, false, transform.Self);
     gl.uniform4fv(uniforms.Ucolor, render.Color);
     gl.bindVertexArray(render.VAO);
     gl.drawElements(mode, render.Count, gl.UNSIGNED_SHORT, 0);
@@ -96,8 +96,8 @@ function draw_shaded(transform: Transform, render: RenderShaded) {
 
 function draw_instanced(game: Game, transform: Transform, render: RenderInstanced) {
     let {gl, mode, uniforms} = render.Material;
-    gl.uniformMatrix4fv(uniforms.Uworld, false, transform.world);
-    gl.uniformMatrix4fv(uniforms.Uself, false, transform.self);
+    gl.uniformMatrix4fv(uniforms.Uworld, false, transform.World);
+    gl.uniformMatrix4fv(uniforms.Uself, false, transform.Self);
     gl.uniform3fv(uniforms.Upalette, render.Palette || game.palette);
     gl.bindVertexArray(render.VAO);
     gl.drawElementsInstanced(mode, render.IndexCount, gl.UNSIGNED_SHORT, 0, render.InstanceCount);

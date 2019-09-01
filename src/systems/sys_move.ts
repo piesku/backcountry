@@ -26,15 +26,15 @@ function update(game: Game, entity: Entity, delta: number) {
 
     if (move.Direction) {
         scale(move.Direction, move.Direction, move.MoveSpeed * delta);
-        add(transform.translation, transform.translation, move.Direction);
-        transform.dirty = true;
+        add(transform.Translation, transform.Translation, move.Direction);
+        transform.Dirty = true;
         move.Direction = undefined;
     }
 
     if (move.Yaw) {
         // Yaw is applied relative to the world space.
-        multiply(transform.rotation, move.Yaw, transform.rotation);
-        transform.dirty = true;
+        multiply(transform.Rotation, move.Yaw, transform.Rotation);
+        transform.Dirty = true;
         move.Yaw = undefined;
     }
 }

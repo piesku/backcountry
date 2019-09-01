@@ -20,9 +20,9 @@ function update(game: Game, entity: Entity) {
         let transform = game[Get.Transform][entity];
         let move = game[Get.Move][entity];
 
-        let diff = subtract([], shoot.Target, transform.translation);
+        let diff = subtract([], shoot.Target, transform.Translation);
         diff[1] = 0;
         normalize(diff, diff);
-        move.Yaw = rotation_to([], get_forward([], transform.world), diff);
+        move.Yaw = rotation_to([], get_forward([], transform.World), diff);
     }
 }

@@ -52,7 +52,7 @@ function check_collisions(collider: Collide, colliders: Collide[]) {
 }
 
 function compute_aabb(transform: Transform, collide: Collide) {
-    let world_position = get_translation([], transform.world);
+    let world_position = get_translation([], transform.World);
     let half = scale([], collide.Size, 0.5);
     subtract(collide.Min, world_position, half);
     add(collide.Max, world_position, half);

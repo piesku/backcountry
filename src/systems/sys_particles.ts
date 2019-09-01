@@ -22,7 +22,7 @@ function update(game: Game, entity: Entity, delta: number) {
         emitter.Time -= delta;
         emitter.SinceLast = 0;
         let particle = <Particle>{Id: Math.random(), Origin: [0, 0, 0], Age: 0};
-        get_translation(particle.Origin, transform.world);
+        get_translation(particle.Origin, transform.World);
         emitter.Particles.push(particle);
     }
 

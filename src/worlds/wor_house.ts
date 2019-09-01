@@ -53,7 +53,7 @@ export function world_house(game: Game) {
     let player_position =
         game[Get.Transform][
             find_navigable(game, Math.floor(map_size / 2), Math.floor(map_size / 2))
-        ].translation;
+        ].Translation;
     // Player.
     set_seed(game.seed_player);
     game.add({

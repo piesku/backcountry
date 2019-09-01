@@ -21,11 +21,11 @@ export function sys_debug(game: Game, delta: number) {
     for (let [key, wireframe] of wireframes) {
         if (
             // If the entity doesn't have TRANSFORM...
-            !(game.world[wireframe.anchor.entity] & (1 << Get.Transform)) ||
+            !(game.world[wireframe.anchor.Entity] & (1 << Get.Transform)) ||
             // ...or if it's not the same TRANSFORM.
-            game[Get.Transform][wireframe.anchor.entity] !== wireframe.anchor
+            game[Get.Transform][wireframe.anchor.Entity] !== wireframe.anchor
         ) {
-            game.destroy(wireframe.transform.entity);
+            game.destroy(wireframe.transform.Entity);
             wireframes.delete(key);
         }
     }
@@ -62,8 +62,8 @@ function wireframe_entity(game: Game, entity: Entity) {
             using: [render_basic(game.materials[Mat.Wireframe], Cube, [1, 0, 1, 1])],
         });
         let wireframe_transform = game[Get.Transform][box];
-        wireframe_transform.world = anchor.world;
-        wireframe_transform.dirty = false;
+        wireframe_transform.World = anchor.World;
+        wireframe_transform.Dirty = false;
         wireframes.set(anchor, {
             anchor: anchor,
             transform: wireframe_transform,
@@ -78,7 +78,7 @@ function wireframe_collider(game: Game, entity: Entity) {
 
     if (!wireframe) {
         let box = game.add({
-            translation: get_translation([], anchor.world),
+            translation: get_translation([], anchor.World),
             scale: collide.Size,
             using: [render_basic(game.materials[Mat.Wireframe], Cube, [0, 1, 0, 1])],
         });
@@ -87,8 +87,8 @@ function wireframe_collider(game: Game, entity: Entity) {
             transform: game[Get.Transform][box],
         });
     } else if (collide.Dynamic) {
-        get_translation(wireframe.transform.translation, anchor.world);
-        wireframe.transform.dirty = true;
+        get_translation(wireframe.transform.Translation, anchor.World);
+        wireframe.transform.Dirty = true;
     }
 }
 
@@ -102,8 +102,8 @@ function wireframe_ray(game: Game, entity: Entity) {
             using: [render_basic(game.materials[Mat.Wireframe], Line, [1, 1, 0, 1])],
         });
         let wireframe_transform = game[Get.Transform][line];
-        wireframe_transform.world = anchor.world;
-        wireframe_transform.dirty = false;
+        wireframe_transform.World = anchor.World;
+        wireframe_transform.Dirty = false;
         wireframes.set(shoot, {
             anchor: anchor,
             transform: wireframe_transform,

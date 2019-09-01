@@ -25,7 +25,7 @@ function update(game: Game, entity: Entity) {
             let destination_entity = find_navigable(game, dest[0], dest[1]);
             control.DestinationX = dest[0];
             control.DestinationY = dest[1];
-            control.Destination = game[Get.Transform][destination_entity].translation;
+            control.Destination = game[Get.Transform][destination_entity].Translation;
         }
     }
 
@@ -33,11 +33,11 @@ function update(game: Game, entity: Entity) {
         let transform = game[Get.Transform][entity];
         let world_destination = [
             control.Destination[0],
-            transform.translation[1],
+            transform.Translation[1],
             control.Destination[2],
         ];
 
-        let diff = subtract([], world_destination, transform.translation);
+        let diff = subtract([], world_destination, transform.Translation);
         if (length(diff) < 1) {
             walking.x = control.DestinationX;
             walking.y = control.DestinationY;
@@ -47,6 +47,6 @@ function update(game: Game, entity: Entity) {
         normalize(diff, diff);
         let move = game[Get.Move][entity];
         move.Direction = diff;
-        move.Yaw = rotation_to([], get_forward([], transform.world), diff);
+        move.Yaw = rotation_to([], get_forward([], transform.World), diff);
     }
 }

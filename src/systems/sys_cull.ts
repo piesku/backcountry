@@ -17,7 +17,7 @@ export function sys_cull(game: Game, delta: number) {
 
 function update(game: Game, entity: Entity) {
     let cull = game[Get.Cull][entity];
-    let world_position = get_translation([], game[Get.Transform][entity].world);
+    let world_position = get_translation([], game[Get.Transform][entity].World);
     let camera_position = transform_point([], world_position, game.cameras[0].View);
     if (
         // m11 of the ortho projection matrix is defined as 1/right. Cull
