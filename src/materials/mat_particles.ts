@@ -8,7 +8,6 @@ export const enum ParticleAttribute {
 
 let vertex = `#version 300 es\n
     uniform mat4 pv;
-    uniform vec3 camera_pos;
     uniform float size;
     uniform float vertical;
     uniform vec3 start_color;

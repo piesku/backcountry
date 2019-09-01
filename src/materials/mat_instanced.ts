@@ -19,8 +19,6 @@ let vertex = `#version 300 es\n
 
     out vec4 vert_color;
 
-    const float fog_dist = 50.0;
-
     void main() {
         vec4 world_pos = world * vec4(position + offset.xyz, 1.0);
         vec3 world_normal = normalize((vec4(normal, 0.0) * self).xyz);
@@ -40,11 +38,8 @@ let vertex = `#version 300 es\n
                 float light_dist = length(light_dir);
 
                 float diffuse_factor = max(dot(world_normal, light_normal), 0.0);
-                float distance_factor = light_dist * light_dist;
-                float intensity_factor = light_details[i].a;
-
                 rgb += palette[int(offset[3])].rgb * light_details[i].rgb * diffuse_factor
-                        * intensity_factor / distance_factor;
+                        * light_details[i].a / (light_dist * light_dist);
             }
         }
 
