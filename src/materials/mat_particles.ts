@@ -7,12 +7,12 @@ export const enum ParticleAttribute {
 }
 
 let vertex = `#version 300 es\n
-    uniform mat4 pv;
-    uniform vec3 camera_pos;
-    uniform float size;
-    uniform float vertical;
-    uniform vec3 start_color;
-    uniform vec3 end_color;
+    uniform mat4 Upv;
+    uniform vec3 Ucamera_pos;
+    uniform float Usize;
+    uniform float Uvertical;
+    uniform vec3 Ustart_color;
+    uniform vec3 Uend_color;
 
     layout(location=${ParticleAttribute.id}) in float id;
     layout(location=${ParticleAttribute.origin}) in vec3 origin;
@@ -27,11 +27,11 @@ let vertex = `#version 300 es\n
 
         vec4 world_pos = vec4(origin, 1.0);
         world_pos.x += rand_x / 3.0;
-        world_pos.y += age * vertical;
+        world_pos.y += age * Uvertical;
         world_pos.z += rand_y / 3.0;
-        gl_Position = pv * world_pos;
-        gl_PointSize = mix(size, size * 10.0, age);
-        vert_color = mix(vec4(start_color, 1.0), vec4(end_color, 1.0), age);
+        gl_Position = Upv * world_pos;
+        gl_PointSize = mix(Usize, Usize * 10.0, age);
+        vert_color = mix(vec4(Ustart_color, 1.0), vec4(Uend_color, 1.0), age);
     }
 `;
 
