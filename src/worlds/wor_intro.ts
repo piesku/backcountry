@@ -11,20 +11,20 @@ export function world_intro(game: Game) {
 
     // Player.
     set_seed(game.SeedPlayer);
-    game.add({
+    game.Add({
         Using: [],
         Children: [get_character_blueprint(game)],
     });
 
     // Camera.
-    game.add({
+    game.Add({
         Translation: [-5, 0, 15],
         Rotation: from_euler([], 0, -45, 0),
         Using: [camera_perspective(1, 1, 100)],
     });
 
     // Light.
-    game.add({
+    game.Add({
         Translation: [-15, 15, 15],
         Children: [
             {

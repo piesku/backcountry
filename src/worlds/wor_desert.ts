@@ -49,7 +49,7 @@ export function world_desert(game: Game) {
 
             let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y);
 
-            game.add({
+            game.Add({
                 ...tile_blueprint,
                 Translation: [
                     (-(map_size / 2) + x) * 8,
@@ -61,7 +61,7 @@ export function world_desert(game: Game) {
     }
 
     // Directional light and Soundtrack
-    game.add({
+    game.Add({
         Translation: [1, 2, -1],
         Using: [light([0.5, 0.5, 0.5], 0), audio_source(snd_music)],
     });
@@ -72,7 +72,7 @@ export function world_desert(game: Game) {
         let x = integer(0, map_size);
         let y = integer(0, map_size);
         if (game.Grid[x] && game.Grid[x][y] && !isNaN(game.Grid[x][y])) {
-            game.add({
+            game.Add({
                 Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
                 Using: [npc(), path_find(), walking(x, y, true), move(integer(15, 25), 0)],
                 Children: [get_character_blueprint(game)],
@@ -81,7 +81,7 @@ export function world_desert(game: Game) {
     }
 
     let entrance = get_mine_entrance_blueprint(game);
-    game.add({
+    game.Add({
         Translation: [(map_size / 2 - 15) * 8, 0, (map_size / 2 - 12) * 8],
         ...entrance,
     });
@@ -89,7 +89,7 @@ export function world_desert(game: Game) {
     set_seed(game.SeedPlayer);
     let player_position = game[Get.Transform][find_navigable(game, 1, 1)].Translation;
     // Player.
-    game.add({
+    game.Add({
         Translation: [player_position[0], 5, player_position[2]],
         Using: [
             named("player"),
@@ -112,7 +112,7 @@ export function world_desert(game: Game) {
     });
 
     // Camera.
-    game.add(angle_camera_blueprint);
+    game.Add(angle_camera_blueprint);
 }
 
 function generate_maze(game: Game, [x1, x2]: number[], [y1, y2]: number[], size: number) {

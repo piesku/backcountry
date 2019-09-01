@@ -25,7 +25,7 @@ export function sys_debug(game: Game, delta: number) {
             // ...or if it's not the same TRANSFORM.
             game[Get.Transform][wireframe.anchor.Entity] !== wireframe.anchor
         ) {
-            game.destroy(wireframe.transform.Entity);
+            game.Destroy(wireframe.transform.Entity);
             wireframes.delete(key);
         }
     }
@@ -58,7 +58,7 @@ function wireframe_entity(game: Game, entity: Entity) {
     let wireframe = wireframes.get(anchor);
 
     if (!wireframe) {
-        let box = game.add({
+        let box = game.Add({
             Using: [render_basic(game.Materials[Mat.Wireframe], Cube, [1, 0, 1, 1])],
         });
         let wireframe_transform = game[Get.Transform][box];
@@ -77,7 +77,7 @@ function wireframe_collider(game: Game, entity: Entity) {
     let wireframe = wireframes.get(collide);
 
     if (!wireframe) {
-        let box = game.add({
+        let box = game.Add({
             Translation: get_translation([], anchor.World),
             Scale: collide.Size,
             Using: [render_basic(game.Materials[Mat.Wireframe], Cube, [0, 1, 0, 1])],
@@ -98,7 +98,7 @@ function wireframe_ray(game: Game, entity: Entity) {
     let wireframe = wireframes.get(shoot);
 
     if (!wireframe) {
-        let line = game.add({
+        let line = game.Add({
             Using: [render_basic(game.Materials[Mat.Wireframe], Line, [1, 1, 0, 1])],
         });
         let wireframe_transform = game[Get.Transform][line];

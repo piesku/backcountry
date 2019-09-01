@@ -17,7 +17,7 @@ function update(game: Game, entity: Entity) {
         health.current -= health.Damages[i];
         if (health.current <= 0) {
             console.log(`Entity #${entity} has died.`);
-            game.destroy(entity);
+            game.Destroy(entity);
         }
     }
     health.Damages = [];

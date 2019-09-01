@@ -11,7 +11,7 @@ window.game = game;
 async function start() {
     game.Models = await load("./models.tfu");
     world_intro(game);
-    game.start();
+    game.Start();
 }
 
 start();

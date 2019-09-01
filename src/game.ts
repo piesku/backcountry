@@ -132,7 +132,7 @@ export class Game implements ComponentData, GameState {
         this.World = [];
 
         document.addEventListener("visibilitychange", () =>
-            document.hidden ? this.stop() : this.start()
+            document.hidden ? this.Stop() : this.Start()
         );
 
         this.Canvas = document.querySelector("canvas")!;
@@ -168,7 +168,7 @@ export class Game implements ComponentData, GameState {
         this.Materials[Mat.Particles] = mat_particles(this.GL);
     }
 
-    create_entity(mask: number) {
+    CreateEntity(mask: number) {
         for (let i = 0; i < MAX_ENTITIES; i++) {
             if (!this.World[i]) {
                 this.World[i] = mask;
@@ -178,7 +178,7 @@ export class Game implements ComponentData, GameState {
         throw new Error("No more entities available.");
     }
 
-    fixed_update(delta: number) {
+    FixedUpdate(delta: number) {
         let now = performance.now();
 
         // Player input.
@@ -211,7 +211,7 @@ export class Game implements ComponentData, GameState {
         }
     }
 
-    frame_update(delta: number) {
+    FrameUpdate(delta: number) {
         let now = performance.now();
 
         sys_audio(this, delta);
@@ -225,7 +225,7 @@ export class Game implements ComponentData, GameState {
         sys_framerate(this, delta);
     }
 
-    start() {
+    Start() {
         let step = 1 / 60;
         let accumulator = 0;
         let last = performance.now();
@@ -235,33 +235,33 @@ export class Game implements ComponentData, GameState {
             accumulator += delta;
             while (accumulator > step) {
                 accumulator -= step;
-                this.fixed_update(step);
+                this.FixedUpdate(step);
             }
-            this.frame_update(delta);
+            this.FrameUpdate(delta);
 
             last = now;
             this.RAF = requestAnimationFrame(tick);
         };
 
-        this.stop();
+        this.Stop();
         this.Audio.resume();
         tick(last);
     }
 
-    stop() {
+    Stop() {
         this.Audio.suspend();
         cancelAnimationFrame(this.RAF);
     }
 
-    add({Translation, Rotation, Scale, Using = [], Children = []}: Blueprint) {
-        let entity = this.create_entity(Get.Transform);
+    Add({Translation, Rotation, Scale, Using = [], Children = []}: Blueprint) {
+        let entity = this.CreateEntity(Get.Transform);
         transform(Translation, Rotation, Scale)(this)(entity);
         for (let mixin of Using) {
             mixin(this)(entity);
         }
         let entity_transform = this[Get.Transform][entity];
         for (let subtree of Children) {
-            let child = this.add(subtree);
+            let child = this.Add(subtree);
             let child_transform = this[Get.Transform][child];
             child_transform.Parent = entity_transform;
             entity_transform.Children.push(child_transform);
@@ -269,11 +269,11 @@ export class Game implements ComponentData, GameState {
         return entity;
     }
 
-    destroy(entity: Entity) {
+    Destroy(entity: Entity) {
         let mask = this.World[entity];
         if (mask & (1 << Get.Transform)) {
             for (let child of this[Get.Transform][entity].Children) {
-                this.destroy(child.Entity);
+                this.Destroy(child.Entity);
             }
         }
         this.World[entity] = 0;

@@ -32,20 +32,20 @@ export function world_house(game: Game) {
             game.Grid[x][y] = Infinity;
             let tile_blueprint = get_house_tile_blueprint(game, x, y);
 
-            game.add({
+            game.Add({
                 ...tile_blueprint,
                 Translation: [(-(map_size / 2) + x) * 8, 0, (-(map_size / 2) + y) * 8],
             });
         }
     }
 
-    game.add({
+    game.Add({
         Translation: [5, 5, 5],
         Using: [collide(false, [8, 8, 8]), trigger_world("map", game.SeedTown)],
     });
 
     // Directional light
-    game.add({
+    game.Add({
         Translation: [1, 2, -1],
         Using: [light([0.5, 0.5, 0.5], 0)],
     });
@@ -56,7 +56,7 @@ export function world_house(game: Game) {
         ].Translation;
     // Player.
     set_seed(game.SeedPlayer);
-    game.add({
+    game.Add({
         Translation: [player_position[0], 5, player_position[2]],
         Using: [
             named("player"),
@@ -79,10 +79,10 @@ export function world_house(game: Game) {
     });
 
     // Camera.
-    game.add(angle_camera_blueprint);
+    game.Add(angle_camera_blueprint);
 
     // Sheriff.
-    game.add({
+    game.Add({
         Translation: [-12, 5, 12],
         Rotation: [0, 1, 0, 0],
         Using: [collide(true, [8, 8, 8]), trigger_world("wanted", Math.random())],

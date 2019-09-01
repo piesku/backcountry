@@ -11,7 +11,7 @@ export function world_wanted(game: Game) {
     game.GL.clearColor(1, 0.8, 0.6, 1);
 
     // Player.
-    game.add({
+    game.Add({
         Using: [
             animate({
                 [Anim.Idle]: {
@@ -37,19 +37,19 @@ export function world_wanted(game: Game) {
     });
 
     // Camera.
-    game.add({
+    game.Add({
         Translation: [0, 2, 10],
         Using: [camera_ortho(10, 1, 100)],
     });
 
     // Directional light.
-    game.add({
+    game.Add({
         Translation: [1, 1, 1],
         Using: [light([0.5, 0.5, 0.5], 0)],
     });
 
     // Point light.
-    game.add({
+    game.Add({
         Translation: [-15, 15, 15],
         Using: [light([1, 1, 1], 25)],
     });

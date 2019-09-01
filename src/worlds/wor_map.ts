@@ -47,17 +47,17 @@ export function world_map(game: Game) {
             game.Grid[x][y] = is_walkable && !is_fence ? Infinity : NaN;
             let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y);
 
-            game.add({
+            game.Add({
                 ...tile_blueprint,
                 Translation: [(-(map_size / 2) + x) * 8, 0, (-(map_size / 2) + y) * 8],
             });
         }
     }
 
-    game.add(get_town_gate_blueprint(game, map_size, fence_height, fence_gate_size, fence_line));
+    game.Add(get_town_gate_blueprint(game, map_size, fence_height, fence_gate_size, fence_line));
 
     // Directional light and Soundtrack
-    game.add({
+    game.Add({
         Translation: [1, 2, -1],
         Using: [light([0.5, 0.5, 0.5], 0), audio_source(snd_music)],
     });
@@ -83,7 +83,7 @@ export function world_map(game: Game) {
             building_x_tile + building_x - 1
         ][starting_position + building_z - 2] = Infinity;
 
-        game.add({
+        game.Add({
             Translation: [
                 (-(map_size / 2) + building_x_tile + building_x - 1.5) * 8,
                 5,
@@ -92,7 +92,7 @@ export function world_map(game: Game) {
             Using: [collide(false, [8, 8, 8]), trigger_world("house", rand())],
         });
 
-        game.add({
+        game.Add({
             Translation: [
                 (-(map_size / 2) + building_x_tile) * 8 - 1.5,
                 0,
@@ -110,7 +110,7 @@ export function world_map(game: Game) {
         let x = integer(0, map_size);
         let y = integer(0, map_size);
         if (game.Grid[x] && game.Grid[x][y] && !isNaN(game.Grid[x][y])) {
-            game.add({
+            game.Add({
                 Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
                 Rotation: from_euler([], 0, integer(0, 3) * 90, 0),
                 Using: [npc(), path_find(), walking(x, y, true), move(integer(15, 25), 0)],
@@ -124,7 +124,7 @@ export function world_map(game: Game) {
 
     // Player.
     set_seed(game.SeedPlayer);
-    game.add({
+    game.Add({
         Translation: [player_position[0], 5, player_position[2]],
         Using: [
             named("player"),
@@ -147,5 +147,5 @@ export function world_map(game: Game) {
     });
 
     // Camera.
-    game.add(angle_camera_blueprint);
+    game.Add(angle_camera_blueprint);
 }
