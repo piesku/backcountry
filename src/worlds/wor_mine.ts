@@ -5,6 +5,7 @@ import {get_mine_wall_blueprint} from "../blueprints/blu_mine_wall.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
 import {player_control} from "../components/com_control_player.js";
+import {health} from "../components/com_health.js";
 import {Get} from "../components/com_index.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
@@ -78,7 +79,15 @@ export function world_mine(game: Game) {
             game.Add({
                 Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
                 Rotation: from_euler([], 0, integer(0, 3) * 90, 0),
-                Using: [npc(), path_find(), walking(x, y, false), move(integer(15, 25), 0)],
+                Using: [
+                    npc(),
+                    path_find(),
+                    walking(x, y, false),
+                    move(integer(15, 25), 0),
+                    collide(true, [3, 7, 3]),
+                    health(3),
+                    ray_target(RayFlag.Attackable),
+                ],
                 Children: [get_character_blueprint(game)],
             });
         }

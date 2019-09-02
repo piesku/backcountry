@@ -5,6 +5,7 @@ import {get_mine_entrance_blueprint} from "../blueprints/blu_mine_entrance.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
 import {player_control} from "../components/com_control_player.js";
+import {health} from "../components/com_health.js";
 import {Get} from "../components/com_index.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
@@ -74,7 +75,15 @@ export function world_desert(game: Game) {
         if (game.Grid[x] && game.Grid[x][y] && !isNaN(game.Grid[x][y])) {
             game.Add({
                 Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
-                Using: [npc(), path_find(), walking(x, y, true), move(integer(15, 25), 0)],
+                Using: [
+                    npc(),
+                    path_find(),
+                    walking(x, y, true),
+                    move(integer(15, 25), 0),
+                    collide(true, [3, 7, 3]),
+                    health(3),
+                    ray_target(RayFlag.Attackable),
+                ],
                 Children: [get_character_blueprint(game)],
             });
         }
