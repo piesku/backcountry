@@ -3,7 +3,6 @@ import {BuildingColors, main_building_palette} from "../blueprints/blu_building.
 import {get_character_blueprint} from "../blueprints/blu_character.js";
 import {create_line} from "../blueprints/blu_common.js";
 import {get_house_tile_blueprint} from "../blueprints/blu_house_tile.js";
-import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
 import {player_control} from "../components/com_control_player.js";
 import {cull} from "../components/com_cull.js";
@@ -15,7 +14,6 @@ import {find_navigable} from "../components/com_navigable.js";
 import {path_find} from "../components/com_path_find.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {render_vox} from "../components/com_render_vox.js";
-import {shoot} from "../components/com_shoot.js";
 import {trigger_world} from "../components/com_trigger.js";
 import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
@@ -132,10 +130,8 @@ export function world_house(game: Game) {
             walking(Math.floor(map_size / 2), Math.floor(map_size / 2)),
             path_find(),
             move(25, 0),
-            collide(true, [4, 7, 1]),
-            ray_target(RayFlag.None),
-            shoot(1),
-            audio_source(),
+            collide(true, [3, 7, 3]),
+            ray_target(RayFlag.Player),
         ],
         Children: [
             get_character_blueprint(game),

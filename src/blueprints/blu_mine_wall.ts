@@ -24,7 +24,7 @@ export function get_mine_wall_blueprint(palette: number[] = initial_palette): Bl
 
     return {
         Translation: [0, tile_size / 2, 0],
-        Using: [collide(false, [8, 1, 8]), cull(Get.Collide)],
+        Using: [collide(false, [8, 8, 8]), cull(Get.Collide)],
         Children,
     };
 }

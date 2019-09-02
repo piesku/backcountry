@@ -6,11 +6,7 @@ import {Entity, Game} from "../game.js";
 import {get_translation} from "../math/mat4.js";
 
 const QUERY =
-    (1 << Get.Transform) |
-    (1 << Get.Shoot) |
-    (1 << Get.PlayerControl) |
-    (1 << Get.Walking) |
-    (1 << Get.PathFind);
+    (1 << Get.Transform) | (1 << Get.PlayerControl) | (1 << Get.Walking) | (1 << Get.PathFind);
 
 export function sys_player_control(game: Game, delta: number) {
     let camera = game.Cameras[0];
@@ -37,13 +33,13 @@ function update(game: Game, entity: Entity, cursor: Select) {
             }
         }
 
-        if (cursor.Hit.Other.Flags & RayFlag.Attackable) {
+        if (cursor.Hit.Other.Flags & RayFlag.Attackable && game.World[entity] & (1 << Get.Shoot)) {
             let other_transform = game[Get.Transform][cursor.Hit.Other.Entity];
             game[Get.Shoot][entity].Target = get_translation([], other_transform.World);
         }
     }
 
-    if (game.Event.m2d) {
+    if (game.Event.m2d && game.World[entity] & (1 << Get.Shoot)) {
         game[Get.Shoot][entity].Target = cursor.Hit.Contact;
     }
 }

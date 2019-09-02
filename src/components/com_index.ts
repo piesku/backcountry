@@ -13,6 +13,7 @@ import {Named} from "./com_named";
 import {Navigable} from "./com_navigable";
 import {NPC} from "./com_npc.js";
 import {PathFind} from "./com_path_find";
+import {Projectile} from "./com_projectile";
 import {RayTarget} from "./com_ray_target";
 import {Render} from "./com_render";
 import {Select} from "./com_select";
@@ -44,6 +45,7 @@ export const enum Get {
     Cull,
     Walking,
     NPC,
+    Projectile,
 }
 
 export interface ComponentData {
@@ -69,4 +71,5 @@ export interface ComponentData {
     [Get.Cull]: Array<Cull>;
     [Get.Walking]: Array<Walking>;
     [Get.NPC]: Array<NPC>;
+    [Get.Projectile]: Array<Projectile>;
 }
