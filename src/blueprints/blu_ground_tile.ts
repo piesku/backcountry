@@ -70,8 +70,8 @@ export function get_tile_blueprint(
     }
 
     let using = is_walkable ? [ray_target(RayFlag.Navigable), navigable(x, y)] : [];
-
     return {
+        Translation: [0, 0, 0],
         Using: [collide(false, [8, 1, 8]), cull(Get.Collide), ...using],
         Children: [tile],
     };
