@@ -5,8 +5,7 @@ export let snd_shoot = <AudioClip>{
         {
             Instrument: [
                 13,
-                true,
-                "lowpass",
+                1,
                 10,
                 4,
                 false,

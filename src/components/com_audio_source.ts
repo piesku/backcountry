@@ -43,8 +43,7 @@ export interface AudioTrack {
 
 export interface Instrument {
     [InstrumentParam.MasterGainAmount]: number;
-    [InstrumentParam.FilterEnabled]: boolean;
-    [InstrumentParam.FilterType]: BiquadFilterType;
+    [InstrumentParam.FilterType]: FilterKind;
     [InstrumentParam.FilterFreq]: number;
     [InstrumentParam.FilterQ]: number;
     [InstrumentParam.LFOEnabled]: boolean;
@@ -53,6 +52,13 @@ export interface Instrument {
     [InstrumentParam.LFOFreq]: number;
     [InstrumentParam.FilterDetuneLFO]: boolean;
     [InstrumentParam.Sources]: Array<Oscillator | Buffer>;
+}
+
+export const enum FilterKind {
+    None,
+    LowPass,
+    HighPass,
+    BandPass,
 }
 
 export const enum SourceKind {
@@ -85,7 +91,6 @@ interface Buffer {
 
 export const enum InstrumentParam {
     MasterGainAmount,
-    FilterEnabled,
     FilterType,
     FilterFreq,
     FilterQ,

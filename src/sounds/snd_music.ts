@@ -6,8 +6,7 @@ export let snd_music = <AudioClip>{
         {
             Instrument: [
                 7,
-                true,
-                "bandpass",
+                3,
                 10,
                 3,
                 false,

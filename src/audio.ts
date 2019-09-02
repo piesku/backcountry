@@ -26,9 +26,13 @@ export function play_note(audio: AudioContext, instr: Instrument, note: number, 
         lfo.connect(lfa);
     }
 
-    if (instr[InstrumentParam.FilterEnabled]) {
+    if (instr[InstrumentParam.FilterType]) {
         let filter = audio.createBiquadFilter();
-        filter.type = instr[InstrumentParam.FilterType];
+        filter.type = [
+            "lowpass" as BiquadFilterType,
+            "highpass" as BiquadFilterType,
+            "bandpass" as BiquadFilterType,
+        ][instr[InstrumentParam.FilterType] - 1];
         filter.frequency.value = 2 ** instr[InstrumentParam.FilterFreq];
         filter.Q.value = instr[InstrumentParam.FilterQ] ** 1.5;
         if (lfa && instr[InstrumentParam.FilterDetuneLFO]) {

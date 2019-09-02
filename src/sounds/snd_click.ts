@@ -5,8 +5,7 @@ export let snd_click = <AudioClip>{
         {
             Instrument: [
                 7,
-                true,
-                "lowpass",
+                1,
                 8,
                 8,
                 false,
