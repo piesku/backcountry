@@ -1,9 +1,4 @@
-import {
-    Instrument,
-    InstrumentParam,
-    SourceKind,
-    SourceParam,
-} from "./components/com_audio_source.js";
+import {Instrument, InstrumentParam, SourceParam} from "./components/com_audio_source.js";
 
 export function play_note(audio: AudioContext, instr: Instrument, note: number, offset: number) {
     let time = audio.currentTime + offset;
@@ -67,10 +62,14 @@ export function play_note(audio: AudioContext, instr: Instrument, note: number, 
         amp.gain.setValueAtTime(gain_amount, time + gain_attack + gain_sustain);
         amp.gain.exponentialRampToValueAtTime(0.00001, time + gain_duration);
 
-        // XXX TypeScript doesn't recognize source[SourceParam.Kind] as the discriminant.
-        if (source[0] === SourceKind.Oscillator) {
+        if (source[0]) {
             let hfo = audio.createOscillator();
-            hfo.type = source[SourceParam.OscillatorType];
+            hfo.type = [
+                "sine" as OscillatorType,
+                "square" as OscillatorType,
+                "sawtooth" as OscillatorType,
+                "triangle" as OscillatorType,
+            ][source[SourceParam.SourceType] - 1];
             hfo.connect(amp);
 
             // Detune

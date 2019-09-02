@@ -60,11 +60,6 @@ export const enum FilterKind {
     BandPass,
 }
 
-export const enum SourceKind {
-    Oscillator,
-    Buffer,
-}
-
 export const enum OscillatorKind {
     None,
     Sine,
@@ -74,12 +69,15 @@ export const enum OscillatorKind {
 }
 
 interface Oscillator {
-    [SourceParam.Kind]: SourceKind.Oscillator;
+    [SourceParam.SourceType]:
+        | OscillatorKind.Sine
+        | OscillatorKind.Square
+        | OscillatorKind.Sawtooth
+        | OscillatorKind.Triangle;
     [SourceParam.GainAmount]: number;
     [SourceParam.GainAttack]: number;
     [SourceParam.GainSustain]: number;
     [SourceParam.GainRelease]: number;
-    [SourceParam.OscillatorType]: OscillatorType;
     [SourceParam.DetuneAmount]: number;
     [SourceParam.DetuneLFO]: boolean;
     [SourceParam.FreqEnabled]: boolean;
@@ -89,7 +87,7 @@ interface Oscillator {
 }
 
 interface Buffer {
-    [SourceParam.Kind]: SourceKind.Buffer;
+    [SourceParam.SourceType]: OscillatorKind.None;
     [SourceParam.GainAmount]: number;
     [SourceParam.GainAttack]: number;
     [SourceParam.GainSustain]: number;
@@ -109,12 +107,11 @@ export const enum InstrumentParam {
 }
 
 export const enum SourceParam {
-    Kind,
+    SourceType,
     GainAmount,
     GainAttack,
     GainSustain,
     GainRelease,
-    OscillatorType,
     DetuneAmount,
     DetuneLFO,
     FreqEnabled,
