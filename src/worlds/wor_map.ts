@@ -20,6 +20,7 @@ import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
 import {integer, rand, set_seed} from "../math/random.js";
 import {snd_music} from "../sounds/snd_music.js";
+import {snd_neigh} from "../sounds/snd_neigh.js";
 
 export function world_map(game: Game) {
     set_seed(game.SeedTown);
@@ -59,6 +60,11 @@ export function world_map(game: Game) {
     game.Add({
         Translation: [1, 2, -1],
         Using: [light([0.5, 0.5, 0.5], 0), audio_source(snd_music)],
+        Children: [
+            {
+                Using: [audio_source(snd_neigh)],
+            },
+        ],
     });
 
     // Buildings
