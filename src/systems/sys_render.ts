@@ -3,7 +3,6 @@ import {Get} from "../components/com_index.js";
 import {RenderKind} from "../components/com_render.js";
 import {RenderBasic} from "../components/com_render_basic.js";
 import {RenderParticles} from "../components/com_render_particles.js";
-import {RenderShaded} from "../components/com_render_shaded.js";
 import {RenderInstanced} from "../components/com_render_vox.js";
 import {Transform} from "../components/com_transform.js";
 import {Game} from "../game.js";
@@ -44,7 +43,6 @@ export function sys_render(game: Game, delta: number) {
                 gl.uniformMatrix4fv(uniforms.pv, false, game.Cameras[0].PV);
 
                 switch (render.Kind) {
-                    case RenderKind.Shaded:
                     case RenderKind.Instanced:
                         gl.uniform1i(uniforms.light_count, game.Lights.length);
                         gl.uniform3fv(uniforms.light_positions, light_positions);
@@ -56,9 +54,6 @@ export function sys_render(game: Game, delta: number) {
             switch (render.Kind) {
                 case RenderKind.Basic:
                     draw_basic(transform, render);
-                    break;
-                case RenderKind.Shaded:
-                    draw_shaded(transform, render);
                     break;
                 case RenderKind.Instanced:
                     draw_instanced(game, transform, render);
@@ -78,16 +73,6 @@ export function sys_render(game: Game, delta: number) {
 function draw_basic(transform: Transform, render: RenderBasic) {
     let {gl, mode, uniforms} = render.Material;
     gl.uniformMatrix4fv(uniforms.world, false, transform.World);
-    gl.uniform4fv(uniforms.color, render.Color);
-    gl.bindVertexArray(render.VAO);
-    gl.drawElements(mode, render.Count, gl.UNSIGNED_SHORT, 0);
-    gl.bindVertexArray(null);
-}
-
-function draw_shaded(transform: Transform, render: RenderShaded) {
-    let {gl, mode, uniforms} = render.Material;
-    gl.uniformMatrix4fv(uniforms.world, false, transform.World);
-    gl.uniformMatrix4fv(uniforms.self, false, transform.Self);
     gl.uniform4fv(uniforms.color, render.Color);
     gl.bindVertexArray(render.VAO);
     gl.drawElements(mode, render.Count, gl.UNSIGNED_SHORT, 0);
