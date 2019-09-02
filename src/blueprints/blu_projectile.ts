@@ -8,8 +8,8 @@ export function create_projectile() {
     return <Blueprint>{
         Using: [
             collide(true),
-            projectile(5),
-            move(10),
+            projectile(1, 5),
+            move(20),
             render_vox({Offsets: new Float32Array(4), Size: [1, 1, 1]}, [1, 0, 0]),
         ],
     };

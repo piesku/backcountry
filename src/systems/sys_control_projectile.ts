@@ -1,3 +1,4 @@
+import {Action} from "../actions.js";
 import {Get} from "../components/com_index.js";
 import {Entity, Game} from "../game.js";
 import {transform_direction} from "../math/vec3.js";
@@ -18,8 +19,17 @@ function update(game: Game, entity: Entity, delta: number) {
     let collide = game[Get.Collide][entity];
 
     projectile.Age += delta;
-    if (projectile.Age >= projectile.Lifespan || collide.Collisions.length > 0) {
+    if (projectile.Age >= projectile.Lifespan) {
         game.Destroy(entity);
+    } else if (collide.Collisions.length > 0) {
+        game.Destroy(entity);
+        for (let collider of collide.Collisions) {
+            if (game.World[collider.Entity] & (1 << Get.Health)) {
+                let health = game[Get.Health][collider.Entity];
+                health.Damages.push(projectile.Damage);
+                game.Dispatch(Action.HitEnemy, collider.Entity);
+            }
+        }
     } else {
         // Always move in the projectile's front direction.
         move.Direction = transform_direction([], [0, 0, 1], game[Get.Transform][entity].World);

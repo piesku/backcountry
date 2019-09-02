@@ -39,8 +39,9 @@ export function world_house(game: Game) {
         }
     }
 
+    // Exit
     game.Add({
-        Translation: [5, 5, 5],
+        Translation: [5, 0, 5],
         Using: [collide(false, [8, 8, 8]), trigger_world("map", game.SeedTown)],
     });
 

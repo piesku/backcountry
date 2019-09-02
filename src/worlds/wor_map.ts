@@ -86,7 +86,7 @@ export function world_map(game: Game) {
         game.Add({
             Translation: [
                 (-(map_size / 2) + building_x_tile + building_x - 1.5) * 8,
-                5,
+                0,
                 (-(map_size / 2) + starting_position + building_z - 1.5) * 8,
             ],
             Using: [collide(false, [8, 8, 8]), trigger_world("house", rand())],
