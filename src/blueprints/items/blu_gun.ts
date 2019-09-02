@@ -19,7 +19,7 @@ export function create_gun(game: Game) {
             {
                 Translation: [0, 1, -2],
                 Using: [
-                    emit_particles(0.2, 0.03, 3, 5),
+                    emit_particles(0.2, 0.03, 5, 15, 5),
                     render_particles([0.0, 0.0, 0.0], [1.0, 1.0, 1.0]),
                 ],
             },

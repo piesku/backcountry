@@ -70,7 +70,8 @@ export function get_tile_blueprint(
         tile.Children!.push(rand() > 0.5 ? get_cactus_blueprint() : get_rock_blueprint(game));
     }
 
-    let using = is_walkable ? [ray_target(RayFlag.Navigable)] : [];
+    let using = is_walkable ? [ray_target(RayFlag.Navigable)] : [ray_target(RayFlag.None)];
+
     return {
         Rotation: from_euler([], 0, integer(0, 3) * 90, 0),
         Translation: [0, 0, 0],

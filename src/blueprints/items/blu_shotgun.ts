@@ -22,7 +22,7 @@ export function create_shotgun(game: Game) {
             {
                 Translation: [0, 1, -2],
                 Using: [
-                    emit_particles(0.2, 0.03, 5, 5),
+                    emit_particles(0.2, 0.03, 3, 9, 5),
                     render_particles([0.0, 0.0, 0.0], [1.0, 1.0, 1.0]),
                 ],
             },

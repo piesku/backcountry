@@ -5,16 +5,14 @@ export let snd_shoot = <AudioClip>{
         {
             Instrument: [
                 13,
-                true,
                 "lowpass",
                 10,
                 4,
                 false,
                 false,
-                "sine",
                 13,
                 1,
-                [[1, 10, 0, 0, 5], [0, 7, 0, 2, 2, "sine", 8, false, false, 8, 8, 8]],
+                [[false, 10, 0, 0, 5], ["sine", 7, 0, 2, 2, 8, false, false, 8, 8, 8]],
             ],
             Notes: [57],
         },

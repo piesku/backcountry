@@ -3,6 +3,7 @@ import {Material, Shape} from "../materials/mat_common.js";
 import {Mat} from "../materials/mat_index.js";
 import {Model} from "../model.js";
 import {Cube} from "../shapes/Cube.js";
+import {GL_ARRAY_BUFFER, GL_ELEMENT_ARRAY_BUFFER, GL_FLOAT, GL_STATIC_DRAW} from "../webgl.js";
 import {Get} from "./com_index.js";
 import {RenderKind} from "./com_render.js";
 
@@ -41,24 +42,24 @@ function buffer(gl: WebGL2RenderingContext, shape: Shape, offsets: Float32Array)
     let vao = gl.createVertexArray();
     gl.bindVertexArray(vao);
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-    gl.bufferData(gl.ARRAY_BUFFER, shape.vertices, gl.STATIC_DRAW);
+    gl.bindBuffer(GL_ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(GL_ARRAY_BUFFER, shape.vertices, GL_STATIC_DRAW);
     gl.enableVertexAttribArray(InstancedAttribute.position);
-    gl.vertexAttribPointer(InstancedAttribute.position, 3, gl.FLOAT, false, 0, 0);
+    gl.vertexAttribPointer(InstancedAttribute.position, 3, GL_FLOAT, false, 0, 0);
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-    gl.bufferData(gl.ARRAY_BUFFER, shape.normals, gl.STATIC_DRAW);
+    gl.bindBuffer(GL_ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(GL_ARRAY_BUFFER, shape.normals, GL_STATIC_DRAW);
     gl.enableVertexAttribArray(InstancedAttribute.normal);
-    gl.vertexAttribPointer(InstancedAttribute.normal, 3, gl.FLOAT, false, 0, 0);
+    gl.vertexAttribPointer(InstancedAttribute.normal, 3, GL_FLOAT, false, 0, 0);
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-    gl.bufferData(gl.ARRAY_BUFFER, offsets, gl.STATIC_DRAW);
+    gl.bindBuffer(GL_ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(GL_ARRAY_BUFFER, offsets, GL_STATIC_DRAW);
     gl.enableVertexAttribArray(InstancedAttribute.offset);
-    gl.vertexAttribPointer(InstancedAttribute.offset, 4, gl.FLOAT, false, 0, 0);
+    gl.vertexAttribPointer(InstancedAttribute.offset, 4, GL_FLOAT, false, 0, 0);
     gl.vertexAttribDivisor(InstancedAttribute.offset, 1);
 
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer());
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, shape.indices, gl.STATIC_DRAW);
+    gl.bindBuffer(GL_ELEMENT_ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(GL_ELEMENT_ARRAY_BUFFER, shape.indices, GL_STATIC_DRAW);
 
     gl.bindVertexArray(null);
     return vao;

@@ -20,7 +20,7 @@ import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
 import {integer, rand, set_seed} from "../math/random.js";
 import {snd_gust} from "../sounds/snd_gust.js";
-import {snd_music} from "../sounds/snd_music.js";
+import {snd_jingle} from "../sounds/snd_jingle.js";
 import {snd_neigh} from "../sounds/snd_neigh.js";
 import {snd_wind} from "../sounds/snd_wind.js";
 
@@ -61,7 +61,7 @@ export function world_map(game: Game) {
     // Directional light and Soundtrack
     game.Add({
         Translation: [1, 2, -1],
-        Using: [light([0.5, 0.5, 0.5], 0), audio_source(snd_music)],
+        Using: [light([0.5, 0.5, 0.5], 0), audio_source(snd_jingle)],
         Children: [
             {
                 Using: [audio_source(snd_neigh)],

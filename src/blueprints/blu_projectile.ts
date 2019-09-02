@@ -13,12 +13,14 @@ export function create_projectile() {
             collide(true),
             projectile(1, 5),
             move(40),
-            render_vox({Offsets: new Float32Array(4), Size: [1, 1, 1]}, [1, 0, 0]),
             light([1, 1, 0], 2),
+            emit_particles(1, 0.08, 9, 1, 2, 5),
+            render_particles([1, 0, 0], [1, 1, 0]),
         ],
         Children: [
             {
-                Using: [emit_particles(1, 0.07, 3, 0, 5), render_particles([1, 0, 0], [1, 1, 0])],
+                Scale: [0.3, 0.3, 0.3],
+                Using: [render_vox({Offsets: new Float32Array(4), Size: [1, 1, 1]}, [1, 0, 0])],
             },
         ],
     };
