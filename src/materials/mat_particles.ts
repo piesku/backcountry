@@ -9,7 +9,8 @@ export const enum ParticleAttribute {
 
 let vertex = `#version 300 es\n
     uniform mat4 pv;
-    uniform float size;
+    uniform float start_size;
+    uniform float end_size;
     uniform float vertical;
     uniform vec3 start_color;
     uniform vec3 end_color;
@@ -30,7 +31,7 @@ let vertex = `#version 300 es\n
         world_pos.y += age * vertical;
         world_pos.z += rand_y / 3.0;
         gl_Position = pv * world_pos;
-        gl_PointSize = mix(size, size * 10.0, age);
+        gl_PointSize = mix(start_size, end_size, age);
         vert_color = mix(vec4(start_color, 1.0), vec4(end_color, 1.0), age);
     }
 `;

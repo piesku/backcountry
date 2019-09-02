@@ -92,7 +92,8 @@ function draw_instanced(game: Game, transform: Transform, render: RenderInstance
 
 function draw_particles(render: RenderParticles, emitter: EmitParticles) {
     let {gl, mode, uniforms} = render.Material;
-    gl.uniform1f(uniforms.size, emitter.Size);
+    gl.uniform1f(uniforms.start_size, emitter.SizeStart);
+    gl.uniform1f(uniforms.end_size, emitter.SizeEnd);
     gl.uniform1f(uniforms.vertical, emitter.Vertical);
     gl.uniform3fv(uniforms.start_color, render.ColorStart);
     gl.uniform3fv(uniforms.end_color, render.ColorEnd);

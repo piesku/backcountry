@@ -18,7 +18,10 @@ export function create_projectile() {
         ],
         Children: [
             {
-                Using: [emit_particles(1, 0.07, 3, 0, 5), render_particles([1, 0, 0], [1, 1, 0])],
+                Using: [
+                    emit_particles(1, 0.08, 9, 1, 2, 5),
+                    render_particles([1, 0, 0], [1, 1, 0]),
+                ],
             },
         ],
     };
