@@ -184,8 +184,8 @@ export class Game implements ComponentData, GameState {
         sys_control_projectile(this, delta);
         // Game logic.
         sys_ai(this, delta);
-        sys_aim(this, delta);
         sys_navigate(this, delta);
+        sys_aim(this, delta);
         sys_animate(this, delta);
         sys_particles(this, delta);
         sys_move(this, delta);
