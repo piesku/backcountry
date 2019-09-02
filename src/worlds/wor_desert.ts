@@ -21,7 +21,7 @@ import {snd_music} from "../sounds/snd_music.js";
 
 export function world_desert(game: Game) {
     set_seed(game.SeedBounty);
-    let map_size = 50;
+    let map_size = 20;
 
     game.World = [];
     game.Grid = [];
@@ -67,7 +67,7 @@ export function world_desert(game: Game) {
     });
 
     // Cowboys.
-    let cowboys_count = 5;
+    let cowboys_count = 10;
     for (let i = 0; i < cowboys_count; i++) {
         let x = integer(0, map_size);
         let y = integer(0, map_size);

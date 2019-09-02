@@ -28,7 +28,7 @@ export function world_mine(game: Game) {
 
     game.GL.clearColor(1, 0.3, 0.3, 1);
 
-    let map_size = 15;
+    let map_size = 10;
     for (let x = 0; x < map_size; x++) {
         game.Grid[x] = [];
         for (let y = 0; y < map_size; y++) {
@@ -70,7 +70,7 @@ export function world_mine(game: Game) {
     });
 
     // Cowboys.
-    let cowboys_count = 15;
+    let cowboys_count = 5;
     for (let i = 0; i < cowboys_count; i++) {
         let x = integer(0, map_size);
         let y = integer(0, map_size);

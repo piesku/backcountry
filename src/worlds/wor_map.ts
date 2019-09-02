@@ -24,8 +24,8 @@ import {snd_music} from "../sounds/snd_music.js";
 
 export function world_map(game: Game) {
     set_seed(game.SeedTown);
-    let map_size = 40;
-    let fence_line = 30;
+    let map_size = 30;
+    let fence_line = 20;
     let fence_height = 4;
     let fence_gate_size = 16;
 
@@ -105,7 +105,7 @@ export function world_map(game: Game) {
     }
 
     // Cowboys.
-    let cowboys_count = 5;
+    let cowboys_count = 10;
     for (let i = 0; i < cowboys_count; i++) {
         let x = integer(0, map_size);
         let y = integer(0, map_size);
