@@ -11,12 +11,7 @@ export function play_note(audio: AudioContext, instr: Instrument, note: number, 
     if (instr[InstrumentParam.LFOType]) {
         // Frequency is mapped to [0, 125].
         lfo = audio.createOscillator();
-        lfo.type = [
-            "sine" as OscillatorType,
-            "square" as OscillatorType,
-            "sawtooth" as OscillatorType,
-            "triangle" as OscillatorType,
-        ][instr[InstrumentParam.LFOType] - 1];
+        lfo.type = instr[InstrumentParam.LFOType] as OscillatorType;
         lfo.frequency.value = (instr[InstrumentParam.LFOFreq] / 3) ** 3;
 
         // Amount is mapped to [27, 5832].
@@ -28,11 +23,7 @@ export function play_note(audio: AudioContext, instr: Instrument, note: number, 
 
     if (instr[InstrumentParam.FilterType]) {
         let filter = audio.createBiquadFilter();
-        filter.type = [
-            "lowpass" as BiquadFilterType,
-            "highpass" as BiquadFilterType,
-            "bandpass" as BiquadFilterType,
-        ][instr[InstrumentParam.FilterType] - 1];
+        filter.type = instr[InstrumentParam.FilterType] as BiquadFilterType;
         filter.frequency.value = 2 ** instr[InstrumentParam.FilterFreq];
         filter.Q.value = instr[InstrumentParam.FilterQ] ** 1.5;
         if (lfa && instr[InstrumentParam.FilterDetuneLFO]) {
@@ -64,12 +55,7 @@ export function play_note(audio: AudioContext, instr: Instrument, note: number, 
 
         if (source[0]) {
             let hfo = audio.createOscillator();
-            hfo.type = [
-                "sine" as OscillatorType,
-                "square" as OscillatorType,
-                "sawtooth" as OscillatorType,
-                "triangle" as OscillatorType,
-            ][source[SourceParam.SourceType] - 1];
+            hfo.type = source[SourceParam.SourceType];
             hfo.connect(amp);
 
             // Detune

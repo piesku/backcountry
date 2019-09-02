@@ -43,37 +43,18 @@ export interface AudioTrack {
 
 export interface Instrument {
     [InstrumentParam.MasterGainAmount]: number;
-    [InstrumentParam.FilterType]: FilterKind;
+    [InstrumentParam.FilterType]: false | BiquadFilterType;
     [InstrumentParam.FilterFreq]: number;
     [InstrumentParam.FilterQ]: number;
-    [InstrumentParam.LFOType]: OscillatorKind;
+    [InstrumentParam.LFOType]: false | OscillatorType;
     [InstrumentParam.LFOAmount]: number;
     [InstrumentParam.LFOFreq]: number;
     [InstrumentParam.FilterDetuneLFO]: boolean;
     [InstrumentParam.Sources]: Array<Oscillator | Buffer>;
 }
 
-export const enum FilterKind {
-    None,
-    LowPass,
-    HighPass,
-    BandPass,
-}
-
-export const enum OscillatorKind {
-    None,
-    Sine,
-    Square,
-    Sawtooth,
-    Triangle,
-}
-
 interface Oscillator {
-    [SourceParam.SourceType]:
-        | OscillatorKind.Sine
-        | OscillatorKind.Square
-        | OscillatorKind.Sawtooth
-        | OscillatorKind.Triangle;
+    [SourceParam.SourceType]: OscillatorType;
     [SourceParam.GainAmount]: number;
     [SourceParam.GainAttack]: number;
     [SourceParam.GainSustain]: number;
@@ -87,7 +68,7 @@ interface Oscillator {
 }
 
 interface Buffer {
-    [SourceParam.SourceType]: OscillatorKind.None;
+    [SourceParam.SourceType]: false;
     [SourceParam.GainAmount]: number;
     [SourceParam.GainAttack]: number;
     [SourceParam.GainSustain]: number;
