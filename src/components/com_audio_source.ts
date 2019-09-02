@@ -46,8 +46,7 @@ export interface Instrument {
     [InstrumentParam.FilterType]: FilterKind;
     [InstrumentParam.FilterFreq]: number;
     [InstrumentParam.FilterQ]: number;
-    [InstrumentParam.LFOEnabled]: boolean;
-    [InstrumentParam.LFOType]: OscillatorType;
+    [InstrumentParam.LFOType]: OscillatorKind;
     [InstrumentParam.LFOAmount]: number;
     [InstrumentParam.LFOFreq]: number;
     [InstrumentParam.FilterDetuneLFO]: boolean;
@@ -64,6 +63,14 @@ export const enum FilterKind {
 export const enum SourceKind {
     Oscillator,
     Buffer,
+}
+
+export const enum OscillatorKind {
+    None,
+    Sine,
+    Square,
+    Sawtooth,
+    Triangle,
 }
 
 interface Oscillator {
@@ -95,7 +102,6 @@ export const enum InstrumentParam {
     FilterFreq,
     FilterQ,
     FilterDetuneLFO,
-    LFOEnabled,
     LFOType,
     LFOAmount,
     LFOFreq,

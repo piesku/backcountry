@@ -13,10 +13,15 @@ export function play_note(audio: AudioContext, instr: Instrument, note: number, 
     master.gain.value = (instr[InstrumentParam.MasterGainAmount] / 9) ** 3;
 
     let lfa, lfo;
-    if (instr[InstrumentParam.LFOEnabled]) {
+    if (instr[InstrumentParam.LFOType]) {
         // Frequency is mapped to [0, 125].
         lfo = audio.createOscillator();
-        lfo.type = instr[InstrumentParam.LFOType];
+        lfo.type = [
+            "sine" as OscillatorType,
+            "square" as OscillatorType,
+            "sawtooth" as OscillatorType,
+            "triangle" as OscillatorType,
+        ][instr[InstrumentParam.LFOType] - 1];
         lfo.frequency.value = (instr[InstrumentParam.LFOFreq] / 3) ** 3;
 
         // Amount is mapped to [27, 5832].
