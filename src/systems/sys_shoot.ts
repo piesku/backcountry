@@ -1,8 +1,10 @@
 import {Action} from "../actions.js";
+import {create_projectile} from "../blueprints/blu_projectile.js";
 import {Anim, Animate} from "../components/com_animate.js";
 import {AudioSource} from "../components/com_audio_source.js";
 import {EmitParticles} from "../components/com_emit_particles.js";
 import {Get} from "../components/com_index.js";
+import {find_child} from "../components/com_named.js";
 import {RayFlag} from "../components/com_ray_target.js";
 import {components_of_type} from "../components/com_transform.js";
 import {Entity, Game} from "../game.js";
@@ -24,11 +26,6 @@ export function sys_shoot(game: Game, delta: number) {
 function update(game: Game, entity: Entity) {
     let shoot = game[Get.Shoot][entity];
     if (shoot.Target) {
-        console.log(`Shot fired at ${shoot.Target}`);
-
-        // TODO Emit particles.
-        // TODO Add other effects.
-
         let transform = game[Get.Transform][entity];
         let origin = get_translation([], transform.World);
         let direction = get_forward([], transform.World);
@@ -52,6 +49,17 @@ function update(game: Game, entity: Entity) {
 
         for (let emitter of components_of_type<EmitParticles>(game, transform, Get.EmitParticles)) {
             emitter.Time = 0.2;
+        }
+
+        let spawn = find_child(game, transform, "proj");
+        if (spawn) {
+            game.Add({
+                ...create_projectile(),
+                Translation: get_translation([], game[Get.Transform][spawn].World),
+                // Use the parent's rotation, since it's top-level, to avoid
+                // get_rotation which is expensive in terms of code size.
+                Rotation: transform.Rotation.slice(),
+            });
         }
     }
 
