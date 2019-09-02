@@ -9,7 +9,7 @@ export function create_projectile() {
         Using: [
             collide(true),
             projectile(1, 5),
-            move(20),
+            move(40),
             render_vox({Offsets: new Float32Array(4), Size: [1, 1, 1]}, [1, 0, 0]),
         ],
     };
