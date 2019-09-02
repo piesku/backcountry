@@ -5,25 +5,26 @@ import {get_mine_entrance_blueprint} from "../blueprints/blu_mine_entrance.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
 import {player_control} from "../components/com_control_player.js";
-import {health} from "../components/com_health.js";
 import {Get} from "../components/com_index.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
 import {named} from "../components/com_named.js";
 import {find_navigable} from "../components/com_navigable.js";
-import {npc} from "../components/com_npc.js";
 import {path_find} from "../components/com_path_find.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {shoot} from "../components/com_shoot.js";
 import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
-import {integer, set_seed} from "../math/random.js";
+import {set_seed} from "../math/random.js";
 import {snd_music} from "../sounds/snd_music.js";
 
 export function world_desert(game: Game) {
     set_seed(game.SeedBounty);
     let map_size = 20;
-
+    let entrance_position_x = 6;
+    let entrance_position_z = 8;
+    let entrance_width = 4;
+    let entrance_length = 5;
     game.World = [];
     game.Grid = [];
 
@@ -42,12 +43,25 @@ export function world_desert(game: Game) {
 
     generate_maze(game, [0, map_size - 1], [0, map_size - 1], map_size);
 
+    for (let z = entrance_position_z; z < entrance_position_z + entrance_length; z++) {
+        for (let x = entrance_position_x - 1; x < entrance_position_x + entrance_width - 1; x++) {
+            if (x === entrance_position_x - 1 + entrance_width - 2 && z !== entrance_position_z) {
+                game.Grid[x][z] = Infinity;
+            } else {
+                game.Grid[x][z] = NaN;
+            }
+        }
+    }
+
     // Ground.
     for (let x = 0; x < map_size; x++) {
         for (let y = 0; y < map_size; y++) {
-            let is_walkable = game.Grid[x][y] == Infinity || Math.random() > 0.5;
-            game.Grid[x][y] = is_walkable ? Infinity : NaN;
+            let is_walkable = game.Grid[x][y] === Infinity;
 
+            console.log(x, y, is_walkable);
+            // game.Grid[x][y] = is_walkable ? Infinity : NaN;
+            // XXX
+            // if (is_walkable) {
             let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y);
 
             game.Add({
@@ -58,6 +72,7 @@ export function world_desert(game: Game) {
                     (-(map_size / 2) + y) * 8,
                 ],
             });
+            // }
         }
     }
 
@@ -68,30 +83,34 @@ export function world_desert(game: Game) {
     });
 
     // Cowboys.
-    let cowboys_count = 10;
-    for (let i = 0; i < cowboys_count; i++) {
-        let x = integer(0, map_size);
-        let y = integer(0, map_size);
-        if (game.Grid[x] && game.Grid[x][y] && !isNaN(game.Grid[x][y])) {
-            game.Add({
-                Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
-                Using: [
-                    npc(),
-                    path_find(),
-                    walking(x, y, true),
-                    move(integer(8, 15)),
-                    collide(true, [7, 7, 7]),
-                    health(3),
-                    ray_target(RayFlag.Attackable),
-                ],
-                Children: [get_character_blueprint(game)],
-            });
-        }
-    }
+    // let cowboys_count = 10;
+    // for (let i = 0; i < cowboys_count; i++) {
+    //     let x = integer(0, map_size);
+    //     let y = integer(0, map_size);
+    //     if (game.Grid[x] && game.Grid[x][y] && !isNaN(game.Grid[x][y])) {
+    //         game.Add({
+    //             Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
+    //             Using: [
+    //                 npc(),
+    //                 path_find(),
+    //                 walking(x, y, true),
+    //                 move(integer(8, 15)),
+    //                 collide(true, [7, 7, 7]),
+    //                 health(3),
+    //                 ray_target(RayFlag.Attackable),
+    //             ],
+    //             Children: [get_character_blueprint(game)],
+    //         });
+    //     }
+    // }
 
     let entrance = get_mine_entrance_blueprint(game);
     game.Add({
-        Translation: [(map_size / 2 - 15) * 8, 0, (map_size / 2 - 12) * 8],
+        Translation: [
+            (-(map_size / 2) + entrance_position_x) * 8 + 4,
+            0,
+            (-(map_size / 2) + entrance_position_z) * 8 + 4,
+        ],
         ...entrance,
     });
 
@@ -152,7 +171,7 @@ function generate_maze(game: Game, [x1, x2]: number[], [y1, y2]: number[], size:
                 } else if (i == randomPassage) {
                     continue;
                 }
-                game.Grid[i][bisection] = NaN;
+                game.Grid[i][bisection] = Math.random() > 0.5 ? NaN : Infinity;
             }
             generate_maze(game, [x1, bisection], [y1, y2], size);
             generate_maze(game, [bisection, x2], [y1, y2], size);
@@ -182,7 +201,7 @@ function generate_maze(game: Game, [x1, x2]: number[], [y1, y2]: number[], size:
                 } else if (i == randomPassage) {
                     continue;
                 }
-                game.Grid[bisection][i] = NaN;
+                game.Grid[bisection][i] = ~~(Math.random() * (max - min + 1)) + min;
             }
             generate_maze(game, [x1, x2], [y1, bisection], size);
             generate_maze(game, [x1, x2], [bisection, y2], size);
