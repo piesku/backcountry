@@ -1,4 +1,5 @@
 import {InstancedAttribute} from "../components/com_render_vox.js";
+import {GL_TRIANGLES} from "../webgl.js";
 import {mat_create} from "./mat_common.js";
 
 let vertex = `#version 300 es\n
@@ -59,5 +60,5 @@ let fragment = `#version 300 es\n
 `;
 
 export function mat_instanced(gl: WebGL2RenderingContext) {
-    return mat_create(gl, gl.TRIANGLES, vertex, fragment);
+    return mat_create(gl, GL_TRIANGLES, vertex, fragment);
 }
