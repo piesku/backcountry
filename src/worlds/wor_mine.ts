@@ -105,7 +105,7 @@ export function world_mine(game: Game) {
             path_find(),
             move(25, 0),
             collide(true, [3, 7, 3]),
-            ray_target(RayFlag.None),
+            ray_target(RayFlag.Player),
             shoot(1),
             audio_source(),
         ],

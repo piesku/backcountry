@@ -12,7 +12,6 @@ export function world_intro(game: Game) {
     // Player.
     set_seed(game.SeedPlayer);
     game.Add({
-        Using: [],
         Children: [get_character_blueprint(game)],
     });
 

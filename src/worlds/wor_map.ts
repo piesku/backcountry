@@ -14,7 +14,6 @@ import {find_navigable} from "../components/com_navigable.js";
 import {npc} from "../components/com_npc.js";
 import {path_find} from "../components/com_path_find.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
-import {shoot} from "../components/com_shoot.js";
 import {trigger_world} from "../components/com_trigger.js";
 import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
@@ -134,8 +133,6 @@ export function world_map(game: Game) {
             move(25, 0),
             collide(true, [3, 7, 3]),
             ray_target(RayFlag.Player),
-            shoot(1),
-            audio_source(),
         ],
         Children: [
             get_character_blueprint(game),

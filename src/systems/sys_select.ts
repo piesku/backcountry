@@ -47,7 +47,7 @@ function update(game: Game, entity: Entity) {
     normalize(direction, direction);
     select.Hit = raycast(game, origin, direction);
 
-    if (select.Hit && select.Hit.Other.Flags & ANIMATED && (game.Event.m0d || game.Event.m2d)) {
+    if (select.Hit && select.Hit.Other.Flags & ANIMATED && game.Event.m0d) {
         let transform = game[Get.Transform][select.Hit.Other.Entity];
         for (let animate of components_of_type<Animate>(game, transform, Get.Animate)) {
             animate.Trigger = Anim.Select;
