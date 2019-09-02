@@ -7,9 +7,8 @@ import {from_euler} from "../math/quat.js";
 import {element, rand} from "../math/random.js";
 import {Models} from "../models_map.js";
 import {palette} from "../palette.js";
-import {Blueprint, Mixin} from "./blu_common.js";
+import {Blueprint} from "./blu_common.js";
 import {create_gun} from "./items/blu_gun.js";
-import {create_shotgun} from "./items/blu_shotgun.js";
 
 let hat_models = [
     Models.HAT1,
@@ -115,10 +114,8 @@ export function get_character_blueprint(game: Game): Blueprint {
         Hair: hair_color,
     });
 
-    let items = [create_gun, create_gun, create_shotgun];
-
-    let right_hand_item = rand() > 0.3 ? {} : (element(items) as Mixin)(game);
-    let left_hand_item = rand() > 0.5 ? {} : (element(items) as Mixin)(game);
+    let right_hand_item = create_gun(game);
+    // let left_hand_item = rand() > 0.5 ? {} : (element(items) as Mixin)(game);
 
     return {
         Rotation: [0, 1, 0, 0],
@@ -320,7 +317,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                         Translation: [0, -1, 0],
                         Using: [render_vox(game.Models[Models.HAND], palette)],
                     },
-                    left_hand_item,
+                    // left_hand_item,
                 ],
             },
             {
