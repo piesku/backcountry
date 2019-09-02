@@ -7,7 +7,6 @@ import {Blueprint, create_line} from "./blu_common.js";
 import {get_rock_blueprint} from "./blu_rock.js";
 
 export function get_mine_entrance_blueprint(game: Game) {
-    let rock_model = get_rock_blueprint(game);
     let wooden_part_length = 24;
     let half_entrrance_width = 6;
     let half_entrance_height = 14;
@@ -42,26 +41,27 @@ export function get_mine_entrance_blueprint(game: Game) {
         wooden_part_offset.push(...create_line([-4, 1, i], [4, 1, i], BuildingColors.light_wood));
     }
 
-    let wooden_part = {
-        using: [
-            render_vox(
-                {
-                    Offsets: Float32Array.from(wooden_part_offset),
-                    Size: [0, 0, 0],
-                },
-                [...main_building_palette, 0.53, 0.53, 0.53]
-            ),
-        ],
-    };
-
     return <Blueprint>{
         Children: [
             {
-                ...rock_model,
+                // The mountain.
+                ...get_rock_blueprint(game),
                 Scale: [4, 4, 4],
             },
-            wooden_part,
             {
+                // The wooden part.
+                Using: [
+                    render_vox(
+                        {
+                            Offsets: Float32Array.from(wooden_part_offset),
+                            Size: [0, 0, 0],
+                        },
+                        [...main_building_palette, 0.53, 0.53, 0.53]
+                    ),
+                ],
+            },
+            {
+                // The trigger.
                 Translation: [0, 0, 12],
                 Using: [collide(false, [8, 8, 8]), trigger_world("mine", game.SeedBounty)],
             },
