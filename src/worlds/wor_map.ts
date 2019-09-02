@@ -14,18 +14,20 @@ import {find_navigable} from "../components/com_navigable.js";
 import {npc} from "../components/com_npc.js";
 import {path_find} from "../components/com_path_find.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
-import {shoot} from "../components/com_shoot.js";
 import {trigger_world} from "../components/com_trigger.js";
 import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
 import {integer, rand, set_seed} from "../math/random.js";
-import {snd_music} from "../sounds/snd_music.js";
+import {snd_gust} from "../sounds/snd_gust.js";
+import {snd_jingle} from "../sounds/snd_jingle.js";
+import {snd_neigh} from "../sounds/snd_neigh.js";
+import {snd_wind} from "../sounds/snd_wind.js";
 
 export function world_map(game: Game) {
     set_seed(game.SeedTown);
-    let map_size = 40;
-    let fence_line = 30;
+    let map_size = 30;
+    let fence_line = 20;
     let fence_height = 4;
     let fence_gate_size = 16;
 
@@ -59,7 +61,18 @@ export function world_map(game: Game) {
     // Directional light and Soundtrack
     game.Add({
         Translation: [1, 2, -1],
-        Using: [light([0.5, 0.5, 0.5], 0), audio_source(snd_music)],
+        Using: [light([0.5, 0.5, 0.5], 0), audio_source(snd_jingle)],
+        Children: [
+            {
+                Using: [audio_source(snd_neigh)],
+            },
+            {
+                Using: [audio_source(snd_wind)],
+            },
+            {
+                Using: [audio_source(snd_gust)],
+            },
+        ],
     });
 
     // Buildings
@@ -86,7 +99,7 @@ export function world_map(game: Game) {
         game.Add({
             Translation: [
                 (-(map_size / 2) + building_x_tile + building_x - 1.5) * 8,
-                5,
+                0,
                 (-(map_size / 2) + starting_position + building_z - 1.5) * 8,
             ],
             Using: [collide(false, [8, 8, 8]), trigger_world("house", rand())],
@@ -105,7 +118,7 @@ export function world_map(game: Game) {
     }
 
     // Cowboys.
-    let cowboys_count = 5;
+    let cowboys_count = 10;
     for (let i = 0; i < cowboys_count; i++) {
         let x = integer(0, map_size);
         let y = integer(0, map_size);
@@ -134,8 +147,6 @@ export function world_map(game: Game) {
             move(25, 0),
             collide(true, [3, 7, 3]),
             ray_target(RayFlag.Player),
-            shoot(1),
-            audio_source(),
         ],
         Children: [
             get_character_blueprint(game),

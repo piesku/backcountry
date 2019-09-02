@@ -5,6 +5,7 @@ import {get_mine_entrance_blueprint} from "../blueprints/blu_mine_entrance.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
 import {player_control} from "../components/com_control_player.js";
+import {health} from "../components/com_health.js";
 import {Get} from "../components/com_index.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
@@ -21,7 +22,7 @@ import {snd_music} from "../sounds/snd_music.js";
 
 export function world_desert(game: Game) {
     set_seed(game.SeedBounty);
-    let map_size = 50;
+    let map_size = 20;
 
     game.World = [];
     game.Grid = [];
@@ -67,14 +68,22 @@ export function world_desert(game: Game) {
     });
 
     // Cowboys.
-    let cowboys_count = 5;
+    let cowboys_count = 10;
     for (let i = 0; i < cowboys_count; i++) {
         let x = integer(0, map_size);
         let y = integer(0, map_size);
         if (game.Grid[x] && game.Grid[x][y] && !isNaN(game.Grid[x][y])) {
             game.Add({
                 Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
-                Using: [npc(), path_find(), walking(x, y, true), move(integer(15, 25), 0)],
+                Using: [
+                    npc(),
+                    path_find(),
+                    walking(x, y, true),
+                    move(integer(8, 15)),
+                    collide(true, [7, 7, 7]),
+                    health(3),
+                    ray_target(RayFlag.Attackable),
+                ],
                 Children: [get_character_blueprint(game)],
             });
         }
@@ -97,8 +106,8 @@ export function world_desert(game: Game) {
             walking(1, 1),
             path_find(),
             move(25, 0),
-            collide(true, [4, 7, 1]),
-            ray_target(RayFlag.None),
+            collide(true, [3, 7, 3]),
+            ray_target(RayFlag.Player),
             shoot(1),
             audio_source(),
         ],

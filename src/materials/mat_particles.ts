@@ -1,3 +1,4 @@
+import {GL_POINTS} from "../webgl.js";
 import {mat_create} from "./mat_common.js";
 
 export const enum ParticleAttribute {
@@ -46,5 +47,5 @@ let fragment = `#version 300 es\n
 `;
 
 export function mat_particles(gl: WebGL2RenderingContext) {
-    return mat_create(gl, gl.POINTS, vertex, fragment);
+    return mat_create(gl, GL_POINTS, vertex, fragment);
 }

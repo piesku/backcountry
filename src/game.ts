@@ -16,6 +16,7 @@ import {Named} from "./components/com_named.js";
 import {Navigable} from "./components/com_navigable.js";
 import {NPC} from "./components/com_npc.js";
 import {PathFind} from "./components/com_path_find.js";
+import {Projectile} from "./components/com_projectile.js";
 import {RayTarget} from "./components/com_ray_target.js";
 import {Render} from "./components/com_render.js";
 import {Select} from "./components/com_select.js";
@@ -35,6 +36,7 @@ import {sys_animate} from "./systems/sys_animate.js";
 import {sys_audio} from "./systems/sys_audio.js";
 import {sys_camera} from "./systems/sys_camera.js";
 import {sys_collide} from "./systems/sys_collide.js";
+import {sys_control_projectile} from "./systems/sys_control_projectile.js";
 import {sys_cull} from "./systems/sys_cull.js";
 import {sys_health} from "./systems/sys_health.js";
 import {sys_light} from "./systems/sys_light.js";
@@ -91,6 +93,7 @@ export class Game implements ComponentData, GameState {
     public [Get.Cull]: Array<Cull> = [];
     public [Get.Walking]: Array<Walking> = [];
     public [Get.NPC]: Array<NPC> = [];
+    public [Get.Projectile]: Array<Projectile> = [];
 
     public Canvas: HTMLCanvasElement;
     public GL: WebGL2RenderingContext;
@@ -171,10 +174,11 @@ export class Game implements ComponentData, GameState {
         // Player input.
         sys_select(this, delta);
         sys_player_control(this, delta);
+        sys_control_projectile(this, delta);
         // Game logic.
         sys_ai(this, delta);
-        sys_aim(this, delta);
         sys_navigate(this, delta);
+        sys_aim(this, delta);
         sys_animate(this, delta);
         sys_particles(this, delta);
         sys_move(this, delta);

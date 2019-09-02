@@ -7,6 +7,7 @@ import {Transform} from "../components/com_transform.js";
 import {Game} from "../game.js";
 import {ParticleAttribute} from "../materials/mat_particles.js";
 import {get_translation} from "../math/mat4.js";
+import {GL_ARRAY_BUFFER, GL_DYNAMIC_DRAW, GL_FLOAT, GL_UNSIGNED_SHORT} from "../webgl.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Render);
 
@@ -72,7 +73,7 @@ function draw_instanced(game: Game, transform: Transform, render: RenderInstance
     gl.uniformMatrix4fv(uniforms.self, false, transform.Self);
     gl.uniform3fv(uniforms.palette, render.Palette || game.Palette);
     gl.bindVertexArray(render.VAO);
-    gl.drawElementsInstanced(mode, render.IndexCount, gl.UNSIGNED_SHORT, 0, render.InstanceCount);
+    gl.drawElementsInstanced(mode, render.IndexCount, GL_UNSIGNED_SHORT, 0, render.InstanceCount);
     gl.bindVertexArray(null);
 }
 
@@ -83,13 +84,13 @@ function draw_particles(render: RenderParticles, emitter: EmitParticles) {
     gl.uniform3fv(uniforms.start_color, render.ColorStart);
     gl.uniform3fv(uniforms.end_color, render.ColorEnd);
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, render.Buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, Float32Array.from(emitter.Instances), gl.DYNAMIC_DRAW);
+    gl.bindBuffer(GL_ARRAY_BUFFER, render.Buffer);
+    gl.bufferData(GL_ARRAY_BUFFER, Float32Array.from(emitter.Instances), GL_DYNAMIC_DRAW);
     gl.enableVertexAttribArray(ParticleAttribute.id);
-    gl.vertexAttribPointer(1, 1, gl.FLOAT, false, 5 * 4, 0);
+    gl.vertexAttribPointer(1, 1, GL_FLOAT, false, 5 * 4, 0);
     gl.enableVertexAttribArray(ParticleAttribute.origin);
-    gl.vertexAttribPointer(2, 3, gl.FLOAT, false, 5 * 4, 1 * 4);
+    gl.vertexAttribPointer(2, 3, GL_FLOAT, false, 5 * 4, 1 * 4);
     gl.enableVertexAttribArray(ParticleAttribute.age);
-    gl.vertexAttribPointer(3, 1, gl.FLOAT, false, 5 * 4, 4 * 4);
+    gl.vertexAttribPointer(3, 1, GL_FLOAT, false, 5 * 4, 4 * 4);
     gl.drawArrays(mode, 0, emitter.Particles.length);
 }

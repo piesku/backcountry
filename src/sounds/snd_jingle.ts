@@ -1,21 +1,22 @@
 import {AudioClip} from "../components/com_audio_source";
 
-export let snd_click = <AudioClip>{
+export let snd_jingle = <AudioClip>{
+    BPM: 100,
     Tracks: [
         {
             Instrument: [
                 7,
-                "lowpass",
-                8,
-                8,
+                "bandpass",
+                10,
+                3,
                 false,
                 false,
                 8,
                 8,
-                [["sine", 4, 1, 0, 3, 8, false, false, 7, 7, 7]],
+                [["triangle", 7, 2, 2, 8, 8, false, false, 7, 7, 7]],
             ],
-            Notes: [69],
+            Notes: [69, 74, 69, 74, 69],
         },
     ],
-    Exit: 0.2,
+    Exit: 31,
 };

@@ -12,8 +12,11 @@ export function sys_trigger(game: Game, delta: number) {
 }
 
 function update(game: Game, entity: Entity) {
-    if (game[Get.Collide][entity].Collisions.length > 0) {
+    let collisions = game[Get.Collide][entity].Collisions;
+    for (let collide of collisions) {
         let trigger = game[Get.Trigger][entity];
-        game.Dispatch(trigger.Action, ...trigger.Args, entity);
+        if ((game.World[collide.Entity] & trigger.Mask) === trigger.Mask) {
+            game.Dispatch(trigger.Action, ...trigger.Args, entity);
+        }
     }
 }

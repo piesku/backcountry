@@ -1,4 +1,5 @@
 import {Anim, animate, AnimationFlag} from "../components/com_animate.js";
+import {named} from "../components/com_named.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
 import {ease_in_out_quart, ease_out_quart} from "../math/easing.js";
@@ -441,6 +442,11 @@ export function get_character_blueprint(game: Game): Blueprint {
                         Using: [render_vox(game.Models[Models.FOOT], palette)],
                     },
                 ],
+            },
+            {
+                // Projectile spawn point.
+                Translation: [1.5, 0, -5],
+                Using: [named("proj")],
             },
         ],
     };
