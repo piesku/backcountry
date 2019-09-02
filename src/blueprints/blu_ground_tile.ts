@@ -69,7 +69,9 @@ export function get_tile_blueprint(
         tile.Children!.push(rand() > 0.5 ? get_cactus_blueprint() : get_rock_blueprint(game));
     }
 
-    let using = is_walkable ? [ray_target(RayFlag.Navigable), navigable(x, y)] : [];
+    let using = is_walkable
+        ? [ray_target(RayFlag.Navigable), navigable(x, y)]
+        : [ray_target(RayFlag.None)];
     return {
         Translation: [0, 0, 0],
         Using: [collide(false, [8, 1, 8]), cull(Get.Collide), ...using],
