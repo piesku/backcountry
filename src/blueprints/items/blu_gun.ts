@@ -1,7 +1,10 @@
 import {emit_particles} from "../../components/com_emit_particles.js";
+import {Get} from "../../components/com_index.js";
+import {light} from "../../components/com_light.js";
 import {render_particles} from "../../components/com_render_particles.js";
 import {render_vox} from "../../components/com_render_vox.js";
 import {shake} from "../../components/com_shake.js";
+import {toggle} from "../../components/com_toggle.js";
 import {Game} from "../../game.js";
 import {from_euler} from "../../math/quat.js";
 import {Models} from "../../models_map.js";
@@ -19,6 +22,7 @@ export function create_gun(game: Game) {
         Children: [
             {
                 Translation: [0, 1, -2],
+                Using: [light([1, 1, 1], 6), toggle(Get.Light)],
                 Children: [
                     {
                         Using: [
