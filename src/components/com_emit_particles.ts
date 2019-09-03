@@ -49,7 +49,6 @@ export function emit_particles(
 }
 
 export interface Particle {
-    readonly Id: number;
     readonly Origin: Vec3;
     Age: number;
 }

@@ -4,6 +4,7 @@ import {AudioSource} from "../components/com_audio_source.js";
 import {EmitParticles} from "../components/com_emit_particles.js";
 import {Get} from "../components/com_index.js";
 import {find_child} from "../components/com_named.js";
+import {Shake} from "../components/com_shake.js";
 import {components_of_type} from "../components/com_transform.js";
 import {Entity, Game} from "../game.js";
 import {get_translation} from "../math/mat4.js";
@@ -44,6 +45,10 @@ function update(game: Game, entity: Entity) {
 
         for (let emitter of components_of_type<EmitParticles>(game, transform, Get.EmitParticles)) {
             emitter.Time = 0.2;
+        }
+
+        for (let shake of components_of_type<Shake>(game, transform, Get.Shake)) {
+            shake.Trigger = true;
         }
 
         game[Get.Shake][game.Cameras[0].Entity].Trigger = true;

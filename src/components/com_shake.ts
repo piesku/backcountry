@@ -7,11 +7,11 @@ export interface Shake {
     Remaining: number;
 }
 
-export function shake(Duration: number) {
+export function shake(Duration: number, Trigger = false) {
     return (game: Game) => (entity: Entity) => {
         game.World[entity] |= 1 << Get.Shake;
         game[Get.Shake][entity] = <Shake>{
-            Trigger: false,
+            Trigger,
             Duration,
             Remaining: 0,
         };
