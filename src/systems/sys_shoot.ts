@@ -5,6 +5,7 @@ import {EmitParticles} from "../components/com_emit_particles.js";
 import {Get} from "../components/com_index.js";
 import {find_child} from "../components/com_named.js";
 import {Shake} from "../components/com_shake.js";
+import {Toggle} from "../components/com_toggle.js";
 import {components_of_type} from "../components/com_transform.js";
 import {Entity, Game} from "../game.js";
 import {get_translation} from "../math/mat4.js";
@@ -49,6 +50,10 @@ function update(game: Game, entity: Entity) {
 
         for (let shake of components_of_type<Shake>(game, transform, Get.Shake)) {
             shake.Duration = 0.4;
+        }
+
+        for (let toggle of components_of_type<Toggle>(game, transform, Get.Toggle)) {
+            toggle.Duration = 0.4;
         }
 
         game[Get.Shake][game.Cameras[0].Entity].Duration = 0.2;

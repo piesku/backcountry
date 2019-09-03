@@ -22,6 +22,7 @@ import {Render} from "./components/com_render.js";
 import {Select} from "./components/com_select.js";
 import {Shake} from "./components/com_shake.js";
 import {Shoot} from "./components/com_shoot.js";
+import {Toggle} from "./components/com_toggle.js";
 import {transform, Transform} from "./components/com_transform.js";
 import {Trigger} from "./components/com_trigger.js";
 import {Walking} from "./components/com_walking.js";
@@ -54,6 +55,7 @@ import {sys_render} from "./systems/sys_render.js";
 import {sys_select} from "./systems/sys_select.js";
 import {sys_shake} from "./systems/sys_shake.js";
 import {sys_shoot} from "./systems/sys_shoot.js";
+import {sys_toggle} from "./systems/sys_toggle.js";
 import {sys_transform} from "./systems/sys_transform.js";
 import {sys_trigger} from "./systems/sys_trigger.js";
 import {sys_ui} from "./systems/sys_ui.js";
@@ -101,6 +103,7 @@ export class Game implements ComponentData, GameState {
     public [Get.NPC]: Array<NPC> = [];
     public [Get.Projectile]: Array<Projectile> = [];
     public [Get.Shake]: Array<Shake> = [];
+    public [Get.Toggle]: Array<Toggle> = [];
 
     public Canvas: HTMLCanvasElement;
     public GL: WebGL2RenderingContext;
@@ -201,6 +204,7 @@ export class Game implements ComponentData, GameState {
         sys_health(this, delta);
         sys_mimic(this, delta);
         sys_cull(this, delta);
+        sys_toggle(this, delta);
 
         // Performance.
         sys_performance(this, performance.now() - now, document.querySelector("#fixed"));

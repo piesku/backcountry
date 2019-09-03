@@ -16,7 +16,7 @@ export let angle_camera_blueprint: Blueprint = {
             Rotation: [-0.28, 0.364, 0.116, 0.88],
             Children: [
                 {
-                    Using: [camera_ortho(25, 1, 100), select(), shake(0.2)],
+                    Using: [camera_ortho(25, 1, 100), select(), shake()],
                 },
             ],
         },
