@@ -22,7 +22,7 @@ export function create_gun(game: Game) {
                 Children: [
                     {
                         Using: [
-                            shake(1),
+                            shake(),
                             emit_particles(0.2, 0.03, 5, 15, 5),
                             render_particles([0.0, 0.0, 0.0], [1.0, 1.0, 1.0]),
                         ],
