@@ -81,7 +81,7 @@ export function calculate_distance(game: Game, x: number, y: number, diagonal: b
     }
 }
 
-function get_route(game: Game, entity: Entity, destination: Navigable) {
+export function get_route(game: Game, entity: Entity, destination: Navigable) {
     let walking = game[Get.Walking][entity];
 
     // reset the depth field
