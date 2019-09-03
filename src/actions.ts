@@ -51,7 +51,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
 
             let damage = (Math.random() * 1000).toFixed(0);
             let text = `<div style="animation: up 1s ease-out">${damage}</div>`;
-            let info = ui(text)(game)(game.CreateEntity(1 << Get.UI)).Element;
+            let info = ui(text)(game)(game.CreateEntity()).Element;
 
             let world_position = game[Get.Transform][entity].Translation;
             let ndc_position = transform_point(

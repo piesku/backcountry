@@ -173,7 +173,7 @@ export class Game implements ComponentData, GameState {
         this.Materials[Mat.Particles] = mat_particles(this.GL);
     }
 
-    CreateEntity(mask: number) {
+    CreateEntity(mask = 0) {
         for (let i = 0; i < MAX_ENTITIES; i++) {
             if (!this.World[i]) {
                 this.World[i] = mask;
