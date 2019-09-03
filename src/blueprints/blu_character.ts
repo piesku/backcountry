@@ -4,21 +4,12 @@ import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
 import {ease_in_out_quart, ease_out_quart} from "../math/easing.js";
 import {from_euler} from "../math/quat.js";
-import {element, rand} from "../math/random.js";
+import {element} from "../math/random.js";
 import {Models} from "../models_map.js";
 import {palette} from "../palette.js";
 import {Blueprint} from "./blu_common.js";
+import {get_hat_blueprint} from "./blu_hat.js";
 import {create_gun} from "./items/blu_gun.js";
-
-let hat_models = [
-    Models.HAT1,
-    Models.HAT2,
-    Models.HAT3,
-    Models.HAT4,
-    Models.HAT5,
-    Models.HAT6,
-    Models.HAT7,
-];
 
 // const enum CustomColorIndex {
 //     Shirt = 0,
@@ -80,21 +71,6 @@ function create_custom_palette(colors: CustomColors) {
     }
 
     return new_palette;
-}
-
-export function get_hat(game: Game, palette: Array<number>): Blueprint {
-    let hat_index = element(hat_models) as Models;
-    let body_height = game.Models[Models.BODY].Size[1];
-    let hat_height = game.Models[hat_index].Size[1];
-    let is_rotated = rand() > 0.8;
-
-    return {
-        Translation: is_rotated
-            ? [0, body_height / 2 - 2, hat_height / 2 + 1]
-            : [0, hat_height / 2 + body_height / 2, 0],
-        Rotation: is_rotated ? from_euler([], 90, 0, 0) : [0, 1, 0, 0],
-        Using: [(game: Game) => render_vox(game.Models[hat_index], palette)(game)],
-    };
 }
 
 export function get_character_blueprint(game: Game): Blueprint {
@@ -173,7 +149,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                         },
                     }),
                 ],
-                Children: [get_hat(game, palette)],
+                Children: [get_hat_blueprint(game, palette)],
             },
             {
                 // right arm
