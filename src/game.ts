@@ -25,6 +25,7 @@ import {Shoot} from "./components/com_shoot.js";
 import {Toggle} from "./components/com_toggle.js";
 import {transform, Transform} from "./components/com_transform.js";
 import {Trigger} from "./components/com_trigger.js";
+import {UI} from "./components/com_ui.js";
 import {Walking} from "./components/com_walking.js";
 import {Material} from "./materials/mat_common.js";
 import {Mat} from "./materials/mat_index.js";
@@ -104,6 +105,7 @@ export class Game implements ComponentData, GameState {
     public [Get.Projectile]: Array<Projectile> = [];
     public [Get.Shake]: Array<Shake> = [];
     public [Get.Toggle]: Array<Toggle> = [];
+    public [Get.UI]: Array<UI> = [];
 
     public Canvas: HTMLCanvasElement;
     public GL: WebGL2RenderingContext;

@@ -6,6 +6,8 @@
     body {
         overflow: hidden;
         margin: 0;
+        font-family: Impact;
+        color: #FFE8C6;
     }
     main {
         position: absolute;
@@ -22,6 +24,24 @@
         cursor: pointer;
         font: inherit;
         color: inherit;
+    }
+    p {
+        position: absolute;
+        width: 200px;
+        margin-left: -100px;
+        text-align: center;
+        font-size: 5vh;
+    }
+
+    @keyframes up {
+        0% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        100% {
+            opacity: 0;
+            transform: translateY(-20vh);
+        }
     }
 
     #debug {

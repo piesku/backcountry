@@ -11,7 +11,7 @@ export function Wanted(house_seed: number) {
                 width: 100%;
                 color: #222;
                 text-align: center;
-                font: 15vh Impact;
+                font-size: 15vh;
             "
         >
             WANTED
@@ -22,15 +22,11 @@ export function Wanted(house_seed: number) {
                 bottom: 10%;
                 height: 25%;
                 width: 100%;
-                color: #222;
                 text-align: center;
-                font: 10vh Impact;
+                font-size: 10vh;
             "
         >
-            <button
-                onclick="$(${Action.ChangeWorld}, 'house', ${house_seed});"
-                style="color: #FFE8C6;"
-            >
+            <button onclick="$(${Action.ChangeWorld}, 'house', ${house_seed});">
                 ACCEPT BOUNTY
             </button>
         </div>

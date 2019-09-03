@@ -25,7 +25,7 @@ import {Trigger} from "./com_trigger";
 import {Walking} from "./com_walking";
 
 export const enum Get {
-    Transform,
+    Transform = 1,
     Render,
     Camera,
     Light,
@@ -50,6 +50,7 @@ export const enum Get {
     Projectile,
     Shake,
     Toggle,
+    UI,
 }
 
 export interface ComponentData {

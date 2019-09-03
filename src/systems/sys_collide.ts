@@ -46,7 +46,9 @@ function check_collisions(collider: Collide, colliders: Collide[]) {
         let other = colliders[i];
         if (collider !== other && intersect_aabb(collider, other)) {
             collider.Collisions.push(other);
-            other.Collisions.push(collider);
+            if (!other.Dynamic) {
+                other.Collisions.push(collider);
+            }
         }
     }
 }
