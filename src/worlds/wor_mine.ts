@@ -71,7 +71,7 @@ export function world_mine(game: Game) {
     });
 
     // Cowboys.
-    let cowboys_count = 5;
+    let cowboys_count = 1;
     for (let i = 0; i < cowboys_count; i++) {
         let x = integer(0, map_size);
         let y = integer(0, map_size);
@@ -80,12 +80,13 @@ export function world_mine(game: Game) {
                 Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
                 Rotation: from_euler([], 0, integer(0, 3) * 90, 0),
                 Using: [
-                    npc(),
+                    npc(false),
                     path_find(),
                     walking(x, y, false),
                     move(integer(8, 15), 0),
                     collide(true, [7, 7, 7]),
                     health(3),
+                    shoot(1),
                     ray_target(RayFlag.Attackable),
                 ],
                 Children: [get_character_blueprint(game)],
