@@ -8,7 +8,7 @@ export interface EmitParticles {
     readonly SizeStart: number;
     readonly SizeEnd: number;
     readonly Vertical: number;
-    Time: number;
+    Duration: number;
     Particles: Array<Particle>;
     Instances: Array<number>;
     SinceLast: number;
@@ -40,7 +40,7 @@ export function emit_particles(
             SizeStart,
             SizeEnd,
             Vertical,
-            Time,
+            Duration: Time,
             Particles: [],
             Instances: [],
             SinceLast: 0,

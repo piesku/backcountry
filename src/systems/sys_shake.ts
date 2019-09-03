@@ -14,19 +14,15 @@ export function sys_shake(game: Game, delta: number) {
 function update(game: Game, entity: Entity, delta: number) {
     let shake = game[Get.Shake][entity];
 
-    if (shake.Trigger) {
-        shake.Remaining = shake.Duration;
-        shake.Trigger = false;
-    }
-
-    if (shake.Remaining > 0) {
-        shake.Remaining -= delta;
+    if (shake.Duration > 0) {
+        shake.Duration -= delta;
 
         let transform = game[Get.Transform][entity];
         transform.Translation = [Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5];
         transform.Dirty = true;
 
-        if (shake.Remaining <= 0) {
+        if (shake.Duration <= 0) {
+            shake.Duration = 0;
             transform.Translation = [0, 0, 0];
         }
     }

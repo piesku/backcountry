@@ -44,14 +44,14 @@ function update(game: Game, entity: Entity) {
         }
 
         for (let emitter of components_of_type<EmitParticles>(game, transform, Get.EmitParticles)) {
-            emitter.Time = 0.2;
+            emitter.Duration = 0.4;
         }
 
         for (let shake of components_of_type<Shake>(game, transform, Get.Shake)) {
-            shake.Trigger = true;
+            shake.Duration = 0.4;
         }
 
-        game[Get.Shake][game.Cameras[0].Entity].Trigger = true;
+        game[Get.Shake][game.Cameras[0].Entity].Duration = 0.2;
     }
 
     shoot.Target = null;
