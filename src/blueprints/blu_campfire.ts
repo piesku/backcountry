@@ -11,7 +11,7 @@ import {Blueprint} from "./blu_common.js";
 
 export function get_campfire_blueprint(game: Game): Blueprint {
     return {
-        Translation: [4, 5, -4],
+        Translation: [0, 2, 0],
         Using: [render_vox(game.Models[Models.CAMPFIRE]), cull(Get.Render)],
         Children: [
             {
