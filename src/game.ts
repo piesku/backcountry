@@ -20,6 +20,7 @@ import {Projectile} from "./components/com_projectile.js";
 import {RayTarget} from "./components/com_ray_target.js";
 import {Render} from "./components/com_render.js";
 import {Select} from "./components/com_select.js";
+import {Shake} from "./components/com_shake.js";
 import {Shoot} from "./components/com_shoot.js";
 import {transform, Transform} from "./components/com_transform.js";
 import {Trigger} from "./components/com_trigger.js";
@@ -51,6 +52,7 @@ import {sys_performance} from "./systems/sys_performance.js";
 import {sys_player_control} from "./systems/sys_player_control.js";
 import {sys_render} from "./systems/sys_render.js";
 import {sys_select} from "./systems/sys_select.js";
+import {sys_shake} from "./systems/sys_shake.js";
 import {sys_shoot} from "./systems/sys_shoot.js";
 import {sys_transform} from "./systems/sys_transform.js";
 import {sys_trigger} from "./systems/sys_trigger.js";
@@ -98,6 +100,7 @@ export class Game implements ComponentData, GameState {
     public [Get.Walking]: Array<Walking> = [];
     public [Get.NPC]: Array<NPC> = [];
     public [Get.Projectile]: Array<Projectile> = [];
+    public [Get.Shake]: Array<Shake> = [];
 
     public Canvas: HTMLCanvasElement;
     public GL: WebGL2RenderingContext;
@@ -189,6 +192,7 @@ export class Game implements ComponentData, GameState {
         sys_animate(this, delta);
         sys_particles(this, delta);
         sys_move(this, delta);
+        sys_shake(this, delta);
         sys_transform(this, delta);
         // Post-transform logic.
         sys_collide(this, delta);
