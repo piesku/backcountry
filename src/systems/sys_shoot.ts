@@ -55,8 +55,6 @@ function update(game: Game, entity: Entity) {
         for (let toggle of components_of_type<Toggle>(game, transform, Get.Toggle)) {
             toggle.Duration = 0.4;
         }
-
-        game[Get.Shake][game.Cameras[0].Entity].Duration = 0.2;
     }
 
     shoot.Target = null;
