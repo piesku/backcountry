@@ -1,3 +1,4 @@
+import {create_reward} from "./blueprints/blu_reward.js";
 import {Get} from "./components/com_index.js";
 import {ui} from "./components/com_ui.js";
 import {Entity, Game} from "./game.js";
@@ -21,6 +22,7 @@ export interface GameState {
 export const enum Action {
     ChangeWorld = 1,
     HitEnemy,
+    KillEnemy,
 }
 
 export function effect(game: Game, action: Action, args: Array<unknown>) {
@@ -62,6 +64,17 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             info.style.left = `${0.5 * (ndc_position[0] + 1) * game.Canvas.width}px`;
             info.style.top = `${0.5 * (-ndc_position[1] + 1) * game.Canvas.height}px`;
             break;
+        }
+        case Action.KillEnemy: {
+            let entity = args[0] as Entity;
+            let world_position = game[Get.Transform][entity].Translation;
+            let anchor = game.Add({
+                Translation: [world_position[0], world_position[1] - 5, world_position[2]],
+            });
+            game.Add({
+                ...create_reward(game, anchor),
+                Translation: [world_position[0], world_position[1] - 5000, world_position[2]],
+            });
         }
     }
 }

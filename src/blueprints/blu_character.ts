@@ -108,16 +108,17 @@ export function get_character_blueprint(game: Game): Blueprint {
                     Keyframes: [
                         {
                             Timestamp: 0,
-                            Translation: [0, 0, 0],
+                            Translation: [0, 1, 0],
                             Rotation: [0, 1, 0, 0],
                         },
                         {
-                            Timestamp: 0.4,
+                            Timestamp: 1,
                             Translation: [0, -4, 0],
                             Rotation: from_euler([], -90, 0, 0),
+                            Ease: ease_out_quart,
                         },
                         {
-                            Timestamp: 5,
+                            Timestamp: 4,
                             Translation: [0, -10, 0],
                         },
                     ],

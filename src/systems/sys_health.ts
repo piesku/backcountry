@@ -1,3 +1,4 @@
+import {Action} from "../actions.js";
 import {Anim, Animate} from "../components/com_animate.js";
 import {Get} from "../components/com_index.js";
 import {components_of_type} from "../components/com_transform.js";
@@ -16,6 +17,8 @@ export function sys_health(game: Game, delta: number) {
 function update(game: Game, entity: Entity) {
     let health = game[Get.Health][entity];
     for (let i = 0; i < health.Damages.length; i++) {
+        game.Dispatch(Action.HitEnemy, entity);
+
         health.current -= health.Damages[i];
         if (health.current > 0) {
             for (let animate of components_of_type<Animate>(
@@ -26,6 +29,8 @@ function update(game: Game, entity: Entity) {
                 animate.Trigger = Anim.Hit;
             }
         } else {
+            game.Dispatch(Action.KillEnemy, entity);
+
             game.World[entity] &= ~(
                 (1 << Get.NPC) |
                 (1 << Get.Move) |
