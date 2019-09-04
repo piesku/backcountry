@@ -11,25 +11,7 @@ import {Blueprint} from "./blu_common.js";
 import {get_hat_blueprint} from "./blu_hat.js";
 import {create_gun} from "./items/blu_gun.js";
 
-// const enum CustomColorIndex {
-//     Shirt = 0,
-//     Pants = 1,
-//     Hat = 2,
-//     Extra = 3,
-//     Skin = 4,
-//     Hair = 5,
-// }
-
 type Color = [number, number, number];
-
-interface CustomColors {
-    Shirt?: Color;
-    Pants?: Color;
-    Hat?: Color;
-    Extra?: Color;
-    Skin?: Color;
-    Hair?: Color;
-}
 
 let shirt_colors: Array<Color> = [[1, 0, 0], [0, 1, 0], [0, 0, 1], [1, 1, 1]];
 let hat_colors: Array<Color> = [[0.2, 0.2, 0.2], [0.9, 0.9, 0.9], [0.53, 0, 0], [1, 0, 0]];
@@ -44,54 +26,14 @@ let pants_colors: Array<Color> = [
     [0.33, 0.33, 0.33],
 ];
 
-function create_custom_palette(colors: CustomColors) {
-    let new_palette = palette.slice();
-    if (colors.Shirt) {
-        new_palette.splice(0, 3, ...colors.Shirt);
-    }
-
-    if (colors.Pants) {
-        new_palette.splice(3, 3, ...colors.Pants);
-    }
-
-    if (colors.Hat) {
-        new_palette.splice(6, 3, ...colors.Hat);
-    }
-
-    if (colors.Extra) {
-        new_palette.splice(9, 3, ...colors.Extra);
-    }
-
-    if (colors.Skin) {
-        new_palette.splice(12, 3, ...colors.Skin);
-    }
-
-    if (colors.Hair) {
-        new_palette.splice(15, 3, ...colors.Hair);
-    }
-
-    return new_palette;
-}
-
 export function get_character_blueprint(game: Game): Blueprint {
-    let shirt_color = element(shirt_colors) as Color;
-    let pants_color = element(pants_colors) as Color;
-    let hat_color = element(hat_colors) as Color;
-    let extra_color = element(extra_colors) as Color;
-    let skin_color = element(skin_colors) as Color;
-    let hair_color = element(hair_colors) as Color;
-
-    let palette = create_custom_palette({
-        Shirt: shirt_color,
-        Pants: pants_color,
-        Hat: hat_color,
-        Extra: extra_color,
-        Skin: skin_color,
-        Hair: hair_color,
-    });
-
-    let right_hand_item = create_gun(game);
-    // let left_hand_item = rand() > 0.5 ? {} : (element(items) as Mixin)(game);
+    let character_palette = palette.slice();
+    character_palette.splice(0, 3, ...(element(shirt_colors) as Color));
+    character_palette.splice(3, 3, ...(element(pants_colors) as Color));
+    character_palette.splice(6, 3, ...(element(hat_colors) as Color));
+    character_palette.splice(9, 3, ...(element(extra_colors) as Color));
+    character_palette.splice(12, 3, ...(element(skin_colors) as Color));
+    character_palette.splice(15, 3, ...(element(hair_colors) as Color));
 
     return {
         Rotation: [0, 1, 0, 0],
@@ -129,7 +71,7 @@ export function get_character_blueprint(game: Game): Blueprint {
             {
                 //body
                 Using: [
-                    render_vox(game.Models[Models.BODY], palette),
+                    render_vox(game.Models[Models.BODY], character_palette),
                     animate({
                         [Anim.Idle]: {
                             Keyframes: [
@@ -179,7 +121,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                         },
                     }),
                 ],
-                Children: [get_hat_blueprint(game, palette)],
+                Children: [get_hat_blueprint(game, character_palette)],
             },
             {
                 // right arm
@@ -260,9 +202,9 @@ export function get_character_blueprint(game: Game): Blueprint {
                 Children: [
                     {
                         Translation: [0, -1, 0],
-                        Using: [render_vox(game.Models[Models.HAND], palette)],
+                        Using: [render_vox(game.Models[Models.HAND], character_palette)],
                     },
-                    right_hand_item,
+                    create_gun(game),
                 ],
             },
             {
@@ -321,7 +263,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                 Children: [
                     {
                         Translation: [0, -1, 0],
-                        Using: [render_vox(game.Models[Models.HAND], palette)],
+                        Using: [render_vox(game.Models[Models.HAND], character_palette)],
                     },
                     // left_hand_item,
                 ],
@@ -382,7 +324,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                 Children: [
                     {
                         Translation: [0, -1.5, 0],
-                        Using: [render_vox(game.Models[Models.FOOT], palette)],
+                        Using: [render_vox(game.Models[Models.FOOT], character_palette)],
                     },
                 ],
             },
@@ -442,7 +384,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                 Children: [
                     {
                         Translation: [0, -1.5, 0],
-                        Using: [render_vox(game.Models[Models.FOOT], palette)],
+                        Using: [render_vox(game.Models[Models.FOOT], character_palette)],
                     },
                 ],
             },
