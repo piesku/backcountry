@@ -70,28 +70,25 @@ export function world_mine(game: Game) {
         Using: [light([0.5, 0.5, 0.5], 0), audio_source(snd_music)],
     });
 
-    // Cowboys.
-    let cowboys_count = 1;
-    for (let i = 0; i < cowboys_count; i++) {
-        let x = integer(0, map_size);
-        let y = integer(0, map_size);
-        if (game.Grid[x] && game.Grid[x][y] && !isNaN(game.Grid[x][y])) {
-            game.Add({
-                Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
-                Rotation: from_euler([], 0, integer(0, 3) * 90, 0),
-                Using: [
-                    npc(false),
-                    path_find(),
-                    walking(x, y, false),
-                    move(integer(8, 15), 0),
-                    collide(true, [7, 7, 7]),
-                    health(3),
-                    shoot(1),
-                    ray_target(RayFlag.Attackable),
-                ],
-                Children: [get_character_blueprint(game)],
-            });
-        }
+    // Bandit.
+    let x = integer(0, map_size);
+    let y = integer(0, map_size);
+    if (game.Grid[x] && game.Grid[x][y] && !isNaN(game.Grid[x][y])) {
+        game.Add({
+            Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
+            Rotation: from_euler([], 0, integer(0, 3) * 90, 0),
+            Using: [
+                npc(false, true),
+                path_find(),
+                walking(x, y, false),
+                move(integer(8, 15), 0),
+                collide(true, [7, 7, 7]),
+                health(3),
+                shoot(1),
+                ray_target(RayFlag.Attackable),
+            ],
+            Children: [(set_seed(game.SeedBounty), get_character_blueprint(game))],
+        });
     }
 
     let player_position = game[Get.Transform][find_navigable(game, 1, 1)].Translation;

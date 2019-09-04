@@ -67,14 +67,17 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
         }
         case Action.KillEnemy: {
             let entity = args[0] as Entity;
-            let world_position = game[Get.Transform][entity].Translation;
-            let anchor = game.Add({
-                Translation: [world_position[0], world_position[1] - 5, world_position[2]],
-            });
-            game.Add({
-                ...create_reward(game, anchor),
-                Translation: [world_position[0], world_position[1] - 5000, world_position[2]],
-            });
+            if (game[Get.NPC][entity].Bounty) {
+                set_seed(game.SeedBounty);
+                let world_position = game[Get.Transform][entity].Translation;
+                let anchor = game.Add({
+                    Translation: world_position,
+                });
+                game.Add({
+                    ...create_reward(game, anchor),
+                    Translation: [world_position[0], world_position[1] + 100, world_position[2]],
+                });
+            }
         }
     }
 }

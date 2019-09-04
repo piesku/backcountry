@@ -10,7 +10,7 @@ export function world_wanted(game: Game) {
     game.World = [];
     game.GL.clearColor(0.95, 0.73, 0.35, 1);
 
-    // Player.
+    // Bandit.
     game.Add({
         Using: [
             animate({

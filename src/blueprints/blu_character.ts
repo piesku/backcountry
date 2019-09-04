@@ -57,8 +57,8 @@ export function get_character_blueprint(game: Game): Blueprint {
                             Ease: ease_out_quart,
                         },
                         {
-                            Timestamp: 4,
-                            Translation: [0, -10, 0],
+                            Timestamp: 5,
+                            Translation: [0, -9, 0],
                         },
                     ],
                 },
