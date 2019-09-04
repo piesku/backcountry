@@ -84,5 +84,7 @@ export const enum Anim {
     Idle = 1,
     Move,
     Shoot,
+    Hit,
+    Die,
     Select,
 }

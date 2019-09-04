@@ -95,6 +95,35 @@ export function get_character_blueprint(game: Game): Blueprint {
 
     return {
         Rotation: [0, 1, 0, 0],
+        Using: [
+            animate({
+                [Anim.Idle]: {
+                    Keyframes: [
+                        {
+                            Timestamp: 0,
+                        },
+                    ],
+                },
+                [Anim.Die]: {
+                    Keyframes: [
+                        {
+                            Timestamp: 0,
+                            Translation: [0, 0, 0],
+                            Rotation: [0, 1, 0, 0],
+                        },
+                        {
+                            Timestamp: 0.4,
+                            Translation: [0, -4, 0],
+                            Rotation: from_euler([], -90, 0, 0),
+                        },
+                        {
+                            Timestamp: 5,
+                            Translation: [0, -10, 0],
+                        },
+                    ],
+                },
+            }),
+        ],
         Children: [
             {
                 //body

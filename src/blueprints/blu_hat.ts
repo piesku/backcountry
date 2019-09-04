@@ -1,3 +1,4 @@
+import {Anim, animate, AnimationFlag} from "../components/com_animate.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
 import {integer, rand} from "../math/random.js";
@@ -79,6 +80,32 @@ export function get_hat_blueprint(game: Game, palette: number[]): Blueprint {
                         },
                         palette
                     ),
+                    animate({
+                        [Anim.Idle]: {
+                            Keyframes: [
+                                {
+                                    Timestamp: 0,
+                                },
+                            ],
+                        },
+                        [Anim.Hit]: {
+                            Keyframes: [
+                                {
+                                    Timestamp: 0,
+                                    Translation: [0, 0, 0],
+                                },
+                                {
+                                    Timestamp: 0.1,
+                                    Translation: [0, 2, 0],
+                                },
+                                {
+                                    Timestamp: 0.2,
+                                    Translation: [0, 0, 0],
+                                },
+                            ],
+                            Flags: AnimationFlag.None,
+                        },
+                    }),
                 ],
             },
         ],
