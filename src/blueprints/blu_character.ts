@@ -7,15 +7,11 @@ import {from_euler} from "../math/quat.js";
 import {element} from "../math/random.js";
 import {Models} from "../models_map.js";
 import {palette} from "../palette.js";
-import {Blueprint} from "./blu_common.js";
+import {Blueprint, Color} from "./blu_common.js";
 import {get_hat_blueprint} from "./blu_hat.js";
 import {create_gun} from "./items/blu_gun.js";
 
-type Color = [number, number, number];
-
 let shirt_colors: Array<Color> = [[1, 0, 0], [0, 1, 0], [0, 0, 1], [1, 1, 1]];
-let hat_colors: Array<Color> = [[0.2, 0.2, 0.2], [0.9, 0.9, 0.9], [0.53, 0, 0], [1, 0, 0]];
-let extra_colors: Array<Color> = [[0, 0, 0], [1, 1, 1], [1, 1, 0], [0.9, 0, 0]];
 let skin_colors: Array<Color> = [[1, 0.8, 0.6], [1, 0.8, 0.6], [0.6, 0.4, 0]];
 let hair_colors: Array<Color> = [[1, 1, 0], [0, 0, 0], [0.6, 0.4, 0], [0.4, 0, 0]];
 let pants_colors: Array<Color> = [
@@ -27,11 +23,12 @@ let pants_colors: Array<Color> = [
 ];
 
 export function get_character_blueprint(game: Game): Blueprint {
+    // Create the hat first so that the hat itself can be reproduced with SeedBounty.
+    let hat = get_hat_blueprint(game);
+
     let character_palette = palette.slice();
     character_palette.splice(0, 3, ...(element(shirt_colors) as Color));
     character_palette.splice(3, 3, ...(element(pants_colors) as Color));
-    character_palette.splice(6, 3, ...(element(hat_colors) as Color));
-    character_palette.splice(9, 3, ...(element(extra_colors) as Color));
     character_palette.splice(12, 3, ...(element(skin_colors) as Color));
     character_palette.splice(15, 3, ...(element(hair_colors) as Color));
 
@@ -121,7 +118,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                         },
                     }),
                 ],
-                Children: [get_hat_blueprint(game, character_palette)],
+                Children: [hat],
             },
             {
                 // right arm
