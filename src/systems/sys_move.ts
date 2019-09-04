@@ -18,17 +18,19 @@ export function sys_move(game: Game, delta: number) {
 function update(game: Game, entity: Entity, delta: number) {
     let transform = game[Get.Transform][entity];
     let move = game[Get.Move][entity];
-    for (let animate of components_of_type<Animate>(game, transform, Get.Animate)) {
-        if (!animate.Trigger) {
-            animate.Trigger = move.Direction ? Anim.Move : Anim.Idle;
-        }
-    }
 
     if (move.Direction) {
         scale(move.Direction, move.Direction, move.MoveSpeed * delta);
         add(transform.Translation, transform.Translation, move.Direction);
         transform.Dirty = true;
         move.Direction = undefined;
+        for (let animate of components_of_type<Animate>(game, transform, Get.Animate)) {
+            animate.Trigger = Anim.Move;
+        }
+    } else {
+        for (let animate of components_of_type<Animate>(game, transform, Get.Animate)) {
+            animate.Trigger = Anim.Idle;
+        }
     }
 
     if (move.Yaw) {

@@ -194,10 +194,11 @@ export class Game implements ComponentData, GameState {
         sys_ai(this, delta);
         sys_navigate(this, delta);
         sys_aim(this, delta);
-        sys_animate(this, delta);
         sys_particles(this, delta);
-        sys_move(this, delta);
         sys_shake(this, delta);
+        // Animation and movement.
+        sys_animate(this, delta);
+        sys_move(this, delta);
         sys_transform(this, delta);
         // Post-transform logic.
         sys_collide(this, delta);
