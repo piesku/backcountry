@@ -19,8 +19,7 @@ export function Wanted(house_seed: number) {
         <div
             style="
                 position: absolute;
-                bottom: 10%;
-                height: 25%;
+                bottom: 13%;
                 width: 100%;
                 text-align: center;
                 font-size: 10vh;
