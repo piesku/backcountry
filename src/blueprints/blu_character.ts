@@ -5,7 +5,6 @@ import {Game} from "../game.js";
 import {ease_in_out_quart, ease_out_quart} from "../math/easing.js";
 import {from_euler} from "../math/quat.js";
 import {element} from "../math/random.js";
-import {Models} from "../models_map.js";
 import {palette} from "../palette.js";
 import {Blueprint} from "./blu_common.js";
 import {get_hat_blueprint} from "./blu_hat.js";
@@ -128,7 +127,7 @@ export function get_character_blueprint(game: Game): Blueprint {
             {
                 //body
                 Using: [
-                    render_vox(game.Models[Models.BODY], palette),
+                    render_vox(game.Models.BODY, palette),
                     animate({
                         [Anim.Idle]: {
                             Keyframes: [
@@ -259,7 +258,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                 Children: [
                     {
                         Translation: [0, -1, 0],
-                        Using: [render_vox(game.Models[Models.HAND], palette)],
+                        Using: [render_vox(game.Models.HAND, palette)],
                     },
                     right_hand_item,
                 ],
@@ -320,7 +319,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                 Children: [
                     {
                         Translation: [0, -1, 0],
-                        Using: [render_vox(game.Models[Models.HAND], palette)],
+                        Using: [render_vox(game.Models.HAND, palette)],
                     },
                     // left_hand_item,
                 ],
@@ -381,7 +380,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                 Children: [
                     {
                         Translation: [0, -1.5, 0],
-                        Using: [render_vox(game.Models[Models.FOOT], palette)],
+                        Using: [render_vox(game.Models.FOOT, palette)],
                     },
                 ],
             },
@@ -441,7 +440,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                 Children: [
                     {
                         Translation: [0, -1.5, 0],
-                        Using: [render_vox(game.Models[Models.FOOT], palette)],
+                        Using: [render_vox(game.Models.FOOT, palette)],
                     },
                 ],
             },

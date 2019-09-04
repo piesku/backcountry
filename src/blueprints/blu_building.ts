@@ -4,7 +4,6 @@ import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
 import {element, integer, rand} from "../math/random.js";
-import {Models} from "../models_map.js";
 import {Blueprint, create_line} from "./blu_common.js";
 
 export let main_building_palette = [0.6, 0.4, 0, 0.4, 0.2, 0, 0.14, 0, 0, 0.2, 0.8, 1];
@@ -84,8 +83,8 @@ export function get_building_blueprint(game: Game) {
 
     if (has_windows && has_tall_front_facade) {
         // WINDOWS
-        let window_width = game.Models[Models.WINDOW].Size[2];
-        let window_height = game.Models[Models.WINDOW].Size[1];
+        let window_width = game.Models.WINDOW.Size[2];
+        let window_height = game.Models.WINDOW.Size[1];
 
         for (
             let offset = window_width;
@@ -99,10 +98,7 @@ export function get_building_blueprint(game: Game) {
                     building_size[2] + window_height / 2,
                     building_size[1] - offset - window_width / 2,
                 ],
-                Using: [
-                    (game: Game) => render_vox(game.Models[Models.WINDOW])(game),
-                    cull(Get.Render),
-                ],
+                Using: [(game: Game) => render_vox(game.Models.WINDOW)(game), cull(Get.Render)],
             });
         }
     } else {

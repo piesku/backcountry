@@ -19,7 +19,6 @@ import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
 import {integer, set_seed} from "../math/random.js";
-import {Models} from "../models_map.js";
 
 let map_size = 5;
 
@@ -108,7 +107,7 @@ export function world_house(game: Game) {
     game.Add({
         Rotation: from_euler([], 0, integer(0, 2) * 180, 0),
         Translation: [-(map_size / 2) * 8 - 2.9, 10, -(map_size / 2 - 2) * 8],
-        Using: [(game: Game) => render_vox(game.Models[Models.WINDOW])(game), cull(Get.Render)],
+        Using: [(game: Game) => render_vox(game.Models.WINDOW)(game), cull(Get.Render)],
     });
 
     // Directional light

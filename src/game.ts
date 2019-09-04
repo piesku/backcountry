@@ -32,7 +32,7 @@ import {Mat} from "./materials/mat_index.js";
 import {mat_instanced} from "./materials/mat_instanced.js";
 import {mat_particles} from "./materials/mat_particles.js";
 import {mat_wireframe} from "./materials/mat_wireframe.js";
-import {Model} from "./model.js";
+import {Model, Models} from "./models_map.js";
 import {palette} from "./palette.js";
 import {sys_ai} from "./systems/sys_ai.js";
 import {sys_aim} from "./systems/sys_aim.js";
@@ -131,7 +131,7 @@ export class Game implements ComponentData, GameState {
     public Materials: Array<Material> = [];
     public Cameras: Array<Camera> = [];
     public Lights: Array<Light> = [];
-    public Models: Array<Model> = [];
+    public Models: Record<string, Model> = Models;
     public Palette: Array<number> = palette;
     public Targets: Array<RayTarget> = [];
     private RAF: number = 0;

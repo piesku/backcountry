@@ -2,7 +2,6 @@ import {Anim, animate, AnimationFlag} from "../components/com_animate.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
 import {integer, rand} from "../math/random.js";
-import {Models} from "../models_map.js";
 import {Blueprint, create_line} from "./blu_common.js";
 
 // colors 2 & 5
@@ -16,7 +15,7 @@ export function get_hat_blueprint(game: Game, palette: number[]): Blueprint {
     let has_sides = rand() > 0.4;
     let has_far_sides = has_sides && rand() > 0.7;
 
-    let body_height = game.Models[Models.BODY].Size[1];
+    let body_height = game.Models.BODY.Size[1];
 
     let offsets = [];
 

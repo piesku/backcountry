@@ -24,7 +24,7 @@ export function render_vox(model: Model, Palette?: Array<number>) {
         game[Get.Render][entity] = <RenderInstanced>{
             Kind: RenderKind.Instanced,
             Material: game.Materials[Mat.Instanced],
-            VAO: buffer(game.GL, shape, Offsets),
+            VAO: buffer(game.GL, shape, Offsets as Float32Array),
             IndexCount: shape.indices.length,
             InstanceCount: Offsets.length / 4,
             Palette,

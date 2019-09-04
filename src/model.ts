@@ -1,5 +1,5 @@
 export interface Model {
-    Offsets: Float32Array;
+    Offsets: ArrayLike<number>;
     Size: [number, number, number];
     Palette?: Array<number>;
 }

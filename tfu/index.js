@@ -71,82 +71,30 @@ each(
                         color = color_map[curr.colorIndex];
                     }
 
-                    const cube = {
-                        offset: [curr.x, curr.z, curr.y],
-                        color,
-                    };
+                    const cube = [curr.x, curr.z, curr.y, color];
 
                     model_data.cubes.push(cube);
                 });
 
                 model_data.cubes = model_data.cubes.filter(cube => {
                     return !(
-                        find_cube(model_data.cubes, [
-                            cube.offset[0] + 1,
-                            cube.offset[1],
-                            cube.offset[2],
-                        ]) &&
-                        find_cube(model_data.cubes, [
-                            cube.offset[0] - 1,
-                            cube.offset[1],
-                            cube.offset[2],
-                        ]) &&
-                        find_cube(model_data.cubes, [
-                            cube.offset[0],
-                            cube.offset[1] + 1,
-                            cube.offset[2],
-                        ]) &&
-                        find_cube(model_data.cubes, [
-                            cube.offset[0],
-                            cube.offset[1] - 1,
-                            cube.offset[2],
-                        ]) &&
-                        find_cube(model_data.cubes, [
-                            cube.offset[0],
-                            cube.offset[1],
-                            cube.offset[2] + 1,
-                        ]) &&
-                        find_cube(model_data.cubes, [
-                            cube.offset[0],
-                            cube.offset[1],
-                            cube.offset[2] - 1,
-                        ])
+                        find_cube(model_data.cubes, [cube[0] + 1, cube[1], cube[2]]) &&
+                        find_cube(model_data.cubes, [cube[0] - 1, cube[1], cube[2]]) &&
+                        find_cube(model_data.cubes, [cube[0], cube[1] + 1, cube[2]]) &&
+                        find_cube(model_data.cubes, [cube[0], cube[1] - 1, cube[2]]) &&
+                        find_cube(model_data.cubes, [cube[0], cube[1], cube[2] + 1]) &&
+                        find_cube(model_data.cubes, [cube[0], cube[1], cube[2] - 1])
                     );
                 });
 
-                const ints = [
-                    model_data.cubes.length,
-                    model_data.size.reduce((acc, curr, idx) => {
-                        let val = curr << (idx * 4);
-                        acc |= val;
-                        return acc;
-                    }, 0),
-                ];
-
                 console.log(`Model size: ${model_data.size}`);
 
-                for (let i = 0; i < model_data.cubes.length; i++) {
-                    const final = model_data.cubes[i].offset
-                        .concat(model_data.cubes[i].color)
-                        .reduce((acc, curr, idx) => {
-                            let val = curr << (idx * 4);
-                            acc |= val;
-                            return acc;
-                        }, 0);
-                    ints.push(final);
-                }
+                console.log(`Model ${file} saved. Cube count: ${model_data.cubes.length}.`);
 
-                console.log(
-                    `Model ${file} saved. Cube count: ${
-                        model_data.cubes.length
-                    }. Size: ${ints.length * 2}b`
-                );
+                model_data.name = `${path.basename(file, ".vox").toUpperCase()}`;
 
-                models_output = models_output.concat(ints);
-                models_map[current_model_index] = `${path
-                    .basename(file, ".vox")
-                    .toUpperCase()} = ${current_model_index},`;
-                current_model_index++;
+                models_output.push(model_data);
+
                 next();
             })
             .catch(e => {
@@ -163,7 +111,7 @@ each(
         console.log("Saving models map");
         fs.writeFileSync(
             "./src/models_map.ts",
-            `export const enum Models { \n    ${models_map.join("\n    ")}\n}`
+            `export const Models = {\n    ${models_output.map(print_model).join("\n")}\n}`
         );
 
         console.log(`Saving models file: ${models_output.length * 2}b`);
@@ -173,12 +121,15 @@ each(
     }
 );
 
+function print_model(model_data) {
+    return `    ${model_data.name}: {
+        Offsets: [${model_data.cubes.map(c => c.join(", ")).join(", ")}],
+        Size: [${model_data.size.join(", ")}],
+    },`;
+}
+
 function find_cube(collection, cords) {
     return collection.some(cube => {
-        return (
-            cube.offset[0] === cords[0] &&
-            cube.offset[1] === cords[1] &&
-            cube.offset[2] === cords[2]
-        );
+        return cube[0] === cords[0] && cube[1] === cords[1] && cube[2] === cords[2];
     });
 }
