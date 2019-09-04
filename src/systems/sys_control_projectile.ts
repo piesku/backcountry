@@ -1,4 +1,3 @@
-import {Action} from "../actions.js";
 import {Get} from "../components/com_index.js";
 import {Entity, Game} from "../game.js";
 import {transform_direction} from "../math/vec3.js";
@@ -27,7 +26,6 @@ function update(game: Game, entity: Entity, delta: number) {
             if (game.World[collider.Entity] & (1 << Get.Health)) {
                 let health = game[Get.Health][collider.Entity];
                 health.Damages.push(projectile.Damage);
-                game.Dispatch(Action.HitEnemy, collider.Entity);
             }
         }
     } else {

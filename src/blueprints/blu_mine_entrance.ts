@@ -7,7 +7,7 @@ import {Blueprint, create_line} from "./blu_common.js";
 import {get_rock_blueprint} from "./blu_rock.js";
 
 export function get_mine_entrance_blueprint(game: Game) {
-    let wooden_part_length = 24;
+    let wooden_part_length = 26;
     let half_entrrance_width = 6;
     let half_entrance_height = 14;
 
@@ -50,6 +50,7 @@ export function get_mine_entrance_blueprint(game: Game) {
             },
             {
                 // The wooden part.
+                Translation: [4, 0, 0],
                 Using: [
                     render_vox(
                         {

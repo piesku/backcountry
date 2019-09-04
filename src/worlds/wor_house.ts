@@ -149,7 +149,7 @@ export function world_house(game: Game) {
     game.Add({
         Translation: [-12, 5, 12],
         Rotation: [0, 1, 0, 0],
-        Using: [collide(true, [8, 8, 8]), trigger_world("wanted", Math.random())],
+        Using: [collide(false, [8, 8, 8]), trigger_world("wanted", Math.random())],
         Children: [get_character_blueprint(game)],
     });
 }

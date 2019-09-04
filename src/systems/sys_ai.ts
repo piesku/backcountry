@@ -1,37 +1,65 @@
 import {Get} from "../components/com_index.js";
+import {find_first} from "../components/com_named.js";
 import {find_navigable} from "../components/com_navigable.js";
 import {Entity, Game} from "../game.js";
 import {integer} from "../math/random.js";
-import {get_neighbors} from "./sys_player_control.js";
+import {get_neighbors, get_route} from "./sys_player_control.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.NPC) | (1 << Get.Walking) | (1 << Get.PathFind);
 
 export function sys_ai(game: Game, delta: number) {
     for (let i = 0; i < game.World.length; i++) {
         if ((game.World[i] & QUERY) === QUERY) {
-            update(game, i);
+            update(game, i, delta);
         }
     }
 }
 
-function update(game: Game, entity: Entity) {
+function update(game: Game, entity: Entity, delta: number) {
     let path_find = game[Get.PathFind][entity];
     let walking = game[Get.Walking][entity];
+    let is_friendly = game[Get.NPC][entity].Friendly;
+    let can_shoot = game[Get.NPC][entity].LastShot <= 0;
+    let player = find_first(game, "player");
+    let player_walking = game[Get.Walking][player];
+    let distance_to_player = Math.abs(
+        game.Grid[walking.X][walking.Y] - game.Grid[player_walking.X][player_walking.Y]
+    );
 
     if (!path_find.Route.length && !path_find.Destination) {
-        let destination_depth = integer(1, 15);
-        while (destination_depth === game.Grid[walking.X][walking.Y]) {
-            destination_depth = integer(1, 15);
-        }
+        if (is_friendly || distance_to_player > 5 || Math.random() > 0.8) {
+            let destination_depth = integer(1, 15);
+            while (destination_depth === game.Grid[walking.X][walking.Y]) {
+                destination_depth = integer(1, 15);
+            }
 
-        let route = get_route(game, entity, destination_depth);
-        if (route) {
-            path_find.Route = route;
+            let route = get_random_route(game, entity, destination_depth);
+            if (route) {
+                path_find.Route = route;
+            }
+        } else {
+            let route = get_route(game, player, walking);
+
+            if (route) {
+                // route.pop();
+                // route.pop();
+                path_find.Route = route.reverse();
+            }
+        }
+    }
+
+    if (!is_friendly && game.World[entity] & (1 << Get.Shoot)) {
+        if (distance_to_player < 4 && can_shoot) {
+            console.log(delta);
+            game[Get.Shoot][entity].Target = game[Get.Transform][player].Translation;
+            game[Get.NPC][entity].LastShot = 0.2;
+        } else {
+            game[Get.NPC][entity].LastShot -= delta;
         }
     }
 }
 
-function get_route(game: Game, entity: Entity, destination_depth: number) {
+function get_random_route(game: Game, entity: Entity, destination_depth: number) {
     let walking = game[Get.Walking][entity];
     let current_cell = game[Get.Navigable][find_navigable(game, walking.X, walking.Y)];
     let current_depth = game.Grid[walking.X][walking.Y];

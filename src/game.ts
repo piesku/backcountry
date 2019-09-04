@@ -20,9 +20,12 @@ import {Projectile} from "./components/com_projectile.js";
 import {RayTarget} from "./components/com_ray_target.js";
 import {Render} from "./components/com_render.js";
 import {Select} from "./components/com_select.js";
+import {Shake} from "./components/com_shake.js";
 import {Shoot} from "./components/com_shoot.js";
+import {Toggle} from "./components/com_toggle.js";
 import {transform, Transform} from "./components/com_transform.js";
 import {Trigger} from "./components/com_trigger.js";
+import {UI} from "./components/com_ui.js";
 import {Walking} from "./components/com_walking.js";
 import {Material} from "./materials/mat_common.js";
 import {Mat} from "./materials/mat_index.js";
@@ -47,7 +50,9 @@ import {sys_particles} from "./systems/sys_particles.js";
 import {sys_player_control} from "./systems/sys_player_control.js";
 import {sys_render} from "./systems/sys_render.js";
 import {sys_select} from "./systems/sys_select.js";
+import {sys_shake} from "./systems/sys_shake.js";
 import {sys_shoot} from "./systems/sys_shoot.js";
+import {sys_toggle} from "./systems/sys_toggle.js";
 import {sys_transform} from "./systems/sys_transform.js";
 import {sys_trigger} from "./systems/sys_trigger.js";
 import {sys_ui} from "./systems/sys_ui.js";
@@ -94,6 +99,9 @@ export class Game implements ComponentData, GameState {
     public [Get.Walking]: Array<Walking> = [];
     public [Get.NPC]: Array<NPC> = [];
     public [Get.Projectile]: Array<Projectile> = [];
+    public [Get.Shake]: Array<Shake> = [];
+    public [Get.Toggle]: Array<Toggle> = [];
+    public [Get.UI]: Array<UI> = [];
 
     public Canvas: HTMLCanvasElement;
     public GL: WebGL2RenderingContext;
@@ -111,7 +119,7 @@ export class Game implements ComponentData, GameState {
 
     public Dispatch = (action: Action, ...args: Array<unknown>) => effect(this, action, args);
     public WorldName = "intro";
-    public SeedPlayer = 45;
+    public SeedPlayer = 8706;
     public SeedTown = 103;
     public SeedHouse = 0;
     public SeedBounty = 0;
@@ -160,7 +168,7 @@ export class Game implements ComponentData, GameState {
         this.Materials[Mat.Particles] = mat_particles(this.GL);
     }
 
-    CreateEntity(mask: number) {
+    CreateEntity(mask = 0) {
         for (let i = 0; i < MAX_ENTITIES; i++) {
             if (!this.World[i]) {
                 this.World[i] = mask;
@@ -179,8 +187,10 @@ export class Game implements ComponentData, GameState {
         sys_ai(this, delta);
         sys_navigate(this, delta);
         sys_aim(this, delta);
-        sys_animate(this, delta);
         sys_particles(this, delta);
+        sys_shake(this, delta);
+        // Animation and movement.
+        sys_animate(this, delta);
         sys_move(this, delta);
         sys_transform(this, delta);
         // Post-transform logic.
@@ -190,6 +200,7 @@ export class Game implements ComponentData, GameState {
         sys_health(this, delta);
         sys_mimic(this, delta);
         sys_cull(this, delta);
+        sys_toggle(this, delta);
 
         for (let name in this.Event) {
             this.Event[name] = 0;

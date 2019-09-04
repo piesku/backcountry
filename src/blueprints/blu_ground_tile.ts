@@ -7,8 +7,10 @@ import {navigable} from "../components/com_navigable.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
-import {rand} from "../math/random.js";
+import {from_euler} from "../math/quat.js";
+import {integer, rand} from "../math/random.js";
 import {get_cactus_blueprint} from "./blu_cactus.js";
+import {get_campfire_blueprint} from "./blu_campfire.js";
 import {Blueprint, create_tile} from "./blu_common.js";
 import {get_block_blueprint} from "./blu_ground_block.js";
 import {get_rock_blueprint} from "./blu_rock.js";
@@ -66,13 +68,21 @@ export function get_tile_blueprint(
     }
 
     if (!is_walkable) {
-        tile.Children!.push(rand() > 0.5 ? get_cactus_blueprint() : get_rock_blueprint(game));
+        tile.Children!.push(
+            rand() > 0.5
+                ? get_cactus_blueprint()
+                : rand() > 0.1
+                ? get_rock_blueprint(game)
+                : get_campfire_blueprint(game)
+        );
     }
 
-    let using = is_walkable ? [ray_target(RayFlag.Navigable), navigable(x, y)] : [];
+    let using = is_walkable ? [ray_target(RayFlag.Navigable)] : [ray_target(RayFlag.None)];
+
     return {
+        Rotation: from_euler([], 0, integer(0, 3) * 90, 0),
         Translation: [0, 0, 0],
-        Using: [collide(false, [8, 1, 8]), cull(Get.Collide), ...using],
+        Using: [collide(false, [8, 1, 8]), cull(Get.Collide), navigable(x, y), ...using],
         Children: [tile],
     };
 }

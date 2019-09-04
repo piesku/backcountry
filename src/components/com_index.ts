@@ -17,13 +17,15 @@ import {Projectile} from "./com_projectile";
 import {RayTarget} from "./com_ray_target";
 import {Render} from "./com_render";
 import {Select} from "./com_select";
+import {Shake} from "./com_shake";
 import {Shoot} from "./com_shoot";
+import {Toggle} from "./com_toggle";
 import {Transform} from "./com_transform";
 import {Trigger} from "./com_trigger";
 import {Walking} from "./com_walking";
 
 export const enum Get {
-    Transform,
+    Transform = 1,
     Render,
     Camera,
     Light,
@@ -46,6 +48,9 @@ export const enum Get {
     Walking,
     NPC,
     Projectile,
+    Shake,
+    Toggle,
+    UI,
 }
 
 export interface ComponentData {
@@ -72,4 +77,6 @@ export interface ComponentData {
     [Get.Walking]: Array<Walking>;
     [Get.NPC]: Array<NPC>;
     [Get.Projectile]: Array<Projectile>;
+    [Get.Shake]: Array<Shake>;
+    [Get.Toggle]: Array<Toggle>;
 }

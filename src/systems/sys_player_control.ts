@@ -36,11 +36,13 @@ function update(game: Game, entity: Entity, cursor: Select) {
         if (cursor.Hit.Other.Flags & RayFlag.Attackable && game.World[entity] & (1 << Get.Shoot)) {
             let other_transform = game[Get.Transform][cursor.Hit.Other.Entity];
             game[Get.Shoot][entity].Target = get_translation([], other_transform.World);
+            game[Get.Shake][game.Cameras[0].Entity].Duration = 0.2;
         }
     }
 
     if (game.Event.m2d && game.World[entity] & (1 << Get.Shoot)) {
         game[Get.Shoot][entity].Target = cursor.Hit.Contact;
+        game[Get.Shake][game.Cameras[0].Entity].Duration = 0.2;
     }
 }
 
@@ -81,7 +83,7 @@ export function calculate_distance(game: Game, x: number, y: number, diagonal: b
     }
 }
 
-function get_route(game: Game, entity: Entity, destination: Navigable) {
+export function get_route(game: Game, entity: Entity, destination: Navigable) {
     let walking = game[Get.Walking][entity];
 
     // reset the depth field

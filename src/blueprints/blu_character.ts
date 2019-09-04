@@ -4,46 +4,14 @@ import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
 import {ease_in_out_quart, ease_out_quart} from "../math/easing.js";
 import {from_euler} from "../math/quat.js";
-import {element, rand} from "../math/random.js";
+import {element} from "../math/random.js";
 import {Models} from "../models_map.js";
 import {palette} from "../palette.js";
-import {Blueprint, Mixin} from "./blu_common.js";
+import {Blueprint, Color} from "./blu_common.js";
+import {get_hat_blueprint} from "./blu_hat.js";
 import {create_gun} from "./items/blu_gun.js";
-import {create_shotgun} from "./items/blu_shotgun.js";
-
-let hat_models = [
-    Models.HAT1,
-    Models.HAT2,
-    Models.HAT3,
-    Models.HAT4,
-    Models.HAT5,
-    Models.HAT6,
-    Models.HAT7,
-];
-
-// const enum CustomColorIndex {
-//     Shirt = 0,
-//     Pants = 1,
-//     Hat = 2,
-//     Extra = 3,
-//     Skin = 4,
-//     Hair = 5,
-// }
-
-type Color = [number, number, number];
-
-interface CustomColors {
-    Shirt?: Color;
-    Pants?: Color;
-    Hat?: Color;
-    Extra?: Color;
-    Skin?: Color;
-    Hair?: Color;
-}
 
 let shirt_colors: Array<Color> = [[1, 0, 0], [0, 1, 0], [0, 0, 1], [1, 1, 1]];
-let hat_colors: Array<Color> = [[0.2, 0.2, 0.2], [0.9, 0.9, 0.9], [0.53, 0, 0], [1, 0, 0]];
-let extra_colors: Array<Color> = [[0, 0, 0], [1, 1, 1], [1, 1, 0], [0.9, 0, 0]];
 let skin_colors: Array<Color> = [[1, 0.8, 0.6], [1, 0.8, 0.6], [0.6, 0.4, 0]];
 let hair_colors: Array<Color> = [[1, 1, 0], [0, 0, 0], [0.6, 0.4, 0], [0.4, 0, 0]];
 let pants_colors: Array<Color> = [
@@ -54,79 +22,53 @@ let pants_colors: Array<Color> = [
     [0.33, 0.33, 0.33],
 ];
 
-function create_custom_palette(colors: CustomColors) {
-    let new_palette = palette.slice();
-    if (colors.Shirt) {
-        new_palette.splice(0, 3, ...colors.Shirt);
-    }
-
-    if (colors.Pants) {
-        new_palette.splice(3, 3, ...colors.Pants);
-    }
-
-    if (colors.Hat) {
-        new_palette.splice(6, 3, ...colors.Hat);
-    }
-
-    if (colors.Extra) {
-        new_palette.splice(9, 3, ...colors.Extra);
-    }
-
-    if (colors.Skin) {
-        new_palette.splice(12, 3, ...colors.Skin);
-    }
-
-    if (colors.Hair) {
-        new_palette.splice(15, 3, ...colors.Hair);
-    }
-
-    return new_palette;
-}
-
-export function get_hat(game: Game, palette: Array<number>): Blueprint {
-    let hat_index = element(hat_models) as Models;
-    let body_height = game.Models[Models.BODY].Size[1];
-    let hat_height = game.Models[hat_index].Size[1];
-    let is_rotated = rand() > 0.8;
-
-    return {
-        Translation: is_rotated
-            ? [0, body_height / 2 - 2, hat_height / 2 + 1]
-            : [0, hat_height / 2 + body_height / 2, 0],
-        Rotation: is_rotated ? from_euler([], 90, 0, 0) : [0, 1, 0, 0],
-        Using: [(game: Game) => render_vox(game.Models[hat_index], palette)(game)],
-    };
-}
-
 export function get_character_blueprint(game: Game): Blueprint {
-    let shirt_color = element(shirt_colors) as Color;
-    let pants_color = element(pants_colors) as Color;
-    let hat_color = element(hat_colors) as Color;
-    let extra_color = element(extra_colors) as Color;
-    let skin_color = element(skin_colors) as Color;
-    let hair_color = element(hair_colors) as Color;
+    // Create the hat first so that the hat itself can be reproduced with SeedBounty.
+    let hat = get_hat_blueprint(game);
 
-    let palette = create_custom_palette({
-        Shirt: shirt_color,
-        Pants: pants_color,
-        Hat: hat_color,
-        Extra: extra_color,
-        Skin: skin_color,
-        Hair: hair_color,
-    });
-
-    let items = [create_gun, create_gun, create_shotgun];
-
-    let right_hand_item = rand() > 0.3 ? {} : (element(items) as Mixin)(game);
-    let left_hand_item = rand() > 0.5 ? {} : (element(items) as Mixin)(game);
+    let character_palette = palette.slice();
+    character_palette.splice(0, 3, ...(element(shirt_colors) as Color));
+    character_palette.splice(3, 3, ...(element(pants_colors) as Color));
+    character_palette.splice(12, 3, ...(element(skin_colors) as Color));
+    character_palette.splice(15, 3, ...(element(hair_colors) as Color));
 
     return {
         Rotation: [0, 1, 0, 0],
+        Using: [
+            animate({
+                [Anim.Idle]: {
+                    Keyframes: [
+                        {
+                            Timestamp: 0,
+                        },
+                    ],
+                },
+                [Anim.Die]: {
+                    Keyframes: [
+                        {
+                            Timestamp: 0,
+                            Translation: [0, 1, 0],
+                            Rotation: [0, 1, 0, 0],
+                        },
+                        {
+                            Timestamp: 1,
+                            Translation: [0, -4, 0],
+                            Rotation: from_euler([], -90, 0, 0),
+                            Ease: ease_out_quart,
+                        },
+                        {
+                            Timestamp: 5,
+                            Translation: [0, -9, 0],
+                        },
+                    ],
+                },
+            }),
+        ],
         Children: [
             {
                 //body
                 Using: [
-                    render_vox(game.Models[Models.BODY], palette),
+                    render_vox(game.Models[Models.BODY], character_palette),
                     animate({
                         [Anim.Idle]: {
                             Keyframes: [
@@ -176,7 +118,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                         },
                     }),
                 ],
-                Children: [get_hat(game, palette)],
+                Children: [hat],
             },
             {
                 // right arm
@@ -257,9 +199,9 @@ export function get_character_blueprint(game: Game): Blueprint {
                 Children: [
                     {
                         Translation: [0, -1, 0],
-                        Using: [render_vox(game.Models[Models.HAND], palette)],
+                        Using: [render_vox(game.Models[Models.HAND], character_palette)],
                     },
-                    right_hand_item,
+                    create_gun(game),
                 ],
             },
             {
@@ -318,9 +260,9 @@ export function get_character_blueprint(game: Game): Blueprint {
                 Children: [
                     {
                         Translation: [0, -1, 0],
-                        Using: [render_vox(game.Models[Models.HAND], palette)],
+                        Using: [render_vox(game.Models[Models.HAND], character_palette)],
                     },
-                    left_hand_item,
+                    // left_hand_item,
                 ],
             },
             {
@@ -379,7 +321,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                 Children: [
                     {
                         Translation: [0, -1.5, 0],
-                        Using: [render_vox(game.Models[Models.FOOT], palette)],
+                        Using: [render_vox(game.Models[Models.FOOT], character_palette)],
                     },
                 ],
             },
@@ -439,7 +381,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                 Children: [
                     {
                         Translation: [0, -1.5, 0],
-                        Using: [render_vox(game.Models[Models.FOOT], palette)],
+                        Using: [render_vox(game.Models[Models.FOOT], character_palette)],
                     },
                 ],
             },

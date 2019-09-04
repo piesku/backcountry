@@ -79,18 +79,17 @@ function draw_instanced(game: Game, transform: Transform, render: RenderInstance
 
 function draw_particles(render: RenderParticles, emitter: EmitParticles) {
     let {gl, mode, uniforms} = render.Material;
-    gl.uniform1f(uniforms.size, emitter.Size);
+    gl.uniform1f(uniforms.start_size, emitter.SizeStart);
+    gl.uniform1f(uniforms.end_size, emitter.SizeEnd);
     gl.uniform1f(uniforms.vertical, emitter.Vertical);
     gl.uniform3fv(uniforms.start_color, render.ColorStart);
     gl.uniform3fv(uniforms.end_color, render.ColorEnd);
 
     gl.bindBuffer(GL_ARRAY_BUFFER, render.Buffer);
     gl.bufferData(GL_ARRAY_BUFFER, Float32Array.from(emitter.Instances), GL_DYNAMIC_DRAW);
-    gl.enableVertexAttribArray(ParticleAttribute.id);
-    gl.vertexAttribPointer(1, 1, GL_FLOAT, false, 5 * 4, 0);
     gl.enableVertexAttribArray(ParticleAttribute.origin);
-    gl.vertexAttribPointer(2, 3, GL_FLOAT, false, 5 * 4, 1 * 4);
+    gl.vertexAttribPointer(ParticleAttribute.origin, 3, GL_FLOAT, false, 4 * 4, 0 * 4);
     gl.enableVertexAttribArray(ParticleAttribute.age);
-    gl.vertexAttribPointer(3, 1, GL_FLOAT, false, 5 * 4, 4 * 4);
+    gl.vertexAttribPointer(ParticleAttribute.age, 1, GL_FLOAT, false, 4 * 4, 3 * 4);
     gl.drawArrays(mode, 0, emitter.Particles.length);
 }

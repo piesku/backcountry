@@ -9,13 +9,12 @@ const QUERY = (1 << Get.Transform) | (1 << Get.Collide);
 
 export function sys_collide(game: Game, delta: number) {
     // Collect all colliders.
-    let all_colliders: Collide[] = [];
-    let dyn_colliders: Collide[] = [];
+    let static_colliders: Collide[] = [];
+    let dynamic_colliders: Collide[] = [];
     for (let i = 0; i < game.World.length; i++) {
         if ((game.World[i] & QUERY) === QUERY) {
             let transform = game[Get.Transform][i];
             let collider = game[Get.Collide][i];
-            all_colliders.push(collider);
 
             // Prepare the collider for this tick's detection.
             collider.Collisions = [];
@@ -24,27 +23,36 @@ export function sys_collide(game: Game, delta: number) {
                 compute_aabb(transform, collider);
             } else if (collider.Dynamic) {
                 compute_aabb(transform, collider);
-                dyn_colliders.push(collider);
+                dynamic_colliders.push(collider);
+            } else {
+                static_colliders.push(collider);
             }
         }
     }
 
-    for (let i = 0; i < dyn_colliders.length; i++) {
-        check_collisions(dyn_colliders[i], all_colliders);
+    for (let i = 0; i < dynamic_colliders.length; i++) {
+        check_collisions(dynamic_colliders[i], static_colliders, static_colliders.length);
+        check_collisions(dynamic_colliders[i], dynamic_colliders, i);
     }
 }
 
 /**
- * Check for collisions between a dynamic collider and all others.
+ * Check for collisions between a dynamic collider and other colliders. Length
+ * is used to control how many colliders to check against. For collisions
+ * with static colliders, length should be equal to colliders.length, since
+ * we want to consider all static colliders in the scene. For collisions with
+ * other dynamic colliders, we only need to check a pair of colliders once.
+ * Varying length allows to skip half of the NxN checks matrix.
  *
  * @param game The game instance.
  * @param collider The current collider.
- * @param colliders All other colliders.
+ * @param colliders Other colliders to test against.
+ * @param length How many colliders to check.
  */
-function check_collisions(collider: Collide, colliders: Collide[]) {
-    for (let i = 0; i < colliders.length; i++) {
+function check_collisions(collider: Collide, colliders: Collide[], length: number) {
+    for (let i = 0; i < length; i++) {
         let other = colliders[i];
-        if (collider !== other && intersect_aabb(collider, other)) {
+        if (intersect_aabb(collider, other)) {
             collider.Collisions.push(other);
             other.Collisions.push(collider);
         }
