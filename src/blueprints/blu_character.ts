@@ -8,8 +8,8 @@ import {element} from "../math/random.js";
 import {Models} from "../models_map.js";
 import {palette} from "../palette.js";
 import {Blueprint, Color} from "./blu_common.js";
+import {create_gun} from "./blu_gun.js";
 import {get_hat_blueprint} from "./blu_hat.js";
-import {create_gun} from "./items/blu_gun.js";
 
 let shirt_colors: Array<Color> = [[1, 0, 0], [0, 1, 0], [0, 0, 1], [1, 1, 1]];
 let skin_colors: Array<Color> = [[1, 0.8, 0.6], [1, 0.8, 0.6], [0.6, 0.4, 0]];
