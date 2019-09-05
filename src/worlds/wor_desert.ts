@@ -23,9 +23,9 @@ import {generate_maze} from "./wor_mine.js";
 
 export function world_desert(game: Game) {
     set_seed(game.SeedBounty);
-    let map_size = 20;
-    let entrance_position_x = 6;
-    let entrance_position_z = 8;
+    let map_size = 40;
+    let entrance_position_x = 26;
+    let entrance_position_z = 28;
     let entrance_width = 4;
     let entrance_length = 6;
     game.World = [];
