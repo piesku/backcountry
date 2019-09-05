@@ -171,6 +171,8 @@ export class Game implements ComponentData, GameState {
         this.Materials[Mat.Wireframe] = mat_wireframe(this.GL);
         this.Materials[Mat.Instanced] = mat_instanced(this.GL);
         this.Materials[Mat.Particles] = mat_particles(this.GL);
+
+        this.Dispatch(Action.InitGame);
     }
 
     CreateEntity(mask = 0) {

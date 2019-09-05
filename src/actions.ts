@@ -4,6 +4,7 @@ import {ui} from "./components/com_ui.js";
 import {Entity, Game} from "./game.js";
 import {rand, set_seed} from "./math/random.js";
 import {transform_point} from "./math/vec3.js";
+import {get_item, set_item} from "./storage.js";
 import {world_desert} from "./worlds/wor_desert.js";
 import {world_house} from "./worlds/wor_house.js";
 import {world_intro} from "./worlds/wor_intro.js";
@@ -19,20 +20,29 @@ export interface GameState {
 }
 
 export const enum Action {
-    ChangeWorld = 1,
+    InitGame = 1,
+    ChangePlayer,
+    ChangeWorld,
     HitEnemy,
     KillEnemy,
 }
 
 export function effect(game: Game, action: Action, args: Array<unknown>) {
     switch (action) {
+        case Action.InitGame: {
+            save_trophy(game.SeedPlayer);
+            break;
+        }
+        case Action.ChangePlayer: {
+            let camera_anchor = game[Get.Transform][game.Cameras[0].Entity].Parent;
+            game[Get.Mimic][camera_anchor!.Entity].Target = args[0] as Entity;
+            break;
+        }
         case Action.ChangeWorld: {
             game.WorldName = args[0] as string;
             switch (game.WorldName) {
                 case "intro":
-                    let trophies = get_item("trophies", []);
-                    trophies.push(game.SeedBounty);
-                    set_item("trophies", trophies);
+                    save_trophy(game.SeedBounty);
                     game.SeedPlayer = game.SeedBounty;
                     return setTimeout(world_intro, 0, game);
                 case "map":
@@ -83,15 +93,10 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
     }
 }
 
-function set_item(key: string, value: any) {
-    localStorage.setItem("com.piesku.back." + key, JSON.stringify(value));
-}
-
-function get_item(key: string, default_value: any) {
-    let value = localStorage.getItem("com.piesku.back." + key);
-    if (value) {
-        return JSON.parse(value);
-    } else {
-        return default_value;
+function save_trophy(seed: number) {
+    let trophies = get_item<Array<number>>("trophies") || [];
+    if (!trophies.includes(seed)) {
+        trophies.push(seed);
+        set_item("trophies", trophies);
     }
 }
