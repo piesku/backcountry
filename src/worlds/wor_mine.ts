@@ -12,7 +12,6 @@ import {move} from "../components/com_move.js";
 import {named} from "../components/com_named.js";
 import {find_navigable} from "../components/com_navigable.js";
 import {npc} from "../components/com_npc.js";
-import {path_find} from "../components/com_path_find.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {shoot} from "../components/com_shoot.js";
 import {walking} from "../components/com_walking.js";
@@ -80,7 +79,6 @@ export function world_mine(game: Game) {
             Rotation: from_euler([], 0, integer(0, 3) * 90, 0),
             Using: [
                 npc(false, true),
-                path_find(),
                 walking(x, y, false),
                 move(integer(12, 16), 0),
                 collide(true, [7, 7, 7]),
@@ -101,7 +99,6 @@ export function world_mine(game: Game) {
                 Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
                 Using: [
                     npc(false),
-                    path_find(),
                     walking(x, y, true),
                     move(integer(8, 15)),
                     collide(true, [7, 7, 7]),
@@ -123,7 +120,6 @@ export function world_mine(game: Game) {
             named("player"),
             player_control(),
             walking(1, 1, false),
-            path_find(),
             move(25, 0),
             collide(true, [3, 7, 3]),
             ray_target(RayFlag.Player),
