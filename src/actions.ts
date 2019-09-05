@@ -30,6 +30,9 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             game.WorldName = args[0] as string;
             switch (game.WorldName) {
                 case "intro":
+                    let trophies = get_item("trophies", []);
+                    trophies.push(game.SeedBounty);
+                    set_item("trophies", trophies);
                     game.SeedPlayer = game.SeedBounty;
                     return setTimeout(world_intro, 0, game);
                 case "map":
@@ -77,5 +80,18 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                 });
             }
         }
+    }
+}
+
+function set_item(key: string, value: any) {
+    localStorage.setItem("com.piesku.back." + key, JSON.stringify(value));
+}
+
+function get_item(key: string, default_value: any) {
+    let value = localStorage.getItem("com.piesku.back." + key);
+    if (value) {
+        return JSON.parse(value);
+    } else {
+        return default_value;
     }
 }
