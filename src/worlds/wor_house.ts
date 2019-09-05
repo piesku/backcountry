@@ -47,7 +47,7 @@ export function world_house(game: Game) {
     }
     game.Add({
         Translation: [16, 5, 5],
-        Using: [collide(false, [8, 8, 8]), trigger_world("map", game.SeedTown)],
+        Using: [collide(false, [8, 8, 8]), trigger_world("map")],
     });
 
     for (let x = -(map_size / 2) * 8; x < (map_size / 2) * 8; x++) {
@@ -149,7 +149,7 @@ export function world_house(game: Game) {
     game.Add({
         Translation: [-12, 5, 12],
         Rotation: [0, 1, 0, 0],
-        Using: [collide(false, [8, 8, 8]), trigger_world("wanted", Math.random())],
+        Using: [collide(false, [8, 8, 8]), trigger_world("wanted")],
         Children: [get_character_blueprint(game)],
     });
 }

@@ -14,7 +14,6 @@ import {world_wanted} from "./worlds/wor_wanted.js";
 export interface GameState {
     WorldName: string;
     SeedPlayer: number;
-    SeedTown: number;
     SeedBounty: number;
     SeedHouse: number;
 }
@@ -28,19 +27,18 @@ export const enum Action {
 export function effect(game: Game, action: Action, args: Array<unknown>) {
     switch (action) {
         case Action.ChangeWorld: {
-            let [world, seed, has_sheriff] = args as [string, number, boolean?];
-            game.WorldName = world;
-            set_seed(seed);
-            switch (world) {
+            game.WorldName = args[0] as string;
+            switch (game.WorldName) {
                 case "intro":
+                    game.SeedPlayer = game.SeedBounty;
                     return setTimeout(world_intro, 0, game);
                 case "map":
                     return setTimeout(world_map, 0, game);
                 case "house":
-                    game.SeedHouse = seed;
+                    game.SeedHouse = args[1] as number;
                     return setTimeout(world_house, 0, game);
                 case "wanted":
-                    game.SeedBounty = seed;
+                    game.SeedBounty = Math.random();
                     return setTimeout(world_wanted, 0, game);
                 case "mine":
                     return setTimeout(world_mine, 0, game);

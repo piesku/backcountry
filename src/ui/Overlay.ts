@@ -6,7 +6,7 @@ export function Overlay(state: GameState) {
         <button onclick="$(${Action.ChangeWorld}, 'intro')" style="color: #fff">
             intro
         </button>
-        <button onclick="$(${Action.ChangeWorld}, 'map', ${state.SeedTown})" style="color: #fff">
+        <button onclick="$(${Action.ChangeWorld}, 'map', ${state.SeedPlayer})" style="color: #fff">
             map
         </button>
         <button

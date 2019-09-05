@@ -25,7 +25,7 @@ import {snd_neigh} from "../sounds/snd_neigh.js";
 import {snd_wind} from "../sounds/snd_wind.js";
 
 export function world_map(game: Game) {
-    set_seed(game.SeedTown);
+    set_seed(game.SeedPlayer);
     let map_size = 30;
     let fence_line = 20;
     let fence_height = 4;
