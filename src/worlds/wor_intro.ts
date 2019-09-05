@@ -8,7 +8,6 @@ import {select} from "../components/com_select.js";
 import {Entity, Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
 import {set_seed} from "../math/random.js";
-import {get_trophies} from "../storage.js";
 
 export function world_intro(game: Game) {
     game.World = [];
@@ -16,9 +15,10 @@ export function world_intro(game: Game) {
 
     // Available characters.
     let most_recent: Entity = -1;
-    let trophies = get_trophies();
+    // The storage is guaranteed to have at least today's daily seed.
+    let trophies = localStorage.getItem("piesku:back")!.split(",");
     for (let i = 0; i < trophies.length; i++) {
-        set_seed(trophies[i]);
+        set_seed((trophies[i] as unknown) as number);
         most_recent = game.Add({
             Translation: [i, 0, 10 * i],
             Using: [collide(false, [3, 7, 3]), ray_target(RayFlag.Choosable)],
