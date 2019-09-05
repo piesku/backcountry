@@ -12,7 +12,6 @@ import {Move} from "./com_move";
 import {Named} from "./com_named";
 import {Navigable} from "./com_navigable";
 import {NPC} from "./com_npc.js";
-import {PathFind} from "./com_path_find";
 import {Projectile} from "./com_projectile";
 import {RayTarget} from "./com_ray_target";
 import {Render} from "./com_render";
@@ -32,7 +31,6 @@ export const enum Get {
     AudioSource,
     Animate,
     Named,
-    PathFind,
     Move,
     Collide,
     Trigger,
@@ -62,7 +60,6 @@ export interface ComponentData {
     [Get.Animate]: Array<Animate>;
     [Get.Named]: Array<Named>;
     [Get.Move]: Array<Move>;
-    [Get.PathFind]: Array<PathFind>;
     [Get.Collide]: Array<Collide>;
     [Get.Trigger]: Array<Trigger>;
     [Get.RayTarget]: Array<RayTarget>;

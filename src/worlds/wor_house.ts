@@ -11,7 +11,6 @@ import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
 import {named} from "../components/com_named.js";
 import {find_navigable} from "../components/com_navigable.js";
-import {path_find} from "../components/com_path_find.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {trigger_world} from "../components/com_trigger.js";
@@ -128,7 +127,6 @@ export function world_house(game: Game) {
             named("player"),
             player_control(),
             walking(Math.floor(map_size / 2), Math.floor(map_size / 2)),
-            path_find(),
             move(25, 0),
             collide(true, [3, 7, 3]),
             ray_target(RayFlag.Player),

@@ -5,8 +5,7 @@ import {Select} from "../components/com_select.js";
 import {Entity, Game} from "../game.js";
 import {get_translation} from "../math/mat4.js";
 
-const QUERY =
-    (1 << Get.Transform) | (1 << Get.PlayerControl) | (1 << Get.Walking) | (1 << Get.PathFind);
+const QUERY = (1 << Get.Transform) | (1 << Get.PlayerControl) | (1 << Get.Walking);
 
 export function sys_player_control(game: Game, delta: number) {
     let camera = game.Cameras[0];
@@ -29,7 +28,7 @@ function update(game: Game, entity: Entity, cursor: Select) {
         if (cursor.Hit.Other.Flags & RayFlag.Navigable) {
             let route = get_route(game, entity, game[Get.Navigable][cursor.Hit.Other.Entity]);
             if (route) {
-                game[Get.PathFind][entity].Route = route;
+                game[Get.Walking][entity].Route = route;
             }
         }
 

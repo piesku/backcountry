@@ -15,7 +15,6 @@ import {Move} from "./components/com_move.js";
 import {Named} from "./components/com_named.js";
 import {Navigable} from "./components/com_navigable.js";
 import {NPC} from "./components/com_npc.js";
-import {PathFind} from "./components/com_path_find.js";
 import {Projectile} from "./components/com_projectile.js";
 import {RayTarget} from "./components/com_ray_target.js";
 import {Render} from "./components/com_render.js";
@@ -88,7 +87,6 @@ export class Game implements ComponentData, GameState {
     public [Get.Animate]: Array<Animate> = [];
     public [Get.Named]: Array<Named> = [];
     public [Get.Move]: Array<Move> = [];
-    public [Get.PathFind]: Array<PathFind> = [];
     public [Get.Collide]: Array<Collide> = [];
     public [Get.Trigger]: Array<Trigger> = [];
     public [Get.RayTarget]: Array<RayTarget> = [];
