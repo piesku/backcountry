@@ -29,7 +29,7 @@ export function world_mine(game: Game) {
 
     game.GL.clearColor(1, 0.3, 0.3, 1);
 
-    let map_size = 10;
+    let map_size = 30;
     for (let x = 0; x < map_size; x++) {
         game.Grid[x] = [];
         for (let y = 0; y < map_size; y++) {
@@ -82,9 +82,9 @@ export function world_mine(game: Game) {
                 npc(false, true),
                 path_find(),
                 walking(x, y, false),
-                move(integer(8, 15), 0),
+                move(integer(12, 16), 0),
                 collide(true, [7, 7, 7]),
-                health(3),
+                health(5),
                 shoot(1),
                 ray_target(RayFlag.Attackable),
             ],
