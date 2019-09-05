@@ -4,7 +4,7 @@ import {ui} from "./components/com_ui.js";
 import {Entity, Game} from "./game.js";
 import {rand, set_seed} from "./math/random.js";
 import {transform_point} from "./math/vec3.js";
-import {get_item, set_item} from "./storage.js";
+import {save_trophy} from "./storage.js";
 import {world_desert} from "./worlds/wor_desert.js";
 import {world_house} from "./worlds/wor_house.js";
 import {world_intro} from "./worlds/wor_intro.js";
@@ -90,13 +90,5 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                 });
             }
         }
-    }
-}
-
-function save_trophy(seed: number) {
-    let trophies = get_item<Array<number>>("trophies") || [];
-    if (!trophies.includes(seed)) {
-        trophies.push(seed);
-        set_item("trophies", trophies);
     }
 }

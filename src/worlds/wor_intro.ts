@@ -8,7 +8,7 @@ import {select} from "../components/com_select.js";
 import {Entity, Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
 import {set_seed} from "../math/random.js";
-import {get_item} from "../storage.js";
+import {get_trophies} from "../storage.js";
 
 export function world_intro(game: Game) {
     game.World = [];
@@ -16,7 +16,7 @@ export function world_intro(game: Game) {
 
     // Available characters.
     let most_recent: Entity = -1;
-    let trophies = get_item<Array<number>>("trophies") || [];
+    let trophies = get_trophies();
     for (let i = 0; i < trophies.length; i++) {
         set_seed(trophies[i]);
         most_recent = game.Add({
