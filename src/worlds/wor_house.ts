@@ -23,7 +23,7 @@ import {Models} from "../models_map.js";
 
 let map_size = 5;
 
-export function world_house(game: Game, has_sheriff: boolean = false) {
+export function world_house(game: Game) {
     game.World = [];
     game.Grid = [];
 
@@ -146,12 +146,10 @@ export function world_house(game: Game, has_sheriff: boolean = false) {
     game.Add(angle_camera_blueprint);
 
     // Sheriff.
-    if (has_sheriff) {
-        game.Add({
-            Translation: [-12, 5, 12],
-            Rotation: [0, 1, 0, 0],
-            Using: [collide(false, [8, 8, 8]), trigger_world("wanted", Math.random())],
-            Children: [get_character_blueprint(game)],
-        });
-    }
+    game.Add({
+        Translation: [-12, 5, 12],
+        Rotation: [0, 1, 0, 0],
+        Using: [collide(false, [8, 8, 8]), trigger_world("wanted", Math.random())],
+        Children: [get_character_blueprint(game)],
+    });
 }

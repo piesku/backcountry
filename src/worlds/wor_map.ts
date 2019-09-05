@@ -92,22 +92,23 @@ export function world_map(game: Game) {
             }
         }
 
-        // Door
-        game.Grid[building_x_tile + building_x - 1][starting_position + building_z - 1] = game.Grid[
-            building_x_tile + building_x - 1
-        ][starting_position + building_z - 2] = Infinity;
+        if (i === sherriff_house_index) {
+            // Door
+            game.Grid[building_x_tile + building_x - 1][
+                starting_position + building_z - 1
+            ] = game.Grid[building_x_tile + building_x - 1][
+                starting_position + building_z - 2
+            ] = Infinity;
 
-        game.Add({
-            Translation: [
-                (-(map_size / 2) + building_x_tile + building_x - 1.5) * 8,
-                0,
-                (-(map_size / 2) + starting_position + building_z - 1.5) * 8,
-            ],
-            Using: [
-                collide(false, [8, 8, 8]),
-                trigger_world("house", rand(), i === sherriff_house_index),
-            ],
-        });
+            game.Add({
+                Translation: [
+                    (-(map_size / 2) + building_x_tile + building_x - 1.5) * 8,
+                    0,
+                    (-(map_size / 2) + starting_position + building_z - 1.5) * 8,
+                ],
+                Using: [collide(false, [8, 8, 8]), trigger_world("house", rand())],
+            });
+        }
 
         game.Add({
             Translation: [

@@ -38,13 +38,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                     return setTimeout(world_map, 0, game);
                 case "house":
                     game.SeedHouse = seed;
-                    return setTimeout(
-                        (game: Game) => {
-                            world_house(game, has_sheriff);
-                        },
-                        0,
-                        game
-                    );
+                    return setTimeout(world_house, 0, game);
                 case "wanted":
                     game.SeedBounty = seed;
                     return setTimeout(world_wanted, 0, game);

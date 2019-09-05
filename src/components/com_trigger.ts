@@ -19,6 +19,6 @@ export function trigger(Mask: Get, Action: Action, ...Args: Array<unknown>) {
     };
 }
 
-export function trigger_world(name: string, seed: number, has_sheriff: boolean = false) {
-    return trigger(1 << Get.PlayerControl, Action.ChangeWorld, name, seed, has_sheriff);
+export function trigger_world(name: string, seed: number) {
+    return trigger(1 << Get.PlayerControl, Action.ChangeWorld, name, seed);
 }
