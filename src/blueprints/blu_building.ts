@@ -99,10 +99,7 @@ export function get_building_blueprint(game: Game) {
                     building_size[2] + window_height / 2,
                     building_size[1] - offset - window_width / 2,
                 ],
-                Using: [
-                    (game: Game) => render_vox(game.Models[Models.WINDOW])(game),
-                    cull(Get.Render),
-                ],
+                Using: [render_vox(game.Models[Models.WINDOW]), cull(Get.Render)],
             });
         }
     } else {

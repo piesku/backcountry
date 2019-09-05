@@ -77,6 +77,7 @@ export function world_map(game: Game) {
 
     // Buildings
     let buildings_count = 4; //~~((map_size * 8) / 35);
+    let sherriff_house_index = integer(0, buildings_count - 1);
     // let starting_position = 76.5;
     let starting_position = 0;
     let building_x_tile = 10;
@@ -102,7 +103,10 @@ export function world_map(game: Game) {
                 0,
                 (-(map_size / 2) + starting_position + building_z - 1.5) * 8,
             ],
-            Using: [collide(false, [8, 8, 8]), trigger_world("house", rand())],
+            Using: [
+                collide(false, [8, 8, 8]),
+                trigger_world("house", rand(), i === sherriff_house_index),
+            ],
         });
 
         game.Add({

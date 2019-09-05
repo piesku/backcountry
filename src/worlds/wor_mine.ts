@@ -71,11 +71,12 @@ export function world_mine(game: Game) {
     });
 
     // Bandit.
-    let x = integer(0, map_size);
-    let y = integer(0, map_size);
+    let x = map_size - 2; //integer(0, map_size);
+    let y = map_size - 2; //integer(0, map_size);
     if (game.Grid[x] && game.Grid[x][y] && !isNaN(game.Grid[x][y])) {
         game.Add({
-            Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
+            Scale: [1.5, 1.5, 1.5],
+            Translation: [(-(map_size / 2) + x) * 8, 7.5, (-(map_size / 2) + y) * 8],
             Rotation: from_euler([], 0, integer(0, 3) * 90, 0),
             Using: [
                 npc(false, true),
@@ -89,6 +90,28 @@ export function world_mine(game: Game) {
             ],
             Children: [(set_seed(game.SeedBounty), get_character_blueprint(game))],
         });
+    }
+
+    let cowboys_count = 20;
+    for (let i = 0; i < cowboys_count; i++) {
+        let x = integer(0, map_size);
+        let y = integer(0, map_size);
+        if (game.Grid[x] && game.Grid[x][y] && !isNaN(game.Grid[x][y])) {
+            game.Add({
+                Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
+                Using: [
+                    npc(false),
+                    path_find(),
+                    walking(x, y, true),
+                    move(integer(8, 15)),
+                    collide(true, [7, 7, 7]),
+                    health(3),
+                    shoot(1),
+                    ray_target(RayFlag.Attackable),
+                ],
+                Children: [get_character_blueprint(game)],
+            });
+        }
     }
 
     let player_position = game[Get.Transform][find_navigable(game, 1, 1)].Translation;

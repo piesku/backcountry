@@ -28,7 +28,7 @@ export const enum Action {
 export function effect(game: Game, action: Action, args: Array<unknown>) {
     switch (action) {
         case Action.ChangeWorld: {
-            let [world, seed] = args as [string, number];
+            let [world, seed, has_sheriff] = args as [string, number, boolean?];
             game.WorldName = world;
             set_seed(seed);
             switch (world) {
@@ -38,7 +38,13 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                     return setTimeout(world_map, 0, game);
                 case "house":
                     game.SeedHouse = seed;
-                    return setTimeout(world_house, 0, game);
+                    return setTimeout(
+                        (game: Game) => {
+                            world_house(game, has_sheriff);
+                        },
+                        0,
+                        game
+                    );
                 case "wanted":
                     game.SeedBounty = seed;
                     return setTimeout(world_wanted, 0, game);
