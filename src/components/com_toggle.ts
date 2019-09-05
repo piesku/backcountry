@@ -9,7 +9,7 @@ export interface Toggle {
 }
 
 export function toggle(Component: Get, Duration = 0) {
-    return (game: Game) => (entity: Entity) => {
+    return (game: Game, entity: Entity) => {
         game.World[entity] |= 1 << Get.Toggle;
         game[Get.Toggle][entity] = <Toggle>{
             Component,

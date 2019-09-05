@@ -10,7 +10,7 @@ export interface PathFind {
 }
 
 export function path_find() {
-    return (game: Game) => (entity: Entity) => {
+    return (game: Game, entity: Entity) => {
         game.World[entity] |= 1 << Get.PathFind;
         game[Get.PathFind][entity] = <PathFind>{
             Destination: null,

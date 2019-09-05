@@ -2,7 +2,7 @@ import {create_reward} from "./blueprints/blu_reward.js";
 import {Get} from "./components/com_index.js";
 import {ui} from "./components/com_ui.js";
 import {Entity, Game} from "./game.js";
-import {set_seed} from "./math/random.js";
+import {rand, set_seed} from "./math/random.js";
 import {transform_point} from "./math/vec3.js";
 import {world_desert} from "./worlds/wor_desert.js";
 import {world_house} from "./worlds/wor_house.js";
@@ -14,33 +14,52 @@ import {world_wanted} from "./worlds/wor_wanted.js";
 export interface GameState {
     WorldName: string;
     SeedPlayer: number;
-    SeedTown: number;
     SeedBounty: number;
     SeedHouse: number;
+    Trophies: Array<number>;
 }
 
 export const enum Action {
-    ChangeWorld = 1,
+    InitGame = 1,
+    ChangePlayer,
+    ChangeWorld,
     HitEnemy,
     KillEnemy,
 }
 
 export function effect(game: Game, action: Action, args: Array<unknown>) {
     switch (action) {
+        case Action.InitGame: {
+            let trophies = localStorage.getItem("piesku:back");
+            if (trophies) {
+                game.Trophies = trophies.split(",").map(Number);
+            }
+            // Today's timestamp. Changes every midnight, 00:00 UTC.
+            save_trophy(game, Math.floor(Date.now() / (24 * 60 * 60 * 1000)));
+            game.SeedPlayer = game.Trophies[game.Trophies.length - 1];
+            break;
+        }
+        case Action.ChangePlayer: {
+            let camera_anchor = game[Get.Transform][game.Cameras[0].Entity].Parent;
+            game[Get.Mimic][camera_anchor!.Entity].Target = args[0] as Entity;
+            game.SeedPlayer = (game[Get.Named][args[0] as Entity].Name as unknown) as number;
+            break;
+        }
         case Action.ChangeWorld: {
-            let [world, seed] = args as [string, number];
-            game.WorldName = world;
-            set_seed(seed);
-            switch (world) {
+            game.WorldName = args[0] as string;
+            switch (game.WorldName) {
                 case "intro":
+                    save_trophy(game, game.SeedBounty);
+                    game.SeedPlayer = game.SeedBounty;
+                    game.SeedBounty = 0;
                     return setTimeout(world_intro, 0, game);
                 case "map":
                     return setTimeout(world_map, 0, game);
                 case "house":
-                    game.SeedHouse = seed;
+                    game.SeedHouse = args[1] as number;
                     return setTimeout(world_house, 0, game);
                 case "wanted":
-                    game.SeedBounty = seed;
+                    game.SeedBounty = rand();
                     return setTimeout(world_wanted, 0, game);
                 case "mine":
                     return setTimeout(world_mine, 0, game);
@@ -53,7 +72,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
 
             let damage = (Math.random() * 1000).toFixed(0);
             let text = `<div style="animation: up 1s ease-out">${damage}</div>`;
-            let info = ui(text)(game)(game.CreateEntity()).Element;
+            let info = ui(text)(game, game.CreateEntity()).Element;
 
             let world_position = game[Get.Transform][entity].Translation;
             let ndc_position = transform_point(
@@ -79,5 +98,12 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                 });
             }
         }
+    }
+}
+
+function save_trophy(state: GameState, seed: number) {
+    if (!state.Trophies.includes(seed)) {
+        state.Trophies.push(seed);
+        localStorage.setItem("piesku:back", (state.Trophies as unknown) as string);
     }
 }

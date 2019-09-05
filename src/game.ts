@@ -119,10 +119,10 @@ export class Game implements ComponentData, GameState {
 
     public Dispatch = (action: Action, ...args: Array<unknown>) => effect(this, action, args);
     public WorldName = "intro";
-    public SeedPlayer = 8706;
-    public SeedTown = 103;
+    public SeedPlayer = 0;
     public SeedHouse = 0;
     public SeedBounty = 0;
+    public Trophies: Array<number> = [];
 
     public Materials: Array<Material> = [];
     public Cameras: Array<Camera> = [];
@@ -166,6 +166,8 @@ export class Game implements ComponentData, GameState {
 
         this.Materials[Mat.Instanced] = mat_instanced(this.GL);
         this.Materials[Mat.Particles] = mat_particles(this.GL);
+
+        this.Dispatch(Action.InitGame);
     }
 
     CreateEntity(mask = 0) {
@@ -245,9 +247,9 @@ export class Game implements ComponentData, GameState {
 
     Add({Translation, Rotation, Scale, Using = [], Children = []}: Blueprint) {
         let entity = this.CreateEntity(Get.Transform);
-        transform(Translation, Rotation, Scale)(this)(entity);
+        transform(Translation, Rotation, Scale)(this, entity);
         for (let mixin of Using) {
-            mixin(this)(entity);
+            mixin(this, entity);
         }
         let entity_transform = this[Get.Transform][entity];
         for (let subtree of Children) {

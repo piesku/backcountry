@@ -1,3 +1,4 @@
+import {Action} from "../actions.js";
 import {Anim, Animate} from "../components/com_animate.js";
 import {AudioSource} from "../components/com_audio_source.js";
 import {Get} from "../components/com_index.js";
@@ -10,7 +11,7 @@ import {snd_click} from "../sounds/snd_click.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Camera) | (1 << Get.Select);
 const TARGET = (1 << Get.Transform) | (1 << Get.Collide) | (1 << Get.RayTarget);
-const ANIMATED = RayFlag.Navigable | RayFlag.Player;
+const ANIMATED = RayFlag.Navigable | RayFlag.Player | RayFlag.Choosable;
 
 export function sys_select(game: Game, delta: number) {
     game.Targets = [];
@@ -54,6 +55,10 @@ function update(game: Game, entity: Entity) {
         }
         for (let audio of components_of_type<AudioSource>(game, transform, Get.AudioSource)) {
             audio.Trigger = snd_click;
+        }
+
+        if (select.Hit.Other.Flags & RayFlag.Choosable) {
+            game.Dispatch(Action.ChangePlayer, select.Hit.Other.Entity);
         }
     }
 }

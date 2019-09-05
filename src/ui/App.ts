@@ -5,7 +5,7 @@ import {Wanted} from "./Wanted.js";
 
 export function App(state: GameState) {
     return html`
-        ${state.WorldName === "intro" && Intro(state.SeedTown)}
+        ${state.WorldName === "intro" && Intro(state.SeedPlayer)}
         ${state.WorldName === "wanted" && Wanted(state.SeedHouse)}
     `;
 }

@@ -32,7 +32,7 @@ export function emit_particles(
     Vertical: number,
     Time: number = 0
 ) {
-    return (game: Game) => (entity: Entity) => {
+    return (game: Game, entity: Entity) => {
         game.World[entity] |= 1 << Get.EmitParticles;
         game[Get.EmitParticles][entity] = <EmitParticles>{
             Lifespan,

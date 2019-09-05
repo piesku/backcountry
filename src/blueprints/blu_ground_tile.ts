@@ -70,7 +70,7 @@ export function get_tile_blueprint(
     if (!is_walkable) {
         tile.Children!.push(
             rand() > 0.5
-                ? get_cactus_blueprint()
+                ? get_cactus_blueprint(game)
                 : rand() > 0.1
                 ? get_rock_blueprint(game)
                 : get_campfire_blueprint(game)

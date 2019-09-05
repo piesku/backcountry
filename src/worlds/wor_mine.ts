@@ -1,6 +1,6 @@
-import {angle_camera_blueprint} from "../blueprints/blu_angle_camera.js";
 import {get_character_blueprint} from "../blueprints/blu_character.js";
 import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
+import {create_iso_camera} from "../blueprints/blu_iso_camera.js";
 import {get_mine_wall_blueprint} from "../blueprints/blu_mine_wall.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
@@ -29,7 +29,7 @@ export function world_mine(game: Game) {
 
     game.GL.clearColor(1, 0.3, 0.3, 1);
 
-    let map_size = 10;
+    let map_size = 30;
     for (let x = 0; x < map_size; x++) {
         game.Grid[x] = [];
         for (let y = 0; y < map_size; y++) {
@@ -41,7 +41,7 @@ export function world_mine(game: Game) {
         }
     }
 
-    generate_maze(game, [0, map_size - 1], [0, map_size - 1], map_size);
+    generate_maze(game, [0, map_size - 1], [0, map_size - 1], map_size, 0.3);
 
     let palette = [0.2, 0.2, 0.2, 0.5, 0.5, 0.5];
     // Ground.
@@ -51,7 +51,7 @@ export function world_mine(game: Game) {
             // let is_walkable = true; // rand() > 0.04;
             let tile_blueprint = is_walkable
                 ? get_tile_blueprint(game, is_walkable, x, y, palette)
-                : get_mine_wall_blueprint(palette);
+                : get_mine_wall_blueprint(game, palette);
 
             game.Add({
                 ...tile_blueprint,
@@ -71,24 +71,47 @@ export function world_mine(game: Game) {
     });
 
     // Bandit.
-    let x = integer(0, map_size);
-    let y = integer(0, map_size);
+    let x = map_size - 2; //integer(0, map_size);
+    let y = map_size - 2; //integer(0, map_size);
     if (game.Grid[x] && game.Grid[x][y] && !isNaN(game.Grid[x][y])) {
         game.Add({
-            Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
+            Scale: [1.5, 1.5, 1.5],
+            Translation: [(-(map_size / 2) + x) * 8, 7.5, (-(map_size / 2) + y) * 8],
             Rotation: from_euler([], 0, integer(0, 3) * 90, 0),
             Using: [
                 npc(false, true),
                 path_find(),
                 walking(x, y, false),
-                move(integer(8, 15), 0),
+                move(integer(12, 16), 0),
                 collide(true, [7, 7, 7]),
-                health(3),
+                health(5),
                 shoot(1),
                 ray_target(RayFlag.Attackable),
             ],
             Children: [(set_seed(game.SeedBounty), get_character_blueprint(game))],
         });
+    }
+
+    let cowboys_count = 20;
+    for (let i = 0; i < cowboys_count; i++) {
+        let x = integer(0, map_size);
+        let y = integer(0, map_size);
+        if (game.Grid[x] && game.Grid[x][y] && !isNaN(game.Grid[x][y])) {
+            game.Add({
+                Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
+                Using: [
+                    npc(false),
+                    path_find(),
+                    walking(x, y, true),
+                    move(integer(8, 15)),
+                    collide(true, [7, 7, 7]),
+                    health(3),
+                    shoot(1),
+                    ray_target(RayFlag.Attackable),
+                ],
+                Children: [get_character_blueprint(game)],
+            });
+        }
     }
 
     let player_position = game[Get.Transform][find_navigable(game, 1, 1)].Translation;
@@ -117,10 +140,16 @@ export function world_mine(game: Game) {
     });
 
     // Camera.
-    game.Add(angle_camera_blueprint);
+    game.Add(create_iso_camera(game));
 }
 
-function generate_maze(game: Game, [x1, x2]: number[], [y1, y2]: number[], size: number) {
+export function generate_maze(
+    game: Game,
+    [x1, x2]: number[],
+    [y1, y2]: number[],
+    size: number,
+    probablity: number
+) {
     let width = x2 - x1;
     let height = y2 - y1;
     if (width >= height) {
@@ -129,7 +158,7 @@ function generate_maze(game: Game, [x1, x2]: number[], [y1, y2]: number[], size:
             let bisection = Math.ceil((x1 + x2) / 2);
             let max = y2 - 1;
             let min = y1 + 1;
-            let randomPassage = integer(min, max);
+            let randomPassage = ~~(Math.random() * (max - min + 1)) + min;
             let first = false;
             let second = false;
             if (game.Grid[y2][bisection] == Infinity) {
@@ -148,10 +177,10 @@ function generate_maze(game: Game, [x1, x2]: number[], [y1, y2]: number[], size:
                 } else if (i == randomPassage) {
                     continue;
                 }
-                game.Grid[i][bisection] = NaN;
+                game.Grid[i][bisection] = Math.random() > probablity ? NaN : Infinity;
             }
-            generate_maze(game, [x1, bisection], [y1, y2], size);
-            generate_maze(game, [bisection, x2], [y1, y2], size);
+            generate_maze(game, [x1, bisection], [y1, y2], size, probablity);
+            generate_maze(game, [bisection, x2], [y1, y2], size, probablity);
         }
     } else {
         // horizontal bisection
@@ -159,7 +188,7 @@ function generate_maze(game: Game, [x1, x2]: number[], [y1, y2]: number[], size:
             let bisection = Math.ceil((y1 + y2) / 2);
             let max = x2 - 1;
             let min = x1 + 1;
-            let randomPassage = integer(min, max);
+            let randomPassage = ~~(Math.random() * (max - min + 1)) + min;
             let first = false;
             let second = false;
             if (game.Grid[bisection][x2] == Infinity) {
@@ -178,10 +207,10 @@ function generate_maze(game: Game, [x1, x2]: number[], [y1, y2]: number[], size:
                 } else if (i == randomPassage) {
                     continue;
                 }
-                game.Grid[bisection][i] = NaN;
+                game.Grid[bisection][i] = Math.random() > probablity ? NaN : Infinity;
             }
-            generate_maze(game, [x1, x2], [y1, bisection], size);
-            generate_maze(game, [x1, x2], [bisection, y2], size);
+            generate_maze(game, [x1, x2], [y1, bisection], size, probablity);
+            generate_maze(game, [x1, x2], [bisection, y2], size, probablity);
         }
     }
 }

@@ -1,7 +1,7 @@
-import {angle_camera_blueprint} from "../blueprints/blu_angle_camera.js";
 import {get_building_blueprint} from "../blueprints/blu_building.js";
 import {get_character_blueprint} from "../blueprints/blu_character.js";
 import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
+import {create_iso_camera} from "../blueprints/blu_iso_camera.js";
 import {get_town_gate_blueprint} from "../blueprints/blu_town_gate.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
@@ -25,7 +25,7 @@ import {snd_neigh} from "../sounds/snd_neigh.js";
 import {snd_wind} from "../sounds/snd_wind.js";
 
 export function world_map(game: Game) {
-    set_seed(game.SeedTown);
+    set_seed(game.SeedPlayer);
     let map_size = 30;
     let fence_line = 20;
     let fence_height = 4;
@@ -77,6 +77,8 @@ export function world_map(game: Game) {
 
     // Buildings
     let buildings_count = 4; //~~((map_size * 8) / 35);
+    // let sherriff_house_index = integer(0, buildings_count - 1);
+    let sherriff_house_index = ~~(buildings_count / 2) - 1;
     // let starting_position = 76.5;
     let starting_position = 0;
     let building_x_tile = 10;
@@ -91,19 +93,23 @@ export function world_map(game: Game) {
             }
         }
 
-        // Door
-        game.Grid[building_x_tile + building_x - 1][starting_position + building_z - 1] = game.Grid[
-            building_x_tile + building_x - 1
-        ][starting_position + building_z - 2] = Infinity;
+        if (i === sherriff_house_index) {
+            // Door
+            game.Grid[building_x_tile + building_x - 1][
+                starting_position + building_z - 1
+            ] = game.Grid[building_x_tile + building_x - 1][
+                starting_position + building_z - 2
+            ] = Infinity;
 
-        game.Add({
-            Translation: [
-                (-(map_size / 2) + building_x_tile + building_x - 1.5) * 8,
-                0,
-                (-(map_size / 2) + starting_position + building_z - 1.5) * 8,
-            ],
-            Using: [collide(false, [8, 8, 8]), trigger_world("house", rand())],
-        });
+            game.Add({
+                Translation: [
+                    (-(map_size / 2) + building_x_tile + building_x - 1.5) * 8,
+                    0,
+                    (-(map_size / 2) + starting_position + building_z - 1.5) * 8,
+                ],
+                Using: [collide(false, [8, 8, 8]), trigger_world("house", rand())],
+            });
+        }
 
         game.Add({
             Translation: [
@@ -158,5 +164,5 @@ export function world_map(game: Game) {
     });
 
     // Camera.
-    game.Add(angle_camera_blueprint);
+    game.Add(create_iso_camera(game));
 }

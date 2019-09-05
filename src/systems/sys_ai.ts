@@ -25,34 +25,36 @@ function update(game: Game, entity: Entity, delta: number) {
     let distance_to_player = Math.abs(
         game.Grid[walking.X][walking.Y] - game.Grid[player_walking.X][player_walking.Y]
     );
+    let route: false | [number, number][] = [];
 
     if (!path_find.Route.length && !path_find.Destination) {
-        if (is_friendly || distance_to_player > 5 || Math.random() > 0.8) {
+        if (is_friendly || distance_to_player > 5) {
             let destination_depth = integer(1, 15);
             while (destination_depth === game.Grid[walking.X][walking.Y]) {
                 destination_depth = integer(1, 15);
             }
 
-            let route = get_random_route(game, entity, destination_depth);
-            if (route) {
-                path_find.Route = route;
-            }
+            route = get_random_route(game, entity, destination_depth);
         } else {
-            let route = get_route(game, player, walking);
+            route = get_route(game, player, walking);
 
             if (route) {
-                // route.pop();
-                // route.pop();
-                path_find.Route = route.reverse();
+                route.pop();
+                route.pop();
+                route = route.reverse();
             }
+        }
+
+        if (route && route.length > 1) {
+            path_find.Route = route;
         }
     }
 
     if (!is_friendly && game.World[entity] & (1 << Get.Shoot)) {
         if (distance_to_player < 4 && can_shoot) {
-            console.log(delta);
             game[Get.Shoot][entity].Target = game[Get.Transform][player].Translation;
-            game[Get.NPC][entity].LastShot = 0.2;
+            game[Get.NPC][entity].LastShot = 0.5;
+            path_find.Route = [];
         } else {
             game[Get.NPC][entity].LastShot -= delta;
         }

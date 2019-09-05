@@ -8,7 +8,7 @@ export interface NPC {
 }
 
 export function npc(Friendly = true, Bounty = false) {
-    return (game: Game) => (entity: Entity) => {
+    return (game: Game, entity: Entity) => {
         game.World[entity] |= 1 << Get.NPC;
         game[Get.NPC][entity] = <NPC>{
             Friendly,

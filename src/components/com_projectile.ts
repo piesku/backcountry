@@ -8,7 +8,7 @@ export interface Projectile {
 }
 
 export function projectile(Damage: number, Lifespan: number) {
-    return (game: Game) => (entity: Entity) => {
+    return (game: Game, entity: Entity) => {
         game.World[entity] |= 1 << Get.Projectile;
         game[Get.Projectile][entity] = <Projectile>{
             Damage,

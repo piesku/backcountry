@@ -7,7 +7,7 @@ export interface UI {
 }
 
 export function ui(html: string, Lifespan = 1) {
-    return (game: Game) => (entity: Entity) => {
+    return (game: Game, entity: Entity) => {
         let Element = document.createElement("p");
         Element.innerHTML = html;
         game.UI.appendChild(Element);

@@ -78,7 +78,7 @@ export function get_town_gate_blueprint(
         Children: [
             {
                 Translation: [20, 0, 0],
-                Using: [collide(false, [8, 8, 800]), trigger_world("desert", game.SeedBounty)],
+                Using: [collide(false, [8, 8, 800]), trigger_world("desert")],
             },
         ],
     };
