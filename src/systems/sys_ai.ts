@@ -53,7 +53,7 @@ function update(game: Game, entity: Entity, delta: number) {
     if (!is_friendly && game.World[entity] & (1 << Get.Shoot)) {
         if (distance_to_player < 4 && can_shoot) {
             game[Get.Shoot][entity].Target = game[Get.Transform][player].Translation;
-            game[Get.NPC][entity].LastShot = 0.2;
+            game[Get.NPC][entity].LastShot = 0.5;
             path_find.Route = [];
         } else {
             game[Get.NPC][entity].LastShot -= delta;
