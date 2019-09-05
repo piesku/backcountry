@@ -51,6 +51,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                 case "intro":
                     save_trophy(game, game.SeedBounty);
                     game.SeedPlayer = game.SeedBounty;
+                    game.SeedBounty = 0;
                     return setTimeout(world_intro, 0, game);
                 case "map":
                     return setTimeout(world_map, 0, game);
