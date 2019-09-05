@@ -2,7 +2,7 @@ import {create_reward} from "./blueprints/blu_reward.js";
 import {Get} from "./components/com_index.js";
 import {ui} from "./components/com_ui.js";
 import {Entity, Game} from "./game.js";
-import {set_seed} from "./math/random.js";
+import {rand, set_seed} from "./math/random.js";
 import {transform_point} from "./math/vec3.js";
 import {world_desert} from "./worlds/wor_desert.js";
 import {world_house} from "./worlds/wor_house.js";
@@ -38,7 +38,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                     game.SeedHouse = args[1] as number;
                     return setTimeout(world_house, 0, game);
                 case "wanted":
-                    game.SeedBounty = Math.random();
+                    game.SeedBounty = rand();
                     return setTimeout(world_wanted, 0, game);
                 case "mine":
                     return setTimeout(world_mine, 0, game);
