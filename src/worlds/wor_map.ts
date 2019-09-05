@@ -77,7 +77,8 @@ export function world_map(game: Game) {
 
     // Buildings
     let buildings_count = 4; //~~((map_size * 8) / 35);
-    let sherriff_house_index = integer(0, buildings_count - 1);
+    // let sherriff_house_index = integer(0, buildings_count - 1);
+    let sherriff_house_index = ~~(buildings_count / 2) - 1;
     // let starting_position = 76.5;
     let starting_position = 0;
     let building_x_tile = 10;
