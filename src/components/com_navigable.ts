@@ -7,7 +7,7 @@ export interface Navigable {
 }
 
 export function navigable(X: number, Y: number) {
-    return (game: Game) => (entity: Entity) => {
+    return (game: Game, entity: Entity) => {
         game.World[entity] |= 1 << Get.Navigable;
         game[Get.Navigable][entity] = <Navigable>{X, Y};
     };

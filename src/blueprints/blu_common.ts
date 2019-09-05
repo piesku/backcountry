@@ -5,7 +5,7 @@ import {distance, lerp} from "../math/vec3.js";
 import {Model} from "../model";
 
 export type Color = [number, number, number];
-export type Mixin = (game: Game) => (entity: Entity) => void;
+export type Mixin = (game: Game, entity: Entity) => void;
 
 export interface Blueprint {
     Translation?: Vec3;

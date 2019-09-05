@@ -1,6 +1,6 @@
-import {angle_camera_blueprint} from "../blueprints/blu_angle_camera.js";
 import {get_character_blueprint} from "../blueprints/blu_character.js";
 import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
+import {create_iso_camera} from "../blueprints/blu_iso_camera.js";
 import {get_mine_wall_blueprint} from "../blueprints/blu_mine_wall.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
@@ -51,7 +51,7 @@ export function world_mine(game: Game) {
             // let is_walkable = true; // rand() > 0.04;
             let tile_blueprint = is_walkable
                 ? get_tile_blueprint(game, is_walkable, x, y, palette)
-                : get_mine_wall_blueprint(palette);
+                : get_mine_wall_blueprint(game, palette);
 
             game.Add({
                 ...tile_blueprint,
@@ -140,7 +140,7 @@ export function world_mine(game: Game) {
     });
 
     // Camera.
-    game.Add(angle_camera_blueprint);
+    game.Add(create_iso_camera(game));
 }
 
 export function generate_maze(

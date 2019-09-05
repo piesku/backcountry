@@ -14,7 +14,7 @@ export interface RenderParticles {
 }
 
 export function render_particles(ColorStart: Vec3, ColorEnd: Vec3) {
-    return (game: Game) => (entity: Entity) => {
+    return (game: Game, entity: Entity) => {
         game.World[entity] |= 1 << Get.Render;
         game[Get.Render][entity] = <RenderParticles>{
             Kind: RenderKind.Particles,

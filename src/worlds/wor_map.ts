@@ -1,7 +1,7 @@
-import {angle_camera_blueprint} from "../blueprints/blu_angle_camera.js";
 import {get_building_blueprint} from "../blueprints/blu_building.js";
 import {get_character_blueprint} from "../blueprints/blu_character.js";
 import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
+import {create_iso_camera} from "../blueprints/blu_iso_camera.js";
 import {get_town_gate_blueprint} from "../blueprints/blu_town_gate.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
@@ -164,5 +164,5 @@ export function world_map(game: Game) {
     });
 
     // Camera.
-    game.Add(angle_camera_blueprint);
+    game.Add(create_iso_camera(game));
 }

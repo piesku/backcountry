@@ -7,7 +7,7 @@ export interface RayTarget {
 }
 
 export function ray_target(Flags: RayFlag) {
-    return (game: Game) => (Entity: Entity) => {
+    return (game: Game, Entity: Entity) => {
         game.World[Entity] |= 1 << Get.RayTarget;
         game[Get.RayTarget][Entity] = <RayTarget>{
             Entity,

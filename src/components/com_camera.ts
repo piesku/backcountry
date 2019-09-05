@@ -14,7 +14,7 @@ export interface Camera {
 }
 
 export function camera_perspective(fovy: number, near: number, far: number) {
-    return (game: Game) => (Entity: Entity) => {
+    return (game: Game, Entity: Entity) => {
         let Projection = perspective(
             create(),
             fovy,
@@ -36,7 +36,7 @@ export function camera_perspective(fovy: number, near: number, far: number) {
 }
 
 export function camera_ortho(radius: number, near: number, far: number) {
-    return (game: Game) => (Entity: Entity) => {
+    return (game: Game, Entity: Entity) => {
         let Projection = ortho(
             create(),
             radius,

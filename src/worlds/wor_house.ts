@@ -1,8 +1,8 @@
-import {angle_camera_blueprint} from "../blueprints/blu_angle_camera.js";
 import {BuildingColors, main_building_palette} from "../blueprints/blu_building.js";
 import {get_character_blueprint} from "../blueprints/blu_character.js";
 import {create_line} from "../blueprints/blu_common.js";
 import {get_house_tile_blueprint} from "../blueprints/blu_house_tile.js";
+import {create_iso_camera} from "../blueprints/blu_iso_camera.js";
 import {collide} from "../components/com_collide.js";
 import {player_control} from "../components/com_control_player.js";
 import {cull} from "../components/com_cull.js";
@@ -108,7 +108,7 @@ export function world_house(game: Game) {
     game.Add({
         Rotation: from_euler([], 0, integer(0, 2) * 180, 0),
         Translation: [-(map_size / 2) * 8 - 2.9, 10, -(map_size / 2 - 2) * 8],
-        Using: [(game: Game) => render_vox(game.Models[Models.WINDOW])(game), cull(Get.Render)],
+        Using: [render_vox(game.Models[Models.WINDOW]), cull(Get.Render)],
     });
 
     // Directional light
@@ -143,7 +143,7 @@ export function world_house(game: Game) {
     });
 
     // Camera.
-    game.Add(angle_camera_blueprint);
+    game.Add(create_iso_camera(game));
 
     // Sheriff.
     game.Add({

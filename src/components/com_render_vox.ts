@@ -19,7 +19,7 @@ export interface RenderInstanced {
 export function render_vox(model: Model, Palette?: Array<number>) {
     let {Offsets} = model;
     let shape = Cube;
-    return (game: Game) => (entity: Entity) => {
+    return (game: Game, entity: Entity) => {
         game.World[entity] |= 1 << Get.Render;
         game[Get.Render][entity] = <RenderInstanced>{
             Kind: RenderKind.Instanced,

@@ -264,9 +264,9 @@ export class Game implements ComponentData, GameState {
 
     Add({Translation, Rotation, Scale, Using = [], Children = []}: Blueprint) {
         let entity = this.CreateEntity(Get.Transform);
-        transform(Translation, Rotation, Scale)(this)(entity);
+        transform(Translation, Rotation, Scale)(this, entity);
         for (let mixin of Using) {
-            mixin(this)(entity);
+            mixin(this, entity);
         }
         let entity_transform = this[Get.Transform][entity];
         for (let subtree of Children) {

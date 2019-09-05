@@ -7,7 +7,7 @@ export interface Select {
 }
 
 export function select() {
-    return (game: Game) => (entity: Entity) => {
+    return (game: Game, entity: Entity) => {
         game.World[entity] |= 1 << Get.Select;
         game[Get.Select][entity] = <Select>{};
     };

@@ -8,7 +8,7 @@ export interface Walking {
 }
 
 export function walking(X = 0, Y = 0, Diagonal = true) {
-    return (game: Game) => (entity: Entity) => {
+    return (game: Game, entity: Entity) => {
         game.World[entity] |= 1 << Get.Walking;
         game[Get.Walking][entity] = <Walking>{X, Y, Diagonal};
     };
