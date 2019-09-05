@@ -3,6 +3,7 @@ import {camera_perspective} from "../components/com_camera.js";
 import {collide} from "../components/com_collide.js";
 import {light} from "../components/com_light.js";
 import {mimic} from "../components/com_mimic.js";
+import {named} from "../components/com_named.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {select} from "../components/com_select.js";
 import {Entity, Game} from "../game.js";
@@ -15,13 +16,15 @@ export function world_intro(game: Game) {
 
     // Available characters.
     let most_recent: Entity = -1;
-    // The storage is guaranteed to have at least today's daily seed.
-    let trophies = localStorage.getItem("piesku:back")!.split(",");
-    for (let i = 0; i < trophies.length; i++) {
-        set_seed((trophies[i] as unknown) as number);
+    for (let i = 0; i < game.Trophies.length; i++) {
+        set_seed(game.Trophies[i]);
         most_recent = game.Add({
             Translation: [i, 0, 10 * i],
-            Using: [collide(false, [3, 7, 3]), ray_target(RayFlag.Choosable)],
+            Using: [
+                collide(false, [3, 7, 3]),
+                ray_target(RayFlag.Choosable),
+                named((game.Trophies[i] as unknown) as string),
+            ],
             Children: [get_character_blueprint(game)],
         });
     }

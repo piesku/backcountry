@@ -123,10 +123,10 @@ export class Game implements ComponentData, GameState {
 
     public Dispatch = (action: Action, ...args: Array<unknown>) => effect(this, action, args);
     public WorldName = "intro";
-    // Today's timestamp. Changes every midnight, 00:00 UTC.
-    public SeedPlayer = Math.floor(Date.now() / (24 * 60 * 60 * 1000));
+    public SeedPlayer = 0;
     public SeedHouse = 0;
     public SeedBounty = 0;
+    public Trophies: Array<number> = [];
 
     public Materials: Array<Material> = [];
     public Cameras: Array<Camera> = [];

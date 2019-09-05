@@ -16,6 +16,7 @@ export interface GameState {
     SeedPlayer: number;
     SeedBounty: number;
     SeedHouse: number;
+    Trophies: Array<number>;
 }
 
 export const enum Action {
@@ -29,19 +30,26 @@ export const enum Action {
 export function effect(game: Game, action: Action, args: Array<unknown>) {
     switch (action) {
         case Action.InitGame: {
-            save_trophy(game.SeedPlayer);
+            let trophies = localStorage.getItem("piesku:back");
+            if (trophies) {
+                game.Trophies = trophies.split(",").map(Number);
+            }
+            // Today's timestamp. Changes every midnight, 00:00 UTC.
+            save_trophy(game, Math.floor(Date.now() / (24 * 60 * 60 * 1000)));
+            game.SeedPlayer = game.Trophies[game.Trophies.length - 1];
             break;
         }
         case Action.ChangePlayer: {
             let camera_anchor = game[Get.Transform][game.Cameras[0].Entity].Parent;
             game[Get.Mimic][camera_anchor!.Entity].Target = args[0] as Entity;
+            game.SeedPlayer = (game[Get.Named][args[0] as Entity].Name as unknown) as number;
             break;
         }
         case Action.ChangeWorld: {
             game.WorldName = args[0] as string;
             switch (game.WorldName) {
                 case "intro":
-                    save_trophy(game.SeedBounty);
+                    save_trophy(game, game.SeedBounty);
                     game.SeedPlayer = game.SeedBounty;
                     return setTimeout(world_intro, 0, game);
                 case "map":
@@ -92,9 +100,9 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
     }
 }
 
-function save_trophy(seed: number) {
-    let trophies = localStorage.getItem("piesku:back") || "";
-    if (!trophies.includes((seed as unknown) as string)) {
-        localStorage.setItem("piesku:back", trophies + "," + seed);
+function save_trophy(state: GameState, seed: number) {
+    if (!state.Trophies.includes(seed)) {
+        state.Trophies.push(seed);
+        localStorage.setItem("piesku:back", (state.Trophies as unknown) as string);
     }
 }
