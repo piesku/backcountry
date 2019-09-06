@@ -114,7 +114,7 @@ export function world_mine(game: Game) {
     let player_position = game[Get.Transform][find_navigable(game, 1, 1)].Translation;
     // Player.
     set_seed(game.SeedPlayer);
-    game.Add({
+    let player = game.Add({
         Translation: [player_position[0], 5, player_position[2]],
         Using: [
             named("player"),
@@ -123,7 +123,7 @@ export function world_mine(game: Game) {
             move(25, 0),
             collide(true, [3, 7, 3]),
             ray_target(RayFlag.Player),
-            health(5),
+            health(10),
             shoot(1),
             audio_source(),
         ],
@@ -136,8 +136,10 @@ export function world_mine(game: Game) {
         ],
     });
 
+    game.PlayerHealth = game[Get.Health][player];
+
     // Camera.
-    game.Add(create_iso_camera(game));
+    game.Add(create_iso_camera(player));
 }
 
 export function generate_maze(

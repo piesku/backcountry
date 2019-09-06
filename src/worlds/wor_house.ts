@@ -120,7 +120,7 @@ export function world_house(game: Game) {
 
     // Player.
     set_seed(game.SeedPlayer);
-    game.Add({
+    let player = game.Add({
         Translation: [player_position[0], 5, player_position[2]],
         Rotation: from_euler([], 0, 270, 0),
         Using: [
@@ -141,7 +141,7 @@ export function world_house(game: Game) {
     });
 
     // Camera.
-    game.Add(create_iso_camera(game));
+    game.Add(create_iso_camera(player));
 
     // Sheriff.
     game.Add({

@@ -113,7 +113,7 @@ export function world_desert(game: Game) {
     set_seed(game.SeedPlayer);
     let player_position = game[Get.Transform][find_navigable(game, 1, 1)].Translation;
     // Player.
-    game.Add({
+    let player = game.Add({
         Translation: [player_position[0], 5, player_position[2]],
         Using: [
             named("player"),
@@ -122,7 +122,7 @@ export function world_desert(game: Game) {
             move(25, 0),
             collide(true, [3, 7, 3]),
             ray_target(RayFlag.Player),
-            health(5),
+            health(10),
             shoot(1),
             audio_source(),
         ],
@@ -135,6 +135,8 @@ export function world_desert(game: Game) {
         ],
     });
 
+    game.PlayerHealth = game[Get.Health][player];
+
     // Camera.
-    game.Add(create_iso_camera(game));
+    game.Add(create_iso_camera(player));
 }

@@ -1,4 +1,4 @@
-import {Action, effect, GameState} from "./actions.js";
+import {Action, effect, GameState, PlayerState} from "./actions.js";
 import {Blueprint} from "./blueprints/blu_common.js";
 import {Animate} from "./components/com_animate.js";
 import {AudioSource} from "./components/com_audio_source.js";
@@ -125,6 +125,8 @@ export class Game implements ComponentData, GameState {
     public SeedHouse = 0;
     public SeedBounty = 0;
     public Trophies: Array<number> = [];
+    public PlayerState = PlayerState.None;
+    public PlayerHealth?: Health;
 
     public Materials: Array<Material> = [];
     public Cameras: Array<Camera> = [];

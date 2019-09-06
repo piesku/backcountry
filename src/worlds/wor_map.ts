@@ -142,7 +142,7 @@ export function world_map(game: Game) {
 
     // Player.
     set_seed(game.SeedPlayer);
-    game.Add({
+    let player = game.Add({
         Translation: [player_position[0], 5, player_position[2]],
         Using: [
             named("player"),
@@ -162,5 +162,5 @@ export function world_map(game: Game) {
     });
 
     // Camera.
-    game.Add(create_iso_camera(game));
+    game.Add(create_iso_camera(player));
 }

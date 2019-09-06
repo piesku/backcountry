@@ -1,4 +1,5 @@
 import {create_reward} from "./blueprints/blu_reward.js";
+import {Health} from "./components/com_health.js";
 import {Get} from "./components/com_index.js";
 import {ui} from "./components/com_ui.js";
 import {Entity, Game} from "./game.js";
@@ -17,6 +18,14 @@ export interface GameState {
     SeedBounty: number;
     SeedHouse: number;
     Trophies: Array<number>;
+    PlayerState: PlayerState;
+    PlayerHealth?: Health;
+}
+
+export const enum PlayerState {
+    None,
+    Victory,
+    Defeat,
 }
 
 export const enum Action {
@@ -50,8 +59,11 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             game.WorldName = args[0] as string;
             switch (game.WorldName) {
                 case "intro":
-                    save_trophy(game, game.SeedBounty);
-                    game.SeedPlayer = game.SeedBounty;
+                    if (game.PlayerState === PlayerState.Victory) {
+                        save_trophy(game, game.SeedBounty);
+                        game.SeedPlayer = game.SeedBounty;
+                    }
+                    game.PlayerState = PlayerState.None;
                     game.SeedBounty = 0;
                     return setTimeout(world_intro, 0, game);
                 case "map":
@@ -93,7 +105,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                     (1 << Get.Move) |
                     (1 << Get.Collide)
                 );
-                game.WorldName = "defeat";
+                game.PlayerState = PlayerState.Defeat;
             } else if (game.World[entity] & (1 << Get.NPC)) {
                 if (game[Get.NPC][entity].Bounty) {
                     // Spawn the hat.
@@ -122,7 +134,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             break;
         }
         case Action.CollectReward: {
-            game.WorldName = "victory";
+            game.PlayerState = PlayerState.Victory;
             break;
         }
     }
