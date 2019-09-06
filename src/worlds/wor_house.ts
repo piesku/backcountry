@@ -23,6 +23,7 @@ import {Models} from "../models_map.js";
 let map_size = 5;
 
 export function world_house(game: Game) {
+    set_seed(game.SeedHouse);
     game.World = [];
     game.Grid = [];
 
