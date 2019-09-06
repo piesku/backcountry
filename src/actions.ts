@@ -41,7 +41,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                 game.Trophies = trophies.split(",").map(Number);
             }
             // Today's timestamp. Changes every midnight, 00:00 UTC.
-            save_trophy(game, Math.floor(Date.now() / (24 * 60 * 60 * 1000)));
+            save_trophy(game, ~~(Date.now() / (24 * 60 * 60 * 1000)));
             game.SeedPlayer = game.Trophies[game.Trophies.length - 1];
             break;
         }
