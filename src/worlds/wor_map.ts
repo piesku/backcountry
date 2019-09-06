@@ -102,10 +102,10 @@ export function world_map(game: Game) {
                 Translation: [
                     (-(map_size / 2) + building_x_tile + building_x - 1.5) * 8,
                     0,
-                    (-(map_size / 2) + starting_position + building_z - 1.5) * 8,
+                    (-(map_size / 2) + starting_position + building_z - 2) * 8,
                 ],
                 Using: [
-                    collide(false, [8, 24, 8]),
+                    collide(false, [6, 24, 8]),
                     navigable(building_x_tile + building_x - 1, starting_position + building_z - 2),
                     ray_target(RayFlag.Navigable),
                     trigger_world("house", rand()),
