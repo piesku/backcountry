@@ -149,16 +149,16 @@ export class Game implements ComponentData, GameState {
 
         window.addEventListener("keydown", evt => (this.Input[evt.code] = 1));
         window.addEventListener("keyup", evt => (this.Input[evt.code] = 0));
-        this.Canvas.addEventListener("contextmenu", evt => evt.preventDefault());
-        this.Canvas.addEventListener("mousedown", evt => {
+        this.UI.addEventListener("contextmenu", evt => evt.preventDefault());
+        this.UI.addEventListener("mousedown", evt => {
             this.Input[`m${evt.button}`] = 1;
             this.Event[`m${evt.button}d`] = 1;
         });
-        this.Canvas.addEventListener("mouseup", evt => {
+        this.UI.addEventListener("mouseup", evt => {
             this.Input[`m${evt.button}`] = 0;
             this.Event[`m${evt.button}u`] = 1;
         });
-        this.Canvas.addEventListener("mousemove", evt => {
+        this.UI.addEventListener("mousemove", evt => {
             this.Input.mx = evt.offsetX;
             this.Input.my = evt.offsetY;
         });

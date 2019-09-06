@@ -1,9 +1,8 @@
-import {create_reward} from "./blueprints/blu_reward.js";
 import {Health} from "./components/com_health.js";
 import {Get} from "./components/com_index.js";
 import {ui} from "./components/com_ui.js";
 import {Entity, Game} from "./game.js";
-import {rand, set_seed} from "./math/random.js";
+import {rand} from "./math/random.js";
 import {transform_point} from "./math/vec3.js";
 import {world_desert} from "./worlds/wor_desert.js";
 import {world_house} from "./worlds/wor_house.js";
@@ -34,7 +33,6 @@ export const enum Action {
     ChangeWorld,
     Hit,
     Die,
-    CollectHat,
 }
 
 export function effect(game: Game, action: Action, args: Array<unknown>) {
@@ -95,6 +93,8 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
         }
         case Action.Die: {
             let entity = args[0] as Entity;
+
+            // If the player is killed.
             if (game.World[entity] & (1 << Get.PlayerControl)) {
                 game.World[entity] &= ~(
                     (1 << Get.PlayerControl) |
@@ -103,17 +103,11 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                 );
                 game.PlayerState = PlayerState.Defeat;
             } else if (game.World[entity] & (1 << Get.NPC)) {
+                // If the boss is killed.
                 if (game[Get.NPC][entity].Bounty) {
-                    // Spawn the hat.
-                    set_seed(game.SeedBounty);
-                    let world_position = game[Get.Transform][entity].Translation;
-                    let anchor = game.Add({
-                        Translation: world_position,
-                    });
-                    game.Add({
-                        ...create_reward(game, anchor),
-                        Translation: [world_position[0], world_position[1] + 50, world_position[2]],
-                    });
+                    save_trophy(game, game.SeedBounty);
+                    game.PlayerState = PlayerState.Victory;
+                    game.SeedPlayer = game.SeedBounty;
 
                     // Make all bandits friendly.
                     for (let i = 0; i < game.World.length; i++) {
@@ -126,13 +120,6 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                 // This must be the same as character's blueprint's Anim.Die duration.
                 setTimeout(() => game.Destroy(entity), 5000);
             }
-
-            break;
-        }
-        case Action.CollectHat: {
-            save_trophy(game, game.SeedBounty);
-            game.SeedPlayer = game.SeedBounty;
-            game.PlayerState = PlayerState.Victory;
             break;
         }
     }
