@@ -6,9 +6,9 @@ import {Wanted} from "./Wanted.js";
 export function App(state: GameState) {
     switch (state.WorldName) {
         case "intro":
-            return Intro(state.SeedPlayer);
+            return Intro();
         case "wanted":
-            return Wanted(state.SeedHouse);
+            return Wanted();
         default:
             return Overlay(state);
     }

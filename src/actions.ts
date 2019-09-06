@@ -14,7 +14,6 @@ export interface GameState {
     WorldName: string;
     SeedPlayer: number;
     SeedBounty: number;
-    SeedHouse: number;
     Trophies: Array<number>;
     PlayerState: PlayerState;
     PlayerHealth?: Health;

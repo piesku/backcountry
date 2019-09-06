@@ -1,7 +1,7 @@
 import {Action} from "../actions.js";
 import {html} from "./html.js";
 
-export function Intro(town_seed: number) {
+export function Intro() {
     return html`
         <div
             style="
@@ -19,7 +19,7 @@ export function Intro(town_seed: number) {
             >
                 BACK<br />COUNTRY
                 <hr style="border: solid #D45230 10px;" />
-                <button onclick="$(${Action.ChangeWorld}, 'map', ${town_seed});">
+                <button onclick="$(${Action.ChangeWorld}, 'map');">
                     PLAY
                 </button>
             </div>
