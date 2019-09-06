@@ -14,7 +14,7 @@ export function create_reward(game: Game, target: Entity) {
             light([1, 1, 1], 8),
             mimic(target, 0.01),
             collide(true),
-            trigger(1 << Get.PlayerControl, Action.CollectReward),
+            trigger(1 << Get.PlayerControl, Action.CollectHat),
         ],
         Children: [get_hat_blueprint(game)],
     };

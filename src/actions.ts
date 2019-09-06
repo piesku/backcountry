@@ -34,7 +34,7 @@ export const enum Action {
     ChangeWorld,
     Hit,
     Die,
-    CollectReward,
+    CollectHat,
 }
 
 export function effect(game: Game, action: Action, args: Array<unknown>) {
@@ -59,10 +59,6 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             game.WorldName = args[0] as string;
             switch (game.WorldName) {
                 case "intro":
-                    if (game.PlayerState === PlayerState.Victory) {
-                        save_trophy(game, game.SeedBounty);
-                        game.SeedPlayer = game.SeedBounty;
-                    }
                     game.PlayerState = PlayerState.None;
                     game.SeedBounty = 0;
                     return setTimeout(world_intro, 0, game);
@@ -133,7 +129,9 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
 
             break;
         }
-        case Action.CollectReward: {
+        case Action.CollectHat: {
+            save_trophy(game, game.SeedBounty);
+            game.SeedPlayer = game.SeedBounty;
             game.PlayerState = PlayerState.Victory;
             break;
         }
