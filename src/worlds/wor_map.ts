@@ -10,7 +10,7 @@ import {Get} from "../components/com_index.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
 import {named} from "../components/com_named.js";
-import {find_navigable, navigable} from "../components/com_navigable.js";
+import {find_navigable} from "../components/com_navigable.js";
 import {npc} from "../components/com_npc.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {trigger_world} from "../components/com_trigger.js";
@@ -77,7 +77,7 @@ export function world_map(game: Game) {
     // Buildings
     let buildings_count = 4; //~~((map_size * 8) / 35);
     // let sherriff_house_index = integer(0, buildings_count - 1);
-    let sherriff_house_index = ~~(buildings_count / 2) - 1;
+    // let sherriff_house_index = ~~(buildings_count / 2) - 1;
     // let starting_position = 76.5;
     let starting_position = 0;
     let building_x_tile = 10;
@@ -90,27 +90,6 @@ export function world_map(game: Game) {
             for (let x = building_x_tile; x < building_x_tile + building_x; x++) {
                 game.Grid[x][z] = NaN;
             }
-        }
-
-        if (i === sherriff_house_index) {
-            // Door
-            game.Grid[building_x_tile + building_x - 1][
-                starting_position + building_z - 2
-            ] = Infinity;
-
-            game.Add({
-                Translation: [
-                    (-(map_size / 2) + building_x_tile + building_x - 1.5) * 8,
-                    0,
-                    (-(map_size / 2) + starting_position + building_z - 2) * 8,
-                ],
-                Using: [
-                    collide(false, [6, 24, 8]),
-                    navigable(building_x_tile + building_x - 1, starting_position + building_z - 2),
-                    ray_target(RayFlag.Navigable),
-                    trigger_world("house", rand()),
-                ],
-            });
         }
 
         game.Add({
@@ -139,6 +118,18 @@ export function world_map(game: Game) {
             });
         }
     }
+
+    let sheriff_position =
+        game[Get.Transform][find_navigable(game, ~~(map_size / 2), ~~(map_size / 2) + 3)]
+            .Translation;
+
+    // Sheriff.
+    game.Add({
+        Translation: [sheriff_position[0], 5, sheriff_position[2]],
+        Rotation: from_euler([], 0, 90, 0),
+        Using: [collide(false, [8, 8, 8]), trigger_world("wanted")],
+        Children: [get_character_blueprint(game)],
+    });
 
     let player_position =
         game[Get.Transform][find_navigable(game, ~~(map_size / 2), ~~(map_size / 2))].Translation;

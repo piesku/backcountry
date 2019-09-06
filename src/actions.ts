@@ -5,7 +5,6 @@ import {Entity, Game} from "./game.js";
 import {rand} from "./math/random.js";
 import {transform_point} from "./math/vec3.js";
 import {world_desert} from "./worlds/wor_desert.js";
-import {world_house} from "./worlds/wor_house.js";
 import {world_intro} from "./worlds/wor_intro.js";
 import {world_map} from "./worlds/wor_map.js";
 import {world_mine} from "./worlds/wor_mine.js";
@@ -62,9 +61,6 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                     return setTimeout(world_intro, 0, game);
                 case "map":
                     return setTimeout(world_map, 0, game);
-                case "house":
-                    game.SeedHouse = args[1] as number;
-                    return setTimeout(world_house, 0, game);
                 case "wanted":
                     game.SeedBounty = rand();
                     return setTimeout(world_wanted, 0, game);

@@ -25,7 +25,7 @@ export function Wanted(house_seed: number) {
                 font-size: 10vh;
             "
         >
-            <button onclick="$(${Action.ChangeWorld}, 'house', ${house_seed});">
+            <button onclick="$(${Action.ChangeWorld}, 'map', ${house_seed});">
                 ACCEPT BOUNTY
             </button>
         </div>
