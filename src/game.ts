@@ -59,6 +59,7 @@ import {sys_toggle} from "./systems/sys_toggle.js";
 import {sys_transform} from "./systems/sys_transform.js";
 import {sys_trigger} from "./systems/sys_trigger.js";
 import {sys_ui} from "./systems/sys_ui.js";
+import {GL_CULL_FACE, GL_CW, GL_DEPTH_TEST} from "./webgl.js";
 
 const MAX_ENTITIES = 10000;
 
@@ -163,9 +164,9 @@ export class Game implements ComponentData, GameState {
         });
 
         this.GL = this.Canvas.getContext("webgl2")!;
-        this.GL.enable(this.GL.DEPTH_TEST);
-        this.GL.enable(this.GL.CULL_FACE);
-        this.GL.frontFace(this.GL.CW);
+        this.GL.enable(GL_DEPTH_TEST);
+        this.GL.enable(GL_CULL_FACE);
+        this.GL.frontFace(GL_CW);
 
         this.Materials[Mat.Wireframe] = mat_wireframe(this.GL);
         this.Materials[Mat.Instanced] = mat_instanced(this.GL);
