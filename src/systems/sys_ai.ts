@@ -5,7 +5,7 @@ import {Entity, Game} from "../game.js";
 import {integer} from "../math/random.js";
 import {get_neighbors, get_route} from "./sys_player_control.js";
 
-const QUERY = (1 << Get.Transform) | (1 << Get.NPC) | (1 << Get.Walking) | (1 << Get.PathFind);
+const QUERY = (1 << Get.Transform) | (1 << Get.NPC) | (1 << Get.Walking);
 
 export function sys_ai(game: Game, delta: number) {
     for (let i = 0; i < game.World.length; i++) {
@@ -16,7 +16,6 @@ export function sys_ai(game: Game, delta: number) {
 }
 
 function update(game: Game, entity: Entity, delta: number) {
-    let path_find = game[Get.PathFind][entity];
     let walking = game[Get.Walking][entity];
     let is_friendly = game[Get.NPC][entity].Friendly;
     let can_shoot = game[Get.NPC][entity].LastShot <= 0;
@@ -27,7 +26,7 @@ function update(game: Game, entity: Entity, delta: number) {
     );
     let route: false | [number, number][] = [];
 
-    if (!path_find.Route.length && !path_find.Destination) {
+    if (!walking.Route.length && !walking.Destination) {
         if (is_friendly || distance_to_player > 5) {
             let destination_depth = integer(1, 15);
             while (destination_depth === game.Grid[walking.X][walking.Y]) {
@@ -46,7 +45,7 @@ function update(game: Game, entity: Entity, delta: number) {
         }
 
         if (route && route.length > 1) {
-            path_find.Route = route;
+            walking.Route = route;
         }
     }
 
@@ -54,7 +53,7 @@ function update(game: Game, entity: Entity, delta: number) {
         if (distance_to_player < 4 && can_shoot) {
             game[Get.Shoot][entity].Target = game[Get.Transform][player].Translation;
             game[Get.NPC][entity].LastShot = 0.5;
-            path_find.Route = [];
+            walking.Route = [];
         } else {
             game[Get.NPC][entity].LastShot -= delta;
         }

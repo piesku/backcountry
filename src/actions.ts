@@ -1,8 +1,8 @@
-import {create_reward} from "./blueprints/blu_reward.js";
+import {Health} from "./components/com_health.js";
 import {Get} from "./components/com_index.js";
 import {ui} from "./components/com_ui.js";
 import {Entity, Game} from "./game.js";
-import {rand, set_seed} from "./math/random.js";
+import {rand} from "./math/random.js";
 import {transform_point} from "./math/vec3.js";
 import {world_desert} from "./worlds/wor_desert.js";
 import {world_house} from "./worlds/wor_house.js";
@@ -17,14 +17,22 @@ export interface GameState {
     SeedBounty: number;
     SeedHouse: number;
     Trophies: Array<number>;
+    PlayerState: PlayerState;
+    PlayerHealth?: Health;
+}
+
+export const enum PlayerState {
+    None,
+    Victory,
+    Defeat,
 }
 
 export const enum Action {
     InitGame = 1,
     ChangePlayer,
     ChangeWorld,
-    HitEnemy,
-    KillEnemy,
+    Hit,
+    Die,
 }
 
 export function effect(game: Game, action: Action, args: Array<unknown>) {
@@ -49,8 +57,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             game.WorldName = args[0] as string;
             switch (game.WorldName) {
                 case "intro":
-                    save_trophy(game, game.SeedBounty);
-                    game.SeedPlayer = game.SeedBounty;
+                    game.PlayerState = PlayerState.None;
                     game.SeedBounty = 0;
                     return setTimeout(world_intro, 0, game);
                 case "map":
@@ -67,7 +74,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                     return setTimeout(world_desert, 0, game);
             }
         }
-        case Action.HitEnemy: {
+        case Action.Hit: {
             let entity = args[0] as Entity;
 
             let damage = (Math.random() * 1000).toFixed(0);
@@ -84,19 +91,36 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             info.style.top = `${0.5 * (-ndc_position[1] + 1) * game.Canvas.height}px`;
             break;
         }
-        case Action.KillEnemy: {
+        case Action.Die: {
             let entity = args[0] as Entity;
-            if (game[Get.NPC][entity].Bounty) {
-                set_seed(game.SeedBounty);
-                let world_position = game[Get.Transform][entity].Translation;
-                let anchor = game.Add({
-                    Translation: world_position,
-                });
-                game.Add({
-                    ...create_reward(game, anchor),
-                    Translation: [world_position[0], world_position[1] + 100, world_position[2]],
-                });
+
+            // If the player is killed.
+            if (game.World[entity] & (1 << Get.PlayerControl)) {
+                game.World[entity] &= ~(
+                    (1 << Get.PlayerControl) |
+                    (1 << Get.Move) |
+                    (1 << Get.Collide)
+                );
+                game.PlayerState = PlayerState.Defeat;
+            } else if (game.World[entity] & (1 << Get.NPC)) {
+                // If the boss is killed.
+                if (game[Get.NPC][entity].Bounty) {
+                    save_trophy(game, game.SeedBounty);
+                    game.PlayerState = PlayerState.Victory;
+                    game.SeedPlayer = game.SeedBounty;
+
+                    // Make all bandits friendly.
+                    for (let i = 0; i < game.World.length; i++) {
+                        if (game.World[i] & (1 << Get.NPC)) {
+                            game.World[i] &= ~(1 << Get.Walking);
+                        }
+                    }
+                }
+                game.World[entity] &= ~((1 << Get.NPC) | (1 << Get.Move) | (1 << Get.Collide));
+                // This must be the same as character's blueprint's Anim.Die duration.
+                setTimeout(() => game.Destroy(entity), 5000);
             }
+            break;
         }
     }
 }

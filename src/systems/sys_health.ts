@@ -17,7 +17,7 @@ export function sys_health(game: Game, delta: number) {
 function update(game: Game, entity: Entity) {
     let health = game[Get.Health][entity];
     for (let i = 0; i < health.Damages.length; i++) {
-        game.Dispatch(Action.HitEnemy, entity);
+        game.Dispatch(Action.Hit, entity);
 
         health.current -= health.Damages[i];
         if (health.current > 0) {
@@ -29,14 +29,7 @@ function update(game: Game, entity: Entity) {
                 animate.Trigger = Anim.Hit;
             }
         } else {
-            game.Dispatch(Action.KillEnemy, entity);
-
-            game.World[entity] &= ~(
-                (1 << Get.NPC) |
-                (1 << Get.Move) |
-                (1 << Get.Collide) |
-                (1 << Get.RayTarget)
-            );
+            game.Dispatch(Action.Die, entity);
 
             for (let animate of components_of_type<Animate>(
                 game,
@@ -45,9 +38,6 @@ function update(game: Game, entity: Entity) {
             )) {
                 animate.Trigger = Anim.Die;
             }
-
-            // This must be the same as character's blueprint's Anim.Die duration.
-            setTimeout(() => game.Destroy(entity), 5000);
         }
     }
     health.Damages = [];

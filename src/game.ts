@@ -1,4 +1,4 @@
-import {Action, effect, GameState} from "./actions.js";
+import {Action, effect, GameState, PlayerState} from "./actions.js";
 import {Blueprint} from "./blueprints/blu_common.js";
 import {Animate} from "./components/com_animate.js";
 import {AudioSource} from "./components/com_audio_source.js";
@@ -15,7 +15,6 @@ import {Move} from "./components/com_move.js";
 import {Named} from "./components/com_named.js";
 import {Navigable} from "./components/com_navigable.js";
 import {NPC} from "./components/com_npc.js";
-import {PathFind} from "./components/com_path_find.js";
 import {Projectile} from "./components/com_projectile.js";
 import {RayTarget} from "./components/com_ray_target.js";
 import {Render} from "./components/com_render.js";
@@ -84,7 +83,6 @@ export class Game implements ComponentData, GameState {
     public [Get.Animate]: Array<Animate> = [];
     public [Get.Named]: Array<Named> = [];
     public [Get.Move]: Array<Move> = [];
-    public [Get.PathFind]: Array<PathFind> = [];
     public [Get.Collide]: Array<Collide> = [];
     public [Get.Trigger]: Array<Trigger> = [];
     public [Get.RayTarget]: Array<RayTarget> = [];
@@ -123,6 +121,8 @@ export class Game implements ComponentData, GameState {
     public SeedHouse = 0;
     public SeedBounty = 0;
     public Trophies: Array<number> = [];
+    public PlayerState = PlayerState.None;
+    public PlayerHealth?: Health;
 
     public Materials: Array<Material> = [];
     public Cameras: Array<Camera> = [];
@@ -145,16 +145,16 @@ export class Game implements ComponentData, GameState {
 
         window.addEventListener("keydown", evt => (this.Input[evt.code] = 1));
         window.addEventListener("keyup", evt => (this.Input[evt.code] = 0));
-        this.Canvas.addEventListener("contextmenu", evt => evt.preventDefault());
-        this.Canvas.addEventListener("mousedown", evt => {
+        this.UI.addEventListener("contextmenu", evt => evt.preventDefault());
+        this.UI.addEventListener("mousedown", evt => {
             this.Input[`m${evt.button}`] = 1;
             this.Event[`m${evt.button}d`] = 1;
         });
-        this.Canvas.addEventListener("mouseup", evt => {
+        this.UI.addEventListener("mouseup", evt => {
             this.Input[`m${evt.button}`] = 0;
             this.Event[`m${evt.button}u`] = 1;
         });
-        this.Canvas.addEventListener("mousemove", evt => {
+        this.UI.addEventListener("mousemove", evt => {
             this.Input.mx = evt.offsetX;
             this.Input.my = evt.offsetY;
         });

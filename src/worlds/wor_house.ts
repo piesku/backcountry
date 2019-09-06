@@ -11,7 +11,6 @@ import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
 import {named} from "../components/com_named.js";
 import {find_navigable} from "../components/com_navigable.js";
-import {path_find} from "../components/com_path_find.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {trigger_world} from "../components/com_trigger.js";
@@ -24,6 +23,7 @@ import {Models} from "../models_map.js";
 let map_size = 5;
 
 export function world_house(game: Game) {
+    set_seed(game.SeedHouse);
     game.World = [];
     game.Grid = [];
 
@@ -121,14 +121,13 @@ export function world_house(game: Game) {
 
     // Player.
     set_seed(game.SeedPlayer);
-    game.Add({
+    let player = game.Add({
         Translation: [player_position[0], 5, player_position[2]],
         Rotation: from_euler([], 0, 270, 0),
         Using: [
             named("player"),
             player_control(),
             walking(Math.floor(map_size / 2), Math.floor(map_size / 2)),
-            path_find(),
             move(25, 0),
             collide(true, [3, 7, 3]),
             ray_target(RayFlag.Player),
@@ -143,7 +142,7 @@ export function world_house(game: Game) {
     });
 
     // Camera.
-    game.Add(create_iso_camera(game));
+    game.Add(create_iso_camera(player));
 
     // Sheriff.
     game.Add({

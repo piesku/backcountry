@@ -181,12 +181,12 @@ export function get_building_blueprint(game: Game) {
                 [building_size[0], fence_height, 1],
                 [building_size[0] + porch_size, fence_height, 1],
                 BuildingColors.wood
+            ),
+            ...create_line(
+                [building_size[0] + porch_size, fence_height, building_size[1]],
+                [building_size[0], fence_height, building_size[1]],
+                BuildingColors.wood
             )
-            // ...create_line(
-            //     [building_size[0] + porch_size, fence_height, building_size[1]],
-            //     [building_size[0], fence_height, building_size[1]],
-            //     BuildingColors.wood
-            // )
         );
 
         for (let i = 3; i < porch_size; i += 2) {
@@ -195,12 +195,12 @@ export function get_building_blueprint(game: Game) {
                     [building_size[0] + i, 0, 1],
                     [building_size[0] + i, fence_height + 2, 1],
                     BuildingColors.wood
+                ),
+                ...create_line(
+                    [building_size[0] + i, 0, building_size[1]],
+                    [building_size[0] + i, fence_height + 2, building_size[1]],
+                    BuildingColors.wood
                 )
-                // ...create_line(
-                //     [building_size[0] + i, 0, building_size[1]],
-                //     [building_size[0] + i, fence_height + 2, building_size[1]],
-                //     BuildingColors.wood
-                // )
             );
         }
     }
@@ -214,12 +214,12 @@ export function get_building_blueprint(game: Game) {
 
     // DOOR
     let door_height = building_size[2] * 0.65;
-    let door_width = building_size[1] * 0.2;
+    let door_width = 8;
     for (let i = 0; i < door_width; i++) {
         offsets.push(
             ...create_line(
-                [building_size[0] + 1, 0, building_size[1] - i - 3],
-                [building_size[0] + 1, door_height, building_size[1] - i - 3],
+                [building_size[0] + 1, 0, building_size[1] - i - 8],
+                [building_size[0] + 1, door_height, building_size[1] - i - 8],
                 BuildingColors.wood
             )
         );

@@ -12,15 +12,9 @@ import {create_gun} from "./blu_gun.js";
 import {get_hat_blueprint} from "./blu_hat.js";
 
 let shirt_colors: Array<Color> = [[1, 0, 0], [0, 1, 0], [0, 0, 1], [1, 1, 1]];
-let skin_colors: Array<Color> = [[1, 0.8, 0.6], [1, 0.8, 0.6], [0.6, 0.4, 0]];
+let skin_colors: Array<Color> = [[1, 0.8, 0.6], [0.6, 0.4, 0]];
 let hair_colors: Array<Color> = [[1, 1, 0], [0, 0, 0], [0.6, 0.4, 0], [0.4, 0, 0]];
-let pants_colors: Array<Color> = [
-    [0, 0, 0],
-    [0.53, 0, 0],
-    [0.53, 0, 0],
-    [0.6, 0.4, 0.2],
-    [0.33, 0.33, 0.33],
-];
+let pants_colors: Array<Color> = [[0, 0, 0], [0.53, 0, 0], [0.6, 0.4, 0.2], [0.33, 0.33, 0.33]];
 
 export function get_character_blueprint(game: Game): Blueprint {
     // Create the hat first so that the hat itself can be reproduced with SeedBounty.
@@ -61,6 +55,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                             Translation: [0, -9, 0],
                         },
                     ],
+                    Flags: AnimationFlag.None,
                 },
             }),
         ],

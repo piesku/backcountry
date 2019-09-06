@@ -10,9 +10,8 @@ import {Get} from "../components/com_index.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
 import {named} from "../components/com_named.js";
-import {find_navigable} from "../components/com_navigable.js";
+import {find_navigable, navigable} from "../components/com_navigable.js";
 import {npc} from "../components/com_npc.js";
-import {path_find} from "../components/com_path_find.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {trigger_world} from "../components/com_trigger.js";
 import {walking} from "../components/com_walking.js";
@@ -96,8 +95,6 @@ export function world_map(game: Game) {
         if (i === sherriff_house_index) {
             // Door
             game.Grid[building_x_tile + building_x - 1][
-                starting_position + building_z - 1
-            ] = game.Grid[building_x_tile + building_x - 1][
                 starting_position + building_z - 2
             ] = Infinity;
 
@@ -105,9 +102,14 @@ export function world_map(game: Game) {
                 Translation: [
                     (-(map_size / 2) + building_x_tile + building_x - 1.5) * 8,
                     0,
-                    (-(map_size / 2) + starting_position + building_z - 1.5) * 8,
+                    (-(map_size / 2) + starting_position + building_z - 2) * 8,
                 ],
-                Using: [collide(false, [8, 8, 8]), trigger_world("house", rand())],
+                Using: [
+                    collide(false, [6, 24, 8]),
+                    navigable(building_x_tile + building_x - 1, starting_position + building_z - 2),
+                    ray_target(RayFlag.Navigable),
+                    trigger_world("house", rand()),
+                ],
             });
         }
 
@@ -132,7 +134,7 @@ export function world_map(game: Game) {
             game.Add({
                 Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
                 Rotation: from_euler([], 0, integer(0, 3) * 90, 0),
-                Using: [npc(), path_find(), walking(x, y, true), move(integer(15, 25), 0)],
+                Using: [npc(), walking(x, y, true), move(integer(15, 25), 0)],
                 Children: [get_character_blueprint(game)],
             });
         }
@@ -143,13 +145,12 @@ export function world_map(game: Game) {
 
     // Player.
     set_seed(game.SeedPlayer);
-    game.Add({
+    let player = game.Add({
         Translation: [player_position[0], 5, player_position[2]],
         Using: [
             named("player"),
             player_control(),
             walking(~~(map_size / 2), ~~(map_size / 2)),
-            path_find(),
             move(25, 0),
             collide(true, [3, 7, 3]),
             ray_target(RayFlag.Player),
@@ -164,5 +165,5 @@ export function world_map(game: Game) {
     });
 
     // Camera.
-    game.Add(create_iso_camera(game));
+    game.Add(create_iso_camera(player));
 }
