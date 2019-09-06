@@ -10,7 +10,7 @@ import {Get} from "../components/com_index.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
 import {named} from "../components/com_named.js";
-import {find_navigable} from "../components/com_navigable.js";
+import {find_navigable, navigable} from "../components/com_navigable.js";
 import {npc} from "../components/com_npc.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {trigger_world} from "../components/com_trigger.js";
@@ -95,8 +95,6 @@ export function world_map(game: Game) {
         if (i === sherriff_house_index) {
             // Door
             game.Grid[building_x_tile + building_x - 1][
-                starting_position + building_z - 1
-            ] = game.Grid[building_x_tile + building_x - 1][
                 starting_position + building_z - 2
             ] = Infinity;
 
@@ -106,7 +104,12 @@ export function world_map(game: Game) {
                     0,
                     (-(map_size / 2) + starting_position + building_z - 1.5) * 8,
                 ],
-                Using: [collide(false, [8, 8, 8]), trigger_world("house", rand())],
+                Using: [
+                    collide(false, [8, 24, 8]),
+                    navigable(building_x_tile + building_x - 1, starting_position + building_z - 2),
+                    ray_target(RayFlag.Navigable),
+                    trigger_world("house", rand()),
+                ],
             });
         }
 
