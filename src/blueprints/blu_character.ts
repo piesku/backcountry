@@ -61,6 +61,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                             Translation: [0, -9, 0],
                         },
                     ],
+                    Flags: AnimationFlag.None,
                 },
             }),
         ],

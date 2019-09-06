@@ -87,25 +87,38 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
         }
         case Action.Die: {
             let entity = args[0] as Entity;
-            if (game[Get.NPC][entity].Bounty) {
-                // Spawn the hat.
-                set_seed(game.SeedBounty);
-                let world_position = game[Get.Transform][entity].Translation;
-                let anchor = game.Add({
-                    Translation: world_position,
-                });
-                game.Add({
-                    ...create_reward(game, anchor),
-                    Translation: [world_position[0], world_position[1] + 50, world_position[2]],
-                });
+            if (game.World[entity] & (1 << Get.PlayerControl)) {
+                game.World[entity] &= ~(
+                    (1 << Get.PlayerControl) |
+                    (1 << Get.Move) |
+                    (1 << Get.Collide)
+                );
+                game.WorldName = "defeat";
+            } else if (game.World[entity] & (1 << Get.NPC)) {
+                if (game[Get.NPC][entity].Bounty) {
+                    // Spawn the hat.
+                    set_seed(game.SeedBounty);
+                    let world_position = game[Get.Transform][entity].Translation;
+                    let anchor = game.Add({
+                        Translation: world_position,
+                    });
+                    game.Add({
+                        ...create_reward(game, anchor),
+                        Translation: [world_position[0], world_position[1] + 50, world_position[2]],
+                    });
 
-                // Make all bandits friendly.
-                for (let i = 0; i < game.World.length; i++) {
-                    if (game.World[i] & (1 << Get.NPC)) {
-                        game.World[i] &= ~(1 << Get.Walking);
+                    // Make all bandits friendly.
+                    for (let i = 0; i < game.World.length; i++) {
+                        if (game.World[i] & (1 << Get.NPC)) {
+                            game.World[i] &= ~(1 << Get.Walking);
+                        }
                     }
                 }
+                game.World[entity] &= ~((1 << Get.NPC) | (1 << Get.Move) | (1 << Get.Collide));
+                // This must be the same as character's blueprint's Anim.Die duration.
+                setTimeout(() => game.Destroy(entity), 5000);
             }
+
             break;
         }
         case Action.CollectReward: {

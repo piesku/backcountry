@@ -123,6 +123,7 @@ export function world_mine(game: Game) {
             move(25, 0),
             collide(true, [3, 7, 3]),
             ray_target(RayFlag.Player),
+            health(5),
             shoot(1),
             audio_source(),
         ],

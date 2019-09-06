@@ -31,13 +31,6 @@ function update(game: Game, entity: Entity) {
         } else {
             game.Dispatch(Action.Die, entity);
 
-            game.World[entity] &= ~(
-                (1 << Get.NPC) |
-                (1 << Get.Move) |
-                (1 << Get.Collide) |
-                (1 << Get.RayTarget)
-            );
-
             for (let animate of components_of_type<Animate>(
                 game,
                 game[Get.Transform][entity],
@@ -45,9 +38,6 @@ function update(game: Game, entity: Entity) {
             )) {
                 animate.Trigger = Anim.Die;
             }
-
-            // This must be the same as character's blueprint's Anim.Die duration.
-            setTimeout(() => game.Destroy(entity), 5000);
         }
     }
     health.Damages = [];
