@@ -81,8 +81,8 @@ export function world_desert(game: Game) {
     // Cowboys.
     let cowboys_count = 20;
     for (let i = 0; i < cowboys_count; i++) {
-        let x = integer(0, map_size);
-        let y = integer(0, map_size);
+        let x = integer(4, map_size);
+        let y = integer(4, map_size);
         if (game.Grid[x] && game.Grid[x][y] && !isNaN(game.Grid[x][y])) {
             game.Add({
                 Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
