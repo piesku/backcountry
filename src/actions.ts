@@ -3,7 +3,6 @@ import {Get} from "./components/com_index.js";
 import {ui} from "./components/com_ui.js";
 import {Entity, Game} from "./game.js";
 import {rand} from "./math/random.js";
-import {transform_point} from "./math/vec3.js";
 import {world_desert} from "./worlds/wor_desert.js";
 import {world_intro} from "./worlds/wor_intro.js";
 import {world_map} from "./worlds/wor_map.js";
@@ -52,6 +51,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             break;
         }
         case Action.ChangeWorld: {
+            game.UI.innerHTML = "";
             game.WorldName = args[0] as string;
             switch (game.WorldName) {
                 case "intro":
@@ -71,19 +71,13 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
         }
         case Action.Hit: {
             let entity = args[0] as Entity;
-
             let damage = (Math.random() * 1000).toFixed(0);
             let text = `<div style="animation: up 1s ease-out">${damage}</div>`;
-            let info = ui(text)(game, game.CreateEntity()).Element;
-
             let world_position = game[Get.Transform][entity].Translation;
-            let ndc_position = transform_point(
-                [],
-                [world_position[0], world_position[1] + 12, world_position[2]],
-                game.Cameras[0].PV
-            );
-            info.style.left = `${0.5 * (ndc_position[0] + 1) * game.Canvas.width}px`;
-            info.style.top = `${0.5 * (-ndc_position[1] + 1) * game.Canvas.height}px`;
+            game.Add({
+                Translation: [world_position[0], world_position[1] + 12, world_position[2]],
+                Using: [ui(text)],
+            });
             break;
         }
         case Action.Die: {

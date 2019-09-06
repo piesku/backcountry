@@ -14,6 +14,7 @@ import {find_navigable} from "../components/com_navigable.js";
 import {npc} from "../components/com_npc.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {trigger_world} from "../components/com_trigger.js";
+import {ui} from "../components/com_ui.js";
 import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
@@ -120,15 +121,24 @@ export function world_map(game: Game) {
     }
 
     let sheriff_position =
-        game[Get.Transform][find_navigable(game, ~~(map_size / 2), ~~(map_size / 2) + 3)]
-            .Translation;
+        game[Get.Transform][find_navigable(game, map_size / 2, map_size / 2 + 3)].Translation;
+
+    let exclamation = `<div style="
+            font-size: 10vh;
+            animation: ex 1s ease infinite alternate;">!</div>`;
 
     // Sheriff.
     game.Add({
         Translation: [sheriff_position[0], 5, sheriff_position[2]],
         Rotation: from_euler([], 0, 90, 0),
         Using: [collide(false, [8, 8, 8]), trigger_world("wanted")],
-        Children: [get_character_blueprint(game)],
+        Children: [
+            get_character_blueprint(game),
+            {
+                Translation: [0, 15, 0],
+                Using: game.SeedBounty ? [] : [ui(exclamation, Infinity)],
+            },
+        ],
     });
 
     let player_position =

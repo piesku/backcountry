@@ -9,7 +9,7 @@
         font-family: Impact;
         color: #FFE8C6;
     }
-    main {
+    main, nav {
         position: absolute;
         top: 0;
         right: 0;
@@ -42,6 +42,14 @@
             transform: translateY(-20vh);
         }
     }
+    @keyframes ex {
+        0% {
+            transform: translateY(0);
+        }
+        100% {
+            transform: translateY(-5vh);
+        }
+    }
 
     #debug {
         display: flex;
@@ -65,6 +73,7 @@
 <body>
     <canvas></canvas>
     <main></main>
+    <nav></nav>
     <div id="debug">
         <div>fixed: <span id="fixed"></span></div>
         <div>frame: <span id="frame"></span></div>
