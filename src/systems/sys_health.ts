@@ -17,7 +17,7 @@ export function sys_health(game: Game, delta: number) {
 function update(game: Game, entity: Entity) {
     let health = game[Get.Health][entity];
     for (let i = 0; i < health.Damages.length; i++) {
-        game.Dispatch(Action.HitEnemy, entity);
+        game.Dispatch(Action.Hit, entity);
 
         health.current -= health.Damages[i];
         if (health.current > 0) {
@@ -29,7 +29,7 @@ function update(game: Game, entity: Entity) {
                 animate.Trigger = Anim.Hit;
             }
         } else {
-            game.Dispatch(Action.KillEnemy, entity);
+            game.Dispatch(Action.Die, entity);
 
             game.World[entity] &= ~(
                 (1 << Get.NPC) |

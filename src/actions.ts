@@ -23,8 +23,9 @@ export const enum Action {
     InitGame = 1,
     ChangePlayer,
     ChangeWorld,
-    HitEnemy,
-    KillEnemy,
+    Hit,
+    Die,
+    CollectReward,
 }
 
 export function effect(game: Game, action: Action, args: Array<unknown>) {
@@ -67,7 +68,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                     return setTimeout(world_desert, 0, game);
             }
         }
-        case Action.HitEnemy: {
+        case Action.Hit: {
             let entity = args[0] as Entity;
 
             let damage = (Math.random() * 1000).toFixed(0);
@@ -84,9 +85,10 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             info.style.top = `${0.5 * (-ndc_position[1] + 1) * game.Canvas.height}px`;
             break;
         }
-        case Action.KillEnemy: {
+        case Action.Die: {
             let entity = args[0] as Entity;
             if (game[Get.NPC][entity].Bounty) {
+                // Spawn the hat.
                 set_seed(game.SeedBounty);
                 let world_position = game[Get.Transform][entity].Translation;
                 let anchor = game.Add({
@@ -94,9 +96,21 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                 });
                 game.Add({
                     ...create_reward(game, anchor),
-                    Translation: [world_position[0], world_position[1] + 100, world_position[2]],
+                    Translation: [world_position[0], world_position[1] + 50, world_position[2]],
                 });
+
+                // Make all bandits friendly.
+                for (let i = 0; i < game.World.length; i++) {
+                    if (game.World[i] & (1 << Get.NPC)) {
+                        game.World[i] &= ~(1 << Get.Walking);
+                    }
+                }
             }
+            break;
+        }
+        case Action.CollectReward: {
+            game.WorldName = "victory";
+            break;
         }
     }
 }
