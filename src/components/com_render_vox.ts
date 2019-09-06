@@ -25,7 +25,7 @@ export function render_vox(model: Model, Palette?: Array<number>) {
             Kind: RenderKind.Instanced,
             Material: game.Materials[Mat.Instanced],
             VAO: buffer(game.GL, shape, Offsets),
-            IndexCount: shape.indices.length,
+            IndexCount: shape.Indices.length,
             InstanceCount: Offsets.length / 4,
             Palette,
         };
@@ -43,12 +43,12 @@ function buffer(gl: WebGL2RenderingContext, shape: Shape, offsets: Float32Array)
     gl.bindVertexArray(vao);
 
     gl.bindBuffer(GL_ARRAY_BUFFER, gl.createBuffer());
-    gl.bufferData(GL_ARRAY_BUFFER, shape.vertices, GL_STATIC_DRAW);
+    gl.bufferData(GL_ARRAY_BUFFER, shape.Vertices, GL_STATIC_DRAW);
     gl.enableVertexAttribArray(InstancedAttribute.position);
     gl.vertexAttribPointer(InstancedAttribute.position, 3, GL_FLOAT, false, 0, 0);
 
     gl.bindBuffer(GL_ARRAY_BUFFER, gl.createBuffer());
-    gl.bufferData(GL_ARRAY_BUFFER, shape.normals, GL_STATIC_DRAW);
+    gl.bufferData(GL_ARRAY_BUFFER, shape.Normals, GL_STATIC_DRAW);
     gl.enableVertexAttribArray(InstancedAttribute.normal);
     gl.vertexAttribPointer(InstancedAttribute.normal, 3, GL_FLOAT, false, 0, 0);
 
@@ -59,7 +59,7 @@ function buffer(gl: WebGL2RenderingContext, shape: Shape, offsets: Float32Array)
     gl.vertexAttribDivisor(InstancedAttribute.offset, 1);
 
     gl.bindBuffer(GL_ELEMENT_ARRAY_BUFFER, gl.createBuffer());
-    gl.bufferData(GL_ELEMENT_ARRAY_BUFFER, shape.indices, GL_STATIC_DRAW);
+    gl.bufferData(GL_ELEMENT_ARRAY_BUFFER, shape.Indices, GL_STATIC_DRAW);
 
     gl.bindVertexArray(null);
     return vao;
