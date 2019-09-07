@@ -16,9 +16,14 @@ export interface Collide {
     Max: Vec3;
     /** Collisions detected with this collider during this tick. */
     Collisions: Array<Collide>;
+    Flags: RayTarget;
 }
 
-export function collide(Dynamic: boolean = true, Size: [number, number, number] = [1, 1, 1]) {
+export function collide(
+    Dynamic: boolean = true,
+    Size: [number, number, number] = [1, 1, 1],
+    Flag = RayTarget.None
+) {
     return (game: Game, Entity: Entity) => {
         game.World[Entity] |= 1 << Get.Collide;
         game[Get.Collide][Entity] = <Collide>{
@@ -29,6 +34,15 @@ export function collide(Dynamic: boolean = true, Size: [number, number, number] 
             Min: [0, 0, 0],
             Max: [0, 0, 0],
             Collisions: [],
+            Flags: Flag,
         };
     };
+}
+
+export const enum RayTarget {
+    None = 1 << 0,
+    Navigable = 1 << 1,
+    Attackable = 1 << 2,
+    Player = 1 << 4,
+    Choosable = 1 << 5,
 }

@@ -1,8 +1,8 @@
 import {Action} from "../actions.js";
 import {Anim, Animate} from "../components/com_animate.js";
 import {AudioSource} from "../components/com_audio_source.js";
+import {RayTarget} from "../components/com_collide.js";
 import {Get} from "../components/com_index.js";
-import {RayFlag} from "../components/com_ray_target.js";
 import {components_of_type} from "../components/com_transform.js";
 import {Entity, Game} from "../game.js";
 import {raycast} from "../math/raycast.js";
@@ -10,14 +10,16 @@ import {normalize, subtract, transform_point} from "../math/vec3.js";
 import {snd_click} from "../sounds/snd_click.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Camera) | (1 << Get.Select);
-const TARGET = (1 << Get.Transform) | (1 << Get.Collide) | (1 << Get.RayTarget);
-const ANIMATED = RayFlag.Navigable | RayFlag.Player | RayFlag.Choosable;
+const TARGET = (1 << Get.Transform) | (1 << Get.Collide);
+const ANIMATED = RayTarget.Navigable | RayTarget.Player | RayTarget.Choosable;
 
 export function sys_select(game: Game, delta: number) {
     game.Targets = [];
     for (let i = 0; i < game.World.length; i++) {
         if ((game.World[i] & TARGET) === TARGET) {
-            game.Targets.push(game[Get.RayTarget][i]);
+            if (game[Get.Collide][i].Flags !== RayTarget.None) {
+                game.Targets.push(game[Get.Collide][i]);
+            }
         }
     }
 
@@ -57,7 +59,7 @@ function update(game: Game, entity: Entity) {
             audio.Trigger = snd_click;
         }
 
-        if (select.Hit.Other.Flags & RayFlag.Choosable) {
+        if (select.Hit.Other.Flags & RayTarget.Choosable) {
             game.Dispatch(Action.ChangePlayer, select.Hit.Other.Entity);
         }
     }

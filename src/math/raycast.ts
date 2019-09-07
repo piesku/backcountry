@@ -1,11 +1,10 @@
 import {Vec3} from ".";
 import {Collide} from "../components/com_collide";
 import {Get} from "../components/com_index";
-import {RayTarget} from "../components/com_ray_target";
 import {Game} from "../game";
 
 export interface RaycastHit {
-    Other: RayTarget;
+    Other: Collide;
     Contact: Vec3;
 }
 

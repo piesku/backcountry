@@ -4,7 +4,7 @@ import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
 import {create_iso_camera} from "../blueprints/blu_iso_camera.js";
 import {get_town_gate_blueprint} from "../blueprints/blu_town_gate.js";
 import {audio_source} from "../components/com_audio_source.js";
-import {collide} from "../components/com_collide.js";
+import {collide, RayTarget} from "../components/com_collide.js";
 import {player_control} from "../components/com_control_player.js";
 import {Get} from "../components/com_index.js";
 import {light} from "../components/com_light.js";
@@ -12,7 +12,6 @@ import {move} from "../components/com_move.js";
 import {named} from "../components/com_named.js";
 import {find_navigable} from "../components/com_navigable.js";
 import {npc} from "../components/com_npc.js";
-import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {trigger_world} from "../components/com_trigger.js";
 import {ui} from "../components/com_ui.js";
 import {walking} from "../components/com_walking.js";
@@ -153,8 +152,7 @@ export function world_map(game: Game) {
             player_control(),
             walking(~~(map_size / 2), ~~(map_size / 2)),
             move(25, 0),
-            collide(true, [3, 7, 3]),
-            ray_target(RayFlag.Player),
+            collide(true, [3, 7, 3], RayTarget.Player),
         ],
         Children: [
             get_character_blueprint(game),

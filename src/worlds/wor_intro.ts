@@ -1,10 +1,9 @@
 import {get_character_blueprint} from "../blueprints/blu_character.js";
 import {camera_perspective} from "../components/com_camera.js";
-import {collide} from "../components/com_collide.js";
+import {collide, RayTarget} from "../components/com_collide.js";
 import {light} from "../components/com_light.js";
 import {mimic} from "../components/com_mimic.js";
 import {named} from "../components/com_named.js";
-import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {select} from "../components/com_select.js";
 import {Entity, Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
@@ -21,8 +20,7 @@ export function world_intro(game: Game) {
         most_recent = game.Add({
             Translation: [i, 0, 10 * i],
             Using: [
-                collide(false, [3, 7, 3]),
-                ray_target(RayFlag.Choosable),
+                collide(false, [3, 7, 3], RayTarget.Choosable),
                 named((game.Trophies[i] as unknown) as string),
             ],
             Children: [get_character_blueprint(game)],

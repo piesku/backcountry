@@ -16,7 +16,6 @@ import {Named} from "./components/com_named.js";
 import {Navigable} from "./components/com_navigable.js";
 import {NPC} from "./components/com_npc.js";
 import {Projectile} from "./components/com_projectile.js";
-import {RayTarget} from "./components/com_ray_target.js";
 import {Render} from "./components/com_render.js";
 import {Select} from "./components/com_select.js";
 import {Shake} from "./components/com_shake.js";
@@ -90,7 +89,6 @@ export class Game implements ComponentData, GameState {
     public [Get.Move]: Array<Move> = [];
     public [Get.Collide]: Array<Collide> = [];
     public [Get.Trigger]: Array<Trigger> = [];
-    public [Get.RayTarget]: Array<RayTarget> = [];
     public [Get.Navigable]: Array<Navigable> = [];
     public [Get.Select]: Array<Select> = [];
     public [Get.Shoot]: Array<Shoot> = [];
@@ -134,7 +132,7 @@ export class Game implements ComponentData, GameState {
     public Lights: Array<Light> = [];
     public Models: Array<Model> = [];
     public Palette: Array<number> = palette;
-    public Targets: Array<RayTarget> = [];
+    public Targets: Array<Collide> = [];
     private RAF: number = 0;
 
     constructor() {

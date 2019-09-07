@@ -1,6 +1,6 @@
+import {RayTarget} from "../components/com_collide.js";
 import {Get} from "../components/com_index.js";
 import {find_navigable, Navigable} from "../components/com_navigable.js";
-import {RayFlag} from "../components/com_ray_target.js";
 import {Select} from "../components/com_select.js";
 import {Entity, Game} from "../game.js";
 import {get_translation} from "../math/mat4.js";
@@ -25,14 +25,17 @@ function update(game: Game, entity: Entity, cursor: Select) {
     }
 
     if (game.Event.m0d) {
-        if (cursor.Hit.Other.Flags & RayFlag.Navigable) {
+        if (cursor.Hit.Other.Flags & RayTarget.Navigable) {
             let route = get_route(game, entity, game[Get.Navigable][cursor.Hit.Other.Entity]);
             if (route) {
                 game[Get.Walking][entity].Route = route;
             }
         }
 
-        if (cursor.Hit.Other.Flags & RayFlag.Attackable && game.World[entity] & (1 << Get.Shoot)) {
+        if (
+            cursor.Hit.Other.Flags & RayTarget.Attackable &&
+            game.World[entity] & (1 << Get.Shoot)
+        ) {
             let other_transform = game[Get.Transform][cursor.Hit.Other.Entity];
             game[Get.Shoot][entity].Target = get_translation([], other_transform.World);
             game[Get.Shake][game.Cameras[0].Entity].Duration = 0.2;
