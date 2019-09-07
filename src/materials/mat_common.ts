@@ -7,9 +7,9 @@ import {
 } from "../webgl.js";
 
 export interface Shape {
-    vertices: Float32Array;
-    indices: Uint16Array;
-    normals: Float32Array;
+    Vertices: Float32Array;
+    Indices: Uint16Array;
+    Normals: Float32Array;
 }
 
 export interface Material {

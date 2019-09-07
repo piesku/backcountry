@@ -14,6 +14,7 @@ import {find_navigable} from "../components/com_navigable.js";
 import {npc} from "../components/com_npc.js";
 import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {shoot} from "../components/com_shoot.js";
+import {ui} from "../components/com_ui.js";
 import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
@@ -86,7 +87,13 @@ export function world_mine(game: Game) {
                 shoot(1),
                 ray_target(RayFlag.Attackable),
             ],
-            Children: [(set_seed(game.SeedBounty), get_character_blueprint(game))],
+            Children: [
+                (set_seed(game.SeedBounty), get_character_blueprint(game)),
+                {
+                    Translation: [0, 10, 0],
+                    Using: [ui(`<div style="height: 2vh; background: #ff0;"/>`, Infinity)],
+                },
+            ],
         });
     }
 
@@ -106,7 +113,13 @@ export function world_mine(game: Game) {
                     shoot(1),
                     ray_target(RayFlag.Attackable),
                 ],
-                Children: [get_character_blueprint(game)],
+                Children: [
+                    get_character_blueprint(game),
+                    {
+                        Translation: [0, 10, 0],
+                        Using: [ui(`<div style="height: 1vh; background: #f00;"/>`, Infinity)],
+                    },
+                ],
             });
         }
     }
@@ -132,6 +145,10 @@ export function world_mine(game: Game) {
             {
                 Translation: [0, 25, 0],
                 Using: [light([1, 1, 1], 20)],
+            },
+            {
+                Translation: [0, 10, 0],
+                Using: [ui(`<div style="height: 1vh; background: #0f0;"/>`, Infinity)],
             },
         ],
     });

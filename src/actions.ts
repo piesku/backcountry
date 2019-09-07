@@ -3,9 +3,7 @@ import {Get} from "./components/com_index.js";
 import {ui} from "./components/com_ui.js";
 import {Entity, Game} from "./game.js";
 import {rand} from "./math/random.js";
-import {transform_point} from "./math/vec3.js";
 import {world_desert} from "./worlds/wor_desert.js";
-import {world_house} from "./worlds/wor_house.js";
 import {world_intro} from "./worlds/wor_intro.js";
 import {world_map} from "./worlds/wor_map.js";
 import {world_mine} from "./worlds/wor_mine.js";
@@ -15,7 +13,6 @@ export interface GameState {
     WorldName: string;
     SeedPlayer: number;
     SeedBounty: number;
-    SeedHouse: number;
     Trophies: Array<number>;
     PlayerState: PlayerState;
     PlayerHealth?: Health;
@@ -43,7 +40,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                 game.Trophies = trophies.split(",").map(Number);
             }
             // Today's timestamp. Changes every midnight, 00:00 UTC.
-            save_trophy(game, Math.floor(Date.now() / (24 * 60 * 60 * 1000)));
+            save_trophy(game, ~~(Date.now() / (24 * 60 * 60 * 1000)));
             game.SeedPlayer = game.Trophies[game.Trophies.length - 1];
             break;
         }
@@ -54,6 +51,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             break;
         }
         case Action.ChangeWorld: {
+            game.UI.innerHTML = "";
             game.WorldName = args[0] as string;
             switch (game.WorldName) {
                 case "intro":
@@ -62,9 +60,6 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                     return setTimeout(world_intro, 0, game);
                 case "map":
                     return setTimeout(world_map, 0, game);
-                case "house":
-                    game.SeedHouse = args[1] as number;
-                    return setTimeout(world_house, 0, game);
                 case "wanted":
                     game.SeedBounty = rand();
                     return setTimeout(world_wanted, 0, game);
@@ -76,19 +71,13 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
         }
         case Action.Hit: {
             let entity = args[0] as Entity;
-
             let damage = (Math.random() * 1000).toFixed(0);
             let text = `<div style="animation: up 1s ease-out">${damage}</div>`;
-            let info = ui(text)(game, game.CreateEntity()).Element;
-
             let world_position = game[Get.Transform][entity].Translation;
-            let ndc_position = transform_point(
-                [],
-                [world_position[0], world_position[1] + 12, world_position[2]],
-                game.Cameras[0].PV
-            );
-            info.style.left = `${0.5 * (ndc_position[0] + 1) * game.Canvas.width}px`;
-            info.style.top = `${0.5 * (-ndc_position[1] + 1) * game.Canvas.height}px`;
+            game.Add({
+                Translation: [world_position[0], world_position[1] + 12, world_position[2]],
+                Using: [ui(text)],
+            });
             break;
         }
         case Action.Die: {

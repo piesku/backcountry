@@ -55,6 +55,7 @@ import {sys_toggle} from "./systems/sys_toggle.js";
 import {sys_transform} from "./systems/sys_transform.js";
 import {sys_trigger} from "./systems/sys_trigger.js";
 import {sys_ui} from "./systems/sys_ui.js";
+import {GL_CULL_FACE, GL_CW, GL_DEPTH_TEST} from "./webgl.js";
 
 const MAX_ENTITIES = 10000;
 
@@ -105,6 +106,7 @@ export class Game implements ComponentData, GameState {
     public GL: WebGL2RenderingContext;
     public Audio: AudioContext = new AudioContext();
     public UI: HTMLElement = document.querySelector("main")!;
+    public HUD: HTMLElement = document.querySelector("nav")!;
 
     public Input: InputState = {
         mx: 0,
@@ -118,7 +120,6 @@ export class Game implements ComponentData, GameState {
     public Dispatch = (action: Action, ...args: Array<unknown>) => effect(this, action, args);
     public WorldName = "intro";
     public SeedPlayer = 0;
-    public SeedHouse = 0;
     public SeedBounty = 0;
     public Trophies: Array<number> = [];
     public PlayerState = PlayerState.None;
@@ -145,24 +146,24 @@ export class Game implements ComponentData, GameState {
 
         window.addEventListener("keydown", evt => (this.Input[evt.code] = 1));
         window.addEventListener("keyup", evt => (this.Input[evt.code] = 0));
-        this.UI.addEventListener("contextmenu", evt => evt.preventDefault());
-        this.UI.addEventListener("mousedown", evt => {
+        this.HUD.addEventListener("contextmenu", evt => evt.preventDefault());
+        this.HUD.addEventListener("mousedown", evt => {
             this.Input[`m${evt.button}`] = 1;
             this.Event[`m${evt.button}d`] = 1;
         });
-        this.UI.addEventListener("mouseup", evt => {
+        this.HUD.addEventListener("mouseup", evt => {
             this.Input[`m${evt.button}`] = 0;
             this.Event[`m${evt.button}u`] = 1;
         });
-        this.UI.addEventListener("mousemove", evt => {
+        this.HUD.addEventListener("mousemove", evt => {
             this.Input.mx = evt.offsetX;
             this.Input.my = evt.offsetY;
         });
 
         this.GL = this.Canvas.getContext("webgl2")!;
-        this.GL.enable(this.GL.DEPTH_TEST);
-        this.GL.enable(this.GL.CULL_FACE);
-        this.GL.frontFace(this.GL.CW);
+        this.GL.enable(GL_DEPTH_TEST);
+        this.GL.enable(GL_CULL_FACE);
+        this.GL.frontFace(GL_CW);
 
         this.Materials[Mat.Instanced] = mat_instanced(this.GL);
         this.Materials[Mat.Particles] = mat_particles(this.GL);

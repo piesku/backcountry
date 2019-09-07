@@ -19,9 +19,8 @@ export function get_hat_blueprint(game: Game): Blueprint {
     let hat_x = integer(hat_z / 2, 5) * 2;
     let top_height = integer(1, 3);
     let top_width = 2; //integer(1, hat_z / 2 - 1) * 2;
-    let has_extra = rand() > 0.2 && top_height > 1;
+    let has_extra = top_height > 1;
     let has_sides = rand() > 0.4;
-    let has_far_sides = has_sides && rand() > 0.7;
 
     let body_height = game.Models[Models.BODY].Size[1];
 
@@ -40,16 +39,15 @@ export function get_hat_blueprint(game: Game): Blueprint {
 
     if (has_sides) {
         // SIDES
-        let modifier = has_far_sides ? 0.5 : -0.5;
         offsets.push(
             ...create_line(
-                [hat_x / 2 + modifier, 1, -hat_z / 2 + 0.5],
-                [hat_x / 2 + modifier, 1, hat_z / 2 + 0.5],
+                [hat_x / 2 - 0.5, 1, -hat_z / 2 + 0.5],
+                [hat_x / 2 - 0.5, 1, hat_z / 2 + 0.5],
                 2
             ),
             ...create_line(
-                [-hat_x / 2 - modifier, 1, -hat_z / 2 + 0.5],
-                [-hat_x / 2 - modifier, 1, hat_z / 2 + 0.5],
+                [-hat_x / 2 + 0.5, 1, -hat_z / 2 + 0.5],
+                [-hat_x / 2 + 0.5, 1, hat_z / 2 + 0.5],
                 2
             )
         );

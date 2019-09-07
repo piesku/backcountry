@@ -1,7 +1,7 @@
 import {Action} from "../actions.js";
 import {html} from "./html.js";
 
-export function Wanted(house_seed: number) {
+export function Wanted() {
     return html`
         <div
             style="
@@ -25,7 +25,7 @@ export function Wanted(house_seed: number) {
                 font-size: 10vh;
             "
         >
-            <button onclick="$(${Action.ChangeWorld}, 'house', ${house_seed});">
+            <button onclick="$(${Action.ChangeWorld}, 'map');">
                 ACCEPT BOUNTY
             </button>
         </div>

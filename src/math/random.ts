@@ -10,7 +10,7 @@ export function rand() {
 }
 
 export function integer(min = 0, max = 1) {
-    return Math.floor(rand() * (max - min + 1) + min);
+    return ~~(rand() * (max - min + 1) + min);
 }
 
 export function float(min = 0, max = 1) {

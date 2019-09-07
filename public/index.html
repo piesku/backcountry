@@ -9,7 +9,7 @@
         font-family: Impact;
         color: #FFE8C6;
     }
-    main {
+    main, nav {
         position: absolute;
         top: 0;
         right: 0;
@@ -26,8 +26,8 @@
     }
     p {
         position: absolute;
-        width: 200px;
-        margin-left: -100px;
+        width: 10vw;
+        margin-left: -5vw;
         text-align: center;
         font-size: 5vh;
     }
@@ -42,10 +42,19 @@
             transform: translateY(-20vh);
         }
     }
+    @keyframes ex {
+        0% {
+            transform: translateY(0);
+        }
+        100% {
+            transform: translateY(-5vh);
+        }
+    }
 </style>
 <body>
     <canvas></canvas>
     <main></main>
+    <nav></nav>
     <script type="module">
         import "./js/index.js";
     </script>

@@ -74,9 +74,7 @@ function get_random_route(game: Game, entity: Entity, destination_depth: number)
 
     while (destination_depth !== current_depth) {
         if (route.length > 10) {
-            destination_depth = integer(1, 15);
-            current_depth = game.Grid[walking.X][walking.Y];
-            modifier = destination_depth > current_depth ? 1 : -1;
+            return false;
         }
 
         route.push([current_cell.X, current_cell.Y]);

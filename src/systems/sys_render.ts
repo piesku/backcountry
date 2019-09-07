@@ -7,12 +7,19 @@ import {Transform} from "../components/com_transform.js";
 import {Game} from "../game.js";
 import {ParticleAttribute} from "../materials/mat_particles.js";
 import {get_translation} from "../math/mat4.js";
-import {GL_ARRAY_BUFFER, GL_DYNAMIC_DRAW, GL_FLOAT, GL_UNSIGNED_SHORT} from "../webgl.js";
+import {
+    GL_ARRAY_BUFFER,
+    GL_COLOR_BUFFER_BIT,
+    GL_DEPTH_BUFFER_BIT,
+    GL_DYNAMIC_DRAW,
+    GL_FLOAT,
+    GL_UNSIGNED_SHORT,
+} from "../webgl.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Render);
 
 export function sys_render(game: Game, delta: number) {
-    game.GL.clear(game.GL.COLOR_BUFFER_BIT | game.GL.DEPTH_BUFFER_BIT);
+    game.GL.clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     let light_positions: Array<number> = [];
     let light_details: Array<number> = [];
