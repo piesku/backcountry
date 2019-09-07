@@ -17,7 +17,7 @@ public/opt/game.rollup.js: public/js/index.js
 
 public/opt/game.trim.js: public/opt/game.rollup.js
 	@echo -n "Stripping indents and newlines... "
-	@sed  -e "s/^ *//" -e "s://.*::" $< | tr "\n" " " > $@
+	@sed  -e "s/^ *//" -e "s://.*::" $< | tr -d "\n" > $@
 	@echo "Done"
 
 public/opt/game.terser.js: public/opt/game.trim.js
