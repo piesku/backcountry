@@ -28,11 +28,10 @@ export function sys_render(game: Game, delta: number) {
 
     for (let i = 0; i < game.World.length; i++) {
         if ((game.World[i] & LIGHTS) === LIGHTS) {
-            let light = game[Get.Light][i];
             let transform = game[Get.Transform][i];
             let position = get_translation([], transform.World);
             light_positions.push(...position);
-            light_details.push(...light.Color, light.Intensity);
+            light_details.push(...game[Get.Light][i]);
         }
     }
 
