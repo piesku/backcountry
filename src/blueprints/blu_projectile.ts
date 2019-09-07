@@ -14,7 +14,15 @@ export function create_projectile() {
         Children: [
             {
                 Scale: [0.3, 0.3, 0.3],
-                Using: [render_vox({Offsets: new Float32Array(4), Size: [1, 1, 1]}, [1, 0, 0])],
+                Using: [
+                    render_vox(
+                        {
+                            Offsets: new Float32Array(4),
+                            // Size: [1, 1, 1]
+                        },
+                        [1, 0, 0]
+                    ),
+                ],
             },
             {
                 Using: [

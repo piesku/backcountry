@@ -12,7 +12,7 @@ export function get_block_blueprint(game: Game): Blueprint {
     let model = create_model();
 
     return {
-        Translation: [0, model.Size[1] / 2 + 1, 0],
+        Translation: [0, 1.5, 0],
         Rotation: from_euler([], 0, integer(0, 3) * 90, 0),
         Using: [render_vox(model, main_building_palette), cull(Get.Render)],
     };
@@ -35,6 +35,6 @@ function create_model() {
 
     return {
         Offsets: Float32Array.from(offsets),
-        Size: [1, 1, 1],
+        // Size: [1, 1, 1],
     } as Model;
 }

@@ -79,7 +79,7 @@ function get_random_route(game: Game, entity: Entity, destination_depth: number)
 
         route.push([current_cell.X, current_cell.Y]);
 
-        let neighbors = get_neighbors(game, current_cell.X, current_cell.Y, walking.Diagonal).sort(
+        let neighbors = get_neighbors(game, current_cell.X, current_cell.Y).sort(
             () => 0.5 - Math.random()
         );
 

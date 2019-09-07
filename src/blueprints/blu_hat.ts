@@ -22,7 +22,7 @@ export function get_hat_blueprint(game: Game): Blueprint {
     let has_extra = top_height > 1;
     let has_sides = rand() > 0.4;
 
-    let body_height = game.Models[Models.BODY].Size[1];
+    let body_height = game.Models[Models.BODY].Size![1];
 
     let offsets = [];
 
@@ -67,7 +67,7 @@ export function get_hat_blueprint(game: Game): Blueprint {
     }
 
     return {
-        Translation: [0, body_height / 2 + 0.5, 0],
+        Translation: [0, 3, 0],
         // Do we need hats rotations?
         // Translation: is_rotated
         //     ? [0, body_height / 2 - 2, hat_height / 2 + 1]
@@ -81,7 +81,7 @@ export function get_hat_blueprint(game: Game): Blueprint {
                             Offsets: Float32Array.from(offsets),
                             // TODO: Do we need this size anywhere?
                             // Size: [hat_x, top_height + 1 / 2, hat_z],
-                            Size: [1, 1, 1],
+                            // Size: [1, 1, 1],
                         },
                         hat_palette
                     ),
@@ -106,6 +106,26 @@ export function get_hat_blueprint(game: Game): Blueprint {
                                 {
                                     Timestamp: 0.2,
                                     Translation: [0, 0, 0],
+                                },
+                            ],
+                            Flags: AnimationFlag.None,
+                        },
+                        [Anim.Select]: {
+                            Keyframes: [
+                                {
+                                    Timestamp: 0,
+                                    Translation: [0, 0, 0],
+                                    Rotation: [0, 0, 0, 1],
+                                },
+                                {
+                                    Timestamp: 0.1,
+                                    Translation: [0, 2, 0],
+                                    Rotation: [0, 1, 0, 0],
+                                },
+                                {
+                                    Timestamp: 0.2,
+                                    Translation: [0, 0, 0],
+                                    Rotation: [0, 0, 0, -1],
                                 },
                             ],
                             Flags: AnimationFlag.None,

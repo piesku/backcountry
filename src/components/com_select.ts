@@ -1,9 +1,9 @@
 import {Entity, Game} from "../game.js";
-import {RaycastHit} from "../math/raycast.js";
+import {Collide} from "./com_collide.js";
 import {Get} from "./com_index.js";
 
 export interface Select {
-    Hit?: RaycastHit;
+    Hit?: Collide;
 }
 
 export function select() {

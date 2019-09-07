@@ -1,10 +1,9 @@
 import {Anim, animate, AnimationFlag} from "../components/com_animate.js";
 import {audio_source} from "../components/com_audio_source.js";
-import {collide} from "../components/com_collide.js";
+import {collide, RayTarget} from "../components/com_collide.js";
 import {cull} from "../components/com_cull.js";
 import {Get} from "../components/com_index.js";
 import {navigable} from "../components/com_navigable.js";
-import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
@@ -77,12 +76,14 @@ export function get_tile_blueprint(
         );
     }
 
-    let using = is_walkable ? [ray_target(RayFlag.Navigable)] : [ray_target(RayFlag.None)];
-
     return {
         Rotation: from_euler([], 0, integer(0, 3) * 90, 0),
         Translation: [0, 0, 0],
-        Using: [collide(false, [8, 1, 8]), cull(Get.Collide), navigable(x, y), ...using],
+        Using: [
+            collide(false, [8, 1, 8], is_walkable ? RayTarget.Navigable : RayTarget.None),
+            cull(Get.Collide),
+            navigable(x, y),
+        ],
         Children: [tile],
     };
 }

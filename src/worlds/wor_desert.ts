@@ -3,7 +3,7 @@ import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
 import {create_iso_camera} from "../blueprints/blu_iso_camera.js";
 import {get_mine_entrance_blueprint} from "../blueprints/blu_mine_entrance.js";
 import {audio_source} from "../components/com_audio_source.js";
-import {collide} from "../components/com_collide.js";
+import {collide, RayTarget} from "../components/com_collide.js";
 import {player_control} from "../components/com_control_player.js";
 import {health} from "../components/com_health.js";
 import {Get} from "../components/com_index.js";
@@ -12,7 +12,6 @@ import {move} from "../components/com_move.js";
 import {named} from "../components/com_named.js";
 import {find_navigable} from "../components/com_navigable.js";
 import {npc} from "../components/com_npc.js";
-import {RayFlag, ray_target} from "../components/com_ray_target.js";
 import {shoot} from "../components/com_shoot.js";
 import {ui} from "../components/com_ui.js";
 import {walking} from "../components/com_walking.js";
@@ -89,12 +88,11 @@ export function world_desert(game: Game) {
                 Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
                 Using: [
                     npc(false),
-                    walking(x, y, true),
+                    walking(x, y),
                     move(integer(8, 15)),
-                    collide(true, [7, 7, 7]),
+                    collide(true, [7, 7, 7], RayTarget.Attackable),
                     health(3),
                     shoot(1),
-                    ray_target(RayFlag.Attackable),
                 ],
                 Children: [
                     get_character_blueprint(game),
@@ -127,8 +125,7 @@ export function world_desert(game: Game) {
             player_control(),
             walking(1, 1),
             move(25, 0),
-            collide(true, [3, 7, 3]),
-            ray_target(RayFlag.Player),
+            collide(true, [3, 7, 3], RayTarget.Player),
             health(10),
             shoot(1),
             audio_source(),

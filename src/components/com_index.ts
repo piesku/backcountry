@@ -13,7 +13,6 @@ import {Named} from "./com_named";
 import {Navigable} from "./com_navigable";
 import {NPC} from "./com_npc.js";
 import {Projectile} from "./com_projectile";
-import {RayTarget} from "./com_ray_target";
 import {Render} from "./com_render";
 import {Select} from "./com_select";
 import {Shake} from "./com_shake";
@@ -34,7 +33,6 @@ export const enum Get {
     Move,
     Collide,
     Trigger,
-    RayTarget,
     Navigable,
     Select,
     Shoot,
@@ -62,7 +60,6 @@ export interface ComponentData {
     [Get.Move]: Array<Move>;
     [Get.Collide]: Array<Collide>;
     [Get.Trigger]: Array<Trigger>;
-    [Get.RayTarget]: Array<RayTarget>;
     [Get.Navigable]: Array<Navigable>;
     [Get.Select]: Array<Select>;
     [Get.Shoot]: Array<Shoot>;

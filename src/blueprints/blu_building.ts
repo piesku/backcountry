@@ -99,8 +99,8 @@ export function get_building_blueprint(game: Game) {
 
     if (has_windows && has_tall_front_facade) {
         // WINDOWS
-        let window_width = game.Models[Models.WINDOW].Size[2];
-        let window_height = game.Models[Models.WINDOW].Size[1];
+        let window_width = game.Models[Models.WINDOW].Size![2];
+        let window_height = game.Models[Models.WINDOW].Size![1];
 
         for (
             let offset = window_width;
@@ -254,7 +254,6 @@ export function get_building_blueprint(game: Game) {
                 render_vox(
                     {
                         Offsets: Float32Array.from(offsets),
-                        Size,
                     },
                     palette
                 ),

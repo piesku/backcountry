@@ -1,6 +1,6 @@
 export interface Model {
     Offsets: Float32Array;
-    Size: [number, number, number];
+    Size?: [number, number, number];
     Palette?: Array<number>;
 }
 
