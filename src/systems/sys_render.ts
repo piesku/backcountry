@@ -17,6 +17,7 @@ import {
 } from "../webgl.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Render);
+const LIGHTS = (1 << Get.Transform) | (1 << Get.Light);
 
 export function sys_render(game: Game, delta: number) {
     game.GL.clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -24,12 +25,13 @@ export function sys_render(game: Game, delta: number) {
     let light_positions: Array<number> = [];
     let light_details: Array<number> = [];
 
-    for (let i = 0; i < game.Lights.length; i++) {
-        let light = game.Lights[i];
-        let transform = game[Get.Transform][light.Entity];
-        let position = get_translation([], transform.World);
-        light_positions.push(...position);
-        light_details.push(...light.Color, light.Intensity);
+    for (let i = 0; i < game.World.length; i++) {
+        if ((game.World[i] & LIGHTS) === LIGHTS) {
+            let transform = game[Get.Transform][i];
+            let position = get_translation([], transform.World);
+            light_positions.push(...position);
+            light_details.push(...game[Get.Light][i]);
+        }
     }
 
     // Keep track of the current material to minimize switching.
@@ -40,18 +42,16 @@ export function sys_render(game: Game, delta: number) {
             let transform = game[Get.Transform][i];
             let render = game[Get.Render][i];
 
-            // TODO Sort by material.
             if (render.Material !== current_material) {
                 current_material = render.Material;
 
                 let {gl, program, uniforms} = current_material;
                 gl.useProgram(program);
-                // TODO Support more than one camera.
-                gl.uniformMatrix4fv(uniforms.pv, false, game.Cameras[0].PV);
+                gl.uniformMatrix4fv(uniforms.pv, false, game.Camera!.PV);
 
                 switch (render.Kind) {
                     case RenderKind.Instanced:
-                        gl.uniform1i(uniforms.light_count, game.Lights.length);
+                        gl.uniform1i(uniforms.light_count, light_positions.length / 3);
                         gl.uniform3fv(uniforms.light_positions, light_positions);
                         gl.uniform4fv(uniforms.light_details, light_details);
                         break;
@@ -86,17 +86,10 @@ function draw_instanced(game: Game, transform: Transform, render: RenderInstance
 
 function draw_particles(render: RenderParticles, emitter: EmitParticles) {
     let {gl, mode, uniforms} = render.Material;
-    gl.uniform1f(uniforms.start_size, emitter.SizeStart);
-    gl.uniform1f(uniforms.end_size, emitter.SizeEnd);
-    gl.uniform1f(uniforms.vertical, emitter.Vertical);
-    gl.uniform3fv(uniforms.start_color, render.ColorStart);
-    gl.uniform3fv(uniforms.end_color, render.ColorEnd);
-
+    gl.uniform4fv(uniforms.detail, render.ColorSize);
     gl.bindBuffer(GL_ARRAY_BUFFER, render.Buffer);
     gl.bufferData(GL_ARRAY_BUFFER, Float32Array.from(emitter.Instances), GL_DYNAMIC_DRAW);
     gl.enableVertexAttribArray(ParticleAttribute.origin);
-    gl.vertexAttribPointer(ParticleAttribute.origin, 3, GL_FLOAT, false, 4 * 4, 0 * 4);
-    gl.enableVertexAttribArray(ParticleAttribute.age);
-    gl.vertexAttribPointer(ParticleAttribute.age, 1, GL_FLOAT, false, 4 * 4, 3 * 4);
-    gl.drawArrays(mode, 0, emitter.Particles.length);
+    gl.vertexAttribPointer(ParticleAttribute.origin, 4, GL_FLOAT, false, 4 * 4, 0);
+    gl.drawArrays(mode, 0, emitter.Instances.length / 4);
 }

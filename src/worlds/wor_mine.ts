@@ -9,7 +9,6 @@ import {health} from "../components/com_health.js";
 import {Get} from "../components/com_index.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
-import {named} from "../components/com_named.js";
 import {find_navigable} from "../components/com_navigable.js";
 import {npc} from "../components/com_npc.js";
 import {shoot} from "../components/com_shoot.js";
@@ -124,10 +123,9 @@ export function world_mine(game: Game) {
     let player_position = game[Get.Transform][find_navigable(game, 1, 1)].Translation;
     // Player.
     set_seed(game.SeedPlayer);
-    let player = game.Add({
+    game.Player = game.Add({
         Translation: [player_position[0], 5, player_position[2]],
         Using: [
-            named("player"),
             player_control(),
             walking(1, 1),
             move(25, 0),
@@ -149,10 +147,8 @@ export function world_mine(game: Game) {
         ],
     });
 
-    game.PlayerHealth = game[Get.Health][player];
-
     // Camera.
-    game.Add(create_iso_camera(player));
+    game.Add(create_iso_camera(game.Player));
 }
 
 export function generate_maze(

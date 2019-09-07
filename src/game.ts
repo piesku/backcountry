@@ -40,7 +40,6 @@ import {sys_collide} from "./systems/sys_collide.js";
 import {sys_control_projectile} from "./systems/sys_control_projectile.js";
 import {sys_cull} from "./systems/sys_cull.js";
 import {sys_health} from "./systems/sys_health.js";
-import {sys_light} from "./systems/sys_light.js";
 import {sys_mimic} from "./systems/sys_mimic.js";
 import {sys_move} from "./systems/sys_move.js";
 import {sys_navigate} from "./systems/sys_navigate.js";
@@ -121,11 +120,10 @@ export class Game implements ComponentData, GameState {
     public SeedBounty = 0;
     public Trophies: Array<number> = [];
     public PlayerState = PlayerState.None;
-    public PlayerHealth?: Health;
 
     public Materials: Array<Material> = [];
-    public Cameras: Array<Camera> = [];
-    public Lights: Array<Light> = [];
+    public Camera?: Camera;
+    public Player?: Entity;
     public Models: Array<Model> = [];
     public Palette: Array<number> = palette;
     public Targets: Array<Collide> = [];
@@ -180,12 +178,12 @@ export class Game implements ComponentData, GameState {
     }
 
     FixedUpdate(delta: number) {
-        // Player input.
+        // Player input and AI.
         sys_select(this, delta);
         sys_player_control(this, delta);
+        sys_ai(this, delta);
         sys_control_projectile(this, delta);
         // Game logic.
-        sys_ai(this, delta);
         sys_navigate(this, delta);
         sys_aim(this, delta);
         sys_particles(this, delta);
@@ -211,7 +209,6 @@ export class Game implements ComponentData, GameState {
     FrameUpdate(delta: number) {
         sys_audio(this, delta);
         sys_camera(this, delta);
-        sys_light(this, delta);
         sys_render(this, delta);
         sys_ui(this, delta);
     }

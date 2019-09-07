@@ -9,7 +9,6 @@ import {player_control} from "../components/com_control_player.js";
 import {Get} from "../components/com_index.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
-import {named} from "../components/com_named.js";
 import {find_navigable} from "../components/com_navigable.js";
 import {npc} from "../components/com_npc.js";
 import {trigger_world} from "../components/com_trigger.js";
@@ -145,10 +144,9 @@ export function world_map(game: Game) {
 
     // Player.
     set_seed(game.SeedPlayer);
-    let player = game.Add({
+    game.Player = game.Add({
         Translation: [player_position[0], 5, player_position[2]],
         Using: [
-            named("player"),
             player_control(),
             walking(~~(map_size / 2), ~~(map_size / 2)),
             move(25, 0),
@@ -164,5 +162,5 @@ export function world_map(game: Game) {
     });
 
     // Camera.
-    game.Add(create_iso_camera(player));
+    game.Add(create_iso_camera(game.Player));
 }
