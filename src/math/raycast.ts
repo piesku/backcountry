@@ -1,15 +1,13 @@
 import {Vec3} from ".";
 import {Collide} from "../components/com_collide";
-import {Get} from "../components/com_index";
 import {Game} from "../game";
 
-export function raycast(game: Game, origin: Vec3, direction: Vec3) {
+export function raycast(game: Game, colliders: Array<Collide>, origin: Vec3, direction: Vec3) {
     let nearest_t = Infinity;
     let nearest_i = null;
-    for (let i = 0; i < game.Targets.length; i++) {
-        let aabb = game[Get.Collide][game.Targets[i].Entity];
-        if (!inside(origin, aabb)) {
-            let t = distance(origin, direction, aabb);
+    for (let i = 0; i < colliders.length; i++) {
+        if (!inside(origin, colliders[i])) {
+            let t = distance(origin, direction, colliders[i]);
             if (t < nearest_t) {
                 nearest_t = t;
                 nearest_i = i;
@@ -18,7 +16,7 @@ export function raycast(game: Game, origin: Vec3, direction: Vec3) {
     }
 
     if (nearest_i !== null) {
-        return game.Targets[nearest_i];
+        return colliders[nearest_i];
     }
 }
 

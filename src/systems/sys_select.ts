@@ -1,7 +1,7 @@
 import {Action} from "../actions.js";
 import {Anim, Animate} from "../components/com_animate.js";
 import {AudioSource} from "../components/com_audio_source.js";
-import {RayTarget} from "../components/com_collide.js";
+import {Collide, RayTarget} from "../components/com_collide.js";
 import {Get} from "../components/com_index.js";
 import {components_of_type} from "../components/com_transform.js";
 import {Entity, Game} from "../game.js";
@@ -14,23 +14,23 @@ const TARGET = (1 << Get.Transform) | (1 << Get.Collide);
 const ANIMATED = RayTarget.Navigable | RayTarget.Player | RayTarget.Choosable;
 
 export function sys_select(game: Game, delta: number) {
-    game.Targets = [];
+    let colliders: Array<Collide> = [];
     for (let i = 0; i < game.World.length; i++) {
         if ((game.World[i] & TARGET) === TARGET) {
             if (game[Get.Collide][i].Flags !== RayTarget.None) {
-                game.Targets.push(game[Get.Collide][i]);
+                colliders.push(game[Get.Collide][i]);
             }
         }
     }
 
     for (let i = 0; i < game.World.length; i++) {
         if ((game.World[i] & QUERY) === QUERY) {
-            update(game, i);
+            update(game, i, colliders);
         }
     }
 }
 
-function update(game: Game, entity: Entity) {
+function update(game: Game, entity: Entity, colliders: Array<Collide>) {
     let transform = game[Get.Transform][entity];
     let camera = game[Get.Camera][entity];
     let select = game[Get.Select][entity];
@@ -48,7 +48,7 @@ function update(game: Game, entity: Entity) {
     transform_point(target, target, transform.World);
     subtract(direction, target, origin);
     normalize(direction, direction);
-    select.Hit = raycast(game, origin, direction);
+    select.Hit = raycast(game, colliders, origin, direction);
 
     if (select.Hit && select.Hit.Flags & ANIMATED && game.Event.m0d) {
         let transform = game[Get.Transform][select.Hit.Entity];

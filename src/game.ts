@@ -127,7 +127,6 @@ export class Game implements ComponentData, GameState {
     public Player?: Entity;
     public Models: Array<Model> = [];
     public Palette: Array<number> = palette;
-    public Targets: Array<Collide> = [];
     private RAF: number = 0;
 
     constructor() {

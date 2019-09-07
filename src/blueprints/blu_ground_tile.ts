@@ -80,7 +80,7 @@ export function get_tile_blueprint(
         Rotation: from_euler([], 0, integer(0, 3) * 90, 0),
         Translation: [0, 0, 0],
         Using: [
-            collide(false, [8, 1, 8], is_walkable ? RayTarget.Navigable : RayTarget.None),
+            collide(false, [8, 1, 8], is_walkable ? RayTarget.Navigable : RayTarget.Targetable),
             cull(Get.Collide),
             navigable(x, y),
         ],

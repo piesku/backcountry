@@ -25,8 +25,13 @@ function update(game: Game, entity: Entity) {
         let transform = game[Get.Transform][entity];
         let spawn = find_child(game, transform, "proj");
         if (spawn) {
+            let projectile =
+                game.World[entity] & (1 << Get.PlayerControl)
+                    ? create_projectile(40, [1, 1, 1], 9)
+                    : create_projectile(30, [1, 0, 0], 7);
+
             game.Add({
-                ...create_projectile(),
+                ...projectile,
                 Translation: get_translation([], game[Get.Transform][spawn].World),
                 // Use the parent's rotation, since it's top-level, to avoid
                 // get_rotation which is expensive in terms of code size.
