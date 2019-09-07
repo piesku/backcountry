@@ -11,7 +11,7 @@ let cacti_indexes = [Models.CAC1VOX, Models.CAC2, Models.CAC3];
 export function get_cactus_blueprint(game: Game): Blueprint {
     let model = game.Models[element(cacti_indexes) as number];
     return {
-        Translation: [0, model.Size[1] / 2 + 1, 0],
+        Translation: [0, model.Size![1] / 2 + 1, 0],
         Using: [render_vox(model), cull(Get.Render)],
     };
 }
