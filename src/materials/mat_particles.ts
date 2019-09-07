@@ -20,11 +20,11 @@ let vertex = `#version 300 es\n
         if (detail.a < 10.0) {
             // It's a projectile.
             world_pos.y += origin.a * 2.0;
-            gl_PointSize = mix(9.0, 1.0, origin.a);
+            gl_PointSize = mix(detail.a, 1.0, origin.a);
         } else {
             // It's a campfire.
             world_pos.y += origin.a * 10.0;
-            gl_PointSize = mix(15.0, 1.0, origin.a);
+            gl_PointSize = mix(detail.a, 1.0, origin.a);
         }
         gl_Position = pv * world_pos;
         vert_color = mix(vec4(detail.rgb, 1.0), vec4(1.0, 1.0, 0.0, 1.0), origin.a);
