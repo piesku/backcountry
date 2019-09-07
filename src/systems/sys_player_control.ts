@@ -46,34 +46,35 @@ function update(game: Game, entity: Entity, cursor: Select) {
     }
 }
 
-export function get_neighbors(game: Game, x: number, y: number, diagonal: boolean) {
+export function get_neighbors(game: Game, x: number, y: number) {
     let directions = [
         {x: x - 1, y}, // W
         {x: x + 1, y}, // E
         {x, y: y - 1}, // N
         {x, y: y + 1},
+        {x: x - 1, y: y - 1}, // NW
+        {x: x + 1, y: y - 1}, // NE
+        {x: x - 1, y: y + 1}, // SW
+        {x: x + 1, y: y + 1},
     ];
 
-    if (diagonal) {
-        directions.push(
-            {x: x - 1, y: y - 1}, // NW
-            {x: x + 1, y: y - 1}, // NE
-            {x: x - 1, y: y + 1}, // SW
-            {x: x + 1, y: y + 1}
-        );
-    }
+    // if (diagonal) {
+    //     directions.push(
+
+    //     );
+    // }
 
     return directions.filter(
         ({x, y}) => x >= 0 && x < game.Grid.length && y >= 0 && y < game.Grid[0].length
     );
 }
 
-export function calculate_distance(game: Game, x: number, y: number, diagonal: boolean) {
+export function calculate_distance(game: Game, x: number, y: number) {
     let frontier = [{x, y}];
     let current;
     while ((current = frontier.shift())) {
         if (game.Grid[current.x][current.y] < 15) {
-            for (let cell of get_neighbors(game, current.x, current.y, diagonal)) {
+            for (let cell of get_neighbors(game, current.x, current.y)) {
                 if (game.Grid[cell.x][cell.y] > game.Grid[current.x][current.y] + 1) {
                     game.Grid[cell.x][cell.y] = game.Grid[current.x][current.y] + 1;
                     frontier.push(cell);
@@ -95,7 +96,7 @@ export function get_route(game: Game, entity: Entity, destination: Navigable) {
         }
     }
     game.Grid[walking.X][walking.Y] = 0;
-    calculate_distance(game, walking.X, walking.Y, walking.Diagonal);
+    calculate_distance(game, walking.X, walking.Y);
 
     // Bail out early if the destination is not accessible (Infinity) or non-walkable (NaN).
     if (!(game.Grid[destination.X][destination.Y] < Infinity)) {
@@ -106,7 +107,7 @@ export function get_route(game: Game, entity: Entity, destination: Navigable) {
     while (!(destination.X === walking.X && destination.Y === walking.Y)) {
         route.push([destination.X, destination.Y]);
 
-        let neighbors = get_neighbors(game, destination.X, destination.Y, walking.Diagonal);
+        let neighbors = get_neighbors(game, destination.X, destination.Y);
 
         for (let i = 0; i < neighbors.length; i++) {
             let neighbor_coords = neighbors[i];

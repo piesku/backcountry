@@ -88,7 +88,7 @@ export function world_desert(game: Game) {
                 Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
                 Using: [
                     npc(false),
-                    walking(x, y, true),
+                    walking(x, y),
                     move(integer(8, 15)),
                     collide(true, [7, 7, 7], RayTarget.Attackable),
                     health(3),

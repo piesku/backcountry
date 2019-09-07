@@ -79,7 +79,7 @@ export function world_mine(game: Game) {
             Rotation: from_euler([], 0, integer(0, 3) * 90, 0),
             Using: [
                 npc(false, true),
-                walking(x, y, false),
+                walking(x, y),
                 move(integer(12, 16), 0),
                 collide(true, [7, 7, 7], RayTarget.Attackable),
                 health(5),
@@ -104,7 +104,7 @@ export function world_mine(game: Game) {
                 Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
                 Using: [
                     npc(false),
-                    walking(x, y, true),
+                    walking(x, y),
                     move(integer(8, 15)),
                     collide(true, [7, 7, 7], RayTarget.Attackable),
                     health(3),
@@ -129,7 +129,7 @@ export function world_mine(game: Game) {
         Using: [
             named("player"),
             player_control(),
-            walking(1, 1, false),
+            walking(1, 1),
             move(25, 0),
             collide(true, [3, 7, 3], RayTarget.Player),
             health(10),

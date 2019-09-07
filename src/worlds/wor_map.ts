@@ -113,7 +113,7 @@ export function world_map(game: Game) {
             game.Add({
                 Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
                 Rotation: from_euler([], 0, integer(0, 3) * 90, 0),
-                Using: [npc(), walking(x, y, true), move(integer(15, 25), 0)],
+                Using: [npc(), walking(x, y), move(integer(15, 25), 0)],
                 Children: [get_character_blueprint(game)],
             });
         }
