@@ -51,7 +51,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             break;
         }
         case Action.ChangeWorld: {
-            game.UI.innerHTML = "";
+            game.UI3D.innerHTML = "";
             game.WorldName = args[0] as string;
             switch (game.WorldName) {
                 case "intro":

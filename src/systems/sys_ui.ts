@@ -10,7 +10,7 @@ const QUERY = (1 << Get.Transform) | (1 << Get.UI);
 export function sys_ui(game: Game, delta: number) {
     let next = App(game);
     if (next !== prev) {
-        game.HUD.innerHTML = prev = next;
+        game.UI2D.innerHTML = prev = next;
     }
 
     for (let i = 0; i < game.World.length; i++) {

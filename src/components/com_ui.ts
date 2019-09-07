@@ -10,7 +10,7 @@ export function ui(html: string, Lifespan = 1) {
     return (game: Game, entity: Entity) => {
         let Element = document.createElement("p");
         Element.innerHTML = html;
-        game.UI.appendChild(Element);
+        game.UI3D.appendChild(Element);
         game.World[entity] |= 1 << Get.UI;
         return (game[Get.UI][entity] = <UI>{
             Element,
