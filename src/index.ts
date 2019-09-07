@@ -1,5 +1,4 @@
 import {Game} from "./game.js";
-import {load} from "./model.js";
 import {world_intro} from "./worlds/wor_intro.js";
 
 let game = new Game();
@@ -9,7 +8,7 @@ window.$ = game.Dispatch;
 window.game = game;
 
 async function start() {
-    game.Models = await load("./models.tfu");
+    // game.Models = await load("./models.tfu");
     world_intro(game);
     game.Start();
 }

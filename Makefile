@@ -2,7 +2,7 @@ SOURCES = $(shell find src -name "*.ts")
 
 all: public/opt/game.terser.js
 	@printf "Size gzipped (including HTML): %s bytes\n" \
-		$(shell gzip public/opt/index.html public/opt/game.terser.js public/opt/models.tfu --stdout | wc -c)
+		$(shell gzip public/opt/index.html public/opt/game.terser.js --stdout | wc -c)
 
 public/js/index.js: $(SOURCES)
 	@echo -n "Compiling project... "
@@ -12,7 +12,7 @@ public/js/index.js: $(SOURCES)
 public/opt/game.rollup.js: public/js/index.js
 	@echo -n "Bundling files into one... "
 	@npx rollup -c bundle_config.js --silent
-	@cp public/*.tfu public/opt/
+	# @cp public/*.tfu public/opt/
 	@echo "Done"
 
 public/opt/game.trim.js: public/opt/game.rollup.js

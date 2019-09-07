@@ -6,6 +6,7 @@ const each = require("async-each");
 
 const models_dir = path.join(__dirname, "models");
 const models_map = [];
+const unpacked = {};
 let current_model_index = 0;
 let files = fs.readdirSync(models_dir);
 files = files.filter(el => {

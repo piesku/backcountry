@@ -30,7 +30,7 @@ import {Mat} from "./materials/mat_index.js";
 import {mat_instanced} from "./materials/mat_instanced.js";
 import {mat_particles} from "./materials/mat_particles.js";
 import {mat_wireframe} from "./materials/mat_wireframe.js";
-import {Model} from "./model.js";
+import {Model, models} from "./model.js";
 import {palette} from "./palette.js";
 import {sys_ai} from "./systems/sys_ai.js";
 import {sys_aim} from "./systems/sys_aim.js";
@@ -135,6 +135,8 @@ export class Game implements ComponentData, GameState {
 
     constructor() {
         this.World = [];
+
+        this.Models = models;
 
         document.addEventListener("visibilitychange", () =>
             document.hidden ? this.Stop() : this.Start()
