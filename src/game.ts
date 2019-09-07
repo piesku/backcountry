@@ -120,7 +120,7 @@ export class Game implements ComponentData, GameState {
     public SeedPlayer = 0;
     public SeedBounty = 0;
     public Trophies: Array<number> = [];
-    public PlayerState = PlayerState.None;
+    public PlayerState = PlayerState.Playing;
 
     public Materials: Array<Material> = [];
     public Camera?: Camera;
