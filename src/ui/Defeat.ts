@@ -1,8 +1,7 @@
 import {Action} from "../actions.js";
-import {html} from "./html.js";
 
 export function Defeat() {
-    return html`
+    return `
         <div
             style="
                 position: absolute;
@@ -24,7 +23,7 @@ export function Defeat() {
                 font-size: 10vh;
             "
         >
-            <button onclick="$(${Action.ChangeWorld}, 'intro');">
+            <button onclick="$(${Action.GoToIntro});">
                 TRY AGAIN
             </button>
         </div>

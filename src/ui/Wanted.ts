@@ -1,8 +1,7 @@
 import {Action} from "../actions.js";
-import {html} from "./html.js";
 
 export function Wanted() {
-    return html`
+    return `
         <div
             style="
                 position: absolute;
@@ -25,7 +24,7 @@ export function Wanted() {
                 font-size: 10vh;
             "
         >
-            <button onclick="$(${Action.ChangeWorld}, 'map');">
+            <button onclick="$(${Action.GoToTown});">
                 ACCEPT BOUNTY
             </button>
         </div>

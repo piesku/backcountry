@@ -1,6 +1,7 @@
+import {Action} from "../actions.js";
 import {collide} from "../components/com_collide.js";
 import {render_vox} from "../components/com_render_vox.js";
-import {trigger_world} from "../components/com_trigger.js";
+import {trigger} from "../components/com_trigger.js";
 import {Game} from "../game.js";
 import {BuildingColors, main_building_palette} from "./blu_building.js";
 import {Blueprint, create_line} from "./blu_common.js";
@@ -64,7 +65,7 @@ export function get_mine_entrance_blueprint(game: Game) {
             {
                 // The trigger.
                 Translation: [0, 0, 12],
-                Using: [collide(false, [8, 8, 8]), trigger_world("mine")],
+                Using: [collide(false, [8, 8, 8]), trigger(Action.GoToMine)],
             },
         ],
     };

@@ -54,6 +54,7 @@ import {sys_transform} from "./systems/sys_transform.js";
 import {sys_trigger} from "./systems/sys_trigger.js";
 import {sys_ui} from "./systems/sys_ui.js";
 import {GL_CULL_FACE, GL_CW, GL_DEPTH_TEST} from "./webgl.js";
+import {world_intro} from "./worlds/wor_intro.js";
 
 const MAX_ENTITIES = 10000;
 
@@ -102,8 +103,8 @@ export class Game implements ComponentData, GameState {
     public Canvas: HTMLCanvasElement;
     public GL: WebGL2RenderingContext;
     public Audio: AudioContext = new AudioContext();
-    public UI: HTMLElement = document.querySelector("main")!;
-    public HUD: HTMLElement = document.querySelector("nav")!;
+    public UI3D: HTMLElement = document.querySelector("main")!;
+    public UI2D: HTMLElement = document.querySelector("nav")!;
 
     public Input: InputState = {
         mx: 0,
@@ -115,7 +116,7 @@ export class Game implements ComponentData, GameState {
     };
 
     public Dispatch = (action: Action, ...args: Array<unknown>) => effect(this, action, args);
-    public WorldName = "intro";
+    public WorldFunc = world_intro;
     public SeedPlayer = 0;
     public SeedBounty = 0;
     public Trophies: Array<number> = [];
@@ -142,16 +143,16 @@ export class Game implements ComponentData, GameState {
 
         window.addEventListener("keydown", evt => (this.Input[evt.code] = 1));
         window.addEventListener("keyup", evt => (this.Input[evt.code] = 0));
-        this.HUD.addEventListener("contextmenu", evt => evt.preventDefault());
-        this.HUD.addEventListener("mousedown", evt => {
+        this.UI2D.addEventListener("contextmenu", evt => evt.preventDefault());
+        this.UI2D.addEventListener("mousedown", evt => {
             this.Input[`m${evt.button}`] = 1;
             this.Event[`m${evt.button}d`] = 1;
         });
-        this.HUD.addEventListener("mouseup", evt => {
+        this.UI2D.addEventListener("mouseup", evt => {
             this.Input[`m${evt.button}`] = 0;
             this.Event[`m${evt.button}u`] = 1;
         });
-        this.HUD.addEventListener("mousemove", evt => {
+        this.UI2D.addEventListener("mousemove", evt => {
             this.Input.mx = evt.offsetX;
             this.Input.my = evt.offsetY;
         });

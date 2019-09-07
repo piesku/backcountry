@@ -1,3 +1,4 @@
+import {Action} from "../actions.js";
 import {get_building_blueprint} from "../blueprints/blu_building.js";
 import {get_character_blueprint} from "../blueprints/blu_character.js";
 import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
@@ -11,7 +12,7 @@ import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
 import {find_navigable} from "../components/com_navigable.js";
 import {npc} from "../components/com_npc.js";
-import {trigger_world} from "../components/com_trigger.js";
+import {trigger} from "../components/com_trigger.js";
 import {ui} from "../components/com_ui.js";
 import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
@@ -129,7 +130,7 @@ export function world_map(game: Game) {
     game.Add({
         Translation: [sheriff_position[0], 5, sheriff_position[2]],
         Rotation: from_euler([], 0, 90, 0),
-        Using: [collide(false, [8, 8, 8]), trigger_world("wanted")],
+        Using: [collide(false, [8, 8, 8]), trigger(Action.GoToWanted)],
         Children: [
             get_character_blueprint(game),
             {
