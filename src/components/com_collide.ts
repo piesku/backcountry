@@ -40,9 +40,16 @@ export function collide(
 }
 
 export const enum RayTarget {
+    /** Ignored by raycasting. */
     None = 1 << 0,
-    Navigable = 1 << 1,
-    Attackable = 1 << 2,
+    /** Considered by raycasting; doesn't do anything. */
+    Targetable = 1 << 1,
+    /** Can be walked to. */
+    Navigable = 1 << 2,
+    /** Can be attacked. */
+    Attackable = 1 << 3,
+    /** The player; used with Anim.Select when playing. */
     Player = 1 << 4,
+    /** Available characters; used with Anim.Select in the intro. */
     Choosable = 1 << 5,
 }

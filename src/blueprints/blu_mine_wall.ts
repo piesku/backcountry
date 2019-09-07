@@ -1,4 +1,4 @@
-import {collide} from "../components/com_collide.js";
+import {collide, RayTarget} from "../components/com_collide.js";
 import {cull} from "../components/com_cull.js";
 import {Get} from "../components/com_index.js";
 import {render_vox} from "../components/com_render_vox.js";
@@ -8,14 +8,12 @@ import {Blueprint, create_block} from "./blu_common.js";
 import {create_lamp} from "./blu_lamp.js";
 
 let initial_palette = [1, 0.8, 0.4, 0.6, 0.4, 0];
-let tile_size = 8;
 
 export function get_mine_wall_blueprint(
     game: Game,
     palette: number[] = initial_palette
 ): Blueprint {
-    let tile_model = create_block(tile_size, ~~(tile_size * 0.78));
-
+    let tile_model = create_block(8, 6);
     let Children: Array<Blueprint> = [
         {
             Using: [render_vox(tile_model, palette), cull(Get.Render)],
@@ -27,8 +25,8 @@ export function get_mine_wall_blueprint(
     }
 
     return {
-        Translation: [0, tile_size / 2, 0],
-        Using: [collide(false, [8, 8, 8]), cull(Get.Collide)],
+        Translation: [0, 4, 0],
+        Using: [collide(false, [8, 4, 8], RayTarget.Targetable), cull(Get.Collide)],
         Children,
     };
 }
