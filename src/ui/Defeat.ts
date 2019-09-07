@@ -1,8 +1,7 @@
 import {Action} from "../actions.js";
-import {html} from "./html.js";
 
 export function Defeat() {
-    return html`
+    return `
         <div
             style="
                 position: absolute;
