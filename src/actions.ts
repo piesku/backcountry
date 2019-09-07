@@ -10,7 +10,7 @@ import {world_mine} from "./worlds/wor_mine.js";
 import {world_wanted} from "./worlds/wor_wanted.js";
 
 export interface GameState {
-    WorldName: string;
+    WorldFunc: (game: Game) => void;
     SeedPlayer: number;
     SeedBounty: number;
     Trophies: Array<number>;
@@ -27,7 +27,11 @@ export const enum PlayerState {
 export const enum Action {
     InitGame = 1,
     ChangePlayer,
-    ChangeWorld,
+    GoToIntro,
+    GoToTown,
+    GoToWanted,
+    GoToDesert,
+    GoToMine,
     Hit,
     Die,
 }
@@ -50,24 +54,38 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             game.SeedPlayer = (game[Get.Named][args[0] as Entity].Name as unknown) as number;
             break;
         }
-        case Action.ChangeWorld: {
+        case Action.GoToIntro: {
+            game.PlayerState = PlayerState.None;
+            game.SeedBounty = 0;
+            game.WorldFunc = world_intro;
+            setTimeout(world_intro, 0, game);
             game.UI3D.innerHTML = "";
-            game.WorldName = args[0] as string;
-            switch (game.WorldName) {
-                case "intro":
-                    game.PlayerState = PlayerState.None;
-                    game.SeedBounty = 0;
-                    return setTimeout(world_intro, 0, game);
-                case "map":
-                    return setTimeout(world_map, 0, game);
-                case "wanted":
-                    game.SeedBounty = rand();
-                    return setTimeout(world_wanted, 0, game);
-                case "mine":
-                    return setTimeout(world_mine, 0, game);
-                case "desert":
-                    return setTimeout(world_desert, 0, game);
-            }
+            break;
+        }
+        case Action.GoToTown: {
+            game.WorldFunc = world_map;
+            setTimeout(game.WorldFunc, 0, game);
+            game.UI3D.innerHTML = "";
+            break;
+        }
+        case Action.GoToWanted: {
+            game.SeedBounty = rand();
+            game.WorldFunc = world_wanted;
+            setTimeout(game.WorldFunc, 0, game);
+            game.UI3D.innerHTML = "";
+            break;
+        }
+        case Action.GoToDesert: {
+            game.WorldFunc = world_desert;
+            setTimeout(game.WorldFunc, 0, game);
+            game.UI3D.innerHTML = "";
+            break;
+        }
+        case Action.GoToMine: {
+            game.WorldFunc = world_mine;
+            setTimeout(game.WorldFunc, 0, game);
+            game.UI3D.innerHTML = "";
+            break;
         }
         case Action.Hit: {
             let entity = args[0] as Entity;

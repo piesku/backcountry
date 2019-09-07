@@ -1,4 +1,3 @@
-import {Action} from "../actions.js";
 import {Get} from "../components/com_index.js";
 import {Entity, Game} from "../game.js";
 
@@ -15,10 +14,9 @@ export function sys_trigger(game: Game, delta: number) {
 function update(game: Game, entity: Entity) {
     let collisions = game[Get.Collide][entity].Collisions;
     for (let collide of collisions) {
-        let trigger = game[Get.Trigger][entity];
         if (game.World[collide.Entity] & (1 << Get.PlayerControl)) {
             game.World[entity] &= ~(1 << Get.Trigger);
-            game.Dispatch(Action.ChangeWorld, trigger.WorldName);
+            game.Dispatch(game[Get.Trigger][entity].Action);
         }
     }
 }

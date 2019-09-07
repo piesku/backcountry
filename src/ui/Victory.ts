@@ -24,7 +24,7 @@ export function Victory() {
                 font-size: 10vh;
             "
         >
-            <button onclick="$(${Action.ChangeWorld}, 'intro');">
+            <button onclick="$(${Action.GoToIntro});">
                 COLLECT BOUNTY
             </button>
         </div>

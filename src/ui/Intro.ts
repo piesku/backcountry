@@ -19,7 +19,7 @@ export function Intro() {
             >
                 BACK<br />COUNTRY
                 <hr style="border: solid #D45230 10px;" />
-                <button onclick="$(${Action.ChangeWorld}, 'map');">
+                <button onclick="$(${Action.GoToTown});">
                     PLAY
                 </button>
             </div>

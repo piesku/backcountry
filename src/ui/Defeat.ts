@@ -24,7 +24,7 @@ export function Defeat() {
                 font-size: 10vh;
             "
         >
-            <button onclick="$(${Action.ChangeWorld}, 'intro');">
+            <button onclick="$(${Action.GoToIntro});">
                 TRY AGAIN
             </button>
         </div>

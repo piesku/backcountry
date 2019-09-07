@@ -58,6 +58,7 @@ import {sys_transform} from "./systems/sys_transform.js";
 import {sys_trigger} from "./systems/sys_trigger.js";
 import {sys_ui} from "./systems/sys_ui.js";
 import {GL_CULL_FACE, GL_CW, GL_DEPTH_TEST} from "./webgl.js";
+import {world_intro} from "./worlds/wor_intro.js";
 
 const MAX_ENTITIES = 10000;
 
@@ -119,7 +120,7 @@ export class Game implements ComponentData, GameState {
     };
 
     public Dispatch = (action: Action, ...args: Array<unknown>) => effect(this, action, args);
-    public WorldName = "intro";
+    public WorldFunc = world_intro;
     public SeedPlayer = 0;
     public SeedBounty = 0;
     public Trophies: Array<number> = [];

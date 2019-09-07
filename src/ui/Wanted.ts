@@ -25,7 +25,7 @@ export function Wanted() {
                 font-size: 10vh;
             "
         >
-            <button onclick="$(${Action.ChangeWorld}, 'map');">
+            <button onclick="$(${Action.GoToTown});">
                 ACCEPT BOUNTY
             </button>
         </div>

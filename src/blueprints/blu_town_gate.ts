@@ -1,6 +1,7 @@
+import {Action} from "../actions.js";
 import {collide} from "../components/com_collide.js";
 import {render_vox} from "../components/com_render_vox.js";
-import {trigger_world} from "../components/com_trigger.js";
+import {trigger} from "../components/com_trigger.js";
 import {Game} from "../game.js";
 import {BuildingColors, main_building_palette} from "./blu_building.js";
 import {Blueprint, create_line} from "./blu_common.js";
@@ -81,7 +82,7 @@ export function get_town_gate_blueprint(
         Children: [
             {
                 Translation: [20, 0, 0],
-                Using: [collide(false, [8, 8, 800]), trigger_world("desert")],
+                Using: [collide(false, [8, 8, 800]), trigger(Action.GoToDesert)],
             },
         ],
     };
