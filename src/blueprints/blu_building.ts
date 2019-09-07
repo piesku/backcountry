@@ -7,7 +7,23 @@ import {element, integer, rand} from "../math/random.js";
 import {Models} from "../models_map.js";
 import {Blueprint, create_line} from "./blu_common.js";
 
-export let main_building_palette = [0.6, 0.4, 0, 0.4, 0.2, 0, 0.14, 0, 0, 0.2, 0.8, 1];
+export let main_building_palette = [
+    0.6,
+    0.4,
+    0,
+    0.4,
+    0.2,
+    0,
+    0.14,
+    0,
+    0,
+    0.2,
+    0.8,
+    1,
+    0.53,
+    0.53,
+    0.53,
+];
 
 let additional_colors = [
     [0.87, 0.87, 0.87, 0.73, 0.73, 0.73],
@@ -16,12 +32,13 @@ let additional_colors = [
 ];
 
 export const enum BuildingColors {
-    light_wood = 0,
-    wood = 1,
-    dark_wood = 2,
-    windows = 3,
-    color_1 = 4,
-    color_2 = 5,
+    light_wood,
+    wood,
+    dark_wood,
+    windows,
+    tracks,
+    color_1,
+    color_2,
 }
 
 export function get_building_blueprint(game: Game) {
