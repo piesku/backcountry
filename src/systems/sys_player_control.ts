@@ -8,9 +8,8 @@ import {get_translation} from "../math/mat4.js";
 const QUERY = (1 << Get.Transform) | (1 << Get.PlayerControl) | (1 << Get.Walking);
 
 export function sys_player_control(game: Game, delta: number) {
-    let camera = game.Cameras[0];
-    if (game.World[camera.Entity] & (1 << Get.Select)) {
-        let cursor = game[Get.Select][camera.Entity];
+    if (game.World[game.Camera!.Entity] & (1 << Get.Select)) {
+        let cursor = game[Get.Select][game.Camera!.Entity];
         for (let i = 0; i < game.World.length; i++) {
             if ((game.World[i] & QUERY) === QUERY) {
                 update(game, i, cursor);
@@ -35,14 +34,14 @@ function update(game: Game, entity: Entity, cursor: Select) {
         if (cursor.Hit.Flags & RayTarget.Attackable && game.World[entity] & (1 << Get.Shoot)) {
             let other_transform = game[Get.Transform][cursor.Hit.Entity];
             game[Get.Shoot][entity].Target = get_translation([], other_transform.World);
-            game[Get.Shake][game.Cameras[0].Entity].Duration = 0.2;
+            game[Get.Shake][game.Camera!.Entity].Duration = 0.2;
         }
     }
 
     if (game.Event.m2d && game.World[entity] & (1 << Get.Shoot)) {
         let other_transform = game[Get.Transform][cursor.Hit.Entity];
         game[Get.Shoot][entity].Target = get_translation([], other_transform.World);
-        game[Get.Shake][game.Cameras[0].Entity].Duration = 0.2;
+        game[Get.Shake][game.Camera!.Entity].Duration = 0.2;
     }
 }
 

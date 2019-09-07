@@ -48,7 +48,7 @@ export function sys_render(game: Game, delta: number) {
                 let {gl, program, uniforms} = current_material;
                 gl.useProgram(program);
                 // TODO Support more than one camera.
-                gl.uniformMatrix4fv(uniforms.pv, false, game.Cameras[0].PV);
+                gl.uniformMatrix4fv(uniforms.pv, false, game.Camera!.PV);
 
                 switch (render.Kind) {
                     case RenderKind.Instanced:

@@ -24,7 +24,7 @@ export function sys_ui(game: Game, delta: number) {
                 let ndc_position = transform_point(
                     [],
                     get_translation([], game[Get.Transform][i].World),
-                    game.Cameras[0].PV
+                    game.Camera!.PV
                 );
                 ui.Element.style.left = `${0.5 * (ndc_position[0] + 1) * game.Canvas.width}px`;
                 ui.Element.style.top = `${0.5 * (-ndc_position[1] + 1) * game.Canvas.height}px`;

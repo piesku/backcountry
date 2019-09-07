@@ -128,7 +128,7 @@ export class Game implements ComponentData, GameState {
     public PlayerHealth?: Health;
 
     public Materials: Array<Material> = [];
-    public Cameras: Array<Camera> = [];
+    public Camera?: Camera;
     public Lights: Array<Light> = [];
     public Models: Array<Model> = [];
     public Palette: Array<number> = palette;
