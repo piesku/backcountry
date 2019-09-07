@@ -8,8 +8,7 @@ export const enum ParticleAttribute {
 
 let vertex = `#version 300 es\n
     uniform mat4 pv;
-    uniform float size;
-    uniform vec3 color;
+    uniform vec4 detail;
 
     layout(location=${ParticleAttribute.origin}) in vec3 origin;
     layout(location=${ParticleAttribute.age}) in float age;
@@ -18,7 +17,7 @@ let vertex = `#version 300 es\n
 
     void main() {
         vec4 world_pos = vec4(origin, 1.0);
-        if (size < 10.0) {
+        if (detail.a < 10.0) {
             // It's a projectile.
             world_pos.y += age * 2.0;
             gl_PointSize = mix(9.0, 1.0, age);
@@ -28,7 +27,7 @@ let vertex = `#version 300 es\n
             gl_PointSize = mix(15.0, 1.0, age);
         }
         gl_Position = pv * world_pos;
-        vert_color = mix(vec4(color, 1.0), vec4(1.0, 1.0, 0.0, 1.0), age);
+        vert_color = mix(vec4(detail.rgb, 1.0), vec4(1.0, 1.0, 0.0, 1.0), age);
     }
 `;
 

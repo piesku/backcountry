@@ -5,7 +5,6 @@ import {Get} from "./com_index.js";
 export interface EmitParticles {
     readonly Lifespan: number;
     readonly Frequency: number;
-    readonly SizeStart: number;
     Duration: number;
     Particles: Array<Particle>;
     Instances: Array<number>;
@@ -20,18 +19,12 @@ export interface EmitParticles {
  * @param SizeStart The initial size of a particle.
  * @param Duration How long to emit for.
  */
-export function emit_particles(
-    Lifespan: number,
-    Frequency: number,
-    SizeStart: number,
-    Duration: number = 0
-) {
+export function emit_particles(Lifespan: number, Frequency: number, Duration: number = 0) {
     return (game: Game, entity: Entity) => {
         game.World[entity] |= 1 << Get.EmitParticles;
         game[Get.EmitParticles][entity] = <EmitParticles>{
             Lifespan,
             Frequency,
-            SizeStart,
             Duration,
             Particles: [],
             Instances: [],

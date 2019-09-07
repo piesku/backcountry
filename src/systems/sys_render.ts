@@ -99,9 +99,7 @@ function draw_instanced(game: Game, transform: Transform, render: RenderInstance
 
 function draw_particles(render: RenderParticles, emitter: EmitParticles) {
     let {gl, mode, uniforms} = render.Material;
-    gl.uniform1f(uniforms.size, emitter.SizeStart);
-    gl.uniform3fv(uniforms.color, render.ColorStart);
-
+    gl.uniform4fv(uniforms.detail, render.ColorSize);
     gl.bindBuffer(GL_ARRAY_BUFFER, render.Buffer);
     gl.bufferData(GL_ARRAY_BUFFER, Float32Array.from(emitter.Instances), GL_DYNAMIC_DRAW);
     gl.enableVertexAttribArray(ParticleAttribute.origin);
