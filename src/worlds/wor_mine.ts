@@ -147,8 +147,6 @@ export function world_mine(game: Game) {
         ],
     });
 
-    game.PlayerHealth = game[Get.Health][game.Player];
-
     // Camera.
     game.Add(create_iso_camera(game.Player));
 }

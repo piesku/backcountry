@@ -141,8 +141,6 @@ export function world_desert(game: Game) {
         ],
     });
 
-    game.PlayerHealth = game[Get.Health][game.Player];
-
     // Camera.
     game.Add(create_iso_camera(game.Player));
 }
