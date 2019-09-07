@@ -25,7 +25,7 @@ export function create_projectile() {
                 ],
             },
             {
-                Using: [shake(5), emit_particles(1, 0.08, 5), render_particles([1, 0, 0], 9)],
+                Using: [shake(5), emit_particles(1, 0.08), render_particles([1, 0, 0], 9)],
             },
         ],
     };

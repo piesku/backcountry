@@ -18,14 +18,11 @@ function update(game: Game, entity: Entity, delta: number) {
     let transform = game[Get.Transform][entity];
 
     emitter.SinceLast += delta;
-    if (emitter.Duration > 0) {
-        emitter.Duration -= delta;
-        if (emitter.SinceLast > emitter.Frequency) {
-            emitter.SinceLast = 0;
-            let particle = <Particle>{Origin: [0, 0, 0], Age: 0};
-            get_translation(particle.Origin, transform.World);
-            emitter.Particles.push(particle);
-        }
+    if (emitter.SinceLast > emitter.Frequency) {
+        emitter.SinceLast = 0;
+        let particle = <Particle>{Origin: [0, 0, 0], Age: 0};
+        get_translation(particle.Origin, transform.World);
+        emitter.Particles.push(particle);
     }
 
     // A flat continuous array of particle data, from which a Float32Array

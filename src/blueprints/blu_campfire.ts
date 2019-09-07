@@ -15,11 +15,7 @@ export function get_campfire_blueprint(game: Game): Blueprint {
         Using: [render_vox(game.Models[Models.CAMPFIRE]), cull(Get.Render)],
         Children: [
             {
-                Using: [
-                    shake(Infinity),
-                    emit_particles(2, 0.1, Infinity),
-                    render_particles([1, 0, 0], 15),
-                ],
+                Using: [shake(Infinity), emit_particles(2, 0.1), render_particles([1, 0, 0], 15)],
             },
             {
                 Translation: [0, 3, 0],
