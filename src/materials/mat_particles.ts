@@ -2,32 +2,32 @@ import {GL_POINTS} from "../webgl.js";
 import {mat_create} from "./mat_common.js";
 
 export const enum ParticleAttribute {
-    age = 1,
-    origin = 2,
+    origin = 1,
 }
 
 let vertex = `#version 300 es\n
     uniform mat4 pv;
+    // [red, green, blue, size]
     uniform vec4 detail;
 
-    layout(location=${ParticleAttribute.age}) in float age;
-    layout(location=${ParticleAttribute.origin}) in vec3 origin;
+    // [x, y, z, age]
+    layout(location=${ParticleAttribute.origin}) in vec4 origin;
 
     out vec4 vert_color;
 
     void main() {
-        vec4 world_pos = vec4(origin, 1.0);
+        vec4 world_pos = vec4(origin.xyz, 1.0);
         if (detail.a < 10.0) {
             // It's a projectile.
-            world_pos.y += age * 2.0;
-            gl_PointSize = mix(9.0, 1.0, age);
+            world_pos.y += origin.a * 2.0;
+            gl_PointSize = mix(9.0, 1.0, origin.a);
         } else {
             // It's a campfire.
-            world_pos.y += age * 10.0;
-            gl_PointSize = mix(15.0, 1.0, age);
+            world_pos.y += origin.a * 10.0;
+            gl_PointSize = mix(15.0, 1.0, origin.a);
         }
         gl_Position = pv * world_pos;
-        vert_color = mix(vec4(detail.rgb, 1.0), vec4(1.0, 1.0, 0.0, 1.0), age);
+        vert_color = mix(vec4(detail.rgb, 1.0), vec4(1.0, 1.0, 0.0, 1.0), origin.a);
     }
 `;
 

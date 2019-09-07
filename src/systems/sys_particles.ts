@@ -20,14 +20,15 @@ function update(game: Game, entity: Entity, delta: number) {
     if (emitter.SinceLast > emitter.Frequency) {
         emitter.SinceLast = 0;
         let origin = get_translation([], transform.World);
-        emitter.Instances.push(0, ...origin);
+        // Push [x, y, z, age].
+        emitter.Instances.push(...origin, 0);
     }
 
     // A flat continuous array of particle data, from which a Float32Array
     // is created in sys_render and sent as a vertex attribute array.
     for (let i = 0; i < emitter.Instances.length; ) {
-        emitter.Instances[i] += delta / emitter.Lifespan;
-        if (emitter.Instances[i] > 1) {
+        emitter.Instances[i + 3] += delta / emitter.Lifespan;
+        if (emitter.Instances[i + 3] > 1) {
             emitter.Instances.splice(i, 4);
         } else {
             i += 4;
