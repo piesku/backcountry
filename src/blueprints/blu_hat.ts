@@ -110,6 +110,26 @@ export function get_hat_blueprint(game: Game): Blueprint {
                             ],
                             Flags: AnimationFlag.None,
                         },
+                        [Anim.Select]: {
+                            Keyframes: [
+                                {
+                                    Timestamp: 0,
+                                    Translation: [0, 0, 0],
+                                    Rotation: [0, 0, 0, 1],
+                                },
+                                {
+                                    Timestamp: 0.1,
+                                    Translation: [0, 2, 0],
+                                    Rotation: [0, 1, 0, 0],
+                                },
+                                {
+                                    Timestamp: 0.2,
+                                    Translation: [0, 0, 0],
+                                    Rotation: [0, 0, 0, -1],
+                                },
+                            ],
+                            Flags: AnimationFlag.None,
+                        },
                     }),
                 ],
             },
