@@ -1,11 +1,9 @@
 import {Entity, Game} from "../game.js";
-import {Vec3} from "../math/index.js";
 import {Get} from "./com_index.js";
 
 export interface EmitParticles {
     readonly Lifespan: number;
     readonly Frequency: number;
-    Particles: Array<Particle>;
     Instances: Array<number>;
     SinceLast: number;
 }
@@ -23,14 +21,8 @@ export function emit_particles(Lifespan: number, Frequency: number) {
         game[Get.EmitParticles][entity] = <EmitParticles>{
             Lifespan,
             Frequency,
-            Particles: [],
             Instances: [],
             SinceLast: 0,
         };
     };
-}
-
-export interface Particle {
-    readonly Origin: Vec3;
-    Age: number;
 }

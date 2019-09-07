@@ -2,16 +2,16 @@ import {GL_POINTS} from "../webgl.js";
 import {mat_create} from "./mat_common.js";
 
 export const enum ParticleAttribute {
+    age = 1,
     origin = 2,
-    age = 3,
 }
 
 let vertex = `#version 300 es\n
     uniform mat4 pv;
     uniform vec4 detail;
 
-    layout(location=${ParticleAttribute.origin}) in vec3 origin;
     layout(location=${ParticleAttribute.age}) in float age;
+    layout(location=${ParticleAttribute.origin}) in vec3 origin;
 
     out vec4 vert_color;
 

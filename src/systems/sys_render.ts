@@ -102,9 +102,9 @@ function draw_particles(render: RenderParticles, emitter: EmitParticles) {
     gl.uniform4fv(uniforms.detail, render.ColorSize);
     gl.bindBuffer(GL_ARRAY_BUFFER, render.Buffer);
     gl.bufferData(GL_ARRAY_BUFFER, Float32Array.from(emitter.Instances), GL_DYNAMIC_DRAW);
-    gl.enableVertexAttribArray(ParticleAttribute.origin);
-    gl.vertexAttribPointer(ParticleAttribute.origin, 3, GL_FLOAT, false, 4 * 4, 0 * 4);
     gl.enableVertexAttribArray(ParticleAttribute.age);
-    gl.vertexAttribPointer(ParticleAttribute.age, 1, GL_FLOAT, false, 4 * 4, 3 * 4);
-    gl.drawArrays(mode, 0, emitter.Particles.length);
+    gl.vertexAttribPointer(ParticleAttribute.age, 1, GL_FLOAT, false, 4 * 4, 0 * 4);
+    gl.enableVertexAttribArray(ParticleAttribute.origin);
+    gl.vertexAttribPointer(ParticleAttribute.origin, 3, GL_FLOAT, false, 4 * 4, 1 * 4);
+    gl.drawArrays(mode, 0, emitter.Instances.length / 4);
 }
