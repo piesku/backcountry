@@ -25,25 +25,23 @@ function update(game: Game, entity: Entity, cursor: Select) {
     }
 
     if (game.Event.m0d) {
-        if (cursor.Hit.Other.Flags & RayTarget.Navigable) {
-            let route = get_route(game, entity, game[Get.Navigable][cursor.Hit.Other.Entity]);
+        if (cursor.Hit.Flags & RayTarget.Navigable) {
+            let route = get_route(game, entity, game[Get.Navigable][cursor.Hit.Entity]);
             if (route) {
                 game[Get.Walking][entity].Route = route;
             }
         }
 
-        if (
-            cursor.Hit.Other.Flags & RayTarget.Attackable &&
-            game.World[entity] & (1 << Get.Shoot)
-        ) {
-            let other_transform = game[Get.Transform][cursor.Hit.Other.Entity];
+        if (cursor.Hit.Flags & RayTarget.Attackable && game.World[entity] & (1 << Get.Shoot)) {
+            let other_transform = game[Get.Transform][cursor.Hit.Entity];
             game[Get.Shoot][entity].Target = get_translation([], other_transform.World);
             game[Get.Shake][game.Cameras[0].Entity].Duration = 0.2;
         }
     }
 
     if (game.Event.m2d && game.World[entity] & (1 << Get.Shoot)) {
-        game[Get.Shoot][entity].Target = cursor.Hit.Contact;
+        let other_transform = game[Get.Transform][cursor.Hit.Entity];
+        game[Get.Shoot][entity].Target = get_translation([], other_transform.World);
         game[Get.Shake][game.Cameras[0].Entity].Duration = 0.2;
     }
 }

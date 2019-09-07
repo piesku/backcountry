@@ -50,8 +50,8 @@ function update(game: Game, entity: Entity) {
     normalize(direction, direction);
     select.Hit = raycast(game, origin, direction);
 
-    if (select.Hit && select.Hit.Other.Flags & ANIMATED && game.Event.m0d) {
-        let transform = game[Get.Transform][select.Hit.Other.Entity];
+    if (select.Hit && select.Hit.Flags & ANIMATED && game.Event.m0d) {
+        let transform = game[Get.Transform][select.Hit.Entity];
         for (let animate of components_of_type<Animate>(game, transform, Get.Animate)) {
             animate.Trigger = Anim.Select;
         }
@@ -59,8 +59,8 @@ function update(game: Game, entity: Entity) {
             audio.Trigger = snd_click;
         }
 
-        if (select.Hit.Other.Flags & RayTarget.Choosable) {
-            game.Dispatch(Action.ChangePlayer, select.Hit.Other.Entity);
+        if (select.Hit.Flags & RayTarget.Choosable) {
+            game.Dispatch(Action.ChangePlayer, select.Hit.Entity);
         }
     }
 }

@@ -3,11 +3,6 @@ import {Collide} from "../components/com_collide";
 import {Get} from "../components/com_index";
 import {Game} from "../game";
 
-export interface RaycastHit {
-    Other: Collide;
-    Contact: Vec3;
-}
-
 export function raycast(game: Game, origin: Vec3, direction: Vec3) {
     let nearest_t = Infinity;
     let nearest_i = null;
@@ -23,14 +18,7 @@ export function raycast(game: Game, origin: Vec3, direction: Vec3) {
     }
 
     if (nearest_i !== null) {
-        return <RaycastHit>{
-            Other: game.Targets[nearest_i],
-            Contact: [
-                origin[0] + direction[0] * nearest_t,
-                origin[1] + direction[1] * nearest_t,
-                origin[2] + direction[2] * nearest_t,
-            ],
-        };
+        return game.Targets[nearest_i];
     }
 }
 
