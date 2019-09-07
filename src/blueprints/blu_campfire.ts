@@ -17,8 +17,8 @@ export function get_campfire_blueprint(game: Game): Blueprint {
             {
                 Using: [
                     shake(Infinity),
-                    emit_particles(2, 0.1, 15, 1, 10, Infinity),
-                    render_particles([1, 0, 0], [1, 1, 0]),
+                    emit_particles(2, 0.1, 15, Infinity),
+                    render_particles([1, 0, 0]),
                 ],
             },
             {
