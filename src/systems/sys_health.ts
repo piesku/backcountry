@@ -2,6 +2,7 @@ import {Action} from "../actions.js";
 import {Anim, Animate} from "../components/com_animate.js";
 import {Get} from "../components/com_index.js";
 import {components_of_type} from "../components/com_transform.js";
+import {UI} from "../components/com_ui.js";
 import {Entity, Game} from "../game.js";
 
 const QUERY = 1 << Get.Health;
@@ -19,8 +20,8 @@ function update(game: Game, entity: Entity) {
     for (let i = 0; i < health.Damages.length; i++) {
         game.Dispatch(Action.Hit, entity);
 
-        health.current -= health.Damages[i];
-        if (health.current > 0) {
+        health.Current -= health.Damages[i];
+        if (health.Current > 0) {
             for (let animate of components_of_type<Animate>(
                 game,
                 game[Get.Transform][entity],
@@ -41,4 +42,8 @@ function update(game: Game, entity: Entity) {
         }
     }
     health.Damages = [];
+    for (let ui of components_of_type<UI>(game, game[Get.Transform][entity], Get.UI)) {
+        let width = (health.Current / health.Max) * 10;
+        ui.Element.querySelector("div")!.style.width = `${width}vw`;
+    }
 }
