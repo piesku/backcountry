@@ -18,6 +18,7 @@ import {
 } from "../webgl.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Render);
+const LIGHTS = (1 << Get.Transform) | (1 << Get.Light);
 
 export function sys_render(game: Game, delta: number) {
     game.GL.clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -25,12 +26,14 @@ export function sys_render(game: Game, delta: number) {
     let light_positions: Array<number> = [];
     let light_details: Array<number> = [];
 
-    for (let i = 0; i < game.Lights.length; i++) {
-        let light = game.Lights[i];
-        let transform = game[Get.Transform][light.Entity];
-        let position = get_translation([], transform.World);
-        light_positions.push(...position);
-        light_details.push(...light.Color, light.Intensity);
+    for (let i = 0; i < game.World.length; i++) {
+        if ((game.World[i] & LIGHTS) === LIGHTS) {
+            let light = game[Get.Light][i];
+            let transform = game[Get.Transform][i];
+            let position = get_translation([], transform.World);
+            light_positions.push(...position);
+            light_details.push(...light.Color, light.Intensity);
+        }
     }
 
     // Keep track of the current material to minimize switching.
@@ -41,18 +44,16 @@ export function sys_render(game: Game, delta: number) {
             let transform = game[Get.Transform][i];
             let render = game[Get.Render][i];
 
-            // TODO Sort by material.
             if (render.Material !== current_material) {
                 current_material = render.Material;
 
                 let {gl, program, uniforms} = current_material;
                 gl.useProgram(program);
-                // TODO Support more than one camera.
                 gl.uniformMatrix4fv(uniforms.pv, false, game.Camera!.PV);
 
                 switch (render.Kind) {
                     case RenderKind.Instanced:
-                        gl.uniform1i(uniforms.light_count, game.Lights.length);
+                        gl.uniform1i(uniforms.light_count, light_positions.length / 3);
                         gl.uniform3fv(uniforms.light_positions, light_positions);
                         gl.uniform4fv(uniforms.light_details, light_details);
                         break;

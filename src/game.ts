@@ -43,7 +43,6 @@ import {sys_cull} from "./systems/sys_cull.js";
 import {sys_debug} from "./systems/sys_debug.js";
 import {sys_framerate} from "./systems/sys_framerate.js";
 import {sys_health} from "./systems/sys_health.js";
-import {sys_light} from "./systems/sys_light.js";
 import {sys_mimic} from "./systems/sys_mimic.js";
 import {sys_move} from "./systems/sys_move.js";
 import {sys_navigate} from "./systems/sys_navigate.js";
@@ -129,7 +128,6 @@ export class Game implements ComponentData, GameState {
 
     public Materials: Array<Material> = [];
     public Camera?: Camera;
-    public Lights: Array<Light> = [];
     public Models: Array<Model> = [];
     public Palette: Array<number> = palette;
     public Targets: Array<Collide> = [];
@@ -226,7 +224,6 @@ export class Game implements ComponentData, GameState {
 
         sys_audio(this, delta);
         sys_camera(this, delta);
-        sys_light(this, delta);
         sys_render(this, delta);
         sys_ui(this, delta);
 
