@@ -1,5 +1,4 @@
 import {Get} from "../components/com_index.js";
-import {find_first} from "../components/com_named.js";
 import {find_navigable} from "../components/com_navigable.js";
 import {Entity, Game} from "../game.js";
 import {integer} from "../math/random.js";
@@ -19,8 +18,7 @@ function update(game: Game, entity: Entity, delta: number) {
     let walking = game[Get.Walking][entity];
     let is_friendly = game[Get.NPC][entity].Friendly;
     let can_shoot = game[Get.NPC][entity].LastShot <= 0;
-    let player = find_first(game, "player");
-    let player_walking = game[Get.Walking][player];
+    let player_walking = game[Get.Walking][game.Player!];
     let distance_to_player = Math.abs(
         game.Grid[walking.X][walking.Y] - game.Grid[player_walking.X][player_walking.Y]
     );
@@ -35,7 +33,7 @@ function update(game: Game, entity: Entity, delta: number) {
 
             route = get_random_route(game, entity, destination_depth);
         } else {
-            route = get_route(game, player, walking);
+            route = get_route(game, game.Player!, walking);
 
             if (route) {
                 route.pop();
@@ -51,7 +49,7 @@ function update(game: Game, entity: Entity, delta: number) {
 
     if (!is_friendly && game.World[entity] & (1 << Get.Shoot)) {
         if (distance_to_player < 4 && can_shoot) {
-            game[Get.Shoot][entity].Target = game[Get.Transform][player].Translation;
+            game[Get.Shoot][entity].Target = game[Get.Transform][game.Player!].Translation;
             game[Get.NPC][entity].LastShot = 0.5;
             walking.Route = [];
         } else {

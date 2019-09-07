@@ -128,6 +128,7 @@ export class Game implements ComponentData, GameState {
 
     public Materials: Array<Material> = [];
     public Camera?: Camera;
+    public Player?: Entity;
     public Models: Array<Model> = [];
     public Palette: Array<number> = palette;
     public Targets: Array<Collide> = [];
@@ -185,12 +186,12 @@ export class Game implements ComponentData, GameState {
     FixedUpdate(delta: number) {
         let now = performance.now();
 
-        // Player input.
+        // Player input and AI.
         sys_select(this, delta);
         sys_player_control(this, delta);
+        sys_ai(this, delta);
         sys_control_projectile(this, delta);
         // Game logic.
-        sys_ai(this, delta);
         sys_navigate(this, delta);
         sys_aim(this, delta);
         sys_particles(this, delta);
