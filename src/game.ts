@@ -105,7 +105,7 @@ export class Game implements ComponentData, GameState {
     public [Get.Shake]: Array<Shake> = [];
     public [Get.Lifespan]: Array<Lifespan> = [];
 
-    public Canvas: HTMLCanvasElement;
+    public Canvas3: HTMLCanvasElement;
     public Canvas2: HTMLCanvasElement;
     public GL: WebGL2RenderingContext;
     public Context: CanvasRenderingContext2D;
@@ -142,14 +142,11 @@ export class Game implements ComponentData, GameState {
             document.hidden ? this.Stop() : this.Start()
         );
 
-        this.Canvas2 = document.querySelector("#c2")! as HTMLCanvasElement;
-        this.Canvas2.width = window.innerWidth;
-        this.Canvas2.height = window.innerHeight;
+        this.Canvas3 = document.querySelector("canvas")! as HTMLCanvasElement;
+        this.Canvas2 = this.Canvas3.nextElementSibling! as HTMLCanvasElement;
+        this.Canvas3.width = this.Canvas2.width = window.innerWidth;
+        this.Canvas3.height = this.Canvas2.height = window.innerHeight;
         this.Context = this.Canvas2.getContext("2d")!;
-
-        this.Canvas = document.querySelector("#c3")! as HTMLCanvasElement;
-        this.Canvas.width = window.innerWidth;
-        this.Canvas.height = window.innerHeight;
 
         window.addEventListener("keydown", evt => (this.Input[evt.code] = 1));
         window.addEventListener("keyup", evt => (this.Input[evt.code] = 0));
@@ -167,7 +164,7 @@ export class Game implements ComponentData, GameState {
             this.Input.my = evt.offsetY;
         });
 
-        this.GL = this.Canvas.getContext("webgl2")!;
+        this.GL = this.Canvas3.getContext("webgl2")!;
         this.GL.enable(GL_DEPTH_TEST);
         this.GL.enable(GL_CULL_FACE);
         this.GL.frontFace(GL_CW);

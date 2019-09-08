@@ -1,5 +1,6 @@
 import {Get} from "../components/com_index.js";
 import {Entity, Game} from "../game.js";
+import {Vec3} from "../math/index.js";
 import {get_translation} from "../math/mat4.js";
 import {transform_point} from "../math/vec3.js";
 
@@ -16,7 +17,7 @@ export function sys_draw(game: Game, delta: number) {
 }
 
 function update(game: Game, entity: Entity) {
-    let position = [0, 0, 0];
+    let position = [] as Vec3;
     // World position.
     get_translation(position, game[Get.Transform][entity].World);
     // NDC position.
@@ -26,8 +27,8 @@ function update(game: Game, entity: Entity) {
     draw.Widget(
         game,
         entity,
-        0.5 * (position[0] + 1) * game.Canvas.width,
-        0.5 * (-position[1] + 1) * game.Canvas.height,
-        draw.Args
+        0.5 * (position[0] + 1) * game.Canvas3.width,
+        0.5 * (-position[1] + 1) * game.Canvas3.height,
+        game[Get.Draw][entity].Args
     );
 }

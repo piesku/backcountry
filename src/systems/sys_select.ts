@@ -35,9 +35,9 @@ function update(game: Game, entity: Entity, colliders: Array<Collide>) {
     let camera = game[Get.Camera][entity];
     let select = game[Get.Select][entity];
 
-    let x = (game.Input.mx / game.Canvas.width) * 2 - 1;
+    let x = (game.Input.mx / game.Canvas3.width) * 2 - 1;
     // In the browser, +Y is down. Invert it, so that in NDC it's up.
-    let y = -(game.Input.my / game.Canvas.height) * 2 + 1;
+    let y = -(game.Input.my / game.Canvas3.height) * 2 + 1;
     let origin = [x, y, -1];
     let target = [x, y, 1];
     let direction = [0, 0, 0];
