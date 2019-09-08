@@ -23,12 +23,10 @@ function update(game: Game, entity: Entity) {
     // NDC position.
     transform_point(position, position, game.Camera!.PV);
 
-    let draw = game[Get.Draw][entity];
-    draw.Widget(
+    game[Get.Draw][entity].Widget(
         game,
         entity,
         0.5 * (position[0] + 1) * game.Canvas3.width,
-        0.5 * (-position[1] + 1) * game.Canvas3.height,
-        game[Get.Draw][entity].Args
+        0.5 * (-position[1] + 1) * game.Canvas3.height
     );
 }
