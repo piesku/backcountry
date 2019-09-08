@@ -9,9 +9,9 @@ import {shake} from "../components/com_shake.js";
 import {Vec3} from "../math/index.js";
 import {Blueprint} from "./blu_common";
 
-export function create_projectile(speed: number, color: Vec3, size: number) {
+export function create_projectile(damage: number, speed: number, color: Vec3, size: number) {
     return <Blueprint>{
-        Using: [collide(true), projectile(1, 3), move(speed), light(color, 2)],
+        Using: [collide(true), projectile(damage, 3), move(speed), light(color, 2)],
         Children: [
             {
                 Scale: [0.3, 0.3, 0.3],
