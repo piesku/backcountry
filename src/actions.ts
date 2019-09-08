@@ -86,9 +86,8 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
         }
         case Action.Hit: {
             let [entity, damage] = args as [Entity, number];
-            let world_position = game[Get.Transform][entity].Translation;
             game.Add({
-                Translation: [world_position[0], world_position[1] + 12, world_position[2]],
+                Translation: game[Get.Transform][entity].Translation.slice(),
                 Using: [draw(widget_damage, [damage]), lifespan(1)],
             });
 
