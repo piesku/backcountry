@@ -1,3 +1,4 @@
+import {ERROR} from "../errors.js";
 import {Entity, Game} from "../game.js";
 import {Get} from "./com_index.js";
 import {components_of_type, Transform} from "./com_transform.js";
@@ -25,7 +26,7 @@ export function find_first(game: Game, name: string) {
             }
         }
     }
-    throw `No entity named ${name}.`;
+    return ERROR.NAMED_ENTITY_NOT_FOUND;
 }
 
 export function find_child(game: Game, transform: Transform, name: string) {

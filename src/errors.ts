@@ -1,0 +1,5 @@
+export const enum ERROR {
+    NO_MORE_ENTITES_AVAILABLE = -1,
+    NAMED_ENTITY_NOT_FOUND = -2,
+    NAVIGABLE_ENTITY_NOT_FOUND = -3,
+}

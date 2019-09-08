@@ -25,6 +25,7 @@ import {transform, Transform} from "./components/com_transform.js";
 import {Trigger} from "./components/com_trigger.js";
 import {UI} from "./components/com_ui.js";
 import {Walking} from "./components/com_walking.js";
+import {ERROR} from "./errors.js";
 import {Material} from "./materials/mat_common.js";
 import {Mat} from "./materials/mat_index.js";
 import {mat_instanced} from "./materials/mat_instanced.js";
@@ -174,7 +175,7 @@ export class Game implements ComponentData, GameState {
                 return i;
             }
         }
-        throw new Error("No more entities available.");
+        return ERROR.NO_MORE_ENTITES_AVAILABLE;
     }
 
     FixedUpdate(delta: number) {

@@ -1,3 +1,4 @@
+import {ERROR} from "../errors.js";
 import {Entity, Game} from "../game.js";
 import {Get} from "./com_index.js";
 
@@ -21,5 +22,5 @@ export function find_navigable(game: Game, x: number, y: number) {
             }
         }
     }
-    throw `No entity with coords ${x}, ${y}.`;
+    return ERROR.NAVIGABLE_ENTITY_NOT_FOUND;
 }
