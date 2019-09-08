@@ -1,10 +1,12 @@
 import {destroy} from "./components/com_destroy.js";
+import {draw} from "./components/com_draw.js";
 import {Health} from "./components/com_health.js";
 import {Get} from "./components/com_index.js";
 import {components_of_type} from "./components/com_transform.js";
-import {ui, UI} from "./components/com_ui.js";
+import {UI} from "./components/com_ui.js";
 import {Entity, Game} from "./game.js";
 import {rand} from "./math/random.js";
+import {widget_damage} from "./widgets/wid_damage.js";
 import {world_desert} from "./worlds/wor_desert.js";
 import {world_intro} from "./worlds/wor_intro.js";
 import {world_map} from "./worlds/wor_map.js";
@@ -91,14 +93,10 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
         }
         case Action.Hit: {
             let [entity, damage] = args as [Entity, number];
-            let text = `<div style="
-                    animation: up 1s ease-out;
-                    font-size:${damage / 125 + 1}vh;
-                ">${~~damage}</div>`;
             let world_position = game[Get.Transform][entity].Translation;
             game.Add({
                 Translation: [world_position[0], world_position[1] + 12, world_position[2]],
-                Using: [ui(text), destroy(1)],
+                Using: [draw(widget_damage, [damage]), destroy(1)],
             });
 
             let health = game[Get.Health][entity];

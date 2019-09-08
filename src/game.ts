@@ -7,6 +7,7 @@ import {Collide} from "./components/com_collide.js";
 import {PlayerControl} from "./components/com_control_player.js";
 import {Cull} from "./components/com_cull.js";
 import {Destroy} from "./components/com_destroy.js";
+import {Draw} from "./components/com_draw.js";
 import {EmitParticles} from "./components/com_emit_particles.js";
 import {Health} from "./components/com_health.js";
 import {ComponentData, Get} from "./components/com_index.js";
@@ -42,6 +43,7 @@ import {sys_control_projectile} from "./systems/sys_control_projectile.js";
 import {sys_cull} from "./systems/sys_cull.js";
 import {sys_debug} from "./systems/sys_debug.js";
 import {sys_toggle} from "./systems/sys_destroy.js";
+import {sys_draw} from "./systems/sys_draw.js";
 import {sys_framerate} from "./systems/sys_framerate.js";
 import {sys_health} from "./systems/sys_health.js";
 import {sys_mimic} from "./systems/sys_mimic.js";
@@ -81,6 +83,7 @@ export class Game implements ComponentData, GameState {
     public Grid: Array<Array<number>> = [];
     public [Get.Transform]: Array<Transform> = [];
     public [Get.Render]: Array<Render> = [];
+    public [Get.Draw]: Array<Draw> = [];
     public [Get.Camera]: Array<Camera> = [];
     public [Get.Light]: Array<Light> = [];
     public [Get.AudioSource]: Array<AudioSource> = [];
@@ -105,7 +108,9 @@ export class Game implements ComponentData, GameState {
     public [Get.UI]: Array<UI> = [];
 
     public Canvas: HTMLCanvasElement;
+    public Canvas2: HTMLCanvasElement;
     public GL: WebGL2RenderingContext;
+    public Context: CanvasRenderingContext2D;
     public Audio: AudioContext = new AudioContext();
     public UI3D: HTMLElement = document.querySelector("main")!;
     public UI2D: HTMLElement = document.querySelector("nav")!;
@@ -140,7 +145,12 @@ export class Game implements ComponentData, GameState {
             document.hidden ? this.Stop() : this.Start()
         );
 
-        this.Canvas = document.querySelector("canvas")!;
+        this.Canvas2 = document.querySelector("#c2")! as HTMLCanvasElement;
+        this.Canvas2.width = window.innerWidth;
+        this.Canvas2.height = window.innerHeight;
+        this.Context = this.Canvas2.getContext("2d")!;
+
+        this.Canvas = document.querySelector("#c3")! as HTMLCanvasElement;
         this.Canvas.width = window.innerWidth;
         this.Canvas.height = window.innerHeight;
 
@@ -225,6 +235,7 @@ export class Game implements ComponentData, GameState {
         sys_audio(this, delta);
         sys_camera(this, delta);
         sys_render(this, delta);
+        sys_draw(this, delta);
         sys_ui(this, delta);
 
         // Performance.
