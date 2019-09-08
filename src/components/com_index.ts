@@ -4,6 +4,7 @@ import {Camera} from "./com_camera";
 import {Collide} from "./com_collide";
 import {PlayerControl} from "./com_control_player";
 import {Cull} from "./com_cull";
+import {Destroy} from "./com_destroy";
 import {EmitParticles} from "./com_emit_particles";
 import {Health} from "./com_health";
 import {Light} from "./com_light";
@@ -17,7 +18,6 @@ import {Render} from "./com_render";
 import {Select} from "./com_select";
 import {Shake} from "./com_shake";
 import {Shoot} from "./com_shoot";
-import {Toggle} from "./com_toggle";
 import {Transform} from "./com_transform";
 import {Trigger} from "./com_trigger";
 import {Walking} from "./com_walking";
@@ -45,7 +45,7 @@ export const enum Get {
     NPC,
     Projectile,
     Shake,
-    Toggle,
+    Destroy,
     UI,
 }
 
@@ -72,5 +72,5 @@ export interface ComponentData {
     [Get.NPC]: Array<NPC>;
     [Get.Projectile]: Array<Projectile>;
     [Get.Shake]: Array<Shake>;
-    [Get.Toggle]: Array<Toggle>;
+    [Get.Destroy]: Array<Destroy>;
 }
