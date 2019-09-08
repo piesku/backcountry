@@ -1,3 +1,4 @@
+import {destroy} from "./components/com_destroy.js";
 import {Health} from "./components/com_health.js";
 import {Get} from "./components/com_index.js";
 import {components_of_type} from "./components/com_transform.js";
@@ -97,7 +98,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             let world_position = game[Get.Transform][entity].Translation;
             game.Add({
                 Translation: [world_position[0], world_position[1] + 12, world_position[2]],
-                Using: [ui(text)],
+                Using: [ui(text), destroy(1)],
             });
 
             let health = game[Get.Health][entity];
@@ -111,7 +112,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
         case Action.Die: {
             let entity = args[0] as Entity;
             for (let ui of components_of_type<UI>(game, game[Get.Transform][entity], Get.UI)) {
-                ui.Lifespan = 0;
+                ui.Element.remove();
             }
 
             // If the player is killed.

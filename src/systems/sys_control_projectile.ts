@@ -7,20 +7,17 @@ const QUERY = (1 << Get.Transform) | (1 << Get.Collide) | (1 << Get.Move) | (1 <
 export function sys_control_projectile(game: Game, delta: number) {
     for (let i = 0; i < game.World.length; i++) {
         if ((game.World[i] & QUERY) === QUERY) {
-            update(game, i, delta);
+            update(game, i);
         }
     }
 }
 
-function update(game: Game, entity: Entity, delta: number) {
+function update(game: Game, entity: Entity) {
     let projectile = game[Get.Projectile][entity];
     let move = game[Get.Move][entity];
     let collide = game[Get.Collide][entity];
 
-    projectile.Age += delta;
-    if (projectile.Age >= projectile.Lifespan) {
-        game.Destroy(entity);
-    } else if (collide.Collisions.length > 0) {
+    if (collide.Collisions.length > 0) {
         game.Destroy(entity);
         for (let collider of collide.Collisions) {
             if (game.World[collider.Entity] & (1 << Get.Health)) {

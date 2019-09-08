@@ -135,7 +135,7 @@ export function world_map(game: Game) {
             get_character_blueprint(game),
             {
                 Translation: [0, 15, 0],
-                Using: game.SeedBounty ? [] : [ui(exclamation, Infinity)],
+                Using: game.SeedBounty ? [] : [ui(exclamation)],
             },
         ],
     });

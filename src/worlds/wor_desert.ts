@@ -97,7 +97,7 @@ export function world_desert(game: Game) {
                     get_character_blueprint(game),
                     {
                         Translation: [0, 10, 0],
-                        Using: [ui(`<div style="height: 1vh; background: #f00;"/>`, Infinity)],
+                        Using: [ui(`<div style="height: 1vh; background: #f00;"/>`)],
                     },
                 ],
             });
@@ -136,7 +136,7 @@ export function world_desert(game: Game) {
             },
             {
                 Translation: [0, 10, 0],
-                Using: [ui(`<div style="height: 1vh; background: #0f0;"/>`, Infinity)],
+                Using: [ui(`<div style="height: 1vh; background: #0f0;"/>`)],
             },
         ],
     });

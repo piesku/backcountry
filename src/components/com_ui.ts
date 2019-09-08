@@ -3,10 +3,9 @@ import {Get} from "./com_index.js";
 
 export interface UI {
     Element: HTMLElement;
-    Lifespan: number;
 }
 
-export function ui(html: string, Lifespan = 1) {
+export function ui(html: string) {
     return (game: Game, entity: Entity) => {
         let Element = document.createElement("p");
         Element.innerHTML = html;
@@ -14,7 +13,6 @@ export function ui(html: string, Lifespan = 1) {
         game.World[entity] |= 1 << Get.UI;
         return (game[Get.UI][entity] = <UI>{
             Element,
-            Lifespan,
         });
     };
 }

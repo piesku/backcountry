@@ -88,7 +88,7 @@ export function world_mine(game: Game) {
                 (set_seed(game.SeedBounty), get_character_blueprint(game)),
                 {
                     Translation: [0, 10, 0],
-                    Using: [ui(`<div style="height: 2vh; background: #ff0;"/>`, Infinity)],
+                    Using: [ui(`<div style="height: 2vh; background: #ff0;"/>`)],
                 },
             ],
         });
@@ -113,7 +113,7 @@ export function world_mine(game: Game) {
                     get_character_blueprint(game),
                     {
                         Translation: [0, 10, 0],
-                        Using: [ui(`<div style="height: 1vh; background: #f00;"/>`, Infinity)],
+                        Using: [ui(`<div style="height: 1vh; background: #f00;"/>`)],
                     },
                 ],
             });
@@ -142,7 +142,7 @@ export function world_mine(game: Game) {
             },
             {
                 Translation: [0, 10, 0],
-                Using: [ui(`<div style="height: 1vh; background: #0f0;"/>`, Infinity)],
+                Using: [ui(`<div style="height: 1vh; background: #0f0;"/>`)],
             },
         ],
     });
