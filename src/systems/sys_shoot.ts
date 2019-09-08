@@ -27,8 +27,8 @@ function update(game: Game, entity: Entity) {
         if (spawn) {
             let projectile =
                 game.World[entity] & (1 << Get.PlayerControl)
-                    ? create_projectile(40, [1, 1, 1], 9)
-                    : create_projectile(30, [1, 0, 0], 7);
+                    ? create_projectile(500, 40, [1, 1, 1], 9)
+                    : create_projectile(300, 30, [1, 0, 0], 7);
 
             game.Add({
                 ...projectile,

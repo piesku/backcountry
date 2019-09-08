@@ -81,7 +81,7 @@ export function world_mine(game: Game) {
                 walking(x, y),
                 move(integer(12, 16), 0),
                 collide(true, [7, 7, 7], RayTarget.Attackable),
-                health(5),
+                health(5000),
                 shoot(1),
             ],
             Children: [
@@ -94,7 +94,7 @@ export function world_mine(game: Game) {
         });
     }
 
-    let cowboys_count = 20;
+    let cowboys_count = 15;
     for (let i = 0; i < cowboys_count; i++) {
         let x = integer(4, map_size);
         let y = integer(4, map_size);
@@ -106,7 +106,7 @@ export function world_mine(game: Game) {
                     walking(x, y),
                     move(integer(8, 15)),
                     collide(true, [7, 7, 7], RayTarget.Attackable),
-                    health(3),
+                    health(2000),
                     shoot(1),
                 ],
                 Children: [
@@ -130,7 +130,7 @@ export function world_mine(game: Game) {
             walking(1, 1),
             move(25, 0),
             collide(true, [3, 7, 3], RayTarget.Player),
-            health(10),
+            health(10000),
             shoot(1),
             audio_source(),
         ],

@@ -1,6 +1,7 @@
 import {Health} from "./components/com_health.js";
 import {Get} from "./components/com_index.js";
-import {ui} from "./components/com_ui.js";
+import {components_of_type} from "./components/com_transform.js";
+import {ui, UI} from "./components/com_ui.js";
 import {Entity, Game} from "./game.js";
 import {rand} from "./math/random.js";
 import {world_desert} from "./worlds/wor_desert.js";
@@ -88,23 +89,36 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             break;
         }
         case Action.Hit: {
-            let entity = args[0] as Entity;
-            let damage = (Math.random() * 1000).toFixed(0);
-            let text = `<div style="animation: up 1s ease-out">${damage}</div>`;
+            let [entity, damage] = args as [Entity, number];
+            let text = `<div style="
+                    animation: up 1s ease-out;
+                    font-size:${damage / 125 + 1}vh;
+                ">${~~damage}</div>`;
             let world_position = game[Get.Transform][entity].Translation;
             game.Add({
                 Translation: [world_position[0], world_position[1] + 12, world_position[2]],
                 Using: [ui(text)],
             });
+
+            let health = game[Get.Health][entity];
+            for (let ui of components_of_type<UI>(game, game[Get.Transform][entity], Get.UI)) {
+                let width = (health.Current / health.Max) * 10;
+                ui.Element.style.width = `${width}vw`;
+            }
+
             break;
         }
         case Action.Die: {
             let entity = args[0] as Entity;
+            for (let ui of components_of_type<UI>(game, game[Get.Transform][entity], Get.UI)) {
+                ui.Lifespan = 0;
+            }
 
             // If the player is killed.
             if (game.World[entity] & (1 << Get.PlayerControl)) {
                 game.World[entity] &= ~(
                     (1 << Get.PlayerControl) |
+                    (1 << Get.Health) |
                     (1 << Get.Move) |
                     (1 << Get.Collide)
                 );
@@ -123,7 +137,12 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                         }
                     }
                 }
-                game.World[entity] &= ~((1 << Get.NPC) | (1 << Get.Move) | (1 << Get.Collide));
+                game.World[entity] &= ~(
+                    (1 << Get.NPC) |
+                    (1 << Get.Health) |
+                    (1 << Get.Move) |
+                    (1 << Get.Collide)
+                );
                 // This must be the same as character's blueprint's Anim.Die duration.
                 setTimeout(() => game.Destroy(entity), 5000);
             }
