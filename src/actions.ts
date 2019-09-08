@@ -90,7 +90,10 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
         }
         case Action.Hit: {
             let [entity, damage] = args as [Entity, number];
-            let text = `<div style="animation: up 1s ease-out">${~~damage}</div>`;
+            let text = `<div style="
+                    animation: up 1s ease-out;
+                    font-size:${damage / 125 + 1}vh;
+                ">${~~damage}</div>`;
             let world_position = game[Get.Transform][entity].Translation;
             game.Add({
                 Translation: [world_position[0], world_position[1] + 12, world_position[2]],
