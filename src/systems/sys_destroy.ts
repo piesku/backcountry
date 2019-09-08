@@ -16,10 +16,6 @@ function update(game: Game, entity: Entity, delta: number) {
     if (toggle.Lifespan > 0) {
         toggle.Lifespan -= delta;
     } else {
-        if (game.World[entity] & (1 << Get.UI)) {
-            // A special case for DOM elements.
-            game[Get.UI][entity].Element.remove();
-        }
         game.Destroy(entity);
     }
 }

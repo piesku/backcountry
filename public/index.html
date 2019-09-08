@@ -24,32 +24,6 @@
         font: inherit;
         color: inherit;
     }
-    p {
-        position: absolute;
-        width: 10vw;
-        margin-left: -5vw;
-        text-align: center;
-        font-size: 5vh;
-    }
-
-    @keyframes up {
-        0% {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        100% {
-            opacity: 0;
-            transform: translateY(-20vh);
-        }
-    }
-    @keyframes ex {
-        0% {
-            transform: translateY(0);
-        }
-        100% {
-            transform: translateY(-5vh);
-        }
-    }
 
     #debug {
         display: flex;
@@ -74,7 +48,6 @@
     <canvas id="c3"></canvas>
     <canvas id="c2"></canvas>
     <main></main>
-    <nav></nav>
     <div id="debug">
         <div>fixed: <span id="fixed"></span></div>
         <div>frame: <span id="frame"></span></div>

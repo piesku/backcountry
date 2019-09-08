@@ -61,32 +61,27 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             game.SeedBounty = 0;
             game.WorldFunc = world_intro;
             setTimeout(world_intro, 0, game);
-            game.UI3D.innerHTML = "";
             break;
         }
         case Action.GoToTown: {
             game.WorldFunc = world_map;
             setTimeout(game.WorldFunc, 0, game);
-            game.UI3D.innerHTML = "";
             break;
         }
         case Action.GoToWanted: {
             game.SeedBounty = rand();
             game.WorldFunc = world_wanted;
             setTimeout(game.WorldFunc, 0, game);
-            game.UI3D.innerHTML = "";
             break;
         }
         case Action.GoToDesert: {
             game.WorldFunc = world_desert;
             setTimeout(game.WorldFunc, 0, game);
-            game.UI3D.innerHTML = "";
             break;
         }
         case Action.GoToMine: {
             game.WorldFunc = world_mine;
             setTimeout(game.WorldFunc, 0, game);
-            game.UI3D.innerHTML = "";
             break;
         }
         case Action.Hit: {

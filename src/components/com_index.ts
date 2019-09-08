@@ -48,7 +48,6 @@ export const enum Get {
     Projectile,
     Shake,
     Destroy,
-    UI,
 }
 
 export interface ComponentData {
