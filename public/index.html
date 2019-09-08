@@ -9,7 +9,7 @@
         font-family: Impact;
         color: #FFE8C6;
     }
-    main, nav {
+    canvas, main {
         position: absolute;
         top: 0;
         right: 0;
@@ -23,32 +23,6 @@
         cursor: pointer;
         font: inherit;
         color: inherit;
-    }
-    p {
-        position: absolute;
-        width: 10vw;
-        margin-left: -5vw;
-        text-align: center;
-        font-size: 5vh;
-    }
-
-    @keyframes up {
-        0% {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        100% {
-            opacity: 0;
-            transform: translateY(-20vh);
-        }
-    }
-    @keyframes ex {
-        0% {
-            transform: translateY(0);
-        }
-        100% {
-            transform: translateY(-5vh);
-        }
     }
 
     #debug {
@@ -72,8 +46,8 @@
 </style>
 <body>
     <canvas></canvas>
+    <canvas></canvas>
     <main></main>
-    <nav></nav>
     <div id="debug">
         <div>fixed: <span id="fixed"></span></div>
         <div>frame: <span id="frame"></span></div>

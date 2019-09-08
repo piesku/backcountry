@@ -7,13 +7,14 @@ import {get_town_gate_blueprint} from "../blueprints/blu_town_gate.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide, RayTarget} from "../components/com_collide.js";
 import {player_control} from "../components/com_control_player.js";
+import {draw} from "../components/com_draw.js";
 import {Get} from "../components/com_index.js";
+import {lifespan} from "../components/com_lifespan.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
 import {find_navigable} from "../components/com_navigable.js";
 import {npc} from "../components/com_npc.js";
 import {trigger} from "../components/com_trigger.js";
-import {ui} from "../components/com_ui.js";
 import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
@@ -22,6 +23,7 @@ import {snd_gust} from "../sounds/snd_gust.js";
 import {snd_jingle} from "../sounds/snd_jingle.js";
 import {snd_neigh} from "../sounds/snd_neigh.js";
 import {snd_wind} from "../sounds/snd_wind.js";
+import {widget_exclamation} from "../widgets/wid_exclamation.js";
 
 export function world_map(game: Game) {
     set_seed(game.SeedPlayer);
@@ -122,10 +124,6 @@ export function world_map(game: Game) {
     let sheriff_position =
         game[Get.Transform][find_navigable(game, map_size / 2, map_size / 2 + 3)].Translation;
 
-    let exclamation = `<div style="
-            font-size: 10vh;
-            animation: ex 1s ease infinite alternate;">!</div>`;
-
     // Sheriff.
     game.Add({
         Translation: [sheriff_position[0], 5, sheriff_position[2]],
@@ -134,8 +132,8 @@ export function world_map(game: Game) {
         Children: [
             get_character_blueprint(game),
             {
-                Translation: [0, 15, 0],
-                Using: game.SeedBounty ? [] : [ui(exclamation)],
+                Translation: [0, 10, 0],
+                Using: game.SeedBounty ? [] : [draw(widget_exclamation), lifespan()],
             },
         ],
     });

@@ -4,9 +4,10 @@ import {Camera} from "./com_camera";
 import {Collide} from "./com_collide";
 import {PlayerControl} from "./com_control_player";
 import {Cull} from "./com_cull";
-import {Destroy} from "./com_destroy";
+import {Draw} from "./com_draw";
 import {EmitParticles} from "./com_emit_particles";
 import {Health} from "./com_health";
+import {Lifespan} from "./com_lifespan";
 import {Light} from "./com_light";
 import {Mimic} from "./com_mimic";
 import {Move} from "./com_move";
@@ -25,6 +26,7 @@ import {Walking} from "./com_walking";
 export const enum Get {
     Transform = 1,
     Render,
+    Draw,
     Camera,
     Light,
     AudioSource,
@@ -45,13 +47,13 @@ export const enum Get {
     NPC,
     Projectile,
     Shake,
-    Destroy,
-    UI,
+    Lifespan,
 }
 
 export interface ComponentData {
     [Get.Transform]: Array<Transform>;
     [Get.Render]: Array<Render>;
+    [Get.Draw]: Array<Draw>;
     [Get.Camera]: Array<Camera>;
     [Get.Light]: Array<Light>;
     [Get.AudioSource]: Array<AudioSource>;
@@ -72,5 +74,5 @@ export interface ComponentData {
     [Get.NPC]: Array<NPC>;
     [Get.Projectile]: Array<Projectile>;
     [Get.Shake]: Array<Shake>;
-    [Get.Destroy]: Array<Destroy>;
+    [Get.Lifespan]: Array<Lifespan>;
 }
