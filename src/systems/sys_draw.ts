@@ -24,7 +24,8 @@ function update(game: Game, entity: Entity) {
 
     let draw = game[Get.Draw][entity];
     draw.Widget(
-        game.Context,
+        game,
+        entity,
         0.5 * (position[0] + 1) * game.Canvas.width,
         0.5 * (-position[1] + 1) * game.Canvas.height,
         draw.Args

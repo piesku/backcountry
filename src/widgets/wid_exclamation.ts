@@ -1,6 +1,8 @@
-export function widget_exclamation(ctx: CanvasRenderingContext2D, x: number, y: number) {
-    ctx.font = "10vh Impact";
-    ctx.textAlign = "center";
-    ctx.fillStyle = "#fff";
-    ctx.fillText("!", x, y);
+import {Entity, Game} from "../game";
+
+export function widget_exclamation(game: Game, entity: Entity, x: number, y: number) {
+    game.Context.font = "10vh Impact";
+    game.Context.textAlign = "center";
+    game.Context.fillStyle = "#fff";
+    game.Context.fillText("!", x, y);
 }

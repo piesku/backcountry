@@ -1,5 +1,8 @@
+import {Entity, Game} from "../game";
+
 export type Widget = (
-    ctx: CanvasRenderingContext2D,
+    game: Game,
+    entity: Entity,
     x: number,
     y: number,
     args: Array<unknown>
