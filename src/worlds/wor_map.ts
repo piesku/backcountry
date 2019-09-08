@@ -9,6 +9,7 @@ import {collide, RayTarget} from "../components/com_collide.js";
 import {player_control} from "../components/com_control_player.js";
 import {draw} from "../components/com_draw.js";
 import {Get} from "../components/com_index.js";
+import {lifespan} from "../components/com_lifespan.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
 import {find_navigable} from "../components/com_navigable.js";
@@ -131,8 +132,8 @@ export function world_map(game: Game) {
         Children: [
             get_character_blueprint(game),
             {
-                Translation: [0, 15, 0],
-                Using: game.SeedBounty ? [] : [draw(widget_exclamation)],
+                Translation: [0, 10, 0],
+                Using: game.SeedBounty ? [] : [draw(widget_exclamation), lifespan()],
             },
         ],
     });
