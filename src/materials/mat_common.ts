@@ -19,10 +19,15 @@ export function mat_create(
     vertex: string,
     fragment: string
 ) {
+    let program = gl.createProgram()!;
+    gl.attachShader(program, compile(gl, GL_VERTEX_SHADER, vertex));
+    gl.attachShader(program, compile(gl, GL_FRAGMENT_SHADER, fragment));
+    gl.linkProgram(program);
+
     let material: Material = {
-        gl: gl,
-        mode: mode,
-        program: link(gl, vertex, fragment),
+        gl,
+        mode,
+        program,
         uniforms: {},
     };
 
@@ -38,14 +43,6 @@ export function mat_create(
     }
 
     return material;
-}
-
-function link(gl: WebGL2RenderingContext, vertex: string, fragment: string) {
-    let program = gl.createProgram()!;
-    gl.attachShader(program, compile(gl, GL_VERTEX_SHADER, vertex));
-    gl.attachShader(program, compile(gl, GL_FRAGMENT_SHADER, fragment));
-    gl.linkProgram(program);
-    return program;
 }
 
 function compile(gl: WebGL2RenderingContext, type: GLint, source: string) {
