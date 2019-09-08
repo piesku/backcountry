@@ -1,7 +1,7 @@
-import {destroy} from "./components/com_destroy.js";
 import {draw} from "./components/com_draw.js";
 import {Health} from "./components/com_health.js";
 import {Get} from "./components/com_index.js";
+import {lifespan} from "./components/com_lifespan.js";
 import {Entity, Game} from "./game.js";
 import {rand} from "./math/random.js";
 import {widget_damage} from "./widgets/wid_damage.js";
@@ -89,7 +89,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             let world_position = game[Get.Transform][entity].Translation;
             game.Add({
                 Translation: [world_position[0], world_position[1] + 12, world_position[2]],
-                Using: [draw(widget_damage, [damage]), destroy(1)],
+                Using: [draw(widget_damage, [damage]), lifespan(1)],
             });
 
             break;

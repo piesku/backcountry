@@ -6,11 +6,11 @@ import {Camera} from "./components/com_camera.js";
 import {Collide} from "./components/com_collide.js";
 import {PlayerControl} from "./components/com_control_player.js";
 import {Cull} from "./components/com_cull.js";
-import {Destroy} from "./components/com_destroy.js";
 import {Draw} from "./components/com_draw.js";
 import {EmitParticles} from "./components/com_emit_particles.js";
 import {Health} from "./components/com_health.js";
 import {ComponentData, Get} from "./components/com_index.js";
+import {Lifespan} from "./components/com_lifespan.js";
 import {Light} from "./components/com_light.js";
 import {Mimic} from "./components/com_mimic.js";
 import {Move} from "./components/com_move.js";
@@ -41,10 +41,10 @@ import {sys_collide} from "./systems/sys_collide.js";
 import {sys_control_projectile} from "./systems/sys_control_projectile.js";
 import {sys_cull} from "./systems/sys_cull.js";
 import {sys_debug} from "./systems/sys_debug.js";
-import {sys_toggle} from "./systems/sys_destroy.js";
 import {sys_draw} from "./systems/sys_draw.js";
 import {sys_framerate} from "./systems/sys_framerate.js";
 import {sys_health} from "./systems/sys_health.js";
+import {sys_lifespan} from "./systems/sys_lifespan.js";
 import {sys_mimic} from "./systems/sys_mimic.js";
 import {sys_move} from "./systems/sys_move.js";
 import {sys_navigate} from "./systems/sys_navigate.js";
@@ -103,7 +103,7 @@ export class Game implements ComponentData, GameState {
     public [Get.NPC]: Array<NPC> = [];
     public [Get.Projectile]: Array<Projectile> = [];
     public [Get.Shake]: Array<Shake> = [];
-    public [Get.Destroy]: Array<Destroy> = [];
+    public [Get.Lifespan]: Array<Lifespan> = [];
 
     public Canvas: HTMLCanvasElement;
     public Canvas2: HTMLCanvasElement;
@@ -213,7 +213,7 @@ export class Game implements ComponentData, GameState {
         sys_health(this, delta);
         sys_mimic(this, delta);
         sys_cull(this, delta);
-        sys_toggle(this, delta);
+        sys_lifespan(this, delta);
 
         // Performance.
         sys_performance(this, performance.now() - now, document.querySelector("#fixed"));
