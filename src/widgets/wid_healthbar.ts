@@ -5,7 +5,13 @@ export function widget_healthbar(game: Game, entity: Entity, x: number, y: numbe
     // Health bars must be direct children of character containers.
     let parent = game[Get.Transform][entity].Parent!.Entity;
     let health = game[Get.Health][parent];
-    game.Context.fillStyle = "#0f0";
+    if (game.World[parent] & (1 << Get.PlayerControl)) {
+        game.Context.fillStyle = "#0f0";
+    } else if (game[Get.NPC][parent].Bounty) {
+        game.Context.fillStyle = "#ff0";
+    } else {
+        game.Context.fillStyle = "#f00";
+    }
     game.Context.fillRect(
         x - 0.05 * game.Canvas2.width,
         y,
