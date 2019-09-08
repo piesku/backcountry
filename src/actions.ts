@@ -2,8 +2,6 @@ import {destroy} from "./components/com_destroy.js";
 import {draw} from "./components/com_draw.js";
 import {Health} from "./components/com_health.js";
 import {Get} from "./components/com_index.js";
-import {components_of_type} from "./components/com_transform.js";
-import {UI} from "./components/com_ui.js";
 import {Entity, Game} from "./game.js";
 import {rand} from "./math/random.js";
 import {widget_damage} from "./widgets/wid_damage.js";
@@ -99,19 +97,10 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                 Using: [draw(widget_damage, [damage]), destroy(1)],
             });
 
-            let health = game[Get.Health][entity];
-            for (let ui of components_of_type<UI>(game, game[Get.Transform][entity], Get.UI)) {
-                let width = (health.Current / health.Max) * 10;
-                ui.Element.style.width = `${width}vw`;
-            }
-
             break;
         }
         case Action.Die: {
             let entity = args[0] as Entity;
-            for (let ui of components_of_type<UI>(game, game[Get.Transform][entity], Get.UI)) {
-                ui.Element.remove();
-            }
 
             // If the player is killed.
             if (game.World[entity] & (1 << Get.PlayerControl)) {
