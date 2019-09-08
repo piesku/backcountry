@@ -8,7 +8,7 @@ export function widget_healthbar(game: Game, entity: Entity, x: number, y: numbe
     let height = 0.01 * game.Canvas2.height;
     if (game.World[parent] & (1 << Get.PlayerControl)) {
         game.Context.fillStyle = "#0f0";
-    } else if (game[Get.NPC][parent].Bounty) {
+    } else if (game.World[parent] & (1 << Get.NPC) && game[Get.NPC][parent].Bounty) {
         game.Context.fillStyle = "#ff0";
         height *= 2;
     } else {
