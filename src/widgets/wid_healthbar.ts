@@ -5,10 +5,12 @@ export function widget_healthbar(game: Game, entity: Entity, x: number, y: numbe
     // Health bars must be direct children of character containers.
     let parent = game[Get.Transform][entity].Parent!.Entity;
     let health = game[Get.Health][parent];
+    let height = 0.01 * game.Canvas2.height;
     if (game.World[parent] & (1 << Get.PlayerControl)) {
         game.Context.fillStyle = "#0f0";
     } else if (game[Get.NPC][parent].Bounty) {
         game.Context.fillStyle = "#ff0";
+        height *= 2;
     } else {
         game.Context.fillStyle = "#f00";
     }
@@ -16,6 +18,6 @@ export function widget_healthbar(game: Game, entity: Entity, x: number, y: numbe
         x - 0.05 * game.Canvas2.width,
         y,
         (0.1 * game.Canvas2.width * health.Current) / health.Max,
-        0.01 * game.Canvas2.height
+        height
     );
 }
