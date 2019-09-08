@@ -71,12 +71,6 @@ export interface InputState {
     my: number;
 }
 
-export interface EventState {
-    [k: string]: number;
-    mx: number;
-    my: number;
-}
-
 export class Game implements ComponentData, GameState {
     public World: Array<number>;
     public Grid: Array<Array<number>> = [];
@@ -116,10 +110,6 @@ export class Game implements ComponentData, GameState {
         mx: 0,
         my: 0,
     };
-    public Event: EventState = {
-        mx: 0,
-        my: 0,
-    };
 
     public Dispatch = (action: Action, ...args: Array<unknown>) => effect(this, action, args);
     public WorldFunc = world_intro;
@@ -153,11 +143,10 @@ export class Game implements ComponentData, GameState {
         this.UI.addEventListener("contextmenu", evt => evt.preventDefault());
         this.UI.addEventListener("mousedown", evt => {
             this.Input[`m${evt.button}`] = 1;
-            this.Event[`m${evt.button}d`] = 1;
+            this.Input[`d${evt.button}`] = 1;
         });
         this.UI.addEventListener("mouseup", evt => {
             this.Input[`m${evt.button}`] = 0;
-            this.Event[`m${evt.button}u`] = 1;
         });
         this.UI.addEventListener("mousemove", evt => {
             this.Input.mx = evt.offsetX;
@@ -218,9 +207,8 @@ export class Game implements ComponentData, GameState {
         // Debug.
         false && sys_debug(this, delta);
 
-        for (let name in this.Event) {
-            this.Event[name] = 0;
-        }
+        this.Input.d0 = 0;
+        this.Input.d2 = 0;
     }
 
     FrameUpdate(delta: number) {
