@@ -4,7 +4,7 @@ import {create, invert, ortho, perspective} from "../math/mat4.js";
 import {Get} from "./com_index.js";
 
 export interface Camera {
-    Entity: Entity;
+    EntityId: Entity;
     Position: Vec3;
     Projection: Mat4;
     Unproject: Mat4;
@@ -14,7 +14,7 @@ export interface Camera {
 }
 
 export function camera_perspective(fovy: number, near: number, far: number) {
-    return (game: Game, Entity: Entity) => {
+    return (game: Game, EntityId: Entity) => {
         let Projection = perspective(
             create(),
             fovy,
@@ -22,9 +22,9 @@ export function camera_perspective(fovy: number, near: number, far: number) {
             near,
             far
         );
-        game.World[Entity] |= 1 << Get.Camera;
-        game[Get.Camera][Entity] = <Camera>{
-            Entity,
+        game.World[EntityId] |= 1 << Get.Camera;
+        game[Get.Camera][EntityId] = <Camera>{
+            EntityId,
             Position: [],
             Projection,
             Unproject: invert([], Projection),
@@ -36,7 +36,7 @@ export function camera_perspective(fovy: number, near: number, far: number) {
 }
 
 export function camera_ortho(radius: number, near: number, far: number) {
-    return (game: Game, Entity: Entity) => {
+    return (game: Game, EntityId: Entity) => {
         let Projection = ortho(
             create(),
             radius,
@@ -46,9 +46,9 @@ export function camera_ortho(radius: number, near: number, far: number) {
             near,
             far
         );
-        game.World[Entity] |= 1 << Get.Camera;
-        game[Get.Camera][Entity] = <Camera>{
-            Entity,
+        game.World[EntityId] |= 1 << Get.Camera;
+        game[Get.Camera][EntityId] = <Camera>{
+            EntityId,
             Position: [],
             Projection,
             Unproject: invert([], Projection),

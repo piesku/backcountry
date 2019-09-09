@@ -14,7 +14,7 @@ export function sys_trigger(game: Game, delta: number) {
 function update(game: Game, entity: Entity) {
     let collisions = game[Get.Collide][entity].Collisions;
     for (let collide of collisions) {
-        if (game.World[collide.Entity] & (1 << Get.PlayerControl)) {
+        if (game.World[collide.EntityId] & (1 << Get.PlayerControl)) {
             game.World[entity] &= ~(1 << Get.Trigger);
             game.Dispatch(game[Get.Trigger][entity].Action);
         }

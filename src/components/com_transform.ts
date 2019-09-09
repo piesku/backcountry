@@ -15,7 +15,7 @@ export interface Transform {
     /** Local scale relative to the parent. */
     Scale: Vec3;
     /** This Transform's entity id. */
-    readonly Entity: Entity;
+    readonly EntityId: Entity;
     Parent?: Transform;
     Children: Array<Transform>;
     Dirty: boolean;
@@ -26,10 +26,10 @@ export function transform(
     Rotation: Quat = [0, 0, 0, 1],
     Scale: Vec3 = [1, 1, 1]
 ) {
-    return (game: Game, Entity: Entity) => {
-        game.World[Entity] |= 1 << Get.Transform;
-        game[Get.Transform][Entity] = <Transform>{
-            Entity,
+    return (game: Game, EntityId: Entity) => {
+        game.World[EntityId] |= 1 << Get.Transform;
+        game[Get.Transform][EntityId] = <Transform>{
+            EntityId,
             World: create(),
             Self: create(),
             Translation,
@@ -54,8 +54,8 @@ export function* components_of_type<T>(
     transform: Transform,
     component: Get
 ): IterableIterator<T> {
-    if (game.World[transform.Entity] & (1 << component)) {
-        yield (game[component][transform.Entity] as unknown) as T;
+    if (game.World[transform.EntityId] & (1 << component)) {
+        yield (game[component][transform.EntityId] as unknown) as T;
     }
     for (let child of transform.Children) {
         yield* components_of_type<T>(game, child, component);

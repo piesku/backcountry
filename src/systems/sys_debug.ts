@@ -21,11 +21,11 @@ export function sys_debug(game: Game, delta: number) {
     for (let [key, wireframe] of wireframes) {
         if (
             // If the entity doesn't have TRANSFORM...
-            !(game.World[wireframe.anchor.Entity] & (1 << Get.Transform)) ||
+            !(game.World[wireframe.anchor.EntityId] & (1 << Get.Transform)) ||
             // ...or if it's not the same TRANSFORM.
-            game[Get.Transform][wireframe.anchor.Entity] !== wireframe.anchor
+            game[Get.Transform][wireframe.anchor.EntityId] !== wireframe.anchor
         ) {
-            game.Destroy(wireframe.transform.Entity);
+            game.Destroy(wireframe.transform.EntityId);
             wireframes.delete(key);
         }
     }

@@ -3,15 +3,15 @@ import {Get} from "./com_index.js";
 import {components_of_type, Transform} from "./com_transform.js";
 
 export interface Named {
-    Entity: Entity;
+    EntityId: Entity;
     Name: string;
 }
 
 export function named(Name: string) {
-    return (game: Game, Entity: Entity) => {
-        game.World[Entity] |= 1 << Get.Named;
-        game[Get.Named][Entity] = <Named>{
-            Entity,
+    return (game: Game, EntityId: Entity) => {
+        game.World[EntityId] |= 1 << Get.Named;
+        game[Get.Named][EntityId] = <Named>{
+            EntityId,
             Name,
         };
     };
@@ -31,7 +31,7 @@ export function find_first(game: Game, name: string) {
 export function find_child(game: Game, transform: Transform, name: string) {
     for (let child of components_of_type<Named>(game, transform, Get.Named)) {
         if (child.Name === name) {
-            return child.Entity;
+            return child.EntityId;
         }
     }
 }

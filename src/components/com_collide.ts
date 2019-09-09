@@ -3,7 +3,7 @@ import {Vec3} from "../math/index.js";
 import {Get} from "./com_index.js";
 
 export interface Collide {
-    readonly Entity: Entity;
+    readonly EntityId: Entity;
     New: boolean;
     /**
      * Dynamic colliders collide with all colliders. Static colliders collide
@@ -24,10 +24,10 @@ export function collide(
     Size: [number, number, number] = [1, 1, 1],
     Flag = RayTarget.None
 ) {
-    return (game: Game, Entity: Entity) => {
-        game.World[Entity] |= 1 << Get.Collide;
-        game[Get.Collide][Entity] = <Collide>{
-            Entity,
+    return (game: Game, EntityId: Entity) => {
+        game.World[EntityId] |= 1 << Get.Collide;
+        game[Get.Collide][EntityId] = <Collide>{
+            EntityId,
             New: true,
             Dynamic,
             Size,
