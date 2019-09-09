@@ -51,8 +51,8 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             break;
         }
         case Action.ChangePlayer: {
-            let camera_anchor = game[Get.Transform][game.Camera!.Entity].Parent;
-            game[Get.Mimic][camera_anchor!.Entity].Target = args[0] as Entity;
+            let camera_anchor = game[Get.Transform][game.Camera!.EntityId].Parent;
+            game[Get.Mimic][camera_anchor!.EntityId].Target = args[0] as Entity;
             game.SeedPlayer = (game[Get.Named][args[0] as Entity].Name as unknown) as number;
             break;
         }

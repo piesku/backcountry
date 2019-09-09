@@ -51,7 +51,7 @@ function update(game: Game, entity: Entity, colliders: Array<Collide>) {
     select.Hit = raycast(game, colliders, origin, direction);
 
     if (select.Hit && select.Hit.Flags & ANIMATED && game.Input.d0) {
-        let transform = game[Get.Transform][select.Hit.Entity];
+        let transform = game[Get.Transform][select.Hit.EntityId];
         for (let animate of components_of_type<Animate>(game, transform, Get.Animate)) {
             animate.Trigger = Anim.Select;
         }
@@ -60,7 +60,7 @@ function update(game: Game, entity: Entity, colliders: Array<Collide>) {
         }
 
         if (select.Hit.Flags & RayTarget.Choosable) {
-            game.Dispatch(Action.ChangePlayer, select.Hit.Entity);
+            game.Dispatch(Action.ChangePlayer, select.Hit.EntityId);
         }
     }
 }

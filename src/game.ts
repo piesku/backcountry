@@ -266,7 +266,7 @@ export class Game implements ComponentData, GameState {
         let mask = this.World[entity];
         if (mask & (1 << Get.Transform)) {
             for (let child of this[Get.Transform][entity].Children) {
-                this.Destroy(child.Entity);
+                this.Destroy(child.EntityId);
             }
         }
         this.World[entity] = 0;

@@ -7,16 +7,16 @@ import {Blueprint} from "./blu_common";
 
 export function create_iso_camera(player: Entity) {
     return <Blueprint>{
-        Translation: [0, 20, 0],
+        Translation: [0, 200, 0],
         Using: [mimic(player)],
         Children: [
             {
-                Translation: [25, 25, 25],
+                Translation: [50, 50, 50],
                 // Isometric projection: Y 45°, X -35.264°, Z 0°
                 Rotation: [-0.28, 0.364, 0.116, 0.88],
                 Children: [
                     {
-                        Using: [camera_ortho(25, 1, 100), select(), shake()],
+                        Using: [camera_ortho(25, 1, 500), select(), shake()],
                     },
                 ],
             },
