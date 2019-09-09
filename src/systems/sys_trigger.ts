@@ -4,15 +4,19 @@ import {Entity, Game} from "../game.js";
 const QUERY = (1 << Get.Transform) | (1 << Get.Collide) | (1 << Get.Trigger);
 
 export function sys_trigger(game: Game, delta: number) {
-    for (let i = 0; i < game.world.length; i++) {
-        if ((game.world[i] & QUERY) === QUERY) {
+    for (let i = 0; i < game.World.length; i++) {
+        if ((game.World[i] & QUERY) === QUERY) {
             update(game, i);
         }
     }
 }
 
 function update(game: Game, entity: Entity) {
-    if (game[Get.Collide][entity].collisions.length > 0) {
-        game.dispatch(game[Get.Trigger][entity].action, entity);
+    let collisions = game[Get.Collide][entity].Collisions;
+    for (let collide of collisions) {
+        if (game.World[collide.EntityId] & (1 << Get.PlayerControl)) {
+            game.World[entity] &= ~(1 << Get.Trigger);
+            game.Dispatch(game[Get.Trigger][entity].Action);
+        }
     }
 }

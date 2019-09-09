@@ -6,7 +6,7 @@ import {Shoot} from "../components/com_shoot.js";
 import {Transform} from "../components/com_transform.js";
 import {Entity, Game} from "../game.js";
 import {Mat} from "../materials/mat_index.js";
-import {scale} from "../math/vec3.js";
+import {get_translation} from "../math/mat4.js";
 import {Cube} from "../shapes/Cube.js";
 import {Line} from "../shapes/Line.js";
 
@@ -21,32 +21,32 @@ export function sys_debug(game: Game, delta: number) {
     for (let [key, wireframe] of wireframes) {
         if (
             // If the entity doesn't have TRANSFORM...
-            !(game.world[wireframe.anchor.entity] & (1 << Get.Transform)) ||
+            !(game.World[wireframe.anchor.EntityId] & (1 << Get.Transform)) ||
             // ...or if it's not the same TRANSFORM.
-            game[Get.Transform][wireframe.anchor.entity] !== wireframe.anchor
+            game[Get.Transform][wireframe.anchor.EntityId] !== wireframe.anchor
         ) {
-            game.destroy(wireframe.transform.entity);
+            game.Destroy(wireframe.transform.EntityId);
             wireframes.delete(key);
         }
     }
 
-    for (let i = 0; i < game.world.length; i++) {
-        if (game.world[i] & (1 << Get.Transform)) {
+    for (let i = 0; i < game.World.length; i++) {
+        if (game.World[i] & (1 << Get.Transform)) {
             // Draw colliders first. If the collider's wireframe overlaps
             // exactly with the transform's wireframe, we want the collider to
             // take priority.
-            if (game.world[i] & (1 << Get.Collide)) {
+            if (game.World[i] & (1 << Get.Collide)) {
                 wireframe_collider(game, i);
             }
 
             // Draw invisible entities.
-            if (!(game.world[i] & (1 << Get.Render))) {
+            if (!(game.World[i] & (1 << Get.Render))) {
                 wireframe_entity(game, i);
-            } else if (game[Get.Render][i].kind === RenderKind.Particles) {
+            } else if (game[Get.Render][i].Kind === RenderKind.Particles) {
                 wireframe_entity(game, i);
             }
 
-            if (game.world[i] & (1 << Get.Shoot)) {
+            if (game.World[i] & (1 << Get.Shoot)) {
                 wireframe_ray(game, i);
             }
         }
@@ -58,12 +58,12 @@ function wireframe_entity(game: Game, entity: Entity) {
     let wireframe = wireframes.get(anchor);
 
     if (!wireframe) {
-        let box = game.add({
-            using: [render_basic(game.materials[Mat.Wireframe], Cube, [1, 0, 1, 1])],
+        let box = game.Add({
+            Using: [render_basic(game.Materials[Mat.Wireframe], Cube, [1, 0, 1, 1])],
         });
         let wireframe_transform = game[Get.Transform][box];
-        wireframe_transform.world = anchor.world;
-        wireframe_transform.dirty = false;
+        wireframe_transform.World = anchor.World;
+        wireframe_transform.Dirty = false;
         wireframes.set(anchor, {
             anchor: anchor,
             transform: wireframe_transform,
@@ -77,19 +77,18 @@ function wireframe_collider(game: Game, entity: Entity) {
     let wireframe = wireframes.get(collide);
 
     if (!wireframe) {
-        let box = game.add({
-            translation: collide.center,
-            scale: scale([], collide.half, 2),
-            using: [render_basic(game.materials[Mat.Wireframe], Cube, [0, 1, 0, 1])],
+        let box = game.Add({
+            Translation: get_translation([], anchor.World),
+            Scale: collide.Size,
+            Using: [render_basic(game.Materials[Mat.Wireframe], Cube, [0, 1, 0, 1])],
         });
         wireframes.set(collide, {
             anchor,
             transform: game[Get.Transform][box],
         });
-    } else if (collide.dynamic) {
-        wireframe.transform.translation = collide.center;
-        scale(wireframe.transform.scale, collide.half, 2);
-        wireframe.transform.dirty = true;
+    } else if (collide.Dynamic) {
+        get_translation(wireframe.transform.Translation, anchor.World);
+        wireframe.transform.Dirty = true;
     }
 }
 
@@ -99,12 +98,12 @@ function wireframe_ray(game: Game, entity: Entity) {
     let wireframe = wireframes.get(shoot);
 
     if (!wireframe) {
-        let line = game.add({
-            using: [render_basic(game.materials[Mat.Wireframe], Line, [1, 1, 0, 1])],
+        let line = game.Add({
+            Using: [render_basic(game.Materials[Mat.Wireframe], Line, [1, 1, 0, 1])],
         });
         let wireframe_transform = game[Get.Transform][line];
-        wireframe_transform.world = anchor.world;
-        wireframe_transform.dirty = false;
+        wireframe_transform.World = anchor.World;
+        wireframe_transform.Dirty = false;
         wireframes.set(shoot, {
             anchor: anchor,
             transform: wireframe_transform,

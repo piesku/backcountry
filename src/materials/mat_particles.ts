@@ -1,51 +1,59 @@
-import {mat_create} from "./mat_common.js";
+import {ParticleAttribute} from "../components/com_render_particles.js";
+import {GL_POINTS} from "../webgl.js";
+import {link, Material} from "./mat_common.js";
 
-export const enum ParticleAttribute {
-    id = 1,
-    origin = 2,
-    age = 3,
-}
+let vertex = `#version 300 es\n
+    // Projection * View matrix
+    uniform mat4 uP;
+    // [red, green, blue, size]
+    uniform vec4 ud;
 
-let vertex = `#version 300 es
-    uniform mat4 pv;
-    uniform vec3 camera_pos;
-    uniform float size;
-    uniform float vertical;
-    uniform vec3 start_color;
-    uniform vec3 end_color;
+    // [x, y, z, age]
+    layout(location=${ParticleAttribute.Origin}) in vec4 vo;
 
-    layout(location=${ParticleAttribute.id}) in float id;
-    layout(location=${ParticleAttribute.origin}) in vec3 origin;
-    layout(location=${ParticleAttribute.age}) in float age;
-
-    out vec4 vert_color;
+    // Vertex color
+    out vec4 vc;
 
     void main() {
-        // Pseudo-random numbers in range of [-0.5, 0.5].
-        float rand_x = id - 0.5;
-        float rand_y = fract(id * 1000.0) - 0.5;
-
-        vec4 world_pos = vec4(origin, 1.0);
-        world_pos.x += rand_x / 3.0;
-        world_pos.y += age * vertical;
-        world_pos.z += rand_y / 3.0;
-        gl_Position = pv * world_pos;
-        gl_PointSize = mix(size, size * 10.0, age);
-        vert_color = mix(vec4(start_color, 1.0), vec4(end_color, 1.0), age);
+        vec4 w = vec4(vo.xyz, 1.0);
+        if (ud.a < 10.0) {
+            // It's a projectile.
+            w.y += vo.a * 2.0;
+            gl_PointSize = mix(ud.a, 1.0, vo.a);
+        } else {
+            // It's a campfire.
+            w.y += vo.a * 10.0;
+            gl_PointSize = mix(ud.a, 1.0, vo.a);
+        }
+        gl_Position = uP * w;
+        vc = mix(vec4(ud.rgb, 1.0), vec4(1.0, 1.0, 0.0, 1.0), vo.a);
     }
 `;
 
-let fragment = `#version 300 es
+let fragment = `#version 300 es\n
     precision mediump float;
 
-    in vec4 vert_color;
-    out vec4 frag_color;
+    // Vertex color
+    in vec4 vc;
+    // Fragment color
+    out vec4 fc;
 
     void main() {
-        frag_color = vert_color;
+        fc = vc;
     }
 `;
 
-export function mat_particles(gl: WebGL2RenderingContext) {
-    return mat_create(gl, gl.POINTS, vertex, fragment);
+export function mat_particles(GL: WebGL2RenderingContext) {
+    let material: Material = {
+        GL,
+        Mode: GL_POINTS,
+        Program: link(GL, vertex, fragment),
+        Uniforms: [],
+    };
+
+    for (let name of ["uP", "ud"]) {
+        material.Uniforms.push(GL.getUniformLocation(material.Program, name)!);
+    }
+
+    return material;
 }

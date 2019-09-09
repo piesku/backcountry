@@ -1,46 +1,54 @@
 import {Get} from "../components/com_index.js";
 import {find_navigable} from "../components/com_navigable.js";
 import {Entity, Game} from "../game.js";
-import {get_translation} from "../math/mat4.js";
-import {rotation_to} from "../math/quat.js";
-import {length, normalize, subtract, transform_point} from "../math/vec3.js";
+import {get_forward} from "../math/mat4.js";
+import {from_axis} from "../math/quat.js";
+import {length, normalize, subtract} from "../math/vec3.js";
 
-const QUERY = (1 << Get.Transform) | (1 << Get.Move) | (1 << Get.ClickControl);
+const QUERY = (1 << Get.Transform) | (1 << Get.Move) | (1 << Get.Walking);
 
 export function sys_navigate(game: Game, delta: number) {
-    for (let i = 0; i < game.world.length; i++) {
-        if ((game.world[i] & QUERY) === QUERY) {
+    for (let i = 0; i < game.World.length; i++) {
+        if ((game.World[i] & QUERY) === QUERY) {
             update(game, i);
         }
     }
 }
 
 function update(game: Game, entity: Entity) {
-    let control = game[Get.ClickControl][entity];
-    let player_control = game[Get.PlayerControl][entity];
+    let walking = game[Get.Walking][entity];
 
-    if (!control.destination) {
-        if (control.route.length) {
-            let dest = control.route.pop() as [number, number];
+    if (!walking.Destination) {
+        if (walking.Route.length) {
+            let dest = walking.Route.pop() as [number, number];
             let destination_entity = find_navigable(game, dest[0], dest[1]);
-            control.destination_x = dest[0];
-            control.destination_y = dest[1];
-            control.destination = game[Get.Transform][destination_entity].translation;
+            walking.DestinationX = dest[0];
+            walking.DestinationY = dest[1];
+            walking.Destination = game[Get.Transform][destination_entity].Translation;
         }
-    } else {
-        let transform = game[Get.Transform][entity];
-        let world_position = get_translation([], transform.world);
-        let world_destination = [control.destination[0], world_position[1], control.destination[2]];
-        let movement = transform_point([], world_destination, transform.self);
-        normalize(movement, movement);
-        let move = game[Get.Move][entity];
-        move.directions.push(movement);
-        move.yaws.push(rotation_to([], [0, 0, 1], movement));
+    }
 
-        if (length(subtract([], world_destination, world_position)) < 1) {
-            player_control.x = control.destination_x;
-            player_control.y = control.destination_y;
-            control.destination = null;
+    if (walking.Destination) {
+        let transform = game[Get.Transform][entity];
+        let world_destination = [
+            walking.Destination[0],
+            transform.Translation[1],
+            walking.Destination[2],
+        ];
+
+        let dir = subtract([], world_destination, transform.Translation);
+        if (length(dir) < 1) {
+            walking.X = walking.DestinationX;
+            walking.Y = walking.DestinationY;
+            walking.Destination = null;
         }
+
+        normalize(dir, dir);
+        let move = game[Get.Move][entity];
+        move.Direction = dir;
+        let forward = get_forward([], transform.World);
+        let forward_theta = Math.atan2(forward[2], forward[0]);
+        let dir_theta = Math.atan2(dir[2], dir[0]);
+        move.Yaw = from_axis([], [0, 1, 0], forward_theta - dir_theta);
     }
 }

@@ -1,9 +1,4 @@
-import {
-    Instrument,
-    InstrumentParam,
-    SourceKind,
-    SourceParam,
-} from "./components/com_audio_source.js";
+import {Instrument, InstrumentParam, SourceParam} from "./components/com_audio_source.js";
 
 export function play_note(audio: AudioContext, instr: Instrument, note: number, offset: number) {
     let time = audio.currentTime + offset;
@@ -13,10 +8,10 @@ export function play_note(audio: AudioContext, instr: Instrument, note: number, 
     master.gain.value = (instr[InstrumentParam.MasterGainAmount] / 9) ** 3;
 
     let lfa, lfo;
-    if (instr[InstrumentParam.LFOEnabled]) {
+    if (instr[InstrumentParam.LFOType]) {
         // Frequency is mapped to [0, 125].
         lfo = audio.createOscillator();
-        lfo.type = instr[InstrumentParam.LFOType];
+        lfo.type = instr[InstrumentParam.LFOType] as OscillatorType;
         lfo.frequency.value = (instr[InstrumentParam.LFOFreq] / 3) ** 3;
 
         // Amount is mapped to [27, 5832].
@@ -26,9 +21,9 @@ export function play_note(audio: AudioContext, instr: Instrument, note: number, 
         lfo.connect(lfa);
     }
 
-    if (instr[InstrumentParam.FilterEnabled]) {
+    if (instr[InstrumentParam.FilterType]) {
         let filter = audio.createBiquadFilter();
-        filter.type = instr[InstrumentParam.FilterType];
+        filter.type = instr[InstrumentParam.FilterType] as BiquadFilterType;
         filter.frequency.value = 2 ** instr[InstrumentParam.FilterFreq];
         filter.Q.value = instr[InstrumentParam.FilterQ] ** 1.5;
         if (lfa && instr[InstrumentParam.FilterDetuneLFO]) {
@@ -58,10 +53,9 @@ export function play_note(audio: AudioContext, instr: Instrument, note: number, 
         amp.gain.setValueAtTime(gain_amount, time + gain_attack + gain_sustain);
         amp.gain.exponentialRampToValueAtTime(0.00001, time + gain_duration);
 
-        // XXX TypeScript doesn't recognize source[SourceParam.Kind] as the discriminant.
-        if (source[0] === SourceKind.Oscillator) {
+        if (source[0]) {
             let hfo = audio.createOscillator();
-            hfo.type = source[SourceParam.OscillatorType];
+            hfo.type = source[SourceParam.SourceType];
             hfo.connect(amp);
 
             // Detune
@@ -119,7 +113,7 @@ function lazy_noise_buffer(audio: AudioContext) {
     if (!noise_buffer) {
         noise_buffer = audio.createBuffer(1, audio.sampleRate * 2, audio.sampleRate);
         let channel = noise_buffer.getChannelData(0);
-        for (var i = 0; i < channel.length; i++) {
+        for (let i = 0; i < channel.length; i++) {
             channel[i] = Math.random() * 2 - 1;
         }
     }

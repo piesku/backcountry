@@ -4,8 +4,8 @@ import {App} from "../ui/App.js";
 let prev: string;
 
 export function sys_ui(game: Game, delta: number) {
-    let next = App(game.state);
+    let next = App(game);
     if (next !== prev) {
-        game.ui.innerHTML = prev = next;
+        game.UI.innerHTML = prev = next;
     }
 }

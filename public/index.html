@@ -6,17 +6,18 @@
     body {
         overflow: hidden;
         margin: 0;
+        font-family: Impact;
+        color: #FFE8C6;
     }
-    main {
+    canvas, main {
         position: absolute;
         top: 0;
         right: 0;
         bottom: 0;
         left: 0;
-        pointer-events: none;
+        user-select: none;
     }
     button {
-        pointer-events: auto;
         background: none;
         border: none;
         cursor: pointer;
@@ -45,6 +46,7 @@
 </style>
 <body>
     <canvas></canvas>
+    <canvas></canvas>
     <main></main>
     <div id="debug">
         <div>fixed: <span id="fixed"></span></div>
@@ -53,18 +55,17 @@
         <div><button onclick="toggle(this)">pause</button></div>
     </div>
     <script type="module">
-        import {game} from "./js/index.js";
-        window.game = game;
+        import "./js/index.js";
 
         let running = true;
         window.toggle = function toggle(button) {
             if (running) {
                 running = false;
-                game.stop();
+                window.game.Stop();
                 button.textContent = "resume";
             } else {
                 running = true;
-                game.start();
+                window.game.Start();
                 button.textContent = "pause";
             }
         };

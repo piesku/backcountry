@@ -1,28 +1,44 @@
 import {BasicAttribute} from "../components/com_render_basic.js";
-import {mat_create} from "./mat_common.js";
+import {GL_LINE_LOOP} from "../webgl.js";
+import {link, Material} from "./mat_common.js";
 
-let vertex = `#version 300 es
-    uniform mat4 pv;
-    uniform mat4 world;
+let vertex = `#version 300 es\n
+    // Projection * View matrix
+    uniform mat4 uP;
+    // World (model) matrix
+    uniform mat4 uW;
 
-    layout(location=${BasicAttribute.position}) in vec3 position;
+    layout(location=${BasicAttribute.Position}) in vec3 vp;
 
     void main() {
-        gl_Position = pv * world * vec4(position, 1.0);
+        gl_Position = uP * uW * vec4(vp, 1.0);
     }
 `;
 
-let fragment = `#version 300 es
+let fragment = `#version 300 es\n
     precision mediump float;
-    uniform vec4 color;
+    // Line color
+    uniform vec4 uc;
 
-    out vec4 frag_color;
+    // Fragment color
+    out vec4 fc;
 
     void main() {
-        frag_color = color;
+        fc = uc;
     }
 `;
 
-export function mat_wireframe(gl: WebGL2RenderingContext) {
-    return mat_create(gl, gl.LINE_LOOP, vertex, fragment);
+export function mat_wireframe(GL: WebGL2RenderingContext) {
+    let material: Material = {
+        GL,
+        Mode: GL_LINE_LOOP,
+        Program: link(GL, vertex, fragment),
+        Uniforms: [],
+    };
+
+    for (let name of ["uP", "uW", "uC"]) {
+        material.Uniforms.push(GL.getUniformLocation(material.Program, name)!);
+    }
+
+    return material;
 }

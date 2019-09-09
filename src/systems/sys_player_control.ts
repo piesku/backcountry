@@ -1,18 +1,17 @@
+import {RayTarget} from "../components/com_collide.js";
 import {Get} from "../components/com_index.js";
-import {find_navigable} from "../components/com_navigable.js";
-import {RayFlag} from "../components/com_ray_target.js";
+import {find_navigable, Navigable} from "../components/com_navigable.js";
 import {Select} from "../components/com_select.js";
 import {Entity, Game} from "../game.js";
 import {get_translation} from "../math/mat4.js";
 
-const QUERY = (1 << Get.Transform) | (1 << Get.Shoot) | (1 << Get.PlayerControl);
+const QUERY = (1 << Get.Transform) | (1 << Get.PlayerControl) | (1 << Get.Walking);
 
 export function sys_player_control(game: Game, delta: number) {
-    let camera = game.cameras[0];
-    if (game.world[camera.entity] & (1 << Get.Select)) {
-        let cursor = game[Get.Select][camera.entity];
-        for (let i = 0; i < game.world.length; i++) {
-            if ((game.world[i] & QUERY) === QUERY) {
+    if (game.World[game.Camera!.EntityId] & (1 << Get.Select)) {
+        let cursor = game[Get.Select][game.Camera!.EntityId];
+        for (let i = 0; i < game.World.length; i++) {
+            if ((game.World[i] & QUERY) === QUERY) {
                 update(game, i, cursor);
             }
         }
@@ -20,96 +19,106 @@ export function sys_player_control(game: Game, delta: number) {
 }
 
 function update(game: Game, entity: Entity, cursor: Select) {
-    if (!cursor.hit) {
+    if (!cursor.Hit) {
         return;
     }
 
-    if (game.event.mouse_0_down) {
-        if (cursor.hit.other.flags & RayFlag.Navigable) {
-            let player_control = game[Get.PlayerControl][entity];
-            let route_entity = cursor.hit.other.entity;
-            let route_navigable = game[Get.Navigable][route_entity];
-            let route: any = [];
-
-            let player_x = player_control.x;
-            let player_y = player_control.y;
-
-            // reset the depth field
-            for (let x = 0; x < game.distance_field.length; x++) {
-                for (let y = 0; y < game.distance_field[0].length; y++) {
-                    if (x === player_x && y == player_y) {
-                        game.distance_field[x][y] = 0;
-                    } else if (typeof game.distance_field[x][y] === "number") {
-                        game.distance_field[x][y] = Infinity;
-                    }
-                }
+    if (game.Input.d0) {
+        if (cursor.Hit.Flags & RayTarget.Navigable) {
+            let route = get_route(game, entity, game[Get.Navigable][cursor.Hit.EntityId]);
+            if (route) {
+                game[Get.Walking][entity].Route = route;
             }
-            game.distance_field[player_x][player_y] = 0;
-
-            calculate_distance(game, player_x, player_y);
-
-            if (!(game.distance_field[route_navigable.x][route_navigable.y] < Infinity)) {
-                return;
-            }
-
-            while (!(route_navigable.x === player_x && route_navigable.y === player_y)) {
-                route.push([route_navigable.x, route_navigable.y]);
-
-                let neighbors = get_neighbors(game, route_navigable.x, route_navigable.y);
-
-                for (let i = 0; i < neighbors.length; i++) {
-                    let neighbor_coords = neighbors[i];
-                    if (
-                        game.distance_field[neighbor_coords.x][neighbor_coords.y] <
-                        game.distance_field[route_navigable.x][route_navigable.y]
-                    ) {
-                        route_entity = find_navigable(game, neighbor_coords.x, neighbor_coords.y);
-                        route_navigable = game[Get.Navigable][route_entity];
-                    }
-                }
-            }
-
-            game[Get.ClickControl][entity].route = route;
         }
 
-        if (cursor.hit.other.flags & RayFlag.Attackable) {
-            let other_transform = game[Get.Transform][cursor.hit.other.entity];
-            game[Get.Shoot][entity].target = get_translation([], other_transform.world);
+        if (cursor.Hit.Flags & RayTarget.Attackable && game.World[entity] & (1 << Get.Shoot)) {
+            let other_transform = game[Get.Transform][cursor.Hit.EntityId];
+            game[Get.Shoot][entity].Target = get_translation([], other_transform.World);
+            game[Get.Shake][game.Camera!.EntityId].Duration = 0.2;
         }
     }
 
-    if (game.event.mouse_2_down) {
-        game[Get.Shoot][entity].target = cursor.hit.contact;
+    if (game.Input.d2 && game.World[entity] & (1 << Get.Shoot)) {
+        let other_transform = game[Get.Transform][cursor.Hit.EntityId];
+        game[Get.Shoot][entity].Target = get_translation([], other_transform.World);
+        game[Get.Shake][game.Camera!.EntityId].Duration = 0.2;
     }
 }
 
-function get_neighbors(game: Game, x: number, y: number) {
-    return [
+export function get_neighbors(game: Game, x: number, y: number) {
+    let directions = [
         {x: x - 1, y}, // W
-        {x: x - 1, y: y - 1}, // NW
         {x: x + 1, y}, // E
-        {x: x + 1, y: y - 1}, // NE
         {x, y: y - 1}, // N
+        {x, y: y + 1},
+        {x: x - 1, y: y - 1}, // NW
+        {x: x + 1, y: y - 1}, // NE
         {x: x - 1, y: y + 1}, // SW
-        {x, y: y + 1}, // S
-        {x: x + 1, y: y + 1}, // SE
-    ].filter(
-        ({x, y}) =>
-            x >= 0 && x < game.distance_field.length && y >= 0 && y < game.distance_field[0].length
+        {x: x + 1, y: y + 1},
+    ];
+
+    // if (diagonal) {
+    //     directions.push(
+
+    //     );
+    // }
+
+    return directions.filter(
+        ({x, y}) => x >= 0 && x < game.Grid.length && y >= 0 && y < game.Grid[0].length
     );
 }
 
-function calculate_distance(game: Game, x: number, y: number) {
-    let neighbors = get_neighbors(game, x, y);
-    for (let i = 0; i < neighbors.length; i++) {
-        let current_cell = neighbors[i];
-        if (
-            game.distance_field[current_cell.x][current_cell.y] >
-            (game.distance_field[x][y] as number) + 1
-        ) {
-            game.distance_field[current_cell.x][current_cell.y] =
-                (game.distance_field[x][y] as number) + 1;
-            calculate_distance(game, current_cell.x, current_cell.y);
+export function calculate_distance(game: Game, x: number, y: number) {
+    let frontier = [{x, y}];
+    let current;
+    while ((current = frontier.shift())) {
+        if (game.Grid[current.x][current.y] < 15) {
+            for (let cell of get_neighbors(game, current.x, current.y)) {
+                if (game.Grid[cell.x][cell.y] > game.Grid[current.x][current.y] + 1) {
+                    game.Grid[cell.x][cell.y] = game.Grid[current.x][current.y] + 1;
+                    frontier.push(cell);
+                }
+            }
         }
     }
+}
+
+export function get_route(game: Game, entity: Entity, destination: Navigable) {
+    let walking = game[Get.Walking][entity];
+
+    // reset the depth field
+    for (let x = 0; x < game.Grid.length; x++) {
+        for (let y = 0; y < game.Grid[0].length; y++) {
+            if (!Number.isNaN(game.Grid[x][y])) {
+                game.Grid[x][y] = Infinity;
+            }
+        }
+    }
+    game.Grid[walking.X][walking.Y] = 0;
+    calculate_distance(game, walking.X, walking.Y);
+
+    // Bail out early if the destination is not accessible (Infinity) or non-walkable (NaN).
+    if (!(game.Grid[destination.X][destination.Y] < Infinity)) {
+        return false;
+    }
+
+    let route: Array<[number, number]> = [];
+    while (!(destination.X === walking.X && destination.Y === walking.Y)) {
+        route.push([destination.X, destination.Y]);
+
+        let neighbors = get_neighbors(game, destination.X, destination.Y);
+
+        for (let i = 0; i < neighbors.length; i++) {
+            let neighbor_coords = neighbors[i];
+            if (
+                game.Grid[neighbor_coords.x][neighbor_coords.y] <
+                game.Grid[destination.X][destination.Y]
+            ) {
+                destination =
+                    game[Get.Navigable][find_navigable(game, neighbor_coords.x, neighbor_coords.y)];
+            }
+        }
+    }
+
+    return route;
 }

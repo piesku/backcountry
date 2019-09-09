@@ -26,25 +26,25 @@ export function create(values?: Mat4Array): Mat4 {
 
 export function from_rotation_translation_scale(mat: Mat4, q: Quat, v: Vec3, s: Vec3) {
     // Quaternion math
-    var x = q[0],
+    let x = q[0],
         y = q[1],
         z = q[2],
         w = q[3];
-    var x2 = x + x;
-    var y2 = y + y;
-    var z2 = z + z;
-    var xx = x * x2;
-    var xy = x * y2;
-    var xz = x * z2;
-    var yy = y * y2;
-    var yz = y * z2;
-    var zz = z * z2;
-    var wx = w * x2;
-    var wy = w * y2;
-    var wz = w * z2;
-    var sx = s[0];
-    var sy = s[1];
-    var sz = s[2];
+    let x2 = x + x;
+    let y2 = y + y;
+    let z2 = z + z;
+    let xx = x * x2;
+    let xy = x * y2;
+    let xz = x * z2;
+    let yy = y * y2;
+    let yz = y * z2;
+    let zz = z * z2;
+    let wx = w * x2;
+    let wy = w * y2;
+    let wz = w * z2;
+    let sx = s[0];
+    let sy = s[1];
+    let sz = s[2];
     mat.m11 = (1 - (yy + zz)) * sx;
     mat.m12 = (xy + wz) * sx;
     mat.m13 = (xz - wy) * sx;
@@ -64,7 +64,7 @@ export function from_rotation_translation_scale(mat: Mat4, q: Quat, v: Vec3, s: 
 }
 
 export function perspective(fovy: number, aspect: number, near: number, far: number) {
-    var f = 1.0 / Math.tan(fovy / 2),
+    let f = 1.0 / Math.tan(fovy / 2),
         nf;
     let out = create([f / aspect, 0, 0, 0, 0, f, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0]);
 

@@ -1,51 +1,25 @@
+import {GL_COMPILE_STATUS, GL_FRAGMENT_SHADER, GL_LINK_STATUS, GL_VERTEX_SHADER} from "../webgl.js";
+
 export interface Shape {
-    vertices: Float32Array;
-    indices: Uint16Array;
-    normals: Float32Array;
+    Vertices: Float32Array;
+    Indices: Uint16Array;
+    Normals: Float32Array;
 }
 
 export interface Material {
-    gl: WebGL2RenderingContext;
-    mode: GLint;
-    program: WebGLProgram;
-    uniforms: Record<string, WebGLUniformLocation>;
+    GL: WebGL2RenderingContext;
+    Mode: GLint;
+    Program: WebGLProgram;
+    Uniforms: Array<WebGLUniformLocation>;
 }
 
-export function mat_create(
-    gl: WebGL2RenderingContext,
-    mode: GLint,
-    vertex: string,
-    fragment: string
-) {
-    let material: Material = {
-        gl: gl,
-        mode: mode,
-        program: link(gl, vertex, fragment),
-        uniforms: {},
-    };
-
-    // Reflect uniforms.
-    material.uniforms = {};
-    let uniform_count = gl.getProgramParameter(material.program, gl.ACTIVE_UNIFORMS);
-    for (let i = 0; i < uniform_count; ++i) {
-        let {name} = gl.getActiveUniform(material.program, i)!;
-        // Array uniforms are named foo[0]; strip the [0] part.
-        material.uniforms[name.replace(/\[0\]$/, "")] = gl.getUniformLocation(
-            material.program,
-            name
-        )!;
-    }
-
-    return material;
-}
-
-function link(gl: WebGL2RenderingContext, vertex: string, fragment: string) {
+export function link(gl: WebGL2RenderingContext, vertex: string, fragment: string) {
     let program = gl.createProgram()!;
-    gl.attachShader(program, compile(gl, gl.VERTEX_SHADER, vertex));
-    gl.attachShader(program, compile(gl, gl.FRAGMENT_SHADER, fragment));
+    gl.attachShader(program, compile(gl, GL_VERTEX_SHADER, vertex));
+    gl.attachShader(program, compile(gl, GL_FRAGMENT_SHADER, fragment));
     gl.linkProgram(program);
 
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    if (!gl.getProgramParameter(program, GL_LINK_STATUS)) {
         throw new Error(gl.getProgramInfoLog(program)!);
     }
 
@@ -57,7 +31,7 @@ function compile(gl: WebGL2RenderingContext, type: GLint, source: string) {
     gl.shaderSource(shader, source);
     gl.compileShader(shader);
 
-    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+    if (!gl.getShaderParameter(shader, GL_COMPILE_STATUS)) {
         throw new Error(gl.getShaderInfoLog(shader)!);
     }
 

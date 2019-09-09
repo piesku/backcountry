@@ -6,17 +6,18 @@
     body {
         overflow: hidden;
         margin: 0;
+        font-family: Impact;
+        color: #FFE8C6;
     }
-    main {
+    canvas, main {
         position: absolute;
         top: 0;
         right: 0;
         bottom: 0;
         left: 0;
-        pointer-events: none;
+        user-select: none;
     }
     button {
-        pointer-events: auto;
         background: none;
         border: none;
         cursor: pointer;
@@ -25,8 +26,6 @@
     }
 </style>
 <canvas></canvas>
+<canvas></canvas>
 <main></main>
-<script src="game.min.js"></script>
-<script>
-    window.game = backcountry.game;
-</script>
+<script src="game.terser.js"></script>

@@ -1,71 +1,80 @@
 import {EmitParticles} from "../components/com_emit_particles.js";
 import {Get} from "../components/com_index.js";
 import {RenderKind} from "../components/com_render.js";
-import {RenderBasic} from "../components/com_render_basic.js";
-import {RenderParticles} from "../components/com_render_particles.js";
-import {RenderShaded} from "../components/com_render_shaded.js";
-import {RenderInstanced} from "../components/com_render_vox.js";
+import {BasicUniform, RenderBasic} from "../components/com_render_basic.js";
+import {
+    ParticleAttribute,
+    ParticleUniform,
+    RenderParticles,
+} from "../components/com_render_particles.js";
+import {InstancedUniform, RenderInstanced} from "../components/com_render_vox.js";
 import {Transform} from "../components/com_transform.js";
 import {Game} from "../game.js";
-import {ParticleAttribute} from "../materials/mat_particles.js";
 import {get_translation} from "../math/mat4.js";
+import {
+    GL_ARRAY_BUFFER,
+    GL_COLOR_BUFFER_BIT,
+    GL_DEPTH_BUFFER_BIT,
+    GL_DYNAMIC_DRAW,
+    GL_FLOAT,
+    GL_UNSIGNED_SHORT,
+} from "../webgl.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Render);
+const LIGHTS = (1 << Get.Transform) | (1 << Get.Light);
 
 export function sys_render(game: Game, delta: number) {
-    game.gl.clear(game.gl.COLOR_BUFFER_BIT | game.gl.DEPTH_BUFFER_BIT);
+    game.GL.clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     let light_positions: Array<number> = [];
     let light_details: Array<number> = [];
 
-    for (let i = 0; i < game.lights.length; i++) {
-        let light = game.lights[i];
-        let transform = game[Get.Transform][light.entity];
-        let position = get_translation([], transform.world);
-        light_positions.push(...position);
-        light_details.push(...light.color, light.intensity);
+    for (let i = 0; i < game.World.length; i++) {
+        if ((game.World[i] & LIGHTS) === LIGHTS) {
+            let transform = game[Get.Transform][i];
+            let position = get_translation([], transform.World);
+            light_positions.push(...position);
+            light_details.push(...game[Get.Light][i]);
+        }
     }
 
     // Keep track of the current material to minimize switching.
     let current_material = null;
 
-    for (let i = 0; i < game.world.length; i++) {
-        if ((game.world[i] & QUERY) === QUERY) {
+    for (let i = 0; i < game.World.length; i++) {
+        if ((game.World[i] & QUERY) === QUERY) {
             let transform = game[Get.Transform][i];
             let render = game[Get.Render][i];
 
-            // TODO Sort by material.
-            if (render.material !== current_material) {
-                current_material = render.material;
+            if (render.Material !== current_material) {
+                current_material = render.Material;
 
-                let {gl, program, uniforms} = current_material;
+                let {GL: gl, Program: program, Uniforms: uniforms} = current_material;
                 gl.useProgram(program);
-                // TODO Support more than one camera.
-                gl.uniformMatrix4fv(uniforms.pv, false, game.cameras[0].pv);
+                gl.uniformMatrix4fv(uniforms[0], false, game.Camera!.PVArray);
 
-                switch (render.kind) {
-                    case RenderKind.Shaded:
+                switch (render.Kind) {
                     case RenderKind.Instanced:
-                        gl.uniform1i(uniforms.light_count, game.lights.length);
-                        gl.uniform3fv(uniforms.light_positions, light_positions);
-                        gl.uniform4fv(uniforms.light_details, light_details);
+                        gl.uniform1i(
+                            uniforms[InstancedUniform.LightCount],
+                            light_positions.length / 3
+                        );
+                        gl.uniform3fv(uniforms[InstancedUniform.LightPositions], light_positions);
+                        gl.uniform4fv(uniforms[InstancedUniform.LightDetails], light_details);
                         break;
                 }
             }
 
-            switch (render.kind) {
+            switch (render.Kind) {
                 case RenderKind.Basic:
                     draw_basic(transform, render);
-                    break;
-                case RenderKind.Shaded:
-                    draw_shaded(transform, render);
                     break;
                 case RenderKind.Instanced:
                     draw_instanced(game, transform, render);
                     break;
                 case RenderKind.Particles: {
                     let emitter = game[Get.EmitParticles][i];
-                    if (emitter.instances.length) {
+                    if (emitter.Instances.length) {
                         draw_particles(render, emitter);
                     }
                     break;
@@ -76,48 +85,30 @@ export function sys_render(game: Game, delta: number) {
 }
 
 function draw_basic(transform: Transform, render: RenderBasic) {
-    let {gl, mode, uniforms} = render.material;
-    gl.uniformMatrix4fv(uniforms.world, false, transform.world32);
-    gl.uniform4fv(uniforms.color, render.color);
-    gl.bindVertexArray(render.vao);
-    gl.drawElements(mode, render.count, gl.UNSIGNED_SHORT, 0);
-    gl.bindVertexArray(null);
-}
-
-function draw_shaded(transform: Transform, render: RenderShaded) {
-    let {gl, mode, uniforms} = render.material;
-    gl.uniformMatrix4fv(uniforms.world, false, transform.world32);
-    gl.uniformMatrix4fv(uniforms.self, false, transform.self32);
-    gl.uniform4fv(uniforms.color, render.color);
-    gl.bindVertexArray(render.vao);
-    gl.drawElements(mode, render.count, gl.UNSIGNED_SHORT, 0);
-    gl.bindVertexArray(null);
+    let {GL, Mode, Uniforms} = render.Material;
+    GL.uniformMatrix4fv(Uniforms[BasicUniform.World], false, transform.WorldArray);
+    GL.uniform4fv(Uniforms[BasicUniform.Color], render.Color);
+    GL.bindVertexArray(render.VAO);
+    GL.drawElements(Mode, render.Count, GL_UNSIGNED_SHORT, 0);
+    GL.bindVertexArray(null);
 }
 
 function draw_instanced(game: Game, transform: Transform, render: RenderInstanced) {
-    let {gl, mode, uniforms} = render.material;
-    gl.uniformMatrix4fv(uniforms.world, false, transform.world32);
-    gl.uniformMatrix4fv(uniforms.self, false, transform.self32);
-    gl.uniform3fv(uniforms.palette, render.palette || game.palette);
-    gl.bindVertexArray(render.vao);
-    gl.drawElementsInstanced(mode, render.index_count, gl.UNSIGNED_SHORT, 0, render.instance_count);
-    gl.bindVertexArray(null);
+    let {GL, Mode, Uniforms} = render.Material;
+    GL.uniformMatrix4fv(Uniforms[InstancedUniform.World], false, transform.WorldArray);
+    GL.uniformMatrix4fv(Uniforms[InstancedUniform.Self], false, transform.SelfArray);
+    GL.uniform3fv(Uniforms[InstancedUniform.Palette], render.Palette || game.Palette);
+    GL.bindVertexArray(render.VAO);
+    GL.drawElementsInstanced(Mode, render.IndexCount, GL_UNSIGNED_SHORT, 0, render.InstanceCount);
+    GL.bindVertexArray(null);
 }
 
 function draw_particles(render: RenderParticles, emitter: EmitParticles) {
-    let {gl, mode, uniforms} = render.material;
-    gl.uniform1f(uniforms.size, emitter.size);
-    gl.uniform1f(uniforms.vertical, emitter.vertical);
-    gl.uniform3fv(uniforms.start_color, render.start_color);
-    gl.uniform3fv(uniforms.end_color, render.end_color);
-
-    gl.bindBuffer(gl.ARRAY_BUFFER, render.buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, Float32Array.from(emitter.instances), gl.DYNAMIC_DRAW);
-    gl.enableVertexAttribArray(ParticleAttribute.id);
-    gl.vertexAttribPointer(1, 1, gl.FLOAT, false, 5 * 4, 0);
-    gl.enableVertexAttribArray(ParticleAttribute.origin);
-    gl.vertexAttribPointer(2, 3, gl.FLOAT, false, 5 * 4, 1 * 4);
-    gl.enableVertexAttribArray(ParticleAttribute.age);
-    gl.vertexAttribPointer(3, 1, gl.FLOAT, false, 5 * 4, 4 * 4);
-    gl.drawArrays(mode, 0, emitter.particles.length);
+    let {GL, Mode, Uniforms} = render.Material;
+    GL.uniform4fv(Uniforms[ParticleUniform.Detail], render.ColorSize);
+    GL.bindBuffer(GL_ARRAY_BUFFER, render.Buffer);
+    GL.bufferData(GL_ARRAY_BUFFER, Float32Array.from(emitter.Instances), GL_DYNAMIC_DRAW);
+    GL.enableVertexAttribArray(ParticleAttribute.Origin);
+    GL.vertexAttribPointer(ParticleAttribute.Origin, 4, GL_FLOAT, false, 4 * 4, 0);
+    GL.drawArrays(Mode, 0, emitter.Instances.length / 4);
 }

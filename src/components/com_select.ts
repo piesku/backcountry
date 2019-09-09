@@ -1,14 +1,14 @@
 import {Entity, Game} from "../game.js";
-import {RaycastHit} from "../math/raycast.js";
+import {Collide} from "./com_collide.js";
 import {Get} from "./com_index.js";
 
 export interface Select {
-    hit?: RaycastHit;
+    Hit?: Collide;
 }
 
 export function select() {
-    return (game: Game) => (entity: Entity) => {
-        game.world[entity] |= 1 << Get.Select;
+    return (game: Game, entity: Entity) => {
+        game.World[entity] |= 1 << Get.Select;
         game[Get.Select][entity] = <Select>{};
     };
 }

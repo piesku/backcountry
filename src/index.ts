@@ -2,12 +2,16 @@ import {Game} from "./game.js";
 import {load} from "./model.js";
 import {world_intro} from "./worlds/wor_intro.js";
 
-export let game = new Game();
+let game = new Game();
+// @ts-ignore
+window.$ = game.Dispatch;
+// @ts-ignore
+window.game = game;
 
 async function start() {
-    game.models = await load("/models.tfu");
+    game.Models = await load("./models.tfu");
     world_intro(game);
-    game.start();
+    game.Start();
 }
 
 start();

@@ -3,14 +3,14 @@ import {Get} from "./com_index.js";
 
 export interface Mimic {
     /** Entity whose transform to mimic. */
-    target: Entity;
+    Target: Entity;
     /** How laggy vs. precise is the mimicking [0-1]. */
-    stiffness: number;
+    Stiffness: number;
 }
 
-export function mimic(target: Entity, stiffness: number = 0.1) {
-    return (game: Game) => (entity: Entity) => {
-        game.world[entity] |= 1 << Get.Mimic;
-        game[Get.Mimic][entity] = <Mimic>{target, stiffness};
+export function mimic(Target: Entity, Stiffness: number = 0.1) {
+    return (game: Game, entity: Entity) => {
+        game.World[entity] |= 1 << Get.Mimic;
+        game[Get.Mimic][entity] = <Mimic>{Target, Stiffness};
     };
 }
