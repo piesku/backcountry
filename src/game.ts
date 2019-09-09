@@ -136,7 +136,19 @@ export class Game implements ComponentData, GameState {
         this.Canvas2 = this.Canvas3.nextElementSibling! as HTMLCanvasElement;
         this.Canvas3.width = this.Canvas2.width = window.innerWidth;
         this.Canvas3.height = this.Canvas2.height = window.innerHeight;
+
+        this.GL = this.Canvas3.getContext("webgl2")!;
         this.Context = this.Canvas2.getContext("2d")!;
+
+        for (let api of [this.GL, this.Audio]) {
+            for (let name in api) {
+                // @ts-ignore
+                if (typeof api[name] === "function") {
+                    // @ts-ignore
+                    api[name.match(/^..|[A-Z]|([1-9].*)/g).join("")] = api[name];
+                }
+            }
+        }
 
         window.addEventListener("keydown", evt => (this.Input[evt.code] = 1));
         window.addEventListener("keyup", evt => (this.Input[evt.code] = 0));
@@ -153,7 +165,6 @@ export class Game implements ComponentData, GameState {
             this.Input.my = evt.offsetY;
         });
 
-        this.GL = this.Canvas3.getContext("webgl2")!;
         this.GL.enable(GL_DEPTH_TEST);
         this.GL.enable(GL_CULL_FACE);
         this.GL.frontFace(GL_CW);
