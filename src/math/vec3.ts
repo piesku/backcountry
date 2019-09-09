@@ -65,12 +65,10 @@ export function cross(out: Vec3, a: Vec3, b: Vec3) {
 }
 
 export function transform_point(out: Vec3, a: Vec3, m: Mat4) {
-    let [x, y, z] = a;
-    let res = m.transformPoint({x, y, z});
+    let res = m.transformPoint({x: a[0], y: a[1], z: a[2]});
     out[0] = res.x;
     out[1] = res.y;
     out[2] = res.z;
-
     return out;
 }
 
