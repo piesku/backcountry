@@ -76,11 +76,11 @@ export function mat_instanced(gl: WebGL2RenderingContext) {
         gl,
         mode: GL_TRIANGLES,
         program: link(gl, vertex, fragment),
-        uniforms: {},
+        uniforms: [],
     };
 
     for (let name of ["uP", "uW", "uS", "up", "ulc", "ulp", "uld"]) {
-        material.uniforms[name] = gl.getUniformLocation(material.program, name)!;
+        material.uniforms.push(gl.getUniformLocation(material.program, name)!);
     }
 
     return material;
