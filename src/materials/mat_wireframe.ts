@@ -8,7 +8,7 @@ let vertex = `#version 300 es\n
     // World (model) matrix
     uniform mat4 uW;
 
-    layout(location=${BasicAttribute.position}) in vec3 vp;
+    layout(location=${BasicAttribute.Position}) in vec3 vp;
 
     void main() {
         gl_Position = uP * uW * vec4(vp, 1.0);

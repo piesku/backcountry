@@ -34,7 +34,7 @@ export function render_basic(Material: Material, shape: Shape, Color: Vec4) {
 }
 
 export const enum BasicAttribute {
-    position = 1,
+    Position = 1,
 }
 
 export const enum BasicUniform {
@@ -49,8 +49,8 @@ function buffer(gl: WebGL2RenderingContext, shape: Shape) {
 
     gl.bindBuffer(GL_ARRAY_BUFFER, gl.createBuffer());
     gl.bufferData(GL_ARRAY_BUFFER, shape.Vertices, GL_STATIC_DRAW);
-    gl.enableVertexAttribArray(BasicAttribute.position);
-    gl.vertexAttribPointer(BasicAttribute.position, 3, GL_FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(BasicAttribute.Position);
+    gl.vertexAttribPointer(BasicAttribute.Position, 3, GL_FLOAT, false, 0, 0);
 
     gl.bindBuffer(GL_ELEMENT_ARRAY_BUFFER, gl.createBuffer());
     gl.bufferData(GL_ELEMENT_ARRAY_BUFFER, shape.Indices, GL_STATIC_DRAW);

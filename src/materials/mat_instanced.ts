@@ -19,9 +19,9 @@ let vertex = `#version 300 es\n
     // Light details
     uniform vec4 uld[100];
 
-    layout(location=${InstancedAttribute.position}) in vec3 vp;
-    layout(location=${InstancedAttribute.normal}) in vec3 vn;
-    layout(location=${InstancedAttribute.offset}) in vec4 vo;
+    layout(location=${InstancedAttribute.Position}) in vec3 vp;
+    layout(location=${InstancedAttribute.Normal}) in vec3 vn;
+    layout(location=${InstancedAttribute.Offset}) in vec4 vo;
 
     // Vertex color
     out vec4 vc;

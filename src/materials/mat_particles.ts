@@ -9,7 +9,7 @@ let vertex = `#version 300 es\n
     uniform vec4 ud;
 
     // [x, y, z, age]
-    layout(location=${ParticleAttribute.origin}) in vec4 vo;
+    layout(location=${ParticleAttribute.Origin}) in vec4 vo;
 
     // Vertex color
     out vec4 vc;

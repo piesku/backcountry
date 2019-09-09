@@ -25,7 +25,7 @@ export function render_particles(color: Vec3, size: number) {
 }
 
 export const enum ParticleAttribute {
-    origin = 1,
+    Origin = 1,
 }
 
 export const enum ParticleUniform {
