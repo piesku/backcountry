@@ -1,6 +1,6 @@
 export interface Model {
     Offsets: Float32Array;
-    Size?: [number, number, number];
+    // Size?: [number, number, number];
     Palette?: Array<number>;
 }
 
@@ -42,8 +42,9 @@ export async function load(path: string): Promise<Array<Model>> {
                     default:
                         return val;
                 }
+                return val;
             }),
-            Size,
+            // Size,
         });
     }
 

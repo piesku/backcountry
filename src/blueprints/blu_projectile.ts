@@ -20,7 +20,6 @@ export function create_projectile(damage: number, speed: number, color: Vec3, si
                     render_vox(
                         {
                             Offsets: new Float32Array(4),
-                            // Size: [1, 1, 1]
                         },
                         color as Array<number>
                     ),

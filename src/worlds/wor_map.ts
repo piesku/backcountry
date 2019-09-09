@@ -87,7 +87,7 @@ export function world_map(game: Game) {
         let building_blu = get_building_blueprint(game);
 
         let building_x = building_blu.Size[0] / 8;
-        let building_z = building_blu.Size[2] / 8;
+        let building_z = building_blu.Size[1] / 8;
         for (let z = starting_position; z < starting_position + building_z; z++) {
             for (let x = building_x_tile; x < building_x_tile + building_x; x++) {
                 game.Grid[x][z] = NaN;
@@ -103,7 +103,7 @@ export function world_map(game: Game) {
             Children: [building_blu.Blueprint],
         });
 
-        starting_position += building_blu.Size[2] / 8 + integer(1, 2);
+        starting_position += building_blu.Size[1] / 8 + integer(1, 2);
     }
 
     // Cowboys.
