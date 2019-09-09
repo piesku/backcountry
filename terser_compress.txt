@@ -6,3 +6,4 @@ pure_getters
 toplevel
 unsafe
 unsafe_math
+hoist_funs
