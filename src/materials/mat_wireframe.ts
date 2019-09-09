@@ -1,5 +1,5 @@
 import {BasicAttribute} from "../components/com_render_basic.js";
-import {GL_ACTIVE_UNIFORMS, GL_LINE_LOOP} from "../webgl.js";
+import {GL_LINE_LOOP} from "../webgl.js";
 import {link, Material} from "./mat_common.js";
 
 let vertex = `#version 300 es\n
@@ -29,18 +29,14 @@ export function mat_wireframe(gl: WebGL2RenderingContext) {
         gl,
         mode: GL_LINE_LOOP,
         program: link(gl, vertex, fragment),
-        uniforms: {},
+        uniforms: {
+            pv: 0,
+            detail: 0,
+        },
     };
 
-    // Reflect uniforms.
-    let uniform_count = gl.getProgramParameter(material.program, GL_ACTIVE_UNIFORMS);
-    for (let i = 0; i < uniform_count; ++i) {
-        let {name} = gl.getActiveUniform(material.program, i)!;
-        // Array uniforms are named foo[0]; strip the [0] part.
-        material.uniforms[name.replace(/\[0\]$/, "")] = gl.getUniformLocation(
-            material.program,
-            name
-        )!;
+    for (let name in material.uniforms) {
+        material.uniforms[name] = gl.getUniformLocation(material.program, name)!;
     }
 
     return material;

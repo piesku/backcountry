@@ -1,4 +1,4 @@
-import {GL_ACTIVE_UNIFORMS, GL_POINTS} from "../webgl.js";
+import {GL_POINTS} from "../webgl.js";
 import {link, Material} from "./mat_common.js";
 
 export const enum ParticleAttribute {
@@ -47,18 +47,14 @@ export function mat_particles(gl: WebGL2RenderingContext) {
         gl,
         mode: GL_POINTS,
         program: link(gl, vertex, fragment),
-        uniforms: {},
+        uniforms: {
+            pv: 0,
+            detail: 0,
+        },
     };
 
-    // Reflect uniforms.
-    let uniform_count = gl.getProgramParameter(material.program, GL_ACTIVE_UNIFORMS);
-    for (let i = 0; i < uniform_count; ++i) {
-        let {name} = gl.getActiveUniform(material.program, i)!;
-        // Array uniforms are named foo[0]; strip the [0] part.
-        material.uniforms[name.replace(/\[0\]$/, "")] = gl.getUniformLocation(
-            material.program,
-            name
-        )!;
+    for (let name in material.uniforms) {
+        material.uniforms[name] = gl.getUniformLocation(material.program, name)!;
     }
 
     return material;
