@@ -1,47 +1,59 @@
+import {ParticleAttribute} from "../components/com_render_particles.js";
 import {GL_POINTS} from "../webgl.js";
-import {mat_create} from "./mat_common.js";
-
-export const enum ParticleAttribute {
-    origin = 1,
-}
+import {link, Material} from "./mat_common.js";
 
 let vertex = `#version 300 es\n
-    uniform mat4 pv;
+    // Projection * View matrix
+    uniform mat4 uP;
     // [red, green, blue, size]
-    uniform vec4 detail;
+    uniform vec4 ud;
 
     // [x, y, z, age]
-    layout(location=${ParticleAttribute.origin}) in vec4 origin;
+    layout(location=${ParticleAttribute.Origin}) in vec4 vo;
 
-    out vec4 vert_color;
+    // Vertex color
+    out vec4 vc;
 
     void main() {
-        vec4 world_pos = vec4(origin.xyz, 1.0);
-        if (detail.a < 10.0) {
+        vec4 w = vec4(vo.xyz, 1.0);
+        if (ud.a < 10.0) {
             // It's a projectile.
-            world_pos.y += origin.a * 2.0;
-            gl_PointSize = mix(detail.a, 1.0, origin.a);
+            w.y += vo.a * 2.0;
+            gl_PointSize = mix(ud.a, 1.0, vo.a);
         } else {
             // It's a campfire.
-            world_pos.y += origin.a * 10.0;
-            gl_PointSize = mix(detail.a, 1.0, origin.a);
+            w.y += vo.a * 10.0;
+            gl_PointSize = mix(ud.a, 1.0, vo.a);
         }
-        gl_Position = pv * world_pos;
-        vert_color = mix(vec4(detail.rgb, 1.0), vec4(1.0, 1.0, 0.0, 1.0), origin.a);
+        gl_Position = uP * w;
+        vc = mix(vec4(ud.rgb, 1.0), vec4(1.0, 1.0, 0.0, 1.0), vo.a);
     }
 `;
 
 let fragment = `#version 300 es\n
     precision mediump float;
 
-    in vec4 vert_color;
-    out vec4 frag_color;
+    // Vertex color
+    in vec4 vc;
+    // Fragment color
+    out vec4 fc;
 
     void main() {
-        frag_color = vert_color;
+        fc = vc;
     }
 `;
 
-export function mat_particles(gl: WebGL2RenderingContext) {
-    return mat_create(gl, GL_POINTS, vertex, fragment);
+export function mat_particles(GL: WebGL2RenderingContext) {
+    let material: Material = {
+        GL,
+        Mode: GL_POINTS,
+        Program: link(GL, vertex, fragment),
+        Uniforms: [],
+    };
+
+    for (let name of ["uP", "ud"]) {
+        material.Uniforms.push(GL.getUniformLocation(material.Program, name)!);
+    }
+
+    return material;
 }

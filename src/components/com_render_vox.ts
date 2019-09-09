@@ -33,9 +33,19 @@ export function render_vox(model: Model, Palette?: Array<number>) {
 }
 
 export const enum InstancedAttribute {
-    position = 1,
-    normal = 2,
-    offset = 3,
+    Position = 1,
+    Normal = 2,
+    Offset = 3,
+}
+
+export const enum InstancedUniform {
+    PV,
+    World,
+    Self,
+    Palette,
+    LightCount,
+    LightPositions,
+    LightDetails,
 }
 
 function buffer(gl: WebGL2RenderingContext, shape: Shape, offsets: Float32Array) {
@@ -44,19 +54,19 @@ function buffer(gl: WebGL2RenderingContext, shape: Shape, offsets: Float32Array)
 
     gl.bindBuffer(GL_ARRAY_BUFFER, gl.createBuffer());
     gl.bufferData(GL_ARRAY_BUFFER, shape.Vertices, GL_STATIC_DRAW);
-    gl.enableVertexAttribArray(InstancedAttribute.position);
-    gl.vertexAttribPointer(InstancedAttribute.position, 3, GL_FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(InstancedAttribute.Position);
+    gl.vertexAttribPointer(InstancedAttribute.Position, 3, GL_FLOAT, false, 0, 0);
 
     gl.bindBuffer(GL_ARRAY_BUFFER, gl.createBuffer());
     gl.bufferData(GL_ARRAY_BUFFER, shape.Normals, GL_STATIC_DRAW);
-    gl.enableVertexAttribArray(InstancedAttribute.normal);
-    gl.vertexAttribPointer(InstancedAttribute.normal, 3, GL_FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(InstancedAttribute.Normal);
+    gl.vertexAttribPointer(InstancedAttribute.Normal, 3, GL_FLOAT, false, 0, 0);
 
     gl.bindBuffer(GL_ARRAY_BUFFER, gl.createBuffer());
     gl.bufferData(GL_ARRAY_BUFFER, offsets, GL_STATIC_DRAW);
-    gl.enableVertexAttribArray(InstancedAttribute.offset);
-    gl.vertexAttribPointer(InstancedAttribute.offset, 4, GL_FLOAT, false, 0, 0);
-    gl.vertexAttribDivisor(InstancedAttribute.offset, 1);
+    gl.enableVertexAttribArray(InstancedAttribute.Offset);
+    gl.vertexAttribPointer(InstancedAttribute.Offset, 4, GL_FLOAT, false, 0, 0);
+    gl.vertexAttribDivisor(InstancedAttribute.Offset, 1);
 
     gl.bindBuffer(GL_ELEMENT_ARRAY_BUFFER, gl.createBuffer());
     gl.bufferData(GL_ELEMENT_ARRAY_BUFFER, shape.Indices, GL_STATIC_DRAW);

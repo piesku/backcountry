@@ -23,3 +23,12 @@ export function render_particles(color: Vec3, size: number) {
         };
     };
 }
+
+export const enum ParticleAttribute {
+    Origin = 1,
+}
+
+export const enum ParticleUniform {
+    PV,
+    Detail,
+}

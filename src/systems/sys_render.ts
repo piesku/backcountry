@@ -1,11 +1,14 @@
 import {EmitParticles} from "../components/com_emit_particles.js";
 import {Get} from "../components/com_index.js";
 import {RenderKind} from "../components/com_render.js";
-import {RenderParticles} from "../components/com_render_particles.js";
-import {RenderInstanced} from "../components/com_render_vox.js";
+import {
+    ParticleAttribute,
+    ParticleUniform,
+    RenderParticles,
+} from "../components/com_render_particles.js";
+import {InstancedUniform, RenderInstanced} from "../components/com_render_vox.js";
 import {Transform} from "../components/com_transform.js";
 import {Game} from "../game.js";
-import {ParticleAttribute} from "../materials/mat_particles.js";
 import {get_translation} from "../math/mat4.js";
 import {
     GL_ARRAY_BUFFER,
@@ -45,15 +48,18 @@ export function sys_render(game: Game, delta: number) {
             if (render.Material !== current_material) {
                 current_material = render.Material;
 
-                let {gl, program, uniforms} = current_material;
+                let {GL: gl, Program: program, Uniforms: uniforms} = current_material;
                 gl.useProgram(program);
-                gl.uniformMatrix4fv(uniforms.pv, false, game.Camera!.PV);
+                gl.uniformMatrix4fv(uniforms[0], false, game.Camera!.PV);
 
                 switch (render.Kind) {
                     case RenderKind.Instanced:
-                        gl.uniform1i(uniforms.light_count, light_positions.length / 3);
-                        gl.uniform3fv(uniforms.light_positions, light_positions);
-                        gl.uniform4fv(uniforms.light_details, light_details);
+                        gl.uniform1i(
+                            uniforms[InstancedUniform.LightCount],
+                            light_positions.length / 3
+                        );
+                        gl.uniform3fv(uniforms[InstancedUniform.LightPositions], light_positions);
+                        gl.uniform4fv(uniforms[InstancedUniform.LightDetails], light_details);
                         break;
                 }
             }
@@ -75,21 +81,21 @@ export function sys_render(game: Game, delta: number) {
 }
 
 function draw_instanced(game: Game, transform: Transform, render: RenderInstanced) {
-    let {gl, mode, uniforms} = render.Material;
-    gl.uniformMatrix4fv(uniforms.world, false, transform.World);
-    gl.uniformMatrix4fv(uniforms.self, false, transform.Self);
-    gl.uniform3fv(uniforms.palette, render.Palette || game.Palette);
-    gl.bindVertexArray(render.VAO);
-    gl.drawElementsInstanced(mode, render.IndexCount, GL_UNSIGNED_SHORT, 0, render.InstanceCount);
-    gl.bindVertexArray(null);
+    let {GL, Mode, Uniforms} = render.Material;
+    GL.uniformMatrix4fv(Uniforms[InstancedUniform.World], false, transform.World);
+    GL.uniformMatrix4fv(Uniforms[InstancedUniform.Self], false, transform.Self);
+    GL.uniform3fv(Uniforms[InstancedUniform.Palette], render.Palette || game.Palette);
+    GL.bindVertexArray(render.VAO);
+    GL.drawElementsInstanced(Mode, render.IndexCount, GL_UNSIGNED_SHORT, 0, render.InstanceCount);
+    GL.bindVertexArray(null);
 }
 
 function draw_particles(render: RenderParticles, emitter: EmitParticles) {
-    let {gl, mode, uniforms} = render.Material;
-    gl.uniform4fv(uniforms.detail, render.ColorSize);
-    gl.bindBuffer(GL_ARRAY_BUFFER, render.Buffer);
-    gl.bufferData(GL_ARRAY_BUFFER, Float32Array.from(emitter.Instances), GL_DYNAMIC_DRAW);
-    gl.enableVertexAttribArray(ParticleAttribute.origin);
-    gl.vertexAttribPointer(ParticleAttribute.origin, 4, GL_FLOAT, false, 4 * 4, 0);
-    gl.drawArrays(mode, 0, emitter.Instances.length / 4);
+    let {GL, Mode, Uniforms} = render.Material;
+    GL.uniform4fv(Uniforms[ParticleUniform.Detail], render.ColorSize);
+    GL.bindBuffer(GL_ARRAY_BUFFER, render.Buffer);
+    GL.bufferData(GL_ARRAY_BUFFER, Float32Array.from(emitter.Instances), GL_DYNAMIC_DRAW);
+    GL.enableVertexAttribArray(ParticleAttribute.Origin);
+    GL.vertexAttribPointer(ParticleAttribute.Origin, 4, GL_FLOAT, false, 4 * 4, 0);
+    GL.drawArrays(Mode, 0, emitter.Instances.length / 4);
 }
