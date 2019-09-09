@@ -26,10 +26,11 @@ public/opt/game.tr.js: public/opt/game.sed.js
 	@echo "Done"
 
 public/opt/game.terser.js: public/opt/game.tr.js
-	@echo -n "Minifying... "
+	@echo "Minifying... "
 	@npx --quiet terser $< \
+		--timings \
+		--ecma 9 \
 		--mangle toplevel \
 		--mangle-props regex=/^[A-Z]/ \
-		--compress booleans_as_integers,drop_console,ecma=6,passes=3,pure_getters,toplevel,unsafe,unsafe_math \
+		--compress $(shell paste -sd, < terser_compress.txt) \
 	> $@
-	@echo "Done"
