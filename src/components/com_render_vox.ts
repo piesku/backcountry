@@ -38,6 +38,16 @@ export const enum InstancedAttribute {
     offset = 3,
 }
 
+export const enum InstancedUniform {
+    PV,
+    World,
+    Self,
+    Palette,
+    LightCount,
+    LightPositions,
+    LightDetails,
+}
+
 function buffer(gl: WebGL2RenderingContext, shape: Shape, offsets: Float32Array) {
     let vao = gl.createVertexArray();
     gl.bindVertexArray(vao);

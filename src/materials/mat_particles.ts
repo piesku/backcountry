@@ -1,9 +1,6 @@
+import {ParticleAttribute} from "../components/com_render_particles.js";
 import {GL_POINTS} from "../webgl.js";
 import {link, Material} from "./mat_common.js";
-
-export const enum ParticleAttribute {
-    origin = 1,
-}
 
 let vertex = `#version 300 es\n
     // Projection * View matrix

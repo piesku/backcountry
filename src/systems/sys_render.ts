@@ -1,12 +1,15 @@
 import {EmitParticles} from "../components/com_emit_particles.js";
 import {Get} from "../components/com_index.js";
 import {RenderKind} from "../components/com_render.js";
-import {RenderBasic} from "../components/com_render_basic.js";
-import {RenderParticles} from "../components/com_render_particles.js";
-import {RenderInstanced} from "../components/com_render_vox.js";
+import {BasicUniform, RenderBasic} from "../components/com_render_basic.js";
+import {
+    ParticleAttribute,
+    ParticleUniform,
+    RenderParticles,
+} from "../components/com_render_particles.js";
+import {InstancedUniform, RenderInstanced} from "../components/com_render_vox.js";
 import {Transform} from "../components/com_transform.js";
 import {Game} from "../game.js";
-import {ParticleAttribute} from "../materials/mat_particles.js";
 import {get_translation} from "../math/mat4.js";
 import {
     GL_ARRAY_BUFFER,
@@ -52,9 +55,12 @@ export function sys_render(game: Game, delta: number) {
 
                 switch (render.Kind) {
                     case RenderKind.Instanced:
-                        gl.uniform1i(uniforms[4], light_positions.length / 3);
-                        gl.uniform3fv(uniforms[5], light_positions);
-                        gl.uniform4fv(uniforms[6], light_details);
+                        gl.uniform1i(
+                            uniforms[InstancedUniform.LightCount],
+                            light_positions.length / 3
+                        );
+                        gl.uniform3fv(uniforms[InstancedUniform.LightPositions], light_positions);
+                        gl.uniform4fv(uniforms[InstancedUniform.LightDetails], light_details);
                         break;
                 }
             }
@@ -80,8 +86,8 @@ export function sys_render(game: Game, delta: number) {
 
 function draw_basic(transform: Transform, render: RenderBasic) {
     let {gl, mode, uniforms} = render.Material;
-    gl.uniformMatrix4fv(uniforms[1], false, transform.World);
-    gl.uniform4fv(uniforms[2], render.Color);
+    gl.uniformMatrix4fv(uniforms[BasicUniform.World], false, transform.World);
+    gl.uniform4fv(uniforms[BasicUniform.Color], render.Color);
     gl.bindVertexArray(render.VAO);
     gl.drawElements(mode, render.Count, GL_UNSIGNED_SHORT, 0);
     gl.bindVertexArray(null);
@@ -89,9 +95,9 @@ function draw_basic(transform: Transform, render: RenderBasic) {
 
 function draw_instanced(game: Game, transform: Transform, render: RenderInstanced) {
     let {gl, mode, uniforms} = render.Material;
-    gl.uniformMatrix4fv(uniforms[1], false, transform.World);
-    gl.uniformMatrix4fv(uniforms[2], false, transform.Self);
-    gl.uniform3fv(uniforms[3], render.Palette || game.Palette);
+    gl.uniformMatrix4fv(uniforms[InstancedUniform.World], false, transform.World);
+    gl.uniformMatrix4fv(uniforms[InstancedUniform.Self], false, transform.Self);
+    gl.uniform3fv(uniforms[InstancedUniform.Palette], render.Palette || game.Palette);
     gl.bindVertexArray(render.VAO);
     gl.drawElementsInstanced(mode, render.IndexCount, GL_UNSIGNED_SHORT, 0, render.InstanceCount);
     gl.bindVertexArray(null);
@@ -99,7 +105,7 @@ function draw_instanced(game: Game, transform: Transform, render: RenderInstance
 
 function draw_particles(render: RenderParticles, emitter: EmitParticles) {
     let {gl, mode, uniforms} = render.Material;
-    gl.uniform4fv(uniforms[1], render.ColorSize);
+    gl.uniform4fv(uniforms[ParticleUniform.Detail], render.ColorSize);
     gl.bindBuffer(GL_ARRAY_BUFFER, render.Buffer);
     gl.bufferData(GL_ARRAY_BUFFER, Float32Array.from(emitter.Instances), GL_DYNAMIC_DRAW);
     gl.enableVertexAttribArray(ParticleAttribute.origin);
