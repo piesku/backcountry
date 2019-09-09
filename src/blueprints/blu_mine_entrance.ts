@@ -64,7 +64,7 @@ export function get_mine_entrance_blueprint(game: Game) {
             },
             {
                 // The trigger.
-                Translation: [0, 0, 12],
+                Translation: [0, 0, 18],
                 Using: [collide(false, [8, 8, 8]), trigger(Action.GoToMine)],
             },
         ],

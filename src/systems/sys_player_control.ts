@@ -23,7 +23,7 @@ function update(game: Game, entity: Entity, cursor: Select) {
         return;
     }
 
-    if (game.Event.m0d) {
+    if (game.Input.d0) {
         if (cursor.Hit.Flags & RayTarget.Navigable) {
             let route = get_route(game, entity, game[Get.Navigable][cursor.Hit.Entity]);
             if (route) {
@@ -38,7 +38,7 @@ function update(game: Game, entity: Entity, cursor: Select) {
         }
     }
 
-    if (game.Event.m2d && game.World[entity] & (1 << Get.Shoot)) {
+    if (game.Input.d2 && game.World[entity] & (1 << Get.Shoot)) {
         let other_transform = game[Get.Transform][cursor.Hit.Entity];
         game[Get.Shoot][entity].Target = get_translation([], other_transform.World);
         game[Get.Shake][game.Camera!.Entity].Duration = 0.2;

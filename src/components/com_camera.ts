@@ -18,7 +18,7 @@ export function camera_perspective(fovy: number, near: number, far: number) {
         let Projection = perspective(
             create(),
             fovy,
-            game.Canvas.width / game.Canvas.height,
+            game.Canvas3.width / game.Canvas3.height,
             near,
             far
         );
@@ -40,9 +40,9 @@ export function camera_ortho(radius: number, near: number, far: number) {
         let Projection = ortho(
             create(),
             radius,
-            radius * (game.Canvas.width / game.Canvas.height),
+            radius * (game.Canvas3.width / game.Canvas3.height),
             -radius,
-            -radius * (game.Canvas.width / game.Canvas.height),
+            -radius * (game.Canvas3.width / game.Canvas3.height),
             near,
             far
         );

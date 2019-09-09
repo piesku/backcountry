@@ -32,6 +32,7 @@ function update(game: Game, entity: Entity) {
     health.Damages = [];
 
     if (health.Current <= 0) {
+        health.Current = 0;
         game.Dispatch(Action.Die, entity);
 
         for (let animate of components_of_type<Animate>(

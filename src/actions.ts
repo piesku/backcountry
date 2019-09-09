@@ -1,9 +1,10 @@
+import {draw} from "./components/com_draw.js";
 import {Health} from "./components/com_health.js";
 import {Get} from "./components/com_index.js";
-import {components_of_type} from "./components/com_transform.js";
-import {ui, UI} from "./components/com_ui.js";
+import {lifespan} from "./components/com_lifespan.js";
 import {Entity, Game} from "./game.js";
 import {rand} from "./math/random.js";
+import {widget_damage} from "./widgets/wid_damage.js";
 import {world_desert} from "./worlds/wor_desert.js";
 import {world_intro} from "./worlds/wor_intro.js";
 import {world_map} from "./worlds/wor_map.js";
@@ -60,59 +61,40 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             game.SeedBounty = 0;
             game.WorldFunc = world_intro;
             setTimeout(world_intro, 0, game);
-            game.UI3D.innerHTML = "";
             break;
         }
         case Action.GoToTown: {
             game.WorldFunc = world_map;
             setTimeout(game.WorldFunc, 0, game);
-            game.UI3D.innerHTML = "";
             break;
         }
         case Action.GoToWanted: {
             game.SeedBounty = rand();
             game.WorldFunc = world_wanted;
             setTimeout(game.WorldFunc, 0, game);
-            game.UI3D.innerHTML = "";
             break;
         }
         case Action.GoToDesert: {
             game.WorldFunc = world_desert;
             setTimeout(game.WorldFunc, 0, game);
-            game.UI3D.innerHTML = "";
             break;
         }
         case Action.GoToMine: {
             game.WorldFunc = world_mine;
             setTimeout(game.WorldFunc, 0, game);
-            game.UI3D.innerHTML = "";
             break;
         }
         case Action.Hit: {
             let [entity, damage] = args as [Entity, number];
-            let text = `<div style="
-                    animation: up 1s ease-out;
-                    font-size:${damage / 125 + 1}vh;
-                ">${~~damage}</div>`;
-            let world_position = game[Get.Transform][entity].Translation;
             game.Add({
-                Translation: [world_position[0], world_position[1] + 12, world_position[2]],
-                Using: [ui(text)],
+                Translation: game[Get.Transform][entity].Translation.slice(),
+                Using: [draw(widget_damage, [damage]), lifespan(1)],
             });
-
-            let health = game[Get.Health][entity];
-            for (let ui of components_of_type<UI>(game, game[Get.Transform][entity], Get.UI)) {
-                let width = (health.Current / health.Max) * 10;
-                ui.Element.style.width = `${width}vw`;
-            }
 
             break;
         }
         case Action.Die: {
             let entity = args[0] as Entity;
-            for (let ui of components_of_type<UI>(game, game[Get.Transform][entity], Get.UI)) {
-                ui.Lifespan = 0;
-            }
 
             // If the player is killed.
             if (game.World[entity] & (1 << Get.PlayerControl)) {

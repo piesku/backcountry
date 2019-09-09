@@ -6,9 +6,11 @@ import {Camera} from "./components/com_camera.js";
 import {Collide} from "./components/com_collide.js";
 import {PlayerControl} from "./components/com_control_player.js";
 import {Cull} from "./components/com_cull.js";
+import {Draw} from "./components/com_draw.js";
 import {EmitParticles} from "./components/com_emit_particles.js";
 import {Health} from "./components/com_health.js";
 import {ComponentData, Get} from "./components/com_index.js";
+import {Lifespan} from "./components/com_lifespan.js";
 import {Light} from "./components/com_light.js";
 import {Mimic} from "./components/com_mimic.js";
 import {Move} from "./components/com_move.js";
@@ -20,10 +22,8 @@ import {Render} from "./components/com_render.js";
 import {Select} from "./components/com_select.js";
 import {Shake} from "./components/com_shake.js";
 import {Shoot} from "./components/com_shoot.js";
-import {Toggle} from "./components/com_toggle.js";
 import {transform, Transform} from "./components/com_transform.js";
 import {Trigger} from "./components/com_trigger.js";
-import {UI} from "./components/com_ui.js";
 import {Walking} from "./components/com_walking.js";
 import {ERROR} from "./errors.js";
 import {Material} from "./materials/mat_common.js";
@@ -40,7 +40,9 @@ import {sys_camera} from "./systems/sys_camera.js";
 import {sys_collide} from "./systems/sys_collide.js";
 import {sys_control_projectile} from "./systems/sys_control_projectile.js";
 import {sys_cull} from "./systems/sys_cull.js";
+import {sys_draw} from "./systems/sys_draw.js";
 import {sys_health} from "./systems/sys_health.js";
+import {sys_lifespan} from "./systems/sys_lifespan.js";
 import {sys_mimic} from "./systems/sys_mimic.js";
 import {sys_move} from "./systems/sys_move.js";
 import {sys_navigate} from "./systems/sys_navigate.js";
@@ -50,7 +52,6 @@ import {sys_render} from "./systems/sys_render.js";
 import {sys_select} from "./systems/sys_select.js";
 import {sys_shake} from "./systems/sys_shake.js";
 import {sys_shoot} from "./systems/sys_shoot.js";
-import {sys_toggle} from "./systems/sys_toggle.js";
 import {sys_transform} from "./systems/sys_transform.js";
 import {sys_trigger} from "./systems/sys_trigger.js";
 import {sys_ui} from "./systems/sys_ui.js";
@@ -67,17 +68,12 @@ export interface InputState {
     my: number;
 }
 
-export interface EventState {
-    [k: string]: number;
-    mx: number;
-    my: number;
-}
-
 export class Game implements ComponentData, GameState {
     public World: Array<number>;
     public Grid: Array<Array<number>> = [];
     public [Get.Transform]: Array<Transform> = [];
     public [Get.Render]: Array<Render> = [];
+    public [Get.Draw]: Array<Draw> = [];
     public [Get.Camera]: Array<Camera> = [];
     public [Get.Light]: Array<Light> = [];
     public [Get.AudioSource]: Array<AudioSource> = [];
@@ -98,20 +94,16 @@ export class Game implements ComponentData, GameState {
     public [Get.NPC]: Array<NPC> = [];
     public [Get.Projectile]: Array<Projectile> = [];
     public [Get.Shake]: Array<Shake> = [];
-    public [Get.Toggle]: Array<Toggle> = [];
-    public [Get.UI]: Array<UI> = [];
+    public [Get.Lifespan]: Array<Lifespan> = [];
 
-    public Canvas: HTMLCanvasElement;
+    public Canvas3: HTMLCanvasElement;
+    public Canvas2: HTMLCanvasElement;
     public GL: WebGL2RenderingContext;
+    public Context: CanvasRenderingContext2D;
     public Audio: AudioContext = new AudioContext();
-    public UI3D: HTMLElement = document.querySelector("main")!;
-    public UI2D: HTMLElement = document.querySelector("nav")!;
+    public UI: HTMLElement = document.querySelector("main")!;
 
     public Input: InputState = {
-        mx: 0,
-        my: 0,
-    };
-    public Event: EventState = {
         mx: 0,
         my: 0,
     };
@@ -137,27 +129,39 @@ export class Game implements ComponentData, GameState {
             document.hidden ? this.Stop() : this.Start()
         );
 
-        this.Canvas = document.querySelector("canvas")!;
-        this.Canvas.width = window.innerWidth;
-        this.Canvas.height = window.innerHeight;
+        this.Canvas3 = document.querySelector("canvas")! as HTMLCanvasElement;
+        this.Canvas2 = this.Canvas3.nextElementSibling! as HTMLCanvasElement;
+        this.Canvas3.width = this.Canvas2.width = window.innerWidth;
+        this.Canvas3.height = this.Canvas2.height = window.innerHeight;
+
+        this.GL = this.Canvas3.getContext("webgl2")!;
+        this.Context = this.Canvas2.getContext("2d")!;
+
+        for (let api of [this.GL, this.Audio]) {
+            for (let name in api) {
+                // @ts-ignore
+                if (typeof api[name] === "function") {
+                    // @ts-ignore
+                    api[name.match(/^..|[A-Z]|([1-9].*)/g).join("")] = api[name];
+                }
+            }
+        }
 
         window.addEventListener("keydown", evt => (this.Input[evt.code] = 1));
         window.addEventListener("keyup", evt => (this.Input[evt.code] = 0));
-        this.UI2D.addEventListener("contextmenu", evt => evt.preventDefault());
-        this.UI2D.addEventListener("mousedown", evt => {
+        this.UI.addEventListener("contextmenu", evt => evt.preventDefault());
+        this.UI.addEventListener("mousedown", evt => {
             this.Input[`m${evt.button}`] = 1;
-            this.Event[`m${evt.button}d`] = 1;
+            this.Input[`d${evt.button}`] = 1;
         });
-        this.UI2D.addEventListener("mouseup", evt => {
+        this.UI.addEventListener("mouseup", evt => {
             this.Input[`m${evt.button}`] = 0;
-            this.Event[`m${evt.button}u`] = 1;
         });
-        this.UI2D.addEventListener("mousemove", evt => {
+        this.UI.addEventListener("mousemove", evt => {
             this.Input.mx = evt.offsetX;
             this.Input.my = evt.offsetY;
         });
 
-        this.GL = this.Canvas.getContext("webgl2")!;
         this.GL.enable(GL_DEPTH_TEST);
         this.GL.enable(GL_CULL_FACE);
         this.GL.frontFace(GL_CW);
@@ -200,17 +204,17 @@ export class Game implements ComponentData, GameState {
         sys_health(this, delta);
         sys_mimic(this, delta);
         sys_cull(this, delta);
-        sys_toggle(this, delta);
+        sys_lifespan(this, delta);
 
-        for (let name in this.Event) {
-            this.Event[name] = 0;
-        }
+        this.Input.d0 = 0;
+        this.Input.d2 = 0;
     }
 
     FrameUpdate(delta: number) {
         sys_audio(this, delta);
         sys_camera(this, delta);
         sys_render(this, delta);
+        sys_draw(this, delta);
         sys_ui(this, delta);
     }
 

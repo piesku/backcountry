@@ -15,12 +15,17 @@ public/opt/game.rollup.js: public/js/index.js
 	@cp public/*.tfu public/opt/
 	@echo "Done"
 
-public/opt/game.trim.js: public/opt/game.rollup.js
-	@echo -n "Stripping indents and newlines... "
-	@sed  -e "s/^ *//" -e "s://.*::" $< | tr -d "\n" > $@
+public/opt/game.sed.js: public/opt/game.rollup.js
+	@echo -n "Running replacements... "
+	@sed  -f sed.txt  $< > $@
 	@echo "Done"
 
-public/opt/game.terser.js: public/opt/game.trim.js
+public/opt/game.tr.js: public/opt/game.sed.js
+	@echo -n "Stripping newlines... "
+	@cat $< | tr -d "\n" > $@
+	@echo "Done"
+
+public/opt/game.terser.js: public/opt/game.tr.js
 	@echo -n "Minifying... "
 	@npx --quiet terser $< \
 		--mangle toplevel \

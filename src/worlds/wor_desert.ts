@@ -5,6 +5,7 @@ import {get_mine_entrance_blueprint} from "../blueprints/blu_mine_entrance.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide, RayTarget} from "../components/com_collide.js";
 import {player_control} from "../components/com_control_player.js";
+import {draw} from "../components/com_draw.js";
 import {health} from "../components/com_health.js";
 import {Get} from "../components/com_index.js";
 import {light} from "../components/com_light.js";
@@ -12,11 +13,11 @@ import {move} from "../components/com_move.js";
 import {find_navigable} from "../components/com_navigable.js";
 import {npc} from "../components/com_npc.js";
 import {shoot} from "../components/com_shoot.js";
-import {ui} from "../components/com_ui.js";
 import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
 import {integer, set_seed} from "../math/random.js";
 import {snd_music} from "../sounds/snd_music.js";
+import {widget_healthbar} from "../widgets/wid_healthbar.js";
 import {generate_maze} from "./wor_mine.js";
 
 export function world_desert(game: Game) {
@@ -97,7 +98,7 @@ export function world_desert(game: Game) {
                     get_character_blueprint(game),
                     {
                         Translation: [0, 10, 0],
-                        Using: [ui(`<div style="height: 1vh; background: #f00;"/>`, Infinity)],
+                        Using: [draw(widget_healthbar)],
                     },
                 ],
             });
@@ -136,7 +137,7 @@ export function world_desert(game: Game) {
             },
             {
                 Translation: [0, 10, 0],
-                Using: [ui(`<div style="height: 1vh; background: #0f0;"/>`, Infinity)],
+                Using: [draw(widget_healthbar)],
             },
         ],
     });

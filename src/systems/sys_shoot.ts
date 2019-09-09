@@ -1,9 +1,9 @@
+import {create_flash} from "../blueprints/blu_flash.js";
 import {create_projectile} from "../blueprints/blu_projectile.js";
 import {Anim, Animate} from "../components/com_animate.js";
 import {AudioSource} from "../components/com_audio_source.js";
 import {Get} from "../components/com_index.js";
 import {find_child} from "../components/com_named.js";
-import {Toggle} from "../components/com_toggle.js";
 import {components_of_type} from "../components/com_transform.js";
 import {Entity, Game} from "../game.js";
 import {get_translation} from "../math/mat4.js";
@@ -29,13 +29,17 @@ function update(game: Game, entity: Entity) {
                 game.World[entity] & (1 << Get.PlayerControl)
                     ? create_projectile(500, 40, [1, 1, 1], 9)
                     : create_projectile(300, 30, [1, 0, 0], 7);
-
+            let Translation = get_translation([], game[Get.Transform][spawn].World);
             game.Add({
                 ...projectile,
-                Translation: get_translation([], game[Get.Transform][spawn].World),
+                Translation,
                 // Use the parent's rotation, since it's top-level, to avoid
                 // get_rotation which is expensive in terms of code size.
                 Rotation: transform.Rotation.slice(),
+            });
+            game.Add({
+                ...create_flash(),
+                Translation,
             });
         }
 
@@ -45,10 +49,6 @@ function update(game: Game, entity: Entity) {
 
         for (let animate of components_of_type<Animate>(game, transform, Get.Animate)) {
             animate.Trigger = Anim.Shoot;
-        }
-
-        for (let toggle of components_of_type<Toggle>(game, transform, Get.Toggle)) {
-            toggle.Duration = 0.4;
         }
     }
 

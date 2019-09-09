@@ -35,9 +35,9 @@ function update(game: Game, entity: Entity, colliders: Array<Collide>) {
     let camera = game[Get.Camera][entity];
     let select = game[Get.Select][entity];
 
-    let x = (game.Input.mx / game.Canvas.width) * 2 - 1;
+    let x = (game.Input.mx / game.Canvas3.width) * 2 - 1;
     // In the browser, +Y is down. Invert it, so that in NDC it's up.
-    let y = -(game.Input.my / game.Canvas.height) * 2 + 1;
+    let y = -(game.Input.my / game.Canvas3.height) * 2 + 1;
     let origin = [x, y, -1];
     let target = [x, y, 1];
     let direction = [0, 0, 0];
@@ -50,7 +50,7 @@ function update(game: Game, entity: Entity, colliders: Array<Collide>) {
     normalize(direction, direction);
     select.Hit = raycast(game, colliders, origin, direction);
 
-    if (select.Hit && select.Hit.Flags & ANIMATED && game.Event.m0d) {
+    if (select.Hit && select.Hit.Flags & ANIMATED && game.Input.d0) {
         let transform = game[Get.Transform][select.Hit.Entity];
         for (let animate of components_of_type<Animate>(game, transform, Get.Animate)) {
             animate.Trigger = Anim.Select;
