@@ -28,16 +28,16 @@ let fragment = `#version 300 es\n
     }
 `;
 
-export function mat_wireframe(gl: WebGL2RenderingContext) {
+export function mat_wireframe(GL: WebGL2RenderingContext) {
     let material: Material = {
-        gl,
-        mode: GL_LINE_LOOP,
-        program: link(gl, vertex, fragment),
-        uniforms: [],
+        GL,
+        Mode: GL_LINE_LOOP,
+        Program: link(GL, vertex, fragment),
+        Uniforms: [],
     };
 
     for (let name of ["uP", "uW", "uC"]) {
-        material.uniforms.push(gl.getUniformLocation(material.program, name)!);
+        material.Uniforms.push(GL.getUniformLocation(material.Program, name)!);
     }
 
     return material;

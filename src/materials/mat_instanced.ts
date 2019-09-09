@@ -71,16 +71,16 @@ let fragment = `#version 300 es\n
     }
 `;
 
-export function mat_instanced(gl: WebGL2RenderingContext) {
+export function mat_instanced(GL: WebGL2RenderingContext) {
     let material: Material = {
-        gl,
-        mode: GL_TRIANGLES,
-        program: link(gl, vertex, fragment),
-        uniforms: [],
+        GL,
+        Mode: GL_TRIANGLES,
+        Program: link(GL, vertex, fragment),
+        Uniforms: [],
     };
 
     for (let name of ["uP", "uW", "uS", "up", "ulc", "ulp", "uld"]) {
-        material.uniforms.push(gl.getUniformLocation(material.program, name)!);
+        material.Uniforms.push(GL.getUniformLocation(material.Program, name)!);
     }
 
     return material;

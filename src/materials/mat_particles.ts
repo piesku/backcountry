@@ -43,16 +43,16 @@ let fragment = `#version 300 es\n
     }
 `;
 
-export function mat_particles(gl: WebGL2RenderingContext) {
+export function mat_particles(GL: WebGL2RenderingContext) {
     let material: Material = {
-        gl,
-        mode: GL_POINTS,
-        program: link(gl, vertex, fragment),
-        uniforms: [],
+        GL,
+        Mode: GL_POINTS,
+        Program: link(GL, vertex, fragment),
+        Uniforms: [],
     };
 
     for (let name of ["uP", "ud"]) {
-        material.uniforms.push(gl.getUniformLocation(material.program, name)!);
+        material.Uniforms.push(GL.getUniformLocation(material.Program, name)!);
     }
 
     return material;

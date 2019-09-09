@@ -7,10 +7,10 @@ export interface Shape {
 }
 
 export interface Material {
-    gl: WebGL2RenderingContext;
-    mode: GLint;
-    program: WebGLProgram;
-    uniforms: Array<WebGLUniformLocation>;
+    GL: WebGL2RenderingContext;
+    Mode: GLint;
+    Program: WebGLProgram;
+    Uniforms: Array<WebGLUniformLocation>;
 }
 
 export function link(gl: WebGL2RenderingContext, vertex: string, fragment: string) {
