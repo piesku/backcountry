@@ -1,6 +1,6 @@
 import {InstancedAttribute} from "../components/com_render_vox.js";
-import {GL_TRIANGLES} from "../webgl.js";
-import {mat_create} from "./mat_common.js";
+import {GL_ACTIVE_UNIFORMS, GL_TRIANGLES} from "../webgl.js";
+import {link, Material} from "./mat_common.js";
 
 let vertex = `#version 300 es\n
     uniform mat4 pv;
@@ -60,5 +60,23 @@ let fragment = `#version 300 es\n
 `;
 
 export function mat_instanced(gl: WebGL2RenderingContext) {
-    return mat_create(gl, GL_TRIANGLES, vertex, fragment);
+    let material: Material = {
+        gl,
+        mode: GL_TRIANGLES,
+        program: link(gl, vertex, fragment),
+        uniforms: {},
+    };
+
+    // Reflect uniforms.
+    let uniform_count = gl.getProgramParameter(material.program, GL_ACTIVE_UNIFORMS);
+    for (let i = 0; i < uniform_count; ++i) {
+        let {name} = gl.getActiveUniform(material.program, i)!;
+        // Array uniforms are named foo[0]; strip the [0] part.
+        material.uniforms[name.replace(/\[0\]$/, "")] = gl.getUniformLocation(
+            material.program,
+            name
+        )!;
+    }
+
+    return material;
 }
