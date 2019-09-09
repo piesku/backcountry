@@ -13,10 +13,14 @@ export function sys_cull(game: Game, delta: number) {
     }
 }
 
+let world_position = new DOMPoint();
+
 function update(game: Game, entity: Entity) {
     let cull = game[Get.Cull][entity];
     let world = game[Get.Transform][entity].World;
-    let world_position = new DOMPoint(world.m41, world.m42, world.m43);
+    world_position.x = world.m41;
+    world_position.y = world.m42;
+    world_position.z = world.m43;
     let camera_position = game.Camera!.View.transformPoint(world_position);
     if (
         // m11 of the ortho projection matrix is defined as 1/right. Cull
