@@ -9,5 +9,5 @@ export function widget_damage(game: Game, entity: Entity, x: number, y: number) 
     game.Context.font = `${damage / 125 + 1}vh Impact`;
     game.Context.textAlign = "center";
     game.Context.fillStyle = `rgba(255, 232, 198, ${ease_out_quart(1 - relative)})`;
-    game.Context.fillText(damage.toFixed(0), x, y - ease_out_quart(relative) * 125 - 50);
+    game.Context.fillText(damage.toFixed(0), x, y - 50 - (ease_out_quart(relative) * damage) / 5);
 }
