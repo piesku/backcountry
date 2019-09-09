@@ -33,14 +33,10 @@ export function mat_wireframe(gl: WebGL2RenderingContext) {
         gl,
         mode: GL_LINE_LOOP,
         program: link(gl, vertex, fragment),
-        uniforms: {
-            uP: 0,
-            uW: 0,
-            uc: 0,
-        },
+        uniforms: {},
     };
 
-    for (let name in material.uniforms) {
+    for (let name of ["uP", "uW", "uC"]) {
         material.uniforms[name] = gl.getUniformLocation(material.program, name)!;
     }
 

@@ -51,13 +51,10 @@ export function mat_particles(gl: WebGL2RenderingContext) {
         gl,
         mode: GL_POINTS,
         program: link(gl, vertex, fragment),
-        uniforms: {
-            uP: 0,
-            ud: 0,
-        },
+        uniforms: {},
     };
 
-    for (let name in material.uniforms) {
+    for (let name of ["uP", "ud"]) {
         material.uniforms[name] = gl.getUniformLocation(material.program, name)!;
     }
 
