@@ -1,3 +1,4 @@
+import {main_palette, PaletteColors} from "../blueprints/blu_building.js";
 import {get_character_blueprint} from "../blueprints/blu_character.js";
 import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
 import {create_iso_camera} from "../blueprints/blu_iso_camera.js";
@@ -12,6 +13,7 @@ import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
 import {find_navigable} from "../components/com_navigable.js";
 import {npc} from "../components/com_npc.js";
+import {render_vox} from "../components/com_render_vox.js";
 import {shoot} from "../components/com_shoot.js";
 import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
@@ -139,6 +141,20 @@ export function world_desert(game: Game) {
                 Translation: [0, 10, 0],
                 Using: [draw(widget_healthbar)],
             },
+        ],
+    });
+
+    // Dio-cube
+    game.Add({
+        Scale: [map_size * 8, map_size * 2, map_size * 8],
+        Translation: [-4, -map_size + 0.49, -4],
+        Using: [
+            render_vox(
+                {
+                    Offsets: Float32Array.from([0, 0, 0, PaletteColors.desert_ground_1]),
+                },
+                main_palette
+            ),
         ],
     });
 
