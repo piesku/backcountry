@@ -1,6 +1,6 @@
-import {Action, GameState} from "../actions.js";
+import {Action} from "../actions.js";
 
-export function Defeat(state: GameState) {
+export function Store() {
     return `
         <div style="
             position: absolute;
@@ -10,9 +10,7 @@ export function Defeat(state: GameState) {
             text-align: center;
             font-size: 15vmin;
         ">
-            YOU DIE WITH
-            <br>
-            $${state.Gold.toLocaleString("en-US")}
+            GENERAL STORE
         </div>
         <div style="
             position: absolute;
@@ -21,12 +19,12 @@ export function Defeat(state: GameState) {
             text-align: center;
             font-size: 10vmin;
         ">
-            <button onclick="$(${Action.EndChallenge});">
-                TRY AGAIN
+            <button onclick="$(${Action.ChangePlayerSeed});">
+                CHANGE OUTFIT
             </button>
             <br>
-            <button onclick="alert('Not implemented yet! You score was ${state.Gold}');">
-                TWEET SCORE
+            <button onclick="$(${Action.GoToTown});">
+                EXIT TO TOWN
             </button>
         </div>
     `;

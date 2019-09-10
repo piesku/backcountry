@@ -40,6 +40,7 @@ export const enum Action {
     Hit,
     Die,
     CollectGold,
+    ChangePlayerSeed,
 }
 
 export function effect(game: Game, action: Action, args: Array<unknown>) {
@@ -75,6 +76,11 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
         }
         case Action.GoToShop: {
             game.WorldFunc = world_shop;
+            setTimeout(game.WorldFunc, 0, game);
+            break;
+        }
+        case Action.ChangePlayerSeed: {
+            game.PlayerSeed = Math.random() * 10000;
             setTimeout(game.WorldFunc, 0, game);
             break;
         }
