@@ -21,7 +21,7 @@ import {widget_healthbar} from "../widgets/wid_healthbar.js";
 import {generate_maze} from "./wor_mine.js";
 
 export function world_desert(game: Game) {
-    set_seed(game.SeedBounty);
+    set_seed(game.BountySeed);
     let map_size = 40;
     let entrance_position_x = 26;
     let entrance_position_z = 28;
@@ -91,7 +91,7 @@ export function world_desert(game: Game) {
                     walking(x, y),
                     move(integer(8, 15)),
                     collide(true, [7, 7, 7], RayTarget.Attackable),
-                    health(1500),
+                    health(1500 * game.ChallengeLevel),
                     shoot(1),
                 ],
                 Children: [
@@ -115,7 +115,7 @@ export function world_desert(game: Game) {
         ...entrance,
     });
 
-    set_seed(game.SeedPlayer);
+    set_seed(game.ChallengeSeed);
     let player_position = game[Get.Transform][find_navigable(game, 1, 1)].Translation;
     // Player.
     game.Player = game.Add({

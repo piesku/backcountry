@@ -3,19 +3,19 @@ import {Health} from "./components/com_health.js";
 import {Get} from "./components/com_index.js";
 import {lifespan} from "./components/com_lifespan.js";
 import {Entity, Game} from "./game.js";
-import {integer, rand} from "./math/random.js";
+import {integer} from "./math/random.js";
 import {widget_damage} from "./widgets/wid_damage.js";
 import {world_desert} from "./worlds/wor_desert.js";
-import {world_intro} from "./worlds/wor_intro.js";
 import {world_map} from "./worlds/wor_map.js";
 import {world_mine} from "./worlds/wor_mine.js";
+import {world_town} from "./worlds/wor_town.js";
 import {world_wanted} from "./worlds/wor_wanted.js";
 
 export interface GameState {
     WorldFunc: (game: Game) => void;
-    SeedPlayer: number;
-    SeedBounty: number;
-    Trophies: Array<number>;
+    ChallengeSeed: number;
+    ChallengeLevel: number;
+    BountySeed: number;
     PlayerState: PlayerState;
     PlayerHealth?: Health;
     Gold: number;
@@ -29,8 +29,8 @@ export const enum PlayerState {
 
 export const enum Action {
     InitGame = 1,
-    ChangePlayer,
-    GoToIntro,
+    CompleteBounty,
+    EndChallenge,
     GoToTown,
     GoToWanted,
     GoToDesert,
@@ -43,35 +43,33 @@ export const enum Action {
 export function effect(game: Game, action: Action, args: Array<unknown>) {
     switch (action) {
         case Action.InitGame: {
-            let trophies = localStorage.getItem("piesku:back");
-            if (trophies) {
-                game.Trophies = trophies.split(",").map(Number);
-            }
             // Today's timestamp. Changes every midnight, 00:00 UTC.
-            save_trophy(game, ~~(Date.now() / (24 * 60 * 60 * 1000)));
-            game.SeedPlayer = game.Trophies[game.Trophies.length - 1];
+            game.ChallengeSeed = ~~(Date.now() / (24 * 60 * 60 * 1000));
             break;
         }
-        case Action.ChangePlayer: {
-            let camera_anchor = game[Get.Transform][game.Camera!.EntityId].Parent;
-            game[Get.Mimic][camera_anchor!.EntityId].Target = args[0] as Entity;
-            game.SeedPlayer = (game[Get.Named][args[0] as Entity].Name as unknown) as number;
-            break;
-        }
-        case Action.GoToIntro: {
+        case Action.CompleteBounty: {
+            game.ChallengeLevel += 1;
             game.PlayerState = PlayerState.Playing;
-            game.SeedBounty = 0;
-            game.WorldFunc = world_intro;
-            setTimeout(world_intro, 0, game);
+            game.BountySeed = 0;
+            game.WorldFunc = world_town;
+            setTimeout(game.WorldFunc, 0, game);
             break;
         }
-        case Action.GoToTown: {
+        case Action.EndChallenge: {
+            game.ChallengeLevel = 1;
+            game.PlayerState = PlayerState.Playing;
+            game.BountySeed = 0;
             game.WorldFunc = world_map;
             setTimeout(game.WorldFunc, 0, game);
             break;
         }
+        case Action.GoToTown: {
+            game.WorldFunc = world_town;
+            setTimeout(game.WorldFunc, 0, game);
+            break;
+        }
         case Action.GoToWanted: {
-            game.SeedBounty = rand();
+            game.BountySeed = game.ChallengeSeed * game.ChallengeLevel - 1;
             game.WorldFunc = world_wanted;
             setTimeout(game.WorldFunc, 0, game);
             break;
@@ -123,9 +121,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             } else if (game.World[entity] & (1 << Get.NPC)) {
                 // If the boss is killed.
                 if (game[Get.NPC][entity].Bounty) {
-                    save_trophy(game, game.SeedBounty);
                     game.PlayerState = PlayerState.Victory;
-                    game.SeedPlayer = game.SeedBounty;
 
                     // Make all bandits friendly.
                     for (let i = 0; i < game.World.length; i++) {
@@ -145,12 +141,5 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             }
             break;
         }
-    }
-}
-
-function save_trophy(state: GameState, seed: number) {
-    if (!state.Trophies.includes(seed)) {
-        state.Trophies.push(seed);
-        localStorage.setItem("piesku:back", (state.Trophies as unknown) as string);
     }
 }

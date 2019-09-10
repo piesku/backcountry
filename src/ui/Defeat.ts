@@ -19,8 +19,12 @@ export function Defeat() {
             text-align: center;
             font-size: 10vh;
         ">
-            <button onclick="$(${Action.GoToIntro});">
+            <button onclick="$(${Action.EndChallenge});">
                 TRY AGAIN
+            </button>
+            &mdash;
+            <button onclick="alert('Not implemented!');">
+                TWEET SCORE
             </button>
         </div>
     `;
