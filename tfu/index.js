@@ -116,11 +116,11 @@ each(
 
                 const ints = [
                     model_data.cubes.length,
-                    model_data.size.reduce((acc, curr, idx) => {
-                        let val = curr << (idx * 4);
-                        acc |= val;
-                        return acc;
-                    }, 0),
+                    // model_data.size.reduce((acc, curr, idx) => {
+                    //     let val = curr << (idx * 4);
+                    //     acc |= val;
+                    //     return acc;
+                    // }, 0),
                 ];
 
                 console.log(`Model size: ${model_data.size}`);

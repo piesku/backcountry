@@ -30,7 +30,6 @@ export function create_tile(size: number, size_y = size, probability: number = 0
 
     return {
         Offsets: Float32Array.from(offsets),
-        Size: [size, 1, size_y],
     } as Model;
 }
 
@@ -51,7 +50,6 @@ export function create_block(size: number, height: number) {
 
     return {
         Offsets: Float32Array.from(offsets),
-        Size: [size, height, size],
     } as Model;
 }
 

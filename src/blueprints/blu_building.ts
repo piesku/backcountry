@@ -99,8 +99,8 @@ export function get_building_blueprint(game: Game) {
 
     if (has_windows && has_tall_front_facade) {
         // WINDOWS
-        let window_width = game.Models[Models.WINDOW].Size![2];
-        let window_height = game.Models[Models.WINDOW].Size![1];
+        let window_width = 5;
+        let window_height = 4;
 
         for (
             let offset = window_width;
@@ -240,11 +240,7 @@ export function get_building_blueprint(game: Game) {
         );
     }
 
-    let Size: [number, number, number] = [
-        building_size_x + 3 + porch_size + 1,
-        building_size_y,
-        building_size_z + 2,
-    ];
+    let Size: [number, number] = [building_size_x + 3 + porch_size + 1, building_size_z + 2];
 
     return {
         Blueprint: <Blueprint>{

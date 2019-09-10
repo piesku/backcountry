@@ -1,6 +1,5 @@
 export interface Model {
     Offsets: Float32Array;
-    Size?: [number, number, number];
     Palette?: Array<number>;
 }
 
@@ -12,9 +11,10 @@ export async function load(path: string): Promise<Array<Model>> {
     let i = 0;
 
     while (i < buffer_array.length) {
+        let Size: number[] = [0, 0, 0];
         let model_start = i + 1;
         let model_length = buffer_array[i];
-        let model_end = model_start + model_length + 1; // '1' is for size
+        let model_end = model_start + model_length;
         let model = [];
 
         for (i = model_start; i < model_end; i++) {
@@ -27,8 +27,11 @@ export async function load(path: string): Promise<Array<Model>> {
             );
         }
 
-        let Size = model.splice(0, 3).map(i => ++i) as [number, number, number];
-        model.shift();
+        for (let j = 0; j < model.length; j++) {
+            if (Size[j % 4] < model[j] + 1) {
+                Size[j % 4] = model[j] + 1;
+            }
+        }
 
         model_data.push({
             Offsets: new Float32Array(model).map((val, idx) => {
@@ -43,7 +46,6 @@ export async function load(path: string): Promise<Array<Model>> {
                         return val;
                 }
             }),
-            Size,
         });
     }
 

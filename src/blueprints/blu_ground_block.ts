@@ -35,6 +35,5 @@ function create_model() {
 
     return {
         Offsets: Float32Array.from(offsets),
-        // Size: [1, 1, 1],
     } as Model;
 }
