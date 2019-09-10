@@ -160,7 +160,7 @@ export function world_town(game: Game) {
         game[Get.Transform][find_navigable(game, ~~(map_size / 2), ~~(map_size / 2))].Translation;
 
     // Player.
-    set_seed(game.ChallengeSeed);
+    set_seed(game.PlayerSeed);
     game.Player = game.Add({
         Translation: [player_position[0], 5, player_position[2]],
         Using: [

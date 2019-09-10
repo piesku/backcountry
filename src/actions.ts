@@ -14,6 +14,7 @@ import {world_wanted} from "./worlds/wor_wanted.js";
 
 export interface GameState {
     WorldFunc: (game: Game) => void;
+    PlayerSeed: number;
     ChallengeSeed: number;
     ChallengeLevel: number;
     BountySeed: number;
@@ -29,8 +30,7 @@ export const enum PlayerState {
 }
 
 export const enum Action {
-    InitGame = 1,
-    CompleteBounty,
+    CompleteBounty = 1,
     EndChallenge,
     GoToTown,
     GoToShop,
@@ -44,11 +44,6 @@ export const enum Action {
 
 export function effect(game: Game, action: Action, args: Array<unknown>) {
     switch (action) {
-        case Action.InitGame: {
-            // Today's timestamp. Changes every midnight, 00:00 UTC.
-            game.ChallengeSeed = ~~(Date.now() / (24 * 60 * 60 * 1000));
-            break;
-        }
         case Action.CompleteBounty: {
             game.Gold += game.ChallengeLevel * 1000;
             game.ChallengeLevel += 1;
