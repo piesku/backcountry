@@ -30,12 +30,21 @@ function update(game: Game, entity: Entity, delta: number) {
         animate.Trigger = undefined;
     }
 
-    // 2. Find the current and the next keyframe.
+    // 2. Advance the timer.
+
+    animate.Current.Time += delta;
+    if (animate.Current.Time > animate.Current.Duration) {
+        // The animation will complete this frame. The last keyframe still needs
+        // to finish, however.
+        animate.Current.Time = animate.Current.Duration;
+    }
+
+    // 3. Find the current and the next keyframe.
 
     let current_keyframe: AnimationKeyframe | null = null;
     let next_keyframe: AnimationKeyframe | null = null;
     for (let keyframe of animate.Current.Keyframes) {
-        if (animate.Current.Time < keyframe.Timestamp) {
+        if (animate.Current.Time <= keyframe.Timestamp) {
             next_keyframe = keyframe;
             break;
         } else {
@@ -43,7 +52,7 @@ function update(game: Game, entity: Entity, delta: number) {
         }
     }
 
-    // 3. Interpolate transform properties between keyframes.
+    // 4. Interpolate transform properties between keyframes.
 
     if (current_keyframe && next_keyframe) {
         let keyframe_duration = next_keyframe.Timestamp - current_keyframe.Timestamp;
@@ -74,34 +83,26 @@ function update(game: Game, entity: Entity, delta: number) {
         }
     }
 
-    // 4. Check if the animation is still running.
-
-    let new_time = animate.Current.Time + delta;
-    if (new_time < animate.Current.Duration) {
-        // The animation isn't done yet; continue.
-        animate.Current.Time = new_time;
-        return;
-    } else {
-        // The animation has completed; reset its timer.
-        animate.Current.Time = 0;
-    }
-
     // 5. The animation has completed. Determine what to do next.
 
-    if (animate.Current.Flags & AnimationFlag.Alternate) {
-        // Reverse the keyframes of the clip and recalculate their timestamps.
-        for (let keyframe of animate.Current.Keyframes.reverse()) {
-            keyframe.Timestamp = animate.Current.Duration - keyframe.Timestamp;
-        }
-    }
+    if (animate.Current.Time === animate.Current.Duration) {
+        animate.Current.Time = 0;
 
-    if (next) {
-        // Switch to the trigger. All clips can be exited from when they finish,
-        // regardless of the lack of the EarlyExit flag. The trigger may be the
-        // same state as the current.
-        animate.Current = next;
-        animate.Trigger = undefined;
-    } else if (!(animate.Current.Flags & AnimationFlag.Loop)) {
-        animate.Current = animate.States[Anim.Idle];
+        if (animate.Current.Flags & AnimationFlag.Alternate) {
+            // Reverse the keyframes of the clip and recalculate their timestamps.
+            for (let keyframe of animate.Current.Keyframes.reverse()) {
+                keyframe.Timestamp = animate.Current.Duration - keyframe.Timestamp;
+            }
+        }
+
+        if (next) {
+            // Switch to the trigger. All clips can be exited from when they
+            // finish, regardless of the lack of the EarlyExit flag. The trigger
+            // may be the same state as the current.
+            animate.Current = next;
+            animate.Trigger = undefined;
+        } else if (!(animate.Current.Flags & AnimationFlag.Loop)) {
+            animate.Current = animate.States[Anim.Idle];
+        }
     }
 }
