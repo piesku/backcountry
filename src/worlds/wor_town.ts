@@ -192,6 +192,7 @@ export function world_town(game: Game) {
             ),
         ],
     });
+
     // Camera.
     game.Add(create_iso_camera(game.Player));
 }
