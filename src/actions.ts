@@ -6,16 +6,15 @@ import {Entity, Game} from "./game.js";
 import {rand} from "./math/random.js";
 import {widget_damage} from "./widgets/wid_damage.js";
 import {world_desert} from "./worlds/wor_desert.js";
-import {world_intro} from "./worlds/wor_intro.js";
 import {world_mine} from "./worlds/wor_mine.js";
 import {world_town} from "./worlds/wor_town.js";
 import {world_wanted} from "./worlds/wor_wanted.js";
 
 export interface GameState {
     WorldFunc: (game: Game) => void;
-    SeedPlayer: number;
+    ChallengeSeed: number;
+    ChallengeLevel: number;
     SeedBounty: number;
-    Trophies: Array<number>;
     PlayerState: PlayerState;
     PlayerHealth?: Health;
 }
@@ -28,7 +27,6 @@ export const enum PlayerState {
 
 export const enum Action {
     InitGame = 1,
-    ChangePlayer,
     GoToIntro,
     GoToTown,
     GoToWanted,
@@ -41,26 +39,15 @@ export const enum Action {
 export function effect(game: Game, action: Action, args: Array<unknown>) {
     switch (action) {
         case Action.InitGame: {
-            let trophies = localStorage.getItem("piesku:back");
-            if (trophies) {
-                game.Trophies = trophies.split(",").map(Number);
-            }
             // Today's timestamp. Changes every midnight, 00:00 UTC.
-            save_trophy(game, ~~(Date.now() / (24 * 60 * 60 * 1000)));
-            game.SeedPlayer = game.Trophies[game.Trophies.length - 1];
-            break;
-        }
-        case Action.ChangePlayer: {
-            let camera_anchor = game[Get.Transform][game.Camera!.EntityId].Parent;
-            game[Get.Mimic][camera_anchor!.EntityId].Target = args[0] as Entity;
-            game.SeedPlayer = (game[Get.Named][args[0] as Entity].Name as unknown) as number;
+            game.ChallengeSeed = ~~(Date.now() / (24 * 60 * 60 * 1000));
             break;
         }
         case Action.GoToIntro: {
             game.PlayerState = PlayerState.Playing;
             game.SeedBounty = 0;
-            game.WorldFunc = world_intro;
-            setTimeout(world_intro, 0, game);
+            game.WorldFunc = world_town;
+            setTimeout(world_town, 0, game);
             break;
         }
         case Action.GoToTown: {
@@ -108,9 +95,8 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             } else if (game.World[entity] & (1 << Get.NPC)) {
                 // If the boss is killed.
                 if (game[Get.NPC][entity].Bounty) {
-                    save_trophy(game, game.SeedBounty);
                     game.PlayerState = PlayerState.Victory;
-                    game.SeedPlayer = game.SeedBounty;
+                    game.ChallengeSeed = game.SeedBounty;
 
                     // Make all bandits friendly.
                     for (let i = 0; i < game.World.length; i++) {
@@ -130,12 +116,5 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             }
             break;
         }
-    }
-}
-
-function save_trophy(state: GameState, seed: number) {
-    if (!state.Trophies.includes(seed)) {
-        state.Trophies.push(seed);
-        localStorage.setItem("piesku:back", (state.Trophies as unknown) as string);
     }
 }

@@ -18,7 +18,7 @@ import {snd_wind} from "../sounds/snd_wind.js";
 import {calculate_distance} from "../systems/sys_player_control.js";
 
 export function world_map(game: Game) {
-    set_seed(game.SeedPlayer);
+    set_seed(game.ChallengeSeed);
     let map_size = 30;
     let fence_line = 20;
     let fence_height = 4;

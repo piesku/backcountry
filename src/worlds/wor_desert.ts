@@ -115,7 +115,7 @@ export function world_desert(game: Game) {
         ...entrance,
     });
 
-    set_seed(game.SeedPlayer);
+    set_seed(game.ChallengeSeed);
     let player_position = game[Get.Transform][find_navigable(game, 1, 1)].Translation;
     // Player.
     game.Player = game.Add({

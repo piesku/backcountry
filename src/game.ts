@@ -113,9 +113,9 @@ export class Game implements ComponentData, GameState {
 
     public Dispatch = (action: Action, ...args: Array<unknown>) => effect(this, action, args);
     public WorldFunc = world_map;
-    public SeedPlayer = 0;
+    public ChallengeSeed = 0;
+    public ChallengeLevel = 1;
     public SeedBounty = 0;
-    public Trophies: Array<number> = [];
     public PlayerState = PlayerState.Playing;
 
     public Materials: Array<Material> = [];

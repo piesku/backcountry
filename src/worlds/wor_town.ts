@@ -27,7 +27,7 @@ import {calculate_distance} from "../systems/sys_player_control.js";
 import {widget_exclamation} from "../widgets/wid_exclamation.js";
 
 export function world_town(game: Game) {
-    set_seed(game.SeedPlayer);
+    set_seed(game.ChallengeSeed);
     let map_size = 30;
     let fence_line = 20;
     let fence_height = 4;
@@ -144,7 +144,7 @@ export function world_town(game: Game) {
         game[Get.Transform][find_navigable(game, ~~(map_size / 2), ~~(map_size / 2))].Translation;
 
     // Player.
-    set_seed(game.SeedPlayer);
+    set_seed(game.ChallengeSeed);
     game.Player = game.Add({
         Translation: [player_position[0], 5, player_position[2]],
         Using: [

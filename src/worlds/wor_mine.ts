@@ -123,7 +123,7 @@ export function world_mine(game: Game) {
 
     let player_position = game[Get.Transform][find_navigable(game, 1, 1)].Translation;
     // Player.
-    set_seed(game.SeedPlayer);
+    set_seed(game.ChallengeSeed);
     game.Player = game.Add({
         Translation: [player_position[0], 5, player_position[2]],
         Using: [
