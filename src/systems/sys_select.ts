@@ -48,7 +48,7 @@ function update(game: Game, entity: Entity, colliders: Array<Collide>) {
     transform_point(target, target, transform.World);
     subtract(direction, target, origin);
     normalize(direction, direction);
-    select.Hit = raycast(game, colliders, origin, direction);
+    select.Hit = raycast(colliders, origin, direction);
 
     if (select.Hit && select.Hit.Flags & ANIMATED && game.Input.d0) {
         let transform = game[Get.Transform][select.Hit.EntityId];
