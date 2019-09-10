@@ -72,6 +72,18 @@ export function transform_point(out: Vec3, a: Vec3, m: Mat4) {
     return out;
 }
 
+export function transform_point_fast(out: Vec3, a: Vec3, m: Mat4) {
+    let x = a[0],
+        y = a[1],
+        z = a[2];
+    let w = m.m14 * x + m.m24 * y + m.m34 * z + m.m44;
+    w = w || 1.0;
+    out[0] = (m.m11 * x + m.m21 * y + m.m31 * z + m.m41) / w;
+    out[1] = (m.m12 * x + m.m22 * y + m.m32 * z + m.m42) / w;
+    out[2] = (m.m13 * x + m.m23 * y + m.m33 * z + m.m43) / w;
+    return out;
+}
+
 export function transform_direction(out: Vec3, a: Vec3, m: Mat4) {
     let tip = transform_point([], a, m);
     let base = get_translation([], m);
