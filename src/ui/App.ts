@@ -3,6 +3,7 @@ import {world_map} from "../worlds/wor_map.js";
 import {world_wanted} from "../worlds/wor_wanted.js";
 import {Defeat} from "./Defeat.js";
 import {Intro} from "./Intro.js";
+import {Playing} from "./Playing.js";
 import {Victory} from "./Victory.js";
 import {Wanted} from "./Wanted.js";
 
@@ -17,7 +18,7 @@ export function App(state: GameState) {
         return Victory();
     }
     if (state.PlayerState === PlayerState.Defeat) {
-        return Defeat();
+        return Defeat(state);
     }
-    return "";
+    return Playing(state);
 }
