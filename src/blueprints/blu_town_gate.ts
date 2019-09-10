@@ -33,17 +33,17 @@ export function get_town_gate_blueprint(
     fence_offsets.push(
         ...create_line(
             [4, 0, -map_size * 4 + fence_width],
-            [4, 20, -map_size * 4 + fence_width],
+            [4, gate_size * 1.5, -map_size * 4 + fence_width],
             PaletteColors.wood
         ),
         ...create_line(
             [4, 0, -map_size * 4 + fence_width + gate_size],
-            [4, 20, -map_size * 4 + fence_width + gate_size],
+            [4, gate_size * 1.5, -map_size * 4 + fence_width + gate_size],
             PaletteColors.wood
         ),
         ...create_line(
-            [4, 20, -map_size * 4 + fence_width],
-            [4, 20, -map_size * 4 + fence_width + gate_size + 1],
+            [4, gate_size * 1.5, -map_size * 4 + fence_width],
+            [4, gate_size * 1.5, -map_size * 4 + fence_width + gate_size + 1],
             PaletteColors.wood
         )
     );
@@ -62,7 +62,7 @@ export function get_town_gate_blueprint(
         );
     }
 
-    for (let i = -(map_size / 2) * 8; i < (map_size / 2) * 8; i += 6) {
+    for (let i = -(map_size / 2 - 1) * 8; i < (map_size / 2) * 8; i += 6) {
         if (i < -map_size * 4 + fence_width || i > -map_size * 4 + fence_width + gate_size) {
             fence_offsets.push(...create_line([4, 0, i], [4, height + 2, i], PaletteColors.wood));
         }
