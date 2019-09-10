@@ -26,7 +26,7 @@ export function get_mine_wall_blueprint(
 
     return {
         Translation: [0, 4, 0],
-        Using: [collide(false, [8, 4, 8], RayTarget.Targetable), cull(Get.Collide)],
+        Using: [collide(false, [8, 4, 8], RayTarget.None), cull(Get.Collide)],
         Children,
     };
 }

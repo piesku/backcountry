@@ -16,7 +16,7 @@ function update(game: Game, entity: Entity) {
     for (let collide of collisions) {
         if (game.World[collide.EntityId] & (1 << Get.PlayerControl)) {
             game.World[entity] &= ~(1 << Get.Trigger);
-            game.Dispatch(game[Get.Trigger][entity].Action);
+            game.Dispatch(game[Get.Trigger][entity].Action, entity);
         }
     }
 }

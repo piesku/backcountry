@@ -1,6 +1,6 @@
-import {Action} from "../actions.js";
+import {Action, GameState} from "../actions.js";
 
-export function Defeat() {
+export function Defeat(state: GameState) {
     return `
         <div style="
             position: absolute;
@@ -19,8 +19,12 @@ export function Defeat() {
             text-align: center;
             font-size: 10vh;
         ">
-            <button onclick="$(${Action.GoToIntro});">
+            <button onclick="$(${Action.EndChallenge});">
                 TRY AGAIN
+            </button>
+            &mdash;
+            <button onclick="alert('Not implemented yet! You score was ${state.Gold}');">
+                TWEET SCORE
             </button>
         </div>
     `;

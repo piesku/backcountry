@@ -11,6 +11,7 @@ import {integer, rand} from "../math/random.js";
 import {get_cactus_blueprint} from "./blu_cactus.js";
 import {get_campfire_blueprint} from "./blu_campfire.js";
 import {Blueprint, create_tile} from "./blu_common.js";
+import {get_gold_blueprint} from "./blu_gold.js";
 import {get_block_blueprint} from "./blu_ground_block.js";
 import {get_rock_blueprint} from "./blu_rock.js";
 
@@ -64,6 +65,8 @@ export function get_tile_blueprint(
 
     if (rand() > 0.85 && is_walkable) {
         tile.Children!.push(get_block_blueprint(game));
+    } else if (rand() > 0.99) {
+        tile.Children!.push(get_gold_blueprint(game));
     }
 
     if (!is_walkable) {
@@ -80,7 +83,7 @@ export function get_tile_blueprint(
         Rotation: from_euler([], 0, integer(0, 3) * 90, 0),
         Translation: [0, 0, 0],
         Using: [
-            collide(false, [8, 1, 8], is_walkable ? RayTarget.Navigable : RayTarget.Targetable),
+            collide(false, [8, 1, 8], is_walkable ? RayTarget.Navigable : RayTarget.None),
             cull(Get.Collide),
             navigable(x, y),
         ],

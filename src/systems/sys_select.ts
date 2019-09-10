@@ -1,17 +1,16 @@
-import {Action} from "../actions.js";
 import {Anim, Animate} from "../components/com_animate.js";
 import {AudioSource} from "../components/com_audio_source.js";
 import {Collide, RayTarget} from "../components/com_collide.js";
 import {Get} from "../components/com_index.js";
 import {components_of_type} from "../components/com_transform.js";
 import {Entity, Game} from "../game.js";
-import {raycast} from "../math/raycast.js";
-import {normalize, subtract, transform_point} from "../math/vec3.js";
+import {raycast_aabb} from "../math/raycast.js";
+import {add, normalize, scale, subtract, transform_point} from "../math/vec3.js";
 import {snd_click} from "../sounds/snd_click.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Camera) | (1 << Get.Select);
 const TARGET = (1 << Get.Transform) | (1 << Get.Collide);
-const ANIMATED = RayTarget.Navigable | RayTarget.Player | RayTarget.Choosable;
+const ANIMATED = RayTarget.Navigable | RayTarget.Player;
 
 export function sys_select(game: Game, delta: number) {
     let colliders: Array<Collide> = [];
@@ -48,7 +47,12 @@ function update(game: Game, entity: Entity, colliders: Array<Collide>) {
     transform_point(target, target, transform.World);
     subtract(direction, target, origin);
     normalize(direction, direction);
-    select.Hit = raycast(colliders, origin, direction);
+    select.Hit = raycast_aabb(colliders, origin, direction);
+
+    // Check where the ray intersects the {point: [0, 5, 0], normal: [0, 1, 0]}
+    // plane, i.e. the plane on which player's projectiles move.
+    let t = (5 - origin[1]) / direction[1];
+    add(select.Position, origin, scale(direction, direction, t));
 
     if (select.Hit && select.Hit.Flags & ANIMATED && game.Input.d0) {
         let transform = game[Get.Transform][select.Hit.EntityId];
@@ -57,10 +61,6 @@ function update(game: Game, entity: Entity, colliders: Array<Collide>) {
         }
         for (let audio of components_of_type<AudioSource>(game, transform, Get.AudioSource)) {
             audio.Trigger = snd_click;
-        }
-
-        if (select.Hit.Flags & RayTarget.Choosable) {
-            game.Dispatch(Action.ChangePlayer, select.Hit.EntityId);
         }
     }
 }

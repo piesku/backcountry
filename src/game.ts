@@ -56,7 +56,7 @@ import {sys_transform} from "./systems/sys_transform.js";
 import {sys_trigger} from "./systems/sys_trigger.js";
 import {sys_ui} from "./systems/sys_ui.js";
 import {GL_CULL_FACE, GL_CW, GL_DEPTH_TEST} from "./webgl.js";
-import {world_intro} from "./worlds/wor_intro.js";
+import {world_map} from "./worlds/wor_map.js";
 
 const MAX_ENTITIES = 10000;
 
@@ -109,11 +109,12 @@ export class Game implements ComponentData, GameState {
     };
 
     public Dispatch = (action: Action, ...args: Array<unknown>) => effect(this, action, args);
-    public WorldFunc = world_intro;
-    public SeedPlayer = 0;
-    public SeedBounty = 0;
-    public Trophies: Array<number> = [];
+    public WorldFunc = world_map;
+    public ChallengeSeed = 0;
+    public ChallengeLevel = 1;
+    public BountySeed = 0;
     public PlayerState = PlayerState.Playing;
+    public Gold = 0;
 
     public Materials: Array<Material> = [];
     public Camera?: Camera;
@@ -219,19 +220,11 @@ export class Game implements ComponentData, GameState {
     }
 
     Start() {
-        let step = 1 / 60;
-        let accumulator = 0;
         let last = performance.now();
-
         let tick = (now: number) => {
             let delta = (now - last) / 1000;
-            accumulator += delta;
-            while (accumulator > step) {
-                accumulator -= step;
-                this.FixedUpdate(step);
-            }
             this.FrameUpdate(delta);
-
+            this.FixedUpdate(delta);
             last = now;
             this.RAF = requestAnimationFrame(tick);
         };
