@@ -1,6 +1,6 @@
 import {Get} from "../components/com_index.js";
 import {Entity, Game} from "../game.js";
-import {transform_point_fast} from "../math/vec3.js";
+import {transform_point_faster} from "../math/vec3.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Cull);
 
@@ -18,7 +18,7 @@ function update(game: Game, entity: Entity) {
     let cull = game[Get.Cull][entity];
     let world = game[Get.Transform][entity].World;
     let position = [world.m41, world.m42, world.m43];
-    transform_point_fast(position, position, game.Camera!.View);
+    transform_point_faster(position, position, game.Camera!.ViewArray);
     if (
         // m11 of the ortho projection matrix is defined as 1/right. Cull
         // transforms to the left and to the right of the frustum, with a padding.

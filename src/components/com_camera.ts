@@ -9,6 +9,7 @@ export interface Camera {
     Projection: Mat4;
     Unproject: Mat4;
     View: Mat4;
+    ViewArray: Float32Array;
     PV: Mat4;
     PVArray: Float32Array;
     Cull: boolean;
@@ -24,6 +25,7 @@ export function camera_perspective(fovy: number, near: number, far: number) {
             Projection,
             Unproject: Projection.inverse(),
             View: create(),
+            ViewArray: new Float32Array(),
             PV: create(),
             PVArray: new Float32Array(),
             Cull: false,
@@ -48,6 +50,7 @@ export function camera_ortho(radius: number, near: number, far: number) {
             Projection,
             Unproject: Projection.inverse(),
             View: create(),
+            ViewArray: new Float32Array(),
             PV: create(),
             PVArray: new Float32Array(),
             Cull: true,

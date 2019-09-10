@@ -19,6 +19,7 @@ function update(game: Game, entity: Entity) {
     game.Camera = camera;
     get_translation(camera.Position, transform.World);
     camera.View = transform.World.inverse();
+    camera.ViewArray = camera.View.toFloat32Array();
     camera.PV = camera.Projection.multiply(camera.View);
     camera.PVArray = camera.PV.toFloat32Array();
 }
