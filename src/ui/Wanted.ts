@@ -8,7 +8,7 @@ export function Wanted(state: GameState) {
             width: 100%;
             color: #222;
             text-align: center;
-            font-size: 15vh;
+            font-size: 15vmin;
         ">
             WANTED
         </div>
@@ -18,7 +18,7 @@ export function Wanted(state: GameState) {
             width: 100%;
             color: #222;
             text-align: center;
-            font-size: 10vh;
+            font-size: 10vmin;
         ">
             REWARD $${state.ChallengeLevel},000
         </div>
@@ -27,7 +27,7 @@ export function Wanted(state: GameState) {
             bottom: 15%;
             width: 100%;
             text-align: center;
-            font-size: 10vh;
+            font-size: 10vmin;
         ">
             <button onclick="$(${Action.GoToTown});">
                 ACCEPT BOUNTY

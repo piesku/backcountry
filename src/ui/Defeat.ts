@@ -8,7 +8,7 @@ export function Defeat(state: GameState) {
             height: 25%;
             width: 100%;
             text-align: center;
-            font-size: 15vh;
+            font-size: 15vmin;
         ">
             WASTED
         </div>
@@ -17,7 +17,7 @@ export function Defeat(state: GameState) {
             bottom: 13%;
             width: 100%;
             text-align: center;
-            font-size: 10vh;
+            font-size: 10vmin;
         ">
             <button onclick="$(${Action.EndChallenge});">
                 TRY AGAIN

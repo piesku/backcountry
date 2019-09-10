@@ -6,7 +6,7 @@ export function Playing(state: GameState) {
             position: absolute;
             top: 5vmin;
             left: 5vmin;
-            font-size: 10vh;
+            font-size: 10vmin;
         ">
             $${state.Gold.toLocaleString("en-US")}
         </div>

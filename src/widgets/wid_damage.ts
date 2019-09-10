@@ -6,7 +6,7 @@ export function widget_damage(game: Game, entity: Entity, x: number, y: number) 
     let [damage, prefix = ""] = game[Get.Draw][entity].Args as [number, string?];
     let lifespan = game[Get.Lifespan][entity];
     let relative = lifespan.Age / lifespan.Max;
-    game.Context.font = `${damage / 125 + 1}vh Impact`;
+    game.Context.font = `${damage / 125 + 1}vmin Impact`;
     game.Context.textAlign = "center";
     game.Context.fillStyle = `rgba(255, 232, 198, ${ease_out_quart(1 - relative)})`;
     game.Context.fillText(

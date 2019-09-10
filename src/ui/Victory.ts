@@ -8,7 +8,7 @@ export function Victory() {
             height: 25%;
             width: 100%;
             text-align: center;
-            font-size: 15vh;
+            font-size: 15vmin;
         ">
             VICTORY
         </div>
@@ -17,7 +17,7 @@ export function Victory() {
             bottom: 13%;
             width: 100%;
             text-align: center;
-            font-size: 10vh;
+            font-size: 10vmin;
         ">
             <button onclick="$(${Action.CompleteBounty});">
                 COLLECT BOUNTY
