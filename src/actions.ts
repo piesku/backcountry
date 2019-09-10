@@ -3,7 +3,7 @@ import {Health} from "./components/com_health.js";
 import {Get} from "./components/com_index.js";
 import {lifespan} from "./components/com_lifespan.js";
 import {Entity, Game} from "./game.js";
-import {rand} from "./math/random.js";
+import {integer, rand} from "./math/random.js";
 import {widget_damage} from "./widgets/wid_damage.js";
 import {world_desert} from "./worlds/wor_desert.js";
 import {world_intro} from "./worlds/wor_intro.js";
@@ -97,10 +97,11 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
         case Action.CollectGold: {
             console.log("elo", args);
             let [entity] = args as [Entity, number];
-            // game.Add({
-            //     Translation: game[Get.Transform][entity].Translation.slice(),
-            //     // Using: [draw(widget_damage, [damage]), lifespan(1)],
-            // });
+            let value = integer(100, 1000);
+            game.Add({
+                Translation: game[Get.Transform][game.Player!].Translation.slice(),
+                Using: [draw(widget_damage, [value, "$"]), lifespan(1)],
+            });
             game.Destroy(entity);
             break;
         }
