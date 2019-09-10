@@ -22,6 +22,10 @@ export function Defeat() {
             <button onclick="$(${Action.EndChallenge});">
                 TRY AGAIN
             </button>
+            &mdash;
+            <button onclick="alert('Not implemented!');">
+                TWEET SCORE
+            </button>
         </div>
     `;
 }
