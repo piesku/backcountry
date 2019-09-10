@@ -31,6 +31,7 @@ export function world_town(game: Game) {
     set_seed(game.ChallengeSeed);
     let map_size = 30;
     let fence_line = 20;
+    let back_fence_line = 3;
     let fence_height = 4;
     let fence_gate_size = 16;
 
@@ -43,7 +44,7 @@ export function world_town(game: Game) {
     for (let x = 0; x < map_size; x++) {
         game.Grid[x] = [];
         for (let y = 0; y < map_size; y++) {
-            let is_fence = x === fence_line;
+            let is_fence = x == fence_line || x == back_fence_line;
             // cactuses & stones here
             // We set this to true, because we don't want props to be
             // generated on the fence line
@@ -60,6 +61,10 @@ export function world_town(game: Game) {
     }
 
     game.Add(get_town_gate_blueprint(game, map_size, fence_height, fence_gate_size, fence_line));
+    game.Add({
+        ...get_town_gate_blueprint(game, map_size, fence_height, 0, back_fence_line + 1),
+        Rotation: from_euler([], 0, 180, 0),
+    });
 
     // Directional light and Soundtrack
     game.Add({
