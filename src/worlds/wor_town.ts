@@ -134,7 +134,23 @@ export function world_town(game: Game) {
             get_character_blueprint(game),
             {
                 Translation: [0, 10, 0],
-                Using: game.BountySeed ? [] : [draw(widget_exclamation), lifespan()],
+                Using: game.BountySeed ? [] : [draw(widget_exclamation, ["!"]), lifespan()],
+            },
+        ],
+    });
+
+    let outfitter_position =
+        game[Get.Transform][find_navigable(game, map_size / 2 + 3, map_size / 2 - 8)].Translation;
+
+    // Outfitter.
+    game.Add({
+        Translation: [outfitter_position[0], 5, outfitter_position[2]],
+        Using: [collide(false, [8, 8, 8]), trigger(Action.GoToWanted)],
+        Children: [
+            get_character_blueprint(game),
+            {
+                Translation: [0, 10, 0],
+                Using: [draw(widget_exclamation, ["$"]), lifespan()],
             },
         ],
     });
