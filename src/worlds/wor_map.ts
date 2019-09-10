@@ -15,6 +15,7 @@ import {snd_gust} from "../sounds/snd_gust.js";
 import {snd_jingle} from "../sounds/snd_jingle.js";
 import {snd_neigh} from "../sounds/snd_neigh.js";
 import {snd_wind} from "../sounds/snd_wind.js";
+import {calculate_distance} from "../systems/sys_player_control.js";
 
 export function world_map(game: Game) {
     set_seed(game.SeedPlayer);
@@ -53,7 +54,7 @@ export function world_map(game: Game) {
     // Directional light and Soundtrack
     game.Add({
         Translation: [1, 2, -1],
-        Using: [light([0.8, 0.8, 0.8], 0), audio_source(snd_jingle)],
+        Using: [light([0.7, 0.7, 0.7], 0), audio_source(snd_jingle)],
         Children: [
             {
                 Using: [audio_source(snd_neigh)],
@@ -98,7 +99,7 @@ export function world_map(game: Game) {
     }
 
     // Cowboys.
-    let cowboys_count = 10;
+    let cowboys_count = 15;
     for (let i = 0; i < cowboys_count; i++) {
         let x = integer(0, map_size);
         let y = integer(0, map_size);
@@ -112,6 +113,7 @@ export function world_map(game: Game) {
         }
     }
 
+    calculate_distance(game, map_size / 2, map_size / 2);
     game.Player = game.Add({
         Using: [walking(map_size / 2, map_size / 2)],
     });

@@ -23,6 +23,7 @@ import {snd_gust} from "../sounds/snd_gust.js";
 import {snd_jingle} from "../sounds/snd_jingle.js";
 import {snd_neigh} from "../sounds/snd_neigh.js";
 import {snd_wind} from "../sounds/snd_wind.js";
+import {calculate_distance} from "../systems/sys_player_control.js";
 import {widget_exclamation} from "../widgets/wid_exclamation.js";
 
 export function world_town(game: Game) {
@@ -107,7 +108,7 @@ export function world_town(game: Game) {
     }
 
     // Cowboys.
-    let cowboys_count = 10;
+    let cowboys_count = 15;
     for (let i = 0; i < cowboys_count; i++) {
         let x = integer(0, map_size);
         let y = integer(0, map_size);
@@ -138,6 +139,7 @@ export function world_town(game: Game) {
         ],
     });
 
+    calculate_distance(game, map_size / 2, map_size / 2);
     let player_position =
         game[Get.Transform][find_navigable(game, ~~(map_size / 2), ~~(map_size / 2))].Translation;
 
