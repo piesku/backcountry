@@ -8,6 +8,7 @@ import {widget_damage} from "./widgets/wid_damage.js";
 import {world_desert} from "./worlds/wor_desert.js";
 import {world_map} from "./worlds/wor_map.js";
 import {world_mine} from "./worlds/wor_mine.js";
+import {world_shop} from "./worlds/wor_shop.js";
 import {world_town} from "./worlds/wor_town.js";
 import {world_wanted} from "./worlds/wor_wanted.js";
 
@@ -32,6 +33,7 @@ export const enum Action {
     CompleteBounty,
     EndChallenge,
     GoToTown,
+    GoToShop,
     GoToWanted,
     GoToDesert,
     GoToMine,
@@ -73,6 +75,11 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
         case Action.GoToWanted: {
             game.BountySeed = game.ChallengeSeed * game.ChallengeLevel - 1;
             game.WorldFunc = world_wanted;
+            setTimeout(game.WorldFunc, 0, game);
+            break;
+        }
+        case Action.GoToShop: {
+            game.WorldFunc = world_shop;
             setTimeout(game.WorldFunc, 0, game);
             break;
         }
