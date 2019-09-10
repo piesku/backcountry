@@ -14,6 +14,8 @@ export function sys_cull(game: Game, delta: number) {
     }
 }
 
+let position = [0, 0, 0];
+
 function update(game: Game, entity: Entity) {
     let cull = game[Get.Cull][entity];
     let world = game[Get.Transform][entity].World;

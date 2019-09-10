@@ -19,11 +19,7 @@ export function sys_player_control(game: Game, delta: number) {
 }
 
 function update(game: Game, entity: Entity, cursor: Select) {
-    if (!cursor.Hit) {
-        return;
-    }
-
-    if (game.Input.d0) {
+    if (game.Input.d0 && cursor.Hit) {
         if (cursor.Hit.Flags & RayTarget.Navigable) {
             let route = get_route(game, entity, game[Get.Navigable][cursor.Hit.EntityId]);
             if (route) {
@@ -39,8 +35,7 @@ function update(game: Game, entity: Entity, cursor: Select) {
     }
 
     if (game.Input.d2 && game.World[entity] & (1 << Get.Shoot)) {
-        let other_transform = game[Get.Transform][cursor.Hit.EntityId];
-        game[Get.Shoot][entity].Target = get_translation([], other_transform.World);
+        game[Get.Shoot][entity].Target = cursor.Position;
         game[Get.Shake][game.Camera!.EntityId].Duration = 0.2;
     }
 }

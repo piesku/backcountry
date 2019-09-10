@@ -238,12 +238,10 @@ export class Game implements ComponentData, GameState {
 
     Start() {
         let last = performance.now();
-
         let tick = (now: number) => {
             let delta = (now - last) / 1000;
             this.FrameUpdate(delta);
             this.FixedUpdate(delta);
-
             last = now;
             this.RAF = requestAnimationFrame(tick);
         };
