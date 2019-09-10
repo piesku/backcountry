@@ -10,7 +10,9 @@ export function Defeat(state: GameState) {
             text-align: center;
             font-size: 15vmin;
         ">
-            WASTED
+            YOU DIE WITH
+            <br>
+            $${state.Gold.toLocaleString("en-US")}
         </div>
         <div style="
             position: absolute;
@@ -22,7 +24,7 @@ export function Defeat(state: GameState) {
             <button onclick="$(${Action.EndChallenge});">
                 TRY AGAIN
             </button>
-            &mdash;
+            <br>
             <button onclick="alert('Not implemented yet! You score was ${state.Gold}');">
                 TWEET SCORE
             </button>
