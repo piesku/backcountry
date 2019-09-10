@@ -6,7 +6,7 @@ import {Game} from "../game.js";
 import {set_seed} from "../math/random.js";
 
 export function world_wanted(game: Game) {
-    set_seed(game.SeedBounty);
+    set_seed(game.BountySeed);
     game.World = [];
     game.GL.clearColor(0.95, 0.73, 0.35, 1);
 

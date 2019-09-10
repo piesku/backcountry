@@ -48,7 +48,7 @@ export function get_town_gate_blueprint(
         )
     );
 
-    if (game.SeedBounty) {
+    if (game.BountySeed) {
         for (let i = 0; i < gate_size / 8; i++) {
             game.Grid[fence_line][fence_width / 8 + i] = Infinity;
         }

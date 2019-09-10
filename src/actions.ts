@@ -3,7 +3,6 @@ import {Health} from "./components/com_health.js";
 import {Get} from "./components/com_index.js";
 import {lifespan} from "./components/com_lifespan.js";
 import {Entity, Game} from "./game.js";
-import {rand} from "./math/random.js";
 import {widget_damage} from "./widgets/wid_damage.js";
 import {world_desert} from "./worlds/wor_desert.js";
 import {world_mine} from "./worlds/wor_mine.js";
@@ -14,7 +13,7 @@ export interface GameState {
     WorldFunc: (game: Game) => void;
     ChallengeSeed: number;
     ChallengeLevel: number;
-    SeedBounty: number;
+    BountySeed: number;
     PlayerState: PlayerState;
     PlayerHealth?: Health;
 }
@@ -44,10 +43,11 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             break;
         }
         case Action.GoToIntro: {
+            game.ChallengeLevel += 1;
             game.PlayerState = PlayerState.Playing;
-            game.SeedBounty = 0;
+            game.BountySeed = 0;
             game.WorldFunc = world_town;
-            setTimeout(world_town, 0, game);
+            setTimeout(game.WorldFunc, 0, game);
             break;
         }
         case Action.GoToTown: {
@@ -56,7 +56,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             break;
         }
         case Action.GoToWanted: {
-            game.SeedBounty = rand();
+            game.BountySeed = game.ChallengeSeed * game.ChallengeLevel - 1;
             game.WorldFunc = world_wanted;
             setTimeout(game.WorldFunc, 0, game);
             break;
@@ -96,7 +96,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                 // If the boss is killed.
                 if (game[Get.NPC][entity].Bounty) {
                     game.PlayerState = PlayerState.Victory;
-                    game.ChallengeSeed = game.SeedBounty;
+                    game.ChallengeSeed = game.BountySeed;
 
                     // Make all bandits friendly.
                     for (let i = 0; i < game.World.length; i++) {

@@ -115,7 +115,7 @@ export class Game implements ComponentData, GameState {
     public WorldFunc = world_map;
     public ChallengeSeed = 0;
     public ChallengeLevel = 1;
-    public SeedBounty = 0;
+    public BountySeed = 0;
     public PlayerState = PlayerState.Playing;
 
     public Materials: Array<Material> = [];

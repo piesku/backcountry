@@ -21,7 +21,7 @@ import {snd_music} from "../sounds/snd_music.js";
 import {widget_healthbar} from "../widgets/wid_healthbar.js";
 
 export function world_mine(game: Game) {
-    set_seed(game.SeedBounty);
+    set_seed(game.BountySeed);
 
     game.World = [];
     game.Grid = [];
@@ -82,11 +82,11 @@ export function world_mine(game: Game) {
                 walking(x, y),
                 move(integer(12, 16), 0),
                 collide(true, [7, 7, 7], RayTarget.Attackable),
-                health(5000),
+                health(5000 * game.ChallengeLevel),
                 shoot(1),
             ],
             Children: [
-                (set_seed(game.SeedBounty), get_character_blueprint(game)),
+                (set_seed(game.BountySeed), get_character_blueprint(game)),
                 {
                     Translation: [0, 10, 0],
                     Using: [draw(widget_healthbar)],
@@ -107,7 +107,7 @@ export function world_mine(game: Game) {
                     walking(x, y),
                     move(integer(8, 15)),
                     collide(true, [7, 7, 7], RayTarget.Attackable),
-                    health(2000),
+                    health(2000 * game.ChallengeLevel),
                     shoot(1),
                 ],
                 Children: [

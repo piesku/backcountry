@@ -134,7 +134,7 @@ export function world_town(game: Game) {
             get_character_blueprint(game),
             {
                 Translation: [0, 10, 0],
-                Using: game.SeedBounty ? [] : [draw(widget_exclamation), lifespan()],
+                Using: game.BountySeed ? [] : [draw(widget_exclamation), lifespan()],
             },
         ],
     });
