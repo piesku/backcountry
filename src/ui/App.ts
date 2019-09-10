@@ -1,6 +1,6 @@
 import {GameState, PlayerState} from "../actions.js";
 import {world_map} from "../worlds/wor_map.js";
-import {world_shop} from "../worlds/wor_shop.js";
+import {world_store} from "../worlds/wor_store.js";
 import {world_wanted} from "../worlds/wor_wanted.js";
 import {Defeat} from "./Defeat.js";
 import {Intro} from "./Intro.js";
@@ -13,7 +13,7 @@ export function App(state: GameState) {
     if (state.WorldFunc === world_map) {
         return Intro();
     }
-    if (state.WorldFunc === world_shop) {
+    if (state.WorldFunc === world_store) {
         return Store();
     }
     if (state.WorldFunc === world_wanted) {

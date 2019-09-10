@@ -145,7 +145,7 @@ export function world_town(game: Game) {
     // Outfitter.
     game.Add({
         Translation: [outfitter_position[0], 5, outfitter_position[2]],
-        Using: [collide(false, [8, 8, 8]), trigger(Action.GoToShop)],
+        Using: [collide(false, [8, 8, 8]), trigger(Action.GoToStore)],
         Children: [
             get_character_blueprint(game),
             {
