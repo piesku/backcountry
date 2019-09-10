@@ -1,8 +1,7 @@
 import {Vec3} from ".";
 import {Collide} from "../components/com_collide";
-import {Game} from "../game";
 
-export function raycast(game: Game, colliders: Array<Collide>, origin: Vec3, direction: Vec3) {
+export function raycast(colliders: Array<Collide>, origin: Vec3, direction: Vec3) {
     let nearest_t = Infinity;
     let nearest_i = null;
     for (let i = 0; i < colliders.length; i++) {
