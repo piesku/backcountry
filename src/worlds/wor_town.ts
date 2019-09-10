@@ -1,12 +1,20 @@
+import {Action} from "../actions.js";
 import {get_building_blueprint} from "../blueprints/blu_building.js";
 import {get_character_blueprint} from "../blueprints/blu_character.js";
 import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
 import {create_iso_camera} from "../blueprints/blu_iso_camera.js";
 import {get_town_gate_blueprint} from "../blueprints/blu_town_gate.js";
 import {audio_source} from "../components/com_audio_source.js";
+import {collide, RayTarget} from "../components/com_collide.js";
+import {player_control} from "../components/com_control_player.js";
+import {draw} from "../components/com_draw.js";
+import {Get} from "../components/com_index.js";
+import {lifespan} from "../components/com_lifespan.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
+import {find_navigable} from "../components/com_navigable.js";
 import {npc} from "../components/com_npc.js";
+import {trigger} from "../components/com_trigger.js";
 import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
@@ -15,8 +23,9 @@ import {snd_gust} from "../sounds/snd_gust.js";
 import {snd_jingle} from "../sounds/snd_jingle.js";
 import {snd_neigh} from "../sounds/snd_neigh.js";
 import {snd_wind} from "../sounds/snd_wind.js";
+import {widget_exclamation} from "../widgets/wid_exclamation.js";
 
-export function world_map(game: Game) {
+export function world_town(game: Game) {
     set_seed(game.SeedPlayer);
     let map_size = 30;
     let fence_line = 20;
@@ -53,7 +62,7 @@ export function world_map(game: Game) {
     // Directional light and Soundtrack
     game.Add({
         Translation: [1, 2, -1],
-        Using: [light([0.8, 0.8, 0.8], 0), audio_source(snd_jingle)],
+        Using: [light([0.5, 0.5, 0.5], 0), audio_source(snd_jingle)],
         Children: [
             {
                 Using: [audio_source(snd_neigh)],
@@ -112,8 +121,43 @@ export function world_map(game: Game) {
         }
     }
 
+    let sheriff_position =
+        game[Get.Transform][find_navigable(game, map_size / 2, map_size / 2 + 3)].Translation;
+
+    // Sheriff.
+    game.Add({
+        Translation: [sheriff_position[0], 5, sheriff_position[2]],
+        Rotation: from_euler([], 0, 90, 0),
+        Using: [collide(false, [8, 8, 8]), trigger(Action.GoToWanted)],
+        Children: [
+            get_character_blueprint(game),
+            {
+                Translation: [0, 10, 0],
+                Using: game.SeedBounty ? [] : [draw(widget_exclamation), lifespan()],
+            },
+        ],
+    });
+
+    let player_position =
+        game[Get.Transform][find_navigable(game, ~~(map_size / 2), ~~(map_size / 2))].Translation;
+
+    // Player.
+    set_seed(game.SeedPlayer);
     game.Player = game.Add({
-        Using: [walking(map_size / 2, map_size / 2)],
+        Translation: [player_position[0], 5, player_position[2]],
+        Using: [
+            player_control(),
+            walking(~~(map_size / 2), ~~(map_size / 2)),
+            move(25, 0),
+            collide(true, [3, 7, 3], RayTarget.Player),
+        ],
+        Children: [
+            get_character_blueprint(game),
+            {
+                Translation: [0, 25, 0],
+                Using: [light([1, 1, 1], 20)],
+            },
+        ],
     });
 
     // Camera.

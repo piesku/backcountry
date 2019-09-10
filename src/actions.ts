@@ -7,8 +7,8 @@ import {rand} from "./math/random.js";
 import {widget_damage} from "./widgets/wid_damage.js";
 import {world_desert} from "./worlds/wor_desert.js";
 import {world_intro} from "./worlds/wor_intro.js";
-import {world_map} from "./worlds/wor_map.js";
 import {world_mine} from "./worlds/wor_mine.js";
+import {world_town} from "./worlds/wor_town.js";
 import {world_wanted} from "./worlds/wor_wanted.js";
 
 export interface GameState {
@@ -64,7 +64,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             break;
         }
         case Action.GoToTown: {
-            game.WorldFunc = world_map;
+            game.WorldFunc = world_town;
             setTimeout(game.WorldFunc, 0, game);
             break;
         }
