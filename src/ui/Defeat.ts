@@ -19,7 +19,7 @@ export function Defeat() {
             text-align: center;
             font-size: 10vh;
         ">
-            <button onclick="$(${Action.GoToIntro});">
+            <button onclick="$(${Action.EndChallenge});">
                 TRY AGAIN
             </button>
         </div>

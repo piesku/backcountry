@@ -5,6 +5,7 @@ import {lifespan} from "./components/com_lifespan.js";
 import {Entity, Game} from "./game.js";
 import {widget_damage} from "./widgets/wid_damage.js";
 import {world_desert} from "./worlds/wor_desert.js";
+import {world_map} from "./worlds/wor_map.js";
 import {world_mine} from "./worlds/wor_mine.js";
 import {world_town} from "./worlds/wor_town.js";
 import {world_wanted} from "./worlds/wor_wanted.js";
@@ -26,7 +27,8 @@ export const enum PlayerState {
 
 export const enum Action {
     InitGame = 1,
-    GoToIntro,
+    CompleteBounty,
+    EndChallenge,
     GoToTown,
     GoToWanted,
     GoToDesert,
@@ -42,11 +44,19 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             game.ChallengeSeed = ~~(Date.now() / (24 * 60 * 60 * 1000));
             break;
         }
-        case Action.GoToIntro: {
+        case Action.CompleteBounty: {
             game.ChallengeLevel += 1;
             game.PlayerState = PlayerState.Playing;
             game.BountySeed = 0;
             game.WorldFunc = world_town;
+            setTimeout(game.WorldFunc, 0, game);
+            break;
+        }
+        case Action.EndChallenge: {
+            game.ChallengeLevel = 1;
+            game.PlayerState = PlayerState.Playing;
+            game.BountySeed = 0;
+            game.WorldFunc = world_map;
             setTimeout(game.WorldFunc, 0, game);
             break;
         }
@@ -96,7 +106,6 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                 // If the boss is killed.
                 if (game[Get.NPC][entity].Bounty) {
                     game.PlayerState = PlayerState.Victory;
-                    game.ChallengeSeed = game.BountySeed;
 
                     // Make all bandits friendly.
                     for (let i = 0; i < game.World.length; i++) {
