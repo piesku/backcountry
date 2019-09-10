@@ -11,7 +11,7 @@ export function App(state: GameState) {
         return Intro();
     }
     if (state.WorldFunc === world_wanted) {
-        return Wanted();
+        return Wanted(state);
     }
     if (state.PlayerState === PlayerState.Victory) {
         return Victory();

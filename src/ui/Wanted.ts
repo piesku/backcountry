@@ -1,11 +1,10 @@
-import {Action} from "../actions.js";
+import {Action, GameState} from "../actions.js";
 
-export function Wanted() {
+export function Wanted(state: GameState) {
     return `
         <div style="
             position: absolute;
             top: 10%;
-            height: 25%;
             width: 100%;
             color: #222;
             text-align: center;
@@ -15,7 +14,17 @@ export function Wanted() {
         </div>
         <div style="
             position: absolute;
-            bottom: 13%;
+            top: 30%;
+            width: 100%;
+            color: #222;
+            text-align: center;
+            font-size: 10vh;
+        ">
+            REWARD $${state.ChallengeLevel},000
+        </div>
+        <div style="
+            position: absolute;
+            bottom: 15%;
             width: 100%;
             text-align: center;
             font-size: 10vh;
