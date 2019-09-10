@@ -74,7 +74,6 @@ export function get_town_gate_blueprint(
             render_vox(
                 {
                     Offsets: Float32Array.from(fence_offsets),
-                    // Size: [1, 1, 1]
                 },
                 main_building_palette
             ),

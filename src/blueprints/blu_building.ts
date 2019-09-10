@@ -23,6 +23,9 @@ export let main_building_palette = [
     0.53,
     0.53,
     0.53,
+    1,
+    1,
+    0,
 ];
 
 let additional_colors = [
@@ -37,6 +40,7 @@ export const enum BuildingColors {
     dark_wood,
     windows,
     tracks,
+    gold,
     color_1,
     color_2,
 }

@@ -36,6 +36,7 @@ export const enum Action {
     GoToMine,
     Hit,
     Die,
+    CollectGold,
 }
 
 export function effect(game: Game, action: Action, args: Array<unknown>) {
@@ -91,6 +92,16 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                 Using: [draw(widget_damage, [damage]), lifespan(1)],
             });
 
+            break;
+        }
+        case Action.CollectGold: {
+            console.log("elo", args);
+            let [entity] = args as [Entity, number];
+            // game.Add({
+            //     Translation: game[Get.Transform][entity].Translation.slice(),
+            //     // Using: [draw(widget_damage, [damage]), lifespan(1)],
+            // });
+            game.Destroy(entity);
             break;
         }
         case Action.Die: {
