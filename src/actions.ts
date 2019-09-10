@@ -48,6 +48,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             break;
         }
         case Action.CompleteBounty: {
+            game.Gold += game.ChallengeLevel * 1000;
             game.ChallengeLevel += 1;
             game.PlayerState = PlayerState.Playing;
             game.BountySeed = 0;
@@ -56,6 +57,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             break;
         }
         case Action.EndChallenge: {
+            game.Gold = 0;
             game.ChallengeLevel = 1;
             game.PlayerState = PlayerState.Playing;
             game.BountySeed = 0;
