@@ -7,7 +7,7 @@ import {trigger} from "../components/com_trigger.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
 import {integer} from "../math/random.js";
-import {BuildingColors, main_building_palette} from "./blu_building.js";
+import {main_palette, PaletteColors} from "./blu_building.js";
 import {Blueprint, create_line} from "./blu_common.js";
 
 export function get_gold_blueprint(game: Game): Blueprint {
@@ -18,10 +18,10 @@ export function get_gold_blueprint(game: Game): Blueprint {
             render_vox(
                 {
                     Offsets: Float32Array.from(
-                        create_line([-1, 0, 0], [1, 0, 0], BuildingColors.gold)
+                        create_line([-1, 0, 0], [1, 0, 0], PaletteColors.gold)
                     ),
                 },
-                main_building_palette
+                main_palette
             ),
             cull(Get.Render),
             collide(false, [4, 4, 4]),

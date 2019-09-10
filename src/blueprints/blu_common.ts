@@ -3,6 +3,7 @@ import {Quat, Vec3} from "../math";
 import {rand} from "../math/random.js";
 import {distance, lerp} from "../math/vec3.js";
 import {Model} from "../model";
+import {PaletteColors} from "./blu_building";
 
 export type Color = [number, number, number];
 export type Mixin = (game: Game, entity: Entity) => void;
@@ -15,15 +16,15 @@ export interface Blueprint {
     Children?: Array<Blueprint>;
 }
 
-export function create_tile(size: number, size_y = size, probability: number = 0.01) {
+export function create_tile(size: number, colors: [number, number]) {
     let offsets = [];
     for (let x = 0; x < size; x++) {
-        for (let y = 0; y < size_y; y++) {
+        for (let y = 0; y < size; y++) {
             offsets.push(
                 x - size / 2 + 0.5,
                 0.5,
-                y - size_y / 2 + 0.5,
-                rand() > probability ? 0 : 1
+                y - size / 2 + 0.5,
+                rand() > 0.01 ? colors[0] : colors[1]
             );
         }
     }
@@ -42,7 +43,7 @@ export function create_block(size: number, height: number) {
                     x - size / 2 + 0.5,
                     z - size / 2 + 0.5,
                     y - size / 2 + 0.5,
-                    rand() > 0.4 ? 0 : 1
+                    rand() > 0.4 ? PaletteColors.mine_ground_1 : PaletteColors.mine_ground_2
                 );
             }
         }

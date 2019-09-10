@@ -1,3 +1,4 @@
+import {BuildingColors} from "../blueprints/blu_building.js";
 import {get_character_blueprint} from "../blueprints/blu_character.js";
 import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
 import {create_iso_camera} from "../blueprints/blu_iso_camera.js";
@@ -42,15 +43,18 @@ export function world_mine(game: Game) {
 
     generate_maze(game, [0, map_size - 1], [0, map_size - 1], map_size, 0.3);
 
-    let palette = [0.2, 0.2, 0.2, 0.5, 0.5, 0.5];
+    // let palette = [0.2, 0.2, 0.2, 0.5, 0.5, 0.5];
     // Ground.
     for (let x = 0; x < map_size; x++) {
         for (let y = 0; y < map_size; y++) {
             let is_walkable = game.Grid[x][y] == Infinity;
             // let is_walkable = true; // rand() > 0.04;
             let tile_blueprint = is_walkable
-                ? get_tile_blueprint(game, is_walkable, x, y, palette)
-                : get_mine_wall_blueprint(game, palette);
+                ? get_tile_blueprint(game, is_walkable, x, y, [
+                      BuildingColors.mine_ground_1,
+                      BuildingColors.mine_ground_2,
+                  ])
+                : get_mine_wall_blueprint(game);
 
             game.Add({
                 ...tile_blueprint,

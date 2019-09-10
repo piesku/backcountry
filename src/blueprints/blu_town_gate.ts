@@ -3,7 +3,7 @@ import {collide} from "../components/com_collide.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {trigger} from "../components/com_trigger.js";
 import {Game} from "../game.js";
-import {BuildingColors, main_building_palette} from "./blu_building.js";
+import {main_palette, PaletteColors} from "./blu_building.js";
 import {Blueprint, create_line} from "./blu_common.js";
 
 export function get_town_gate_blueprint(
@@ -20,12 +20,12 @@ export function get_town_gate_blueprint(
         ...create_line(
             [4, height, -map_size * 4],
             [4, height, -map_size * 4 + fence_width],
-            BuildingColors.wood
+            PaletteColors.wood
         ),
         ...create_line(
             [4, height, -map_size * 4 + fence_width + gate_size],
             [4, height, map_size * 4],
-            BuildingColors.wood
+            PaletteColors.wood
         ),
     ];
 
@@ -34,17 +34,17 @@ export function get_town_gate_blueprint(
         ...create_line(
             [4, 0, -map_size * 4 + fence_width],
             [4, 20, -map_size * 4 + fence_width],
-            BuildingColors.wood
+            PaletteColors.wood
         ),
         ...create_line(
             [4, 0, -map_size * 4 + fence_width + gate_size],
             [4, 20, -map_size * 4 + fence_width + gate_size],
-            BuildingColors.wood
+            PaletteColors.wood
         ),
         ...create_line(
             [4, 20, -map_size * 4 + fence_width],
             [4, 20, -map_size * 4 + fence_width + gate_size + 1],
-            BuildingColors.wood
+            PaletteColors.wood
         )
     );
 
@@ -57,14 +57,14 @@ export function get_town_gate_blueprint(
             ...create_line(
                 [4, height, -map_size * 4 + fence_width],
                 [4, height, -map_size * 4 + fence_width + gate_size],
-                BuildingColors.wood
+                PaletteColors.wood
             )
         );
     }
 
     for (let i = -(map_size / 2) * 8; i < (map_size / 2) * 8; i += 6) {
         if (i < -map_size * 4 + fence_width || i > -map_size * 4 + fence_width + gate_size) {
-            fence_offsets.push(...create_line([4, 0, i], [4, height + 2, i], BuildingColors.wood));
+            fence_offsets.push(...create_line([4, 0, i], [4, height + 2, i], PaletteColors.wood));
         }
     }
 
@@ -75,7 +75,7 @@ export function get_town_gate_blueprint(
                 {
                     Offsets: Float32Array.from(fence_offsets),
                 },
-                main_building_palette
+                main_palette
             ),
         ],
         Children: [
