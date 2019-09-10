@@ -6,29 +6,16 @@ export function raycast(game: Game, colliders: Array<Collide>, origin: Vec3, dir
     let nearest_t = Infinity;
     let nearest_i = null;
     for (let i = 0; i < colliders.length; i++) {
-        if (!inside(origin, colliders[i])) {
-            let t = distance(origin, direction, colliders[i]);
-            if (t < nearest_t) {
-                nearest_t = t;
-                nearest_i = i;
-            }
+        let t = distance(origin, direction, colliders[i]);
+        if (t < nearest_t) {
+            nearest_t = t;
+            nearest_i = i;
         }
     }
 
     if (nearest_i !== null) {
         return colliders[nearest_i];
     }
-}
-
-function inside(origin: Vec3, aabb: Collide) {
-    return (
-        origin[0] >= aabb.Min[0] &&
-        origin[0] <= aabb.Max[0] &&
-        origin[1] >= aabb.Min[1] &&
-        origin[1] <= aabb.Max[1] &&
-        origin[2] >= aabb.Min[2] &&
-        origin[2] <= aabb.Max[2]
-    );
 }
 
 function distance(origin: Vec3, direction: Vec3, aabb: Collide) {
