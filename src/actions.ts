@@ -18,6 +18,7 @@ export interface GameState {
     Trophies: Array<number>;
     PlayerState: PlayerState;
     PlayerHealth?: Health;
+    Gold: number;
 }
 
 export const enum PlayerState {
@@ -95,9 +96,11 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             break;
         }
         case Action.CollectGold: {
-            console.log("elo", args);
             let [entity] = args as [Entity, number];
             let value = integer(100, 1000);
+
+            game.Gold += value;
+
             game.Add({
                 Translation: game[Get.Transform][game.Player!].Translation.slice(),
                 Using: [draw(widget_damage, [value, "$"]), lifespan(1)],
