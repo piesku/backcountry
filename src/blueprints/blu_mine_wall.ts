@@ -4,7 +4,7 @@ import {Get} from "../components/com_index.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
 import {rand} from "../math/random.js";
-import {main_building_palette} from "./blu_building.js";
+import {main_palette} from "./blu_building.js";
 import {Blueprint, create_block} from "./blu_common.js";
 import {create_lamp} from "./blu_lamp.js";
 
@@ -12,7 +12,7 @@ export function get_mine_wall_blueprint(game: Game): Blueprint {
     let tile_model = create_block(8, 6);
     let Children: Array<Blueprint> = [
         {
-            Using: [render_vox(tile_model, main_building_palette), cull(Get.Render)],
+            Using: [render_vox(tile_model, main_palette), cull(Get.Render)],
         },
     ];
 

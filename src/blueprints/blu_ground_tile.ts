@@ -8,7 +8,7 @@ import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
 import {integer, rand} from "../math/random.js";
-import {BuildingColors, main_building_palette} from "./blu_building.js";
+import {main_palette, PaletteColors} from "./blu_building.js";
 import {get_cactus_blueprint} from "./blu_cactus.js";
 import {get_campfire_blueprint} from "./blu_campfire.js";
 import {Blueprint, create_tile} from "./blu_common.js";
@@ -24,13 +24,13 @@ export function get_tile_blueprint(
     is_walkable: boolean,
     x: number = 0,
     y: number = 0,
-    colors: [number, number] = [BuildingColors.desert_ground_1, BuildingColors.desert_ground_2]
+    colors: [number, number] = [PaletteColors.desert_ground_1, PaletteColors.desert_ground_2]
 ): Blueprint {
     let tile_model = create_tile(tile_size, colors);
 
     let tile: Blueprint = {
         Using: [
-            render_vox(tile_model, main_building_palette),
+            render_vox(tile_model, main_palette),
             cull(Get.Render),
             audio_source(),
             animate({
