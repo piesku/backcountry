@@ -26,9 +26,7 @@ function update(game: Game, entity: Entity) {
             walking.DestinationY = dest[1];
             walking.Destination = game[Get.Transform][destination_entity].Translation;
         }
-    }
-
-    if (walking.Destination) {
+    } else {
         let transform = game[Get.Transform][entity];
         let world_destination = [
             walking.Destination[0],
@@ -43,9 +41,8 @@ function update(game: Game, entity: Entity) {
             walking.Destination = null;
         }
 
-        normalize(dir, dir);
         let move = game[Get.Move][entity];
-        move.Direction = dir;
+        move.Direction = normalize(dir, dir);
         let forward = get_forward([], transform.World);
         let forward_theta = Math.atan2(forward[2], forward[0]);
         let dir_theta = Math.atan2(dir[2], dir[0]);
