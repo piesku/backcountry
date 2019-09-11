@@ -4,7 +4,6 @@ export function Store() {
     return `
         <div style="
             top: 10%;
-            height: 25%;
             text-align: center;
             font-size: 15vmin;
         ">
@@ -18,7 +17,6 @@ export function Store() {
             <div onclick="$(${Action.ChangePlayerSeed});">
                 CHANGE OUTFIT
             </div>
-            <br>
             <div onclick="$(${Action.GoToTown});">
                 EXIT TO TOWN
             </div>

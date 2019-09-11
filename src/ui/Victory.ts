@@ -4,7 +4,6 @@ export function Victory() {
     return `
         <div style="
             top: 10%;
-            height: 25%;
             text-align: center;
             font-size: 15vmin;
         ">
