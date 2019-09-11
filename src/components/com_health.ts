@@ -4,7 +4,7 @@ import {Get} from "./com_index.js";
 export interface Health {
     Max: number;
     Current: number;
-    Damages: Array<number>;
+    Damage?: number;
 }
 
 export function health(Max: number) {
@@ -13,7 +13,6 @@ export function health(Max: number) {
         game[Get.Health][entity] = <Health>{
             Max,
             Current: Max,
-            Damages: [],
         };
     };
 }

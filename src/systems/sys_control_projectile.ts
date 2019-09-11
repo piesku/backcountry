@@ -21,9 +21,8 @@ function update(game: Game, entity: Entity) {
         game.Destroy(entity);
         for (let collider of collide.Collisions) {
             if (game.World[collider.EntityId] & (1 << Get.Health)) {
-                game[Get.Health][collider.EntityId].Damages.push(
-                    Math.random() * projectile.Damage + Math.random() * projectile.Damage
-                );
+                game[Get.Health][collider.EntityId].Damage =
+                    Math.random() * projectile.Damage + Math.random() * projectile.Damage;
             }
         }
     } else {
