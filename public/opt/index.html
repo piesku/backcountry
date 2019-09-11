@@ -21,11 +21,23 @@
     main > div {
         position: absolute;
         width: 100%;
+        font-size: 15vmin;
     }
     [onclick] {
         cursor: pointer;
+        font: 15vmin serif;
+        font-style: italic;
+        font-weight: bold;
+        font-variant: small-caps;
     }
-    [onclick]:hover {
+    [onclick] + div {
+        font: 5vmin serif;
+        font-style: italic;
+    }
+    a {
+        color: #ffe8c6
+    }
+    a:hover, [onclick]:hover {
         color: #fff;
     }
 </style>
