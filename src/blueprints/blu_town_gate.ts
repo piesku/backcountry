@@ -9,13 +9,11 @@ import {Blueprint, create_line} from "./blu_common.js";
 export function get_town_gate_blueprint(
     game: Game,
     map_size: number,
-    height: number,
     gate_size: number,
     fence_line: number
 ): Blueprint {
-    //fence
+    let height = 4;
     let fence_width = (map_size * 8 - gate_size) / 2;
-    // TODO: Move to blueprint
     let fence_offsets = [
         ...create_line(
             [4, height, -map_size * 4],

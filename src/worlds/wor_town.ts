@@ -32,7 +32,6 @@ export function world_town(game: Game) {
     let map_size = 30;
     let fence_line = 20;
     let back_fence_line = 3;
-    let fence_height = 4;
     let fence_gate_size = 16;
 
     game.World = [];
@@ -60,9 +59,9 @@ export function world_town(game: Game) {
         }
     }
 
-    game.Add(get_town_gate_blueprint(game, map_size, fence_height, fence_gate_size, fence_line));
+    game.Add(get_town_gate_blueprint(game, map_size, fence_gate_size, fence_line));
     game.Add({
-        ...get_town_gate_blueprint(game, map_size, fence_height, 0, back_fence_line + 1),
+        ...get_town_gate_blueprint(game, map_size, 0, back_fence_line + 1),
         Rotation: from_euler([], 0, 180, 0),
     });
 

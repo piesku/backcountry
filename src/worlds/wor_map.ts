@@ -49,7 +49,7 @@ export function world_map(game: Game) {
         }
     }
 
-    game.Add(get_town_gate_blueprint(game, map_size, fence_height, fence_gate_size, fence_line));
+    game.Add(get_town_gate_blueprint(game, map_size, fence_gate_size, fence_line));
 
     // Directional light and Soundtrack
     game.Add({
