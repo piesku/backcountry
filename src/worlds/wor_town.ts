@@ -44,7 +44,7 @@ export function world_town(game: Game) {
     game.World = [];
     game.Grid = [];
 
-    game.GL.clearColor(1, 0.3, 0.3, 1);
+    game.GL.clearColor(0.8, 0.3, 0.2, 1);
 
     // Ground.
     for (let x = 0; x < map_size; x++) {
@@ -56,10 +56,6 @@ export function world_town(game: Game) {
             // generated on the fence line
             let is_walkable =
                 is_fence || characters_spawning_points.includes(`${x}${y}`) || rand() > 0.04;
-
-            // if () {
-            //     is_walkable = true;
-            // }
 
             game.Grid[x][y] = is_walkable && !is_fence ? Infinity : NaN;
             let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y, false);

@@ -8,7 +8,7 @@ import {set_seed} from "../math/random.js";
 export function world_wanted(game: Game) {
     set_seed(game.BountySeed);
     game.World = [];
-    game.GL.clearColor(0.95, 0.73, 0.35, 1);
+    game.GL.clearColor(0.9, 0.7, 0.3, 1);
 
     // Bandit.
     game.Add({

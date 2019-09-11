@@ -28,7 +28,7 @@ export function world_mine(game: Game) {
     game.World = [];
     game.Grid = [];
 
-    game.GL.clearColor(1, 0.3, 0.3, 1);
+    game.GL.clearColor(0.8, 0.3, 0.2, 1);
 
     let map_size = 30;
     for (let x = 0; x < map_size; x++) {

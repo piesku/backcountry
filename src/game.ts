@@ -55,7 +55,7 @@ import {sys_shoot} from "./systems/sys_shoot.js";
 import {sys_transform} from "./systems/sys_transform.js";
 import {sys_trigger} from "./systems/sys_trigger.js";
 import {sys_ui} from "./systems/sys_ui.js";
-import {GL_CULL_FACE, GL_CW, GL_DEPTH_TEST} from "./webgl.js";
+import {GL_CULL_FACE, GL_DEPTH_TEST} from "./webgl.js";
 import {world_map} from "./worlds/wor_map.js";
 
 const MAX_ENTITIES = 10000;
@@ -133,7 +133,7 @@ export class Game implements ComponentData, GameState {
         );
 
         this.Canvas3 = document.querySelector("canvas")! as HTMLCanvasElement;
-        this.Canvas2 = this.Canvas3.nextElementSibling! as HTMLCanvasElement;
+        this.Canvas2 = document.querySelector("canvas + canvas")! as HTMLCanvasElement;
         this.Canvas3.width = this.Canvas2.width = window.innerWidth;
         this.Canvas3.height = this.Canvas2.height = window.innerHeight;
 
@@ -150,15 +150,9 @@ export class Game implements ComponentData, GameState {
             }
         }
 
-        window.addEventListener("keydown", evt => (this.Input[evt.code] = 1));
-        window.addEventListener("keyup", evt => (this.Input[evt.code] = 0));
         this.UI.addEventListener("contextmenu", evt => evt.preventDefault());
         this.UI.addEventListener("mousedown", evt => {
-            this.Input[`m${evt.button}`] = 1;
             this.Input[`d${evt.button}`] = 1;
-        });
-        this.UI.addEventListener("mouseup", evt => {
-            this.Input[`m${evt.button}`] = 0;
         });
         this.UI.addEventListener("mousemove", evt => {
             this.Input.mx = evt.offsetX;
@@ -167,7 +161,6 @@ export class Game implements ComponentData, GameState {
 
         this.GL.enable(GL_DEPTH_TEST);
         this.GL.enable(GL_CULL_FACE);
-        this.GL.frontFace(GL_CW);
 
         this.Materials[Mat.Instanced] = mat_instanced(this.GL);
         this.Materials[Mat.Particles] = mat_particles(this.GL);
@@ -183,7 +176,9 @@ export class Game implements ComponentData, GameState {
         return ERROR.NO_MORE_ENTITES_AVAILABLE;
     }
 
-    FixedUpdate(delta: number) {
+    Update(delta: number) {
+        sys_audio(this, delta);
+        sys_camera(this, delta);
         // Player input and AI.
         sys_select(this, delta);
         sys_player_control(this, delta);
@@ -207,24 +202,20 @@ export class Game implements ComponentData, GameState {
         sys_cull(this, delta);
         sys_lifespan(this, delta);
 
-        this.Input.d0 = 0;
-        this.Input.d2 = 0;
-    }
-
-    FrameUpdate(delta: number) {
-        sys_audio(this, delta);
-        sys_camera(this, delta);
+        // Render
         sys_render(this, delta);
         sys_draw(this, delta);
         sys_ui(this, delta);
+
+        this.Input.d0 = 0;
+        this.Input.d2 = 0;
     }
 
     Start() {
         let last = performance.now();
         let tick = (now: number) => {
             let delta = (now - last) / 1000;
-            this.FrameUpdate(delta);
-            this.FixedUpdate(delta);
+            this.Update(delta);
             last = now;
             this.RAF = requestAnimationFrame(tick);
         };

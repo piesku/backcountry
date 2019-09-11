@@ -5,6 +5,7 @@ import {lifespan} from "./components/com_lifespan.js";
 import {Entity, Game} from "./game.js";
 import {integer} from "./math/random.js";
 import {widget_damage} from "./widgets/wid_damage.js";
+import {widget_player_hit} from "./widgets/wid_player_hit.js";
 import {world_desert} from "./worlds/wor_desert.js";
 import {world_map} from "./worlds/wor_map.js";
 import {world_mine} from "./worlds/wor_mine.js";
@@ -100,6 +101,11 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                 Translation: game[Get.Transform][entity].Translation.slice(),
                 Using: [draw(widget_damage, [damage]), lifespan(1)],
             });
+            if (game.World[entity] & (1 << Get.PlayerControl)) {
+                game.Add({
+                    Using: [draw(widget_player_hit), lifespan(1)],
+                });
+            }
 
             break;
         }
