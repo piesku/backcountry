@@ -3,6 +3,7 @@ import {get_character_blueprint} from "../blueprints/blu_character.js";
 import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
 import {create_iso_camera} from "../blueprints/blu_iso_camera.js";
 import {get_mine_entrance_blueprint} from "../blueprints/blu_mine_entrance.js";
+import {get_town_gate_blueprint} from "../blueprints/blu_town_gate.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide, RayTarget} from "../components/com_collide.js";
 import {player_control} from "../components/com_control_player.js";
@@ -17,6 +18,7 @@ import {render_vox} from "../components/com_render_vox.js";
 import {shoot} from "../components/com_shoot.js";
 import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
+import {from_euler} from "../math/quat.js";
 import {integer, set_seed} from "../math/random.js";
 import {snd_music} from "../sounds/snd_music.js";
 import {widget_healthbar} from "../widgets/wid_healthbar.js";
@@ -29,6 +31,8 @@ export function world_desert(game: Game) {
     let entrance_position_z = 28;
     let entrance_width = 4;
     let entrance_length = 6;
+    let fence_line = 0;
+
     game.World = [];
     game.Grid = [];
 
@@ -44,6 +48,11 @@ export function world_desert(game: Game) {
             }
         }
     }
+
+    game.Add({
+        Rotation: from_euler([], 0, 180, 0),
+        ...get_town_gate_blueprint(game, map_size, 0, fence_line + 1),
+    });
 
     generate_maze(game, [0, map_size - 1], [0, map_size - 1], map_size, 0.6);
 
@@ -61,7 +70,12 @@ export function world_desert(game: Game) {
     for (let x = 0; x < map_size; x++) {
         for (let y = 0; y < map_size; y++) {
             let is_walkable = game.Grid[x][y] === Infinity;
-            let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y);
+            let tile_blueprint = get_tile_blueprint(
+                game,
+                x === fence_line ? true : is_walkable,
+                x,
+                y
+            );
 
             game.Add({
                 ...tile_blueprint,
