@@ -58,7 +58,7 @@ import {sys_shoot} from "./systems/sys_shoot.js";
 import {sys_transform} from "./systems/sys_transform.js";
 import {sys_trigger} from "./systems/sys_trigger.js";
 import {sys_ui} from "./systems/sys_ui.js";
-import {GL_CULL_FACE, GL_CW, GL_DEPTH_TEST} from "./webgl.js";
+import {GL_CULL_FACE, GL_DEPTH_TEST} from "./webgl.js";
 import {world_map} from "./worlds/wor_map.js";
 
 const MAX_ENTITIES = 10000;
@@ -168,7 +168,6 @@ export class Game implements ComponentData, GameState {
 
         this.GL.enable(GL_DEPTH_TEST);
         this.GL.enable(GL_CULL_FACE);
-        this.GL.frontFace(GL_CW);
 
         this.Materials[Mat.Wireframe] = mat_wireframe(this.GL);
         this.Materials[Mat.Instanced] = mat_instanced(this.GL);
