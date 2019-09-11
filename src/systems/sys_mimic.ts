@@ -17,7 +17,7 @@ export function sys_mimic(game: Game, delta: number) {
                 [],
                 follower_transform.Translation,
                 target_world_position,
-                follower_mimic.Stiffness
+                0.1
             );
             follower_transform.Dirty = true;
         }

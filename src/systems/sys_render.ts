@@ -47,19 +47,23 @@ export function sys_render(game: Game, delta: number) {
 
             if (render.Material !== current_material) {
                 current_material = render.Material;
-
-                let {GL: gl, Program: program, Uniforms: uniforms} = current_material;
-                gl.useProgram(program);
-                gl.uniformMatrix4fv(uniforms[0], false, game.Camera!.PV);
+                game.GL.useProgram(current_material.Program);
+                game.GL.uniformMatrix4fv(current_material.Uniforms[0], false, game.Camera!.PV);
 
                 switch (render.Kind) {
                     case RenderKind.Instanced:
-                        gl.uniform1i(
-                            uniforms[InstancedUniform.LightCount],
+                        game.GL.uniform1i(
+                            current_material.Uniforms[InstancedUniform.LightCount],
                             light_positions.length / 3
                         );
-                        gl.uniform3fv(uniforms[InstancedUniform.LightPositions], light_positions);
-                        gl.uniform4fv(uniforms[InstancedUniform.LightDetails], light_details);
+                        game.GL.uniform3fv(
+                            current_material.Uniforms[InstancedUniform.LightPositions],
+                            light_positions
+                        );
+                        game.GL.uniform4fv(
+                            current_material.Uniforms[InstancedUniform.LightDetails],
+                            light_details
+                        );
                         break;
                 }
             }
@@ -71,7 +75,7 @@ export function sys_render(game: Game, delta: number) {
                 case RenderKind.Particles: {
                     let emitter = game[Get.EmitParticles][i];
                     if (emitter.Instances.length) {
-                        draw_particles(render, emitter);
+                        draw_particles(game, render, emitter);
                     }
                     break;
                 }
@@ -81,21 +85,36 @@ export function sys_render(game: Game, delta: number) {
 }
 
 function draw_instanced(game: Game, transform: Transform, render: RenderInstanced) {
-    let {GL, Mode, Uniforms} = render.Material;
-    GL.uniformMatrix4fv(Uniforms[InstancedUniform.World], false, transform.World);
-    GL.uniformMatrix4fv(Uniforms[InstancedUniform.Self], false, transform.Self);
-    GL.uniform3fv(Uniforms[InstancedUniform.Palette], render.Palette || game.Palette);
-    GL.bindVertexArray(render.VAO);
-    GL.drawElementsInstanced(Mode, render.IndexCount, GL_UNSIGNED_SHORT, 0, render.InstanceCount);
-    GL.bindVertexArray(null);
+    game.GL.uniformMatrix4fv(
+        render.Material.Uniforms[InstancedUniform.World],
+        false,
+        transform.World
+    );
+    game.GL.uniformMatrix4fv(
+        render.Material.Uniforms[InstancedUniform.Self],
+        false,
+        transform.Self
+    );
+    game.GL.uniform3fv(
+        render.Material.Uniforms[InstancedUniform.Palette],
+        render.Palette || game.Palette
+    );
+    game.GL.bindVertexArray(render.VAO);
+    game.GL.drawElementsInstanced(
+        render.Material.Mode,
+        render.IndexCount,
+        GL_UNSIGNED_SHORT,
+        0,
+        render.InstanceCount
+    );
+    game.GL.bindVertexArray(null);
 }
 
-function draw_particles(render: RenderParticles, emitter: EmitParticles) {
-    let {GL, Mode, Uniforms} = render.Material;
-    GL.uniform4fv(Uniforms[ParticleUniform.Detail], render.ColorSize);
-    GL.bindBuffer(GL_ARRAY_BUFFER, render.Buffer);
-    GL.bufferData(GL_ARRAY_BUFFER, Float32Array.from(emitter.Instances), GL_DYNAMIC_DRAW);
-    GL.enableVertexAttribArray(ParticleAttribute.Origin);
-    GL.vertexAttribPointer(ParticleAttribute.Origin, 4, GL_FLOAT, false, 4 * 4, 0);
-    GL.drawArrays(Mode, 0, emitter.Instances.length / 4);
+function draw_particles(game: Game, render: RenderParticles, emitter: EmitParticles) {
+    game.GL.uniform4fv(render.Material.Uniforms[ParticleUniform.Detail], render.ColorSize);
+    game.GL.bindBuffer(GL_ARRAY_BUFFER, render.Buffer);
+    game.GL.bufferData(GL_ARRAY_BUFFER, Float32Array.from(emitter.Instances), GL_DYNAMIC_DRAW);
+    game.GL.enableVertexAttribArray(ParticleAttribute.Origin);
+    game.GL.vertexAttribPointer(ParticleAttribute.Origin, 4, GL_FLOAT, false, 4 * 4, 0);
+    game.GL.drawArrays(render.Material.Mode, 0, emitter.Instances.length / 4);
 }

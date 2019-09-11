@@ -64,7 +64,7 @@ export function get_tile_blueprint(
 
     if (rand() > 0.85 && is_walkable) {
         tile.Children!.push(get_block_blueprint(game));
-    } else if (has_gold && rand() > 0.99) {
+    } else if (has_gold && rand() < 0.01 && is_walkable) {
         tile.Children!.push(get_gold_blueprint(game));
     }
 

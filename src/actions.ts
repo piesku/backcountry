@@ -91,7 +91,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             break;
         }
         case Action.GoToMine: {
-            game.WorldFunc = world_mine;
+            game.WorldFunc = game.BountySeed ? world_mine : world_town;
             setTimeout(game.WorldFunc, 0, game);
             break;
         }
