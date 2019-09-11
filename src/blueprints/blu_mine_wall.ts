@@ -17,7 +17,7 @@ export function get_mine_wall_blueprint(game: Game): Blueprint {
     ];
 
     if (rand() < 0.1) {
-        Children.push(create_lamp(game));
+        Children.push(create_lamp());
     }
 
     return {
