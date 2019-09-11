@@ -26,7 +26,9 @@ function update(game: Game, entity: Entity) {
             walking.DestinationY = dest[1];
             walking.Destination = game[Get.Transform][destination_entity].Translation;
         }
-    } else {
+    }
+
+    if (walking.Destination) {
         let transform = game[Get.Transform][entity];
         let world_destination = [
             walking.Destination[0],
