@@ -1,7 +1,7 @@
 import {Get} from "../components/com_index.js";
 import {Entity, Game} from "../game.js";
 import {get_forward} from "../math/mat4.js";
-import {from_axis} from "../math/quat.js";
+import {from_euler} from "../math/quat.js";
 import {subtract} from "../math/vec3.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Shoot);
@@ -23,6 +23,6 @@ function update(game: Game, entity: Entity) {
         let forward_theta = Math.atan2(forward[2], forward[0]);
         let dir = subtract([], shoot.Target, transform.Translation);
         let dir_theta = Math.atan2(dir[2], dir[0]);
-        move.Yaw = from_axis([], [0, 1, 0], forward_theta - dir_theta);
+        move.Yaw = from_euler([], 0, (forward_theta - dir_theta) * 57, 0);
     }
 }
