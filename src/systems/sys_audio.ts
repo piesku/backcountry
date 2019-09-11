@@ -2,11 +2,9 @@ import {play_note} from "../audio.js";
 import {Get} from "../components/com_index.js";
 import {Entity, Game} from "../game.js";
 
-const QUERY = 1 << Get.AudioSource;
-
 export function sys_audio(game: Game, delta: number) {
     for (let i = 0; i < game.World.length; i++) {
-        if ((game.World[i] & QUERY) === QUERY) {
+        if (game.World[i] & (1 << Get.AudioSource)) {
             update(game, i, delta);
         }
     }
@@ -17,14 +15,14 @@ function update(game: Game, entity: Entity, delta: number) {
     let can_exit = !audio_source.Current || audio_source.Time > audio_source.Current.Exit;
 
     if (audio_source.Trigger && can_exit) {
-        // Seconds per beat, corresponding to a quarter note.
-        let spb = 60 / (audio_source.Trigger.BPM || 120);
-        // Track timing is based on sixteenth notes.
-        let interval = spb / 4;
         for (let track of audio_source.Trigger.Tracks) {
             for (let i = 0; i < track.Notes.length; i++) {
                 if (track.Notes[i]) {
-                    play_note(game.Audio, track.Instrument, track.Notes[i], i * interval);
+                    // The duration of the note, 0.15 seconds, is calculated
+                    // assuming BPM of 100. That's 60/100 seconds per beat,
+                    // corresponding to a quarter note, divided by 4 to get an
+                    // interval of a sixteenth note.
+                    play_note(game.Audio, track.Instrument, track.Notes[i], i * 0.15);
                 }
             }
         }
