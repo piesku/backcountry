@@ -16,17 +16,15 @@ import {get_gold_blueprint} from "./blu_gold.js";
 import {get_block_blueprint} from "./blu_ground_block.js";
 import {get_rock_blueprint} from "./blu_rock.js";
 
-// let initial_palette = [];
-let tile_size = 8;
-
 export function get_tile_blueprint(
     game: Game,
     is_walkable: boolean,
     x: number = 0,
     y: number = 0,
+    has_gold: boolean = true,
     colors: [number, number] = [PaletteColors.desert_ground_1, PaletteColors.desert_ground_2]
 ): Blueprint {
-    let tile_model = create_tile(tile_size, colors);
+    let tile_model = create_tile(8, colors);
 
     let tile: Blueprint = {
         Using: [
@@ -66,7 +64,7 @@ export function get_tile_blueprint(
 
     if (rand() > 0.85 && is_walkable) {
         tile.Children!.push(get_block_blueprint(game));
-    } else if (rand() > 0.99) {
+    } else if (has_gold && rand() > 0.99) {
         tile.Children!.push(get_gold_blueprint(game));
     }
 

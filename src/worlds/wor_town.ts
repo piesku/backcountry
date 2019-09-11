@@ -62,7 +62,7 @@ export function world_town(game: Game) {
             // }
 
             game.Grid[x][y] = is_walkable && !is_fence ? Infinity : NaN;
-            let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y);
+            let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y, false);
 
             game.Add({
                 ...tile_blueprint,
