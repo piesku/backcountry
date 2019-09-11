@@ -1,24 +1,22 @@
 import {RayTarget} from "../components/com_collide.js";
 import {Get} from "../components/com_index.js";
 import {find_navigable, Navigable} from "../components/com_navigable.js";
-import {Select} from "../components/com_select.js";
 import {Entity, Game} from "../game.js";
 import {get_translation} from "../math/mat4.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.PlayerControl) | (1 << Get.Walking);
 
 export function sys_player_control(game: Game, delta: number) {
-    if (game.World[game.Camera!.EntityId] & (1 << Get.Select)) {
-        let cursor = game[Get.Select][game.Camera!.EntityId];
-        for (let i = 0; i < game.World.length; i++) {
-            if ((game.World[i] & QUERY) === QUERY) {
-                update(game, i, cursor);
-            }
+    for (let i = 0; i < game.World.length; i++) {
+        if ((game.World[i] & QUERY) === QUERY) {
+            update(game, i);
         }
     }
 }
 
-function update(game: Game, entity: Entity, cursor: Select) {
+function update(game: Game, entity: Entity) {
+    // Player is controllable only in scenes with mouse picking.
+    let cursor = game[Get.Select][game.Camera!.EntityId];
     if (game.Input.d0 && cursor.Hit) {
         if (cursor.Hit.Flags & RayTarget.Navigable) {
             let route = get_route(game, entity, game[Get.Navigable][cursor.Hit.EntityId]);
