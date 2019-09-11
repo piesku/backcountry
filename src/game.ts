@@ -136,7 +136,7 @@ export class Game implements ComponentData, GameState {
         );
 
         this.Canvas3 = document.querySelector("canvas")! as HTMLCanvasElement;
-        this.Canvas2 = this.Canvas3.nextElementSibling! as HTMLCanvasElement;
+        this.Canvas2 = document.querySelector("canvas + canvas")! as HTMLCanvasElement;
         this.Canvas3.width = this.Canvas2.width = window.innerWidth;
         this.Canvas3.height = this.Canvas2.height = window.innerHeight;
 
