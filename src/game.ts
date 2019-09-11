@@ -187,9 +187,10 @@ export class Game implements ComponentData, GameState {
         throw new Error("No more entities available.");
     }
 
-    FixedUpdate(delta: number) {
-        let now = performance.now();
-
+    Update(delta: number) {
+        let cpu = performance.now();
+        sys_audio(this, delta);
+        sys_camera(this, delta);
         // Player input and AI.
         sys_select(this, delta);
         sys_player_control(this, delta);
@@ -213,36 +214,30 @@ export class Game implements ComponentData, GameState {
         sys_cull(this, delta);
         sys_lifespan(this, delta);
 
-        // Performance.
-        sys_performance(this, performance.now() - now, document.querySelector("#fixed"));
+        // CPU Performance.
+        sys_performance(this, performance.now() - cpu, document.querySelector("#cpu"));
 
         // Debug.
         false && sys_debug(this, delta);
 
-        this.Input.d0 = 0;
-        this.Input.d2 = 0;
-    }
-
-    FrameUpdate(delta: number) {
-        let now = performance.now();
-
-        sys_audio(this, delta);
-        sys_camera(this, delta);
+        let gpu = performance.now();
         sys_render(this, delta);
         sys_draw(this, delta);
         sys_ui(this, delta);
 
-        // Performance.
-        sys_performance(this, performance.now() - now, document.querySelector("#frame"));
+        // GPU Performance.
+        sys_performance(this, performance.now() - gpu, document.querySelector("#gpu"));
         sys_framerate(this, delta);
+
+        this.Input.d0 = 0;
+        this.Input.d2 = 0;
     }
 
     Start() {
         let last = performance.now();
         let tick = (now: number) => {
             let delta = (now - last) / 1000;
-            this.FrameUpdate(delta);
-            this.FixedUpdate(delta);
+            this.Update(delta);
             last = now;
             this.RAF = requestAnimationFrame(tick);
         };
