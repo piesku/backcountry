@@ -19,13 +19,13 @@ export function Store() {
             text-align: center;
             font-size: 10vmin;
         ">
-            <button onclick="$(${Action.ChangePlayerSeed});">
+            <div onclick="$(${Action.ChangePlayerSeed});">
                 CHANGE OUTFIT
-            </button>
+            </div>
             <br>
-            <button onclick="$(${Action.GoToTown});">
+            <div onclick="$(${Action.GoToTown});">
                 EXIT TO TOWN
-            </button>
+            </div>
         </div>
     `;
 }

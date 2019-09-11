@@ -11,9 +11,9 @@ export function Intro() {
             <div style="margin: auto 0; font-size: 15vmin;">
                 BACK<br/>COUNTRY
                 <hr style="border: solid #D45230 10px;" />
-                <button onclick="$(${Action.GoToTown});">
+                <div onclick="$(${Action.GoToTown});">
                     PLAY
-                </button>
+                </div>
             </div>
         </div>
     `;

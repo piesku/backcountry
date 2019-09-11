@@ -29,9 +29,9 @@ export function Wanted(state: GameState) {
             text-align: center;
             font-size: 10vmin;
         ">
-            <button onclick="$(${Action.GoToTown});">
+            <div onclick="$(${Action.GoToTown});">
                 ACCEPT BOUNTY
-            </button>
+            </div>
         </div>
     `;
 }

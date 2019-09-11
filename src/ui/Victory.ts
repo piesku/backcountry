@@ -19,9 +19,9 @@ export function Victory() {
             text-align: center;
             font-size: 10vmin;
         ">
-            <button onclick="$(${Action.CompleteBounty});">
+            <div onclick="$(${Action.CompleteBounty});">
                 COLLECT BOUNTY
-            </button>
+            </div>
         </div>
     `;
 }

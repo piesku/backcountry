@@ -21,13 +21,13 @@ export function Defeat(state: GameState) {
             text-align: center;
             font-size: 10vmin;
         ">
-            <button onclick="$(${Action.EndChallenge});">
+            <div onclick="$(${Action.EndChallenge});">
                 TRY AGAIN
-            </button>
+            </div>
             <br>
-            <button onclick="alert('Not implemented yet! You score was ${state.Gold}');">
+            <div onclick="alert('Not implemented yet! You score was ${state.Gold}');">
                 TWEET SCORE
-            </button>
+            </div>
         </div>
     `;
 }
