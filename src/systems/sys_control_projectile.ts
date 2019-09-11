@@ -1,6 +1,6 @@
 import {Get} from "../components/com_index.js";
 import {Entity, Game} from "../game.js";
-import {transform_direction} from "../math/vec3.js";
+import {get_forward} from "../math/mat4.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Collide) | (1 << Get.Move) | (1 << Get.Projectile);
 
@@ -27,6 +27,6 @@ function update(game: Game, entity: Entity) {
         }
     } else {
         // Always move in the projectile's front direction.
-        move.Direction = transform_direction([], [0, 0, 1], game[Get.Transform][entity].World);
+        move.Direction = get_forward([], game[Get.Transform][entity].World);
     }
 }
