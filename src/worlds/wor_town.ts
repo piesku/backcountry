@@ -191,6 +191,10 @@ export function world_town(game: Game) {
         ],
     });
 
+    game.Add({
+        Translation: [16, 0, 0],
+        Using: [collide(false, [8, 8, 8]), trigger(Action.GoToDesert)],
+    });
     // Dio-cube
     game.Add({
         Scale: [map_size * 8, map_size * 2, map_size * 8],
