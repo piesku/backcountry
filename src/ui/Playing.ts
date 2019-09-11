@@ -2,12 +2,11 @@ import {GameState} from "../actions.js";
 
 export function Playing(state: GameState) {
     return `
-        <div style="
-            top: 5vmin;
-            left: 5vmin;
-            font-size: 10vmin;
+        <p style="
+            margin: 5vmin;
+            font: 10vmin Impact;
         ">
             $${state.Gold.toLocaleString("en-US")}
-        </div>
+        </p>
     `;
 }
