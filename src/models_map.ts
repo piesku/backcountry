@@ -1,12 +1,12 @@
-export const enum Models {
+export const enum Models { 
     BODY = 0,
-    CAC1VOX = 1,
-    CAC2 = 2,
-    CAMPFIRE = 3,
-    CAC3 = 4,
-    FOOT = 5,
-    ROCK = 6,
+    CAC2 = 1,
+    CAMPFIRE = 2,
+    FOOT = 3,
+    CAC1VOX = 4,
+    ROCK = 5,
+    GUN1 = 6,
     HAND = 7,
-    WINDOW = 8,
-    GUN1 = 9,
+    CAC3 = 8,
+    WINDOW = 9,
 }
