@@ -40,7 +40,6 @@ export function world_town(game: Game) {
         `${map_size / 2 + 3}${map_size / 2 - 8}`,
     ];
 
-    console.log(characters_spawning_points);
     game.World = [];
     game.Grid = [];
 
@@ -191,10 +190,21 @@ export function world_town(game: Game) {
         ],
     });
 
-    game.Add({
-        Translation: [16, 0, 0],
-        Using: [collide(false, [8, 8, 8]), trigger(Action.GoToDesert)],
-    });
+    if (game.Gold > 0 && game.Gold < 10000) {
+        game.Add({
+            Translation: [-88, 0, -120],
+            Using: [
+                collide(false, [8, 8, 8]),
+                trigger(Action.GoToDesert),
+                render_vox(
+                    {
+                        Offsets: Float32Array.from([1, 1, 1, PaletteColors.windows]),
+                    },
+                    main_palette
+                ),
+            ],
+        });
+    }
     // Dio-cube
     game.Add({
         Scale: [map_size * 8, map_size * 2, map_size * 8],
