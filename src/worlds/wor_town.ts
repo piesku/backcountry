@@ -34,6 +34,13 @@ export function world_town(game: Game) {
     let back_fence_line = 3;
     let fence_gate_size = 16;
 
+    let characters_spawning_points = [
+        `${map_size / 2}${map_size / 2}`,
+        `${map_size / 2}${map_size / 2 + 3}`,
+        `${map_size / 2 + 3}${map_size / 2 - 8}`,
+    ];
+
+    console.log(characters_spawning_points);
     game.World = [];
     game.Grid = [];
 
@@ -47,7 +54,12 @@ export function world_town(game: Game) {
             // cactuses & stones here
             // We set this to true, because we don't want props to be
             // generated on the fence line
-            let is_walkable = is_fence ? true : rand() > 0.04;
+            let is_walkable =
+                is_fence || characters_spawning_points.includes(`${x}${y}`) || rand() > 0.04;
+
+            // if () {
+            //     is_walkable = true;
+            // }
 
             game.Grid[x][y] = is_walkable && !is_fence ? Infinity : NaN;
             let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y);
@@ -162,7 +174,7 @@ export function world_town(game: Game) {
 
     calculate_distance(game, map_size / 2, map_size / 2);
     let player_position =
-        game[Get.Transform][find_navigable(game, ~~(map_size / 2), ~~(map_size / 2))].Translation;
+        game[Get.Transform][find_navigable(game, map_size / 2, map_size / 2)].Translation;
 
     // Player.
     set_seed(game.PlayerSeed);
