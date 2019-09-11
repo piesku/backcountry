@@ -14,7 +14,7 @@ export function get_hat_blueprint(game: Game): Blueprint {
     hat_palette.splice(6, 3, ...(element(hat_colors) as Color));
     hat_palette.splice(9, 3, ...(element(extra_colors) as Color));
 
-    let hat_z = integer(1, 4) * 2;
+    let hat_z = integer(1, 3) * 2;
     let hat_x = integer(Math.max(2, hat_z / 2), 4) * 2;
     let top_height = integer(1, 3);
     let top_width = 2; //integer(1, hat_z / 4) * 2;
@@ -57,7 +57,7 @@ export function get_hat_blueprint(game: Game): Blueprint {
                 ...create_line(
                     [-top_width / 2 + 0.5, y + 1, -top_width / 2 + x + 0.5],
                     [top_width / 2 + 0.5, y + 1, -top_width / 2 + x + 0.5],
-                    has_extra && y == 0 ? 5 : 2
+                    has_extra && y == 0 ? 3 : 2
                 )
             );
         }
