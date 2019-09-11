@@ -9,11 +9,8 @@ import {move} from "../components/com_move.js";
 import {npc} from "../components/com_npc.js";
 import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
-import {from_euler} from "../math/quat.js";
 import {integer, rand, set_seed} from "../math/random.js";
-import {snd_gust} from "../sounds/snd_gust.js";
 import {snd_jingle} from "../sounds/snd_jingle.js";
-import {snd_neigh} from "../sounds/snd_neigh.js";
 import {snd_wind} from "../sounds/snd_wind.js";
 import {calculate_distance} from "../systems/sys_player_control.js";
 
@@ -22,11 +19,6 @@ export function world_map(game: Game) {
     let map_size = 30;
     let fence_line = 20;
     let fence_gate_size = 16;
-    let characters_spawning_points = [
-        `${map_size / 2}${map_size / 2}`,
-        `${map_size / 2}${map_size / 2 + 3}`,
-        `${map_size / 2 + 3}${map_size / 2 - 8}`,
-    ];
 
     game.World = [];
     game.Grid = [];
@@ -41,8 +33,7 @@ export function world_map(game: Game) {
             // cactuses & stones here
             // We set this to true, because we don't want props to be
             // generated on the fence line
-            let is_walkable =
-                is_fence || characters_spawning_points.includes(`${x}${y}`) || rand() > 0.04;
+            let is_walkable = is_fence || rand() > 0.04;
 
             game.Grid[x][y] = is_walkable && !is_fence ? Infinity : NaN;
             let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y, false);
@@ -62,13 +53,7 @@ export function world_map(game: Game) {
         Using: [light([0.7, 0.7, 0.7], 0), audio_source(snd_jingle)],
         Children: [
             {
-                Using: [audio_source(snd_neigh)],
-            },
-            {
                 Using: [audio_source(snd_wind)],
-            },
-            {
-                Using: [audio_source(snd_gust)],
             },
         ],
     });
@@ -111,7 +96,6 @@ export function world_map(game: Game) {
         if (game.Grid[x] && game.Grid[x][y] && !isNaN(game.Grid[x][y])) {
             game.Add({
                 Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
-                Rotation: from_euler([], 0, integer(0, 3) * 90, 0),
                 Using: [npc(), walking(x, y), move(integer(15, 25), 0)],
                 Children: [get_character_blueprint(game)],
             });
