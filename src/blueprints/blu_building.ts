@@ -7,7 +7,7 @@ import {element, integer, rand} from "../math/random.js";
 import {Models} from "../models_map.js";
 import {Blueprint, create_line} from "./blu_common.js";
 
-export let main_building_palette = [
+export let main_palette = [
     0.6,
     0.4,
     0,
@@ -26,6 +26,18 @@ export let main_building_palette = [
     1,
     1,
     0,
+    1,
+    0.8,
+    0.4,
+    0.6,
+    0.4,
+    0,
+    0.2,
+    0.2,
+    0.2,
+    0.5,
+    0.5,
+    0.5,
 ];
 
 let additional_colors = [
@@ -34,19 +46,23 @@ let additional_colors = [
     [0.67, 0, 0, 0.54, 0, 0],
 ];
 
-export const enum BuildingColors {
+export const enum PaletteColors {
     light_wood,
     wood,
     dark_wood,
     windows,
     tracks,
     gold,
+    desert_ground_1,
+    desert_ground_2,
+    mine_ground_1,
+    mine_ground_2,
     color_1,
     color_2,
 }
 
 export function get_building_blueprint(game: Game) {
-    let palette = [...main_building_palette, ...(element(additional_colors) as number[])];
+    let palette = [...main_palette, ...(element(additional_colors) as number[])];
 
     let has_tall_front_facade = rand() > 0.3;
     let has_windows = rand() > 0.2;
@@ -69,11 +85,11 @@ export function get_building_blueprint(game: Game) {
                 [x, building_size_y, building_size_z - 1],
                 is_painted
                     ? x % 2
-                        ? BuildingColors.color_1
-                        : BuildingColors.color_2
+                        ? PaletteColors.color_1
+                        : PaletteColors.color_2
                     : x % 2
-                    ? BuildingColors.light_wood
-                    : BuildingColors.wood
+                    ? PaletteColors.light_wood
+                    : PaletteColors.wood
             )
         );
     }
@@ -85,11 +101,11 @@ export function get_building_blueprint(game: Game) {
                 [building_size_x, building_size_y * (has_tall_front_facade ? 1.5 : 1), y],
                 is_painted
                     ? y % 2
-                        ? BuildingColors.color_1
-                        : BuildingColors.color_2
+                        ? PaletteColors.color_1
+                        : PaletteColors.color_2
                     : y % 2
-                    ? BuildingColors.light_wood
-                    : BuildingColors.wood
+                    ? PaletteColors.light_wood
+                    : PaletteColors.wood
             )
         );
     }
@@ -97,7 +113,7 @@ export function get_building_blueprint(game: Game) {
     // PORCH + FLOOR
     for (let i = -1; i < building_size_x + 3 + porch_size; i++) {
         offsets.push(
-            ...create_line([i - 1, 0, 0], [i - 1, 0, building_size_z + 2], BuildingColors.wood)
+            ...create_line([i - 1, 0, 0], [i - 1, 0, building_size_z + 2], PaletteColors.wood)
         );
     }
 
@@ -139,8 +155,8 @@ export function get_building_blueprint(game: Game) {
                         x == bannner_width - 1 ||
                         y == 0 ||
                         y == banner_height - 1
-                        ? BuildingColors.wood
-                        : BuildingColors.dark_wood
+                        ? PaletteColors.wood
+                        : PaletteColors.dark_wood
                 );
             }
         }
@@ -152,7 +168,7 @@ export function get_building_blueprint(game: Game) {
             ...create_line(
                 [building_size_x + i + 1, building_size_y * 0.75, 1],
                 [building_size_x + i + 1, building_size_y * 0.75, building_size_z + 1],
-                BuildingColors.wood
+                PaletteColors.wood
             )
         );
     }
@@ -163,12 +179,12 @@ export function get_building_blueprint(game: Game) {
             ...create_line(
                 [building_size_x + porch_size, 0, 1],
                 [building_size_x + porch_size, building_size_y * 0.75, 1],
-                BuildingColors.wood
+                PaletteColors.wood
             ),
             ...create_line(
                 [building_size_x + porch_size, 0, building_size_z],
                 [building_size_x + porch_size, building_size_y * 0.75, building_size_z],
-                BuildingColors.wood
+                PaletteColors.wood
             )
         );
 
@@ -180,7 +196,7 @@ export function get_building_blueprint(game: Game) {
             ...create_line(
                 [building_size_x + porch_size, fence_height, 1],
                 [building_size_x + porch_size, fence_height, fence_width],
-                BuildingColors.wood
+                PaletteColors.wood
             )
         );
 
@@ -189,7 +205,7 @@ export function get_building_blueprint(game: Game) {
                 ...create_line(
                     [building_size_x + porch_size, 0, i],
                     [building_size_x + porch_size, fence_height + 2, i],
-                    BuildingColors.wood
+                    PaletteColors.wood
                 )
             );
         }
@@ -199,12 +215,12 @@ export function get_building_blueprint(game: Game) {
             ...create_line(
                 [building_size_x, fence_height, 1],
                 [building_size_x + porch_size, fence_height, 1],
-                BuildingColors.wood
+                PaletteColors.wood
             ),
             ...create_line(
                 [building_size_x + porch_size, fence_height, building_size_z],
                 [building_size_x, fence_height, building_size_z],
-                BuildingColors.wood
+                PaletteColors.wood
             )
         );
 
@@ -213,12 +229,12 @@ export function get_building_blueprint(game: Game) {
                 ...create_line(
                     [building_size_x + i, 0, 1],
                     [building_size_x + i, fence_height + 2, 1],
-                    BuildingColors.wood
+                    PaletteColors.wood
                 ),
                 ...create_line(
                     [building_size_x + i, 0, building_size_z],
                     [building_size_x + i, fence_height + 2, building_size_z],
-                    BuildingColors.wood
+                    PaletteColors.wood
                 )
             );
         }
@@ -239,7 +255,7 @@ export function get_building_blueprint(game: Game) {
             ...create_line(
                 [building_size_x + 1, 0, building_size_z - i - 8],
                 [building_size_x + 1, door_height, building_size_z - i - 8],
-                BuildingColors.wood
+                PaletteColors.wood
             )
         );
     }

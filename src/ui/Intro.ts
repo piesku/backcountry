@@ -8,7 +8,7 @@ export function Intro() {
             display: flex;
             height: 100%;
         ">
-            <div style="margin: auto 0; font-size: 15vh;">
+            <div style="margin: auto 0; font-size: 15vmin;">
                 BACK<br/>COUNTRY
                 <hr style="border: solid #D45230 10px;" />
                 <button onclick="$(${Action.GoToTown});">

@@ -110,7 +110,9 @@ export class Game implements ComponentData, GameState {
 
     public Dispatch = (action: Action, ...args: Array<unknown>) => effect(this, action, args);
     public WorldFunc = world_map;
-    public ChallengeSeed = 0;
+    // Today's timestamp. Changes every midnight, 00:00 UTC.
+    public ChallengeSeed = ~~(Date.now() / (24 * 60 * 60 * 1000));
+    public PlayerSeed = this.ChallengeSeed;
     public ChallengeLevel = 1;
     public BountySeed = 0;
     public PlayerState = PlayerState.Playing;
@@ -169,8 +171,6 @@ export class Game implements ComponentData, GameState {
 
         this.Materials[Mat.Instanced] = mat_instanced(this.GL);
         this.Materials[Mat.Particles] = mat_particles(this.GL);
-
-        this.Dispatch(Action.InitGame);
     }
 
     CreateEntity(mask = 0) {

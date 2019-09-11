@@ -8,11 +8,13 @@ import {widget_damage} from "./widgets/wid_damage.js";
 import {world_desert} from "./worlds/wor_desert.js";
 import {world_map} from "./worlds/wor_map.js";
 import {world_mine} from "./worlds/wor_mine.js";
+import {world_store} from "./worlds/wor_store.js";
 import {world_town} from "./worlds/wor_town.js";
 import {world_wanted} from "./worlds/wor_wanted.js";
 
 export interface GameState {
     WorldFunc: (game: Game) => void;
+    PlayerSeed: number;
     ChallengeSeed: number;
     ChallengeLevel: number;
     BountySeed: number;
@@ -28,26 +30,23 @@ export const enum PlayerState {
 }
 
 export const enum Action {
-    InitGame = 1,
-    CompleteBounty,
+    CompleteBounty = 1,
     EndChallenge,
     GoToTown,
+    GoToStore,
     GoToWanted,
     GoToDesert,
     GoToMine,
     Hit,
     Die,
     CollectGold,
+    ChangePlayerSeed,
 }
 
 export function effect(game: Game, action: Action, args: Array<unknown>) {
     switch (action) {
-        case Action.InitGame: {
-            // Today's timestamp. Changes every midnight, 00:00 UTC.
-            game.ChallengeSeed = ~~(Date.now() / (24 * 60 * 60 * 1000));
-            break;
-        }
         case Action.CompleteBounty: {
+            game.Gold += game.ChallengeLevel * 1000;
             game.ChallengeLevel += 1;
             game.PlayerState = PlayerState.Playing;
             game.BountySeed = 0;
@@ -56,6 +55,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             break;
         }
         case Action.EndChallenge: {
+            game.Gold = 0;
             game.ChallengeLevel = 1;
             game.PlayerState = PlayerState.Playing;
             game.BountySeed = 0;
@@ -71,6 +71,16 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
         case Action.GoToWanted: {
             game.BountySeed = game.ChallengeSeed * game.ChallengeLevel - 1;
             game.WorldFunc = world_wanted;
+            setTimeout(game.WorldFunc, 0, game);
+            break;
+        }
+        case Action.GoToStore: {
+            game.WorldFunc = world_store;
+            setTimeout(game.WorldFunc, 0, game);
+            break;
+        }
+        case Action.ChangePlayerSeed: {
+            game.PlayerSeed = Math.random() * 10000;
             setTimeout(game.WorldFunc, 0, game);
             break;
         }

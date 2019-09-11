@@ -1,6 +1,6 @@
 import {Action} from "../actions.js";
 
-export function Victory() {
+export function Store() {
     return `
         <div style="
             position: absolute;
@@ -10,17 +10,21 @@ export function Victory() {
             text-align: center;
             font-size: 15vmin;
         ">
-            VICTORY
+            GENERAL STORE
         </div>
         <div style="
             position: absolute;
-            bottom: 13%;
+            bottom: 10%;
             width: 100%;
             text-align: center;
             font-size: 10vmin;
         ">
-            <button onclick="$(${Action.CompleteBounty});">
-                COLLECT BOUNTY
+            <button onclick="$(${Action.ChangePlayerSeed});">
+                CHANGE OUTFIT
+            </button>
+            <br>
+            <button onclick="$(${Action.GoToTown});">
+                EXIT TO TOWN
             </button>
         </div>
     `;

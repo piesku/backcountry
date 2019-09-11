@@ -1,5 +1,5 @@
 import {Action} from "../actions.js";
-import {get_building_blueprint} from "../blueprints/blu_building.js";
+import {get_building_blueprint, main_palette, PaletteColors} from "../blueprints/blu_building.js";
 import {get_character_blueprint} from "../blueprints/blu_character.js";
 import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
 import {create_iso_camera} from "../blueprints/blu_iso_camera.js";
@@ -14,6 +14,7 @@ import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
 import {find_navigable} from "../components/com_navigable.js";
 import {npc} from "../components/com_npc.js";
+import {render_vox} from "../components/com_render_vox.js";
 import {trigger} from "../components/com_trigger.js";
 import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
@@ -30,9 +31,16 @@ export function world_town(game: Game) {
     set_seed(game.ChallengeSeed);
     let map_size = 30;
     let fence_line = 20;
-    let fence_height = 4;
+    let back_fence_line = 3;
     let fence_gate_size = 16;
 
+    let characters_spawning_points = [
+        `${map_size / 2}${map_size / 2}`,
+        `${map_size / 2}${map_size / 2 + 3}`,
+        `${map_size / 2 + 3}${map_size / 2 - 8}`,
+    ];
+
+    console.log(characters_spawning_points);
     game.World = [];
     game.Grid = [];
 
@@ -42,14 +50,19 @@ export function world_town(game: Game) {
     for (let x = 0; x < map_size; x++) {
         game.Grid[x] = [];
         for (let y = 0; y < map_size; y++) {
-            let is_fence = x === fence_line;
+            let is_fence = x == fence_line || x == back_fence_line;
             // cactuses & stones here
             // We set this to true, because we don't want props to be
             // generated on the fence line
-            let is_walkable = is_fence ? true : rand() > 0.04;
+            let is_walkable =
+                is_fence || characters_spawning_points.includes(`${x}${y}`) || rand() > 0.04;
+
+            // if () {
+            //     is_walkable = true;
+            // }
 
             game.Grid[x][y] = is_walkable && !is_fence ? Infinity : NaN;
-            let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y);
+            let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y, false);
 
             game.Add({
                 ...tile_blueprint,
@@ -58,7 +71,11 @@ export function world_town(game: Game) {
         }
     }
 
-    game.Add(get_town_gate_blueprint(game, map_size, fence_height, fence_gate_size, fence_line));
+    game.Add(get_town_gate_blueprint(game, map_size, fence_gate_size, fence_line));
+    game.Add({
+        ...get_town_gate_blueprint(game, map_size, 0, back_fence_line + 1),
+        Rotation: from_euler([], 0, 180, 0),
+    });
 
     // Directional light and Soundtrack
     game.Add({
@@ -134,17 +151,33 @@ export function world_town(game: Game) {
             get_character_blueprint(game),
             {
                 Translation: [0, 10, 0],
-                Using: game.BountySeed ? [] : [draw(widget_exclamation), lifespan()],
+                Using: game.BountySeed ? [] : [draw(widget_exclamation, ["!"]), lifespan()],
+            },
+        ],
+    });
+
+    let outfitter_position =
+        game[Get.Transform][find_navigable(game, map_size / 2 + 3, map_size / 2 - 8)].Translation;
+
+    // Outfitter.
+    game.Add({
+        Translation: [outfitter_position[0], 5, outfitter_position[2]],
+        Using: [collide(false, [8, 8, 8]), trigger(Action.GoToStore)],
+        Children: [
+            get_character_blueprint(game),
+            {
+                Translation: [0, 10, 0],
+                Using: [draw(widget_exclamation, ["$"]), lifespan()],
             },
         ],
     });
 
     calculate_distance(game, map_size / 2, map_size / 2);
     let player_position =
-        game[Get.Transform][find_navigable(game, ~~(map_size / 2), ~~(map_size / 2))].Translation;
+        game[Get.Transform][find_navigable(game, map_size / 2, map_size / 2)].Translation;
 
     // Player.
-    set_seed(game.ChallengeSeed);
+    set_seed(game.PlayerSeed);
     game.Player = game.Add({
         Translation: [player_position[0], 5, player_position[2]],
         Using: [
@@ -159,6 +192,20 @@ export function world_town(game: Game) {
                 Translation: [0, 25, 0],
                 Using: [light([1, 1, 1], 20)],
             },
+        ],
+    });
+
+    // Dio-cube
+    game.Add({
+        Scale: [map_size * 8, map_size * 2, map_size * 8],
+        Translation: [-4, -map_size + 0.49, -4],
+        Using: [
+            render_vox(
+                {
+                    Offsets: Float32Array.from([0, 0, 0, PaletteColors.desert_ground_1]),
+                },
+                main_palette
+            ),
         ],
     });
 

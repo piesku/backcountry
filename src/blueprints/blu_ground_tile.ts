@@ -8,6 +8,7 @@ import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
 import {integer, rand} from "../math/random.js";
+import {main_palette, PaletteColors} from "./blu_building.js";
 import {get_cactus_blueprint} from "./blu_cactus.js";
 import {get_campfire_blueprint} from "./blu_campfire.js";
 import {Blueprint, create_tile} from "./blu_common.js";
@@ -15,21 +16,19 @@ import {get_gold_blueprint} from "./blu_gold.js";
 import {get_block_blueprint} from "./blu_ground_block.js";
 import {get_rock_blueprint} from "./blu_rock.js";
 
-let initial_palette = [1, 0.8, 0.4, 0.6, 0.4, 0];
-let tile_size = 8;
-
 export function get_tile_blueprint(
     game: Game,
     is_walkable: boolean,
     x: number = 0,
     y: number = 0,
-    palette: number[] = initial_palette
+    has_gold: boolean = true,
+    colors: [number, number] = [PaletteColors.desert_ground_1, PaletteColors.desert_ground_2]
 ): Blueprint {
-    let tile_model = create_tile(tile_size);
+    let tile_model = create_tile(8, colors);
 
     let tile: Blueprint = {
         Using: [
-            render_vox(tile_model, palette),
+            render_vox(tile_model, main_palette),
             cull(Get.Render),
             audio_source(),
             animate({
@@ -65,7 +64,7 @@ export function get_tile_blueprint(
 
     if (rand() > 0.85 && is_walkable) {
         tile.Children!.push(get_block_blueprint(game));
-    } else if (rand() > 0.99) {
+    } else if (has_gold && rand() > 0.99) {
         tile.Children!.push(get_gold_blueprint(game));
     }
 

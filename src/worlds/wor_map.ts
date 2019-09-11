@@ -21,8 +21,12 @@ export function world_map(game: Game) {
     set_seed(game.ChallengeSeed);
     let map_size = 30;
     let fence_line = 20;
-    let fence_height = 4;
     let fence_gate_size = 16;
+    let characters_spawning_points = [
+        `${map_size / 2}${map_size / 2}`,
+        `${map_size / 2}${map_size / 2 + 3}`,
+        `${map_size / 2 + 3}${map_size / 2 - 8}`,
+    ];
 
     game.World = [];
     game.Grid = [];
@@ -37,10 +41,11 @@ export function world_map(game: Game) {
             // cactuses & stones here
             // We set this to true, because we don't want props to be
             // generated on the fence line
-            let is_walkable = is_fence ? true : rand() > 0.04;
+            let is_walkable =
+                is_fence || characters_spawning_points.includes(`${x}${y}`) || rand() > 0.04;
 
             game.Grid[x][y] = is_walkable && !is_fence ? Infinity : NaN;
-            let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y);
+            let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y, false);
 
             game.Add({
                 ...tile_blueprint,
@@ -49,7 +54,7 @@ export function world_map(game: Game) {
         }
     }
 
-    game.Add(get_town_gate_blueprint(game, map_size, fence_height, fence_gate_size, fence_line));
+    game.Add(get_town_gate_blueprint(game, map_size, fence_gate_size, fence_line));
 
     // Directional light and Soundtrack
     game.Add({
