@@ -3,12 +3,8 @@ import {GL_TRIANGLES} from "../webgl.js";
 import {link, Material} from "./mat_common.js";
 
 let vertex = `#version 300 es\n
-    // Projection * View matrix
-    uniform mat4 uP;
-    // World (model) matrix
-    uniform mat4 uW;
-    // Self (inverted world) matrix
-    uniform mat4 uS;
+    // Matrices: PV, world, self
+    uniform mat4 uP,uW,uS;
     // Color palette
     uniform vec3 up[16];
 
@@ -26,35 +22,32 @@ let vertex = `#version 300 es\n
     // Vertex color
     out vec4 vc;
 
-    void main() {
+    void main(){
         // World position
-        vec4 w = uW * vec4(vp + vo.xyz, 1.0);
+        vec4 w=uW*vec4(vp+vo.rgb,1.);
         // World normal
-        vec3 n = normalize((vec4(vn, 0.0) * uS).xyz);
-        gl_Position = uP * w;
+        vec3 n=normalize((vec4(vn,0.)* uS).rgb);
+        gl_Position=uP*w;
 
         // Color
-        vec3 c = up[int(vo[3])].rgb * 0.1;
-        for (int i = 0; i < ulc; i++) {
-            if (uld[i].a == 0.0) {
+        vec3 c=up[int(vo[3])].rgb*.1;
+        for(int i=0;i<ulc;i++){
+            if(uld[i].a<1.) {
                 // A directional light.
-                // Diffuse factor
-                float df = max(dot(n, normalize(ulp[i])), 0.0);
-                c += up[int(vo[3])].rgb * uld[i].rgb * df;
-            } else {
+                // max(dot()) is the diffuse factor.
+                c+=up[int(vo[3])].rgb*uld[i].rgb*max(dot(n,normalize(ulp[i])),0.);
+            }else{
                 // A point light.
                 // Light direction
-                vec3 ld = ulp[i] - w.xyz;
+                vec3 ld=ulp[i]-w.xyz;
                 // Distance
-                float d = length(ld);
-
-                // Diffuse factor
-                float df = max(dot(n, normalize(ld)), 0.0);
-                c += up[int(vo[3])].rgb * uld[i].rgb * df * uld[i].a / (d * d);
+                float d=length(ld);
+                // max(dot()) is the diffuse factor.
+                c+=up[int(vo[3])].rgb*uld[i].rgb*max(dot(n,normalize(ld)),0.)*uld[i].a/(d*d);
             }
         }
 
-        vc = vec4(c, 1.0);
+        vc=vec4(c,1.);
     }
 `;
 
@@ -66,8 +59,8 @@ let fragment = `#version 300 es\n
     // Fragment color
     out vec4 fc;
 
-    void main() {
-        fc = vc;
+    void main(){
+        fc=vc;
     }
 `;
 

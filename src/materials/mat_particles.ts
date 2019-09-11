@@ -14,19 +14,19 @@ let vertex = `#version 300 es\n
     // Vertex color
     out vec4 vc;
 
-    void main() {
-        vec4 w = vec4(vo.xyz, 1.0);
-        if (ud.a < 10.0) {
+    void main(){
+        vec4 w=vec4(vo.rgb,1.);
+        if(ud.a<10.) {
             // It's a projectile.
-            w.y += vo.a * 2.0;
-            gl_PointSize = mix(ud.a, 1.0, vo.a);
-        } else {
+            w.y+=vo.a*2.;
+            gl_PointSize=mix(ud.a,1.,vo.a);
+        }else{
             // It's a campfire.
-            w.y += vo.a * 10.0;
-            gl_PointSize = mix(ud.a, 1.0, vo.a);
+            w.y+=vo.a*10.;
+            gl_PointSize=mix(ud.a,1.,vo.a);
         }
-        gl_Position = uP * w;
-        vc = mix(vec4(ud.rgb, 1.0), vec4(1.0, 1.0, 0.0, 1.0), vo.a);
+        gl_Position=uP*w;
+        vc=mix(vec4(ud.rgb,1.),vec4(1.,1.,0.,1.),vo.a);
     }
 `;
 
@@ -38,8 +38,8 @@ let fragment = `#version 300 es\n
     // Fragment color
     out vec4 fc;
 
-    void main() {
-        fc = vc;
+    void main(){
+        fc=vc;
     }
 `;
 

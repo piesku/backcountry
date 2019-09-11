@@ -3,15 +3,13 @@ import {GL_LINE_LOOP} from "../webgl.js";
 import {link, Material} from "./mat_common.js";
 
 let vertex = `#version 300 es\n
-    // Projection * View matrix
-    uniform mat4 uP;
-    // World (model) matrix
-    uniform mat4 uW;
+    // Matrices: PV, world
+    uniform mat4 uP,uW;
 
     layout(location=${BasicAttribute.Position}) in vec3 vp;
 
-    void main() {
-        gl_Position = uP * uW * vec4(vp, 1.0);
+    void main(){
+        gl_Position=uP*uW*vec4(vp,1.);
     }
 `;
 
@@ -24,7 +22,7 @@ let fragment = `#version 300 es\n
     out vec4 fc;
 
     void main() {
-        fc = uc;
+        fc=uc;
     }
 `;
 
