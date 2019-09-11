@@ -155,11 +155,7 @@ export class Game implements ComponentData, GameState {
 
         this.UI.addEventListener("contextmenu", evt => evt.preventDefault());
         this.UI.addEventListener("mousedown", evt => {
-            this.Input[`m${evt.button}`] = 1;
             this.Input[`d${evt.button}`] = 1;
-        });
-        this.UI.addEventListener("mouseup", evt => {
-            this.Input[`m${evt.button}`] = 0;
         });
         this.UI.addEventListener("mousemove", evt => {
             this.Input.mx = evt.offsetX;
