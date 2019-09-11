@@ -3,10 +3,8 @@ import {Action, GameState} from "../actions.js";
 export function Defeat(state: GameState) {
     return `
         <div style="
-            position: absolute;
             top: 10%;
             height: 25%;
-            width: 100%;
             text-align: center;
             font-size: 15vmin;
         ">
@@ -15,9 +13,7 @@ export function Defeat(state: GameState) {
             $${state.Gold.toLocaleString("en-US")}
         </div>
         <div style="
-            position: absolute;
             bottom: 10%;
-            width: 100%;
             text-align: center;
             font-size: 10vmin;
         ">

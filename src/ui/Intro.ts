@@ -3,7 +3,6 @@ import {Action} from "../actions.js";
 export function Intro() {
     return `
         <div style="
-            position: absolute;
             left: 50%;
             display: flex;
             height: 100%;
