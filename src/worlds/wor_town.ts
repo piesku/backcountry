@@ -57,10 +57,6 @@ export function world_town(game: Game) {
             let is_walkable =
                 is_fence || characters_spawning_points.includes(`${x}${y}`) || rand() > 0.04;
 
-            // if () {
-            //     is_walkable = true;
-            // }
-
             game.Grid[x][y] = is_walkable && !is_fence ? Infinity : NaN;
             let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y, false);
 
