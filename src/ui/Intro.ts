@@ -3,18 +3,16 @@ import {Action} from "../actions.js";
 export function Intro() {
     return `
         <div style="
-            left: 5%;
-            display: flex;
-            width: 50%;
-            height: 100%;
+            margin-left: 5%;
+            width: 66%;
         ">
             <div style="margin: auto 0;">
                 BACK<br>COUNTRY
-                <div onclick="$(${Action.GoToTown});" style="
+                <nav onclick="$(${Action.GoToTown});" style="
                     border-top: 20px solid #d45230;
                 ">
                     Play Now
-                </div>
+                </nav>
                 <div>
                     Earn as much money as you can in today's challenge.
                     Check <a href="https://twitter.com">#backcountryrpg</a> for high scores.

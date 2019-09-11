@@ -7,8 +7,6 @@
     body {
         overflow: hidden;
         margin: 0;
-        font-family: Impact;
-        color: #ffe8c6;
     }
     canvas, main {
         position: absolute;
@@ -17,20 +15,25 @@
         bottom: 0;
         left: 0;
         user-select: none;
+        color: #ffe8c6;
     }
     main > div {
-        position: absolute;
+        font: 15vmin Impact;
+        display: flex;
+        flex-flow: column;
         width: 100%;
-        font-size: 15vmin;
+        height: 100%;
     }
     [onclick] {
         cursor: pointer;
+    }
+    nav {
         font: 15vmin serif;
         font-style: italic;
         font-weight: bold;
         font-variant: small-caps;
     }
-    [onclick] + div {
+    nav + div {
         font: 5vmin serif;
         font-style: italic;
     }
