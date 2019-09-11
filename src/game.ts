@@ -153,8 +153,6 @@ export class Game implements ComponentData, GameState {
             }
         }
 
-        window.addEventListener("keydown", evt => (this.Input[evt.code] = 1));
-        window.addEventListener("keyup", evt => (this.Input[evt.code] = 0));
         this.UI.addEventListener("contextmenu", evt => evt.preventDefault());
         this.UI.addEventListener("mousedown", evt => {
             this.Input[`m${evt.button}`] = 1;
