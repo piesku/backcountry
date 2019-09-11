@@ -35,6 +35,7 @@ export function world_town(game: Game) {
     let fence_gate_size = 16;
 
     let characters_spawning_points = [
+        0,
         (map_size / 2) * 30 + map_size / 2,
         (map_size / 2) * 30 + map_size / 2 + 3,
         (map_size / 2 + 3) * 30 + map_size / 2 - 8,
