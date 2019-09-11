@@ -2,6 +2,7 @@ import {Action} from "../actions.js";
 import {collide} from "../components/com_collide.js";
 import {cull} from "../components/com_cull.js";
 import {Get} from "../components/com_index.js";
+import {light} from "../components/com_light.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {trigger} from "../components/com_trigger.js";
 import {Game} from "../game.js";
@@ -26,6 +27,12 @@ export function get_gold_blueprint(game: Game): Blueprint {
             cull(Get.Render),
             collide(false, [4, 4, 4]),
             trigger(Action.CollectGold),
+        ],
+        Children: [
+            {
+                Translation: [0, 3, 0],
+                Using: [light([1, 1, 0], 3), cull(Get.Light)],
+            },
         ],
     };
 }
