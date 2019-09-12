@@ -4,7 +4,7 @@ export function Wanted(state: GameState) {
     return `
         <div style="
             width: 66%;
-            margin: auto;
+            margin: 5% auto;
             text-align: center;
             color: #222;
         ">
