@@ -20,9 +20,6 @@ export let main_palette = [
     0.2,
     0.8,
     1,
-    0.53,
-    0.53,
-    0.53,
     1,
     1,
     0,
@@ -35,9 +32,9 @@ export let main_palette = [
     0.2,
     0.2,
     0.2,
-    0.5,
-    0.5,
-    0.5,
+    0.53,
+    0.53,
+    0.53,
 ];
 
 let additional_colors = [
@@ -51,7 +48,6 @@ export const enum PaletteColors {
     wood,
     dark_wood,
     windows,
-    tracks,
     gold,
     desert_ground_1,
     desert_ground_2,
