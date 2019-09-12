@@ -43,13 +43,13 @@ export interface AudioTrack {
 
 export interface Instrument {
     [InstrumentParam.MasterGainAmount]: number;
-    [InstrumentParam.FilterType]: false | BiquadFilterType;
-    [InstrumentParam.FilterFreq]: number;
-    [InstrumentParam.FilterQ]: number;
-    [InstrumentParam.FilterDetuneLFO]: boolean;
-    [InstrumentParam.LFOType]: false | OscillatorType;
-    [InstrumentParam.LFOAmount]: number;
-    [InstrumentParam.LFOFreq]: number;
+    [InstrumentParam.FilterType]?: false | BiquadFilterType;
+    [InstrumentParam.FilterFreq]?: number;
+    [InstrumentParam.FilterQ]?: number;
+    [InstrumentParam.FilterDetuneLFO]?: boolean;
+    [InstrumentParam.LFOType]?: false | OscillatorType;
+    [InstrumentParam.LFOAmount]?: number;
+    [InstrumentParam.LFOFreq]?: number;
     [InstrumentParam.Sources]: Array<Oscillator | Buffer>;
 }
 
@@ -60,11 +60,11 @@ interface Oscillator {
     [SourceParam.GainSustain]: number;
     [SourceParam.GainRelease]: number;
     [SourceParam.DetuneAmount]: number;
-    [SourceParam.DetuneLFO]: boolean;
-    [SourceParam.FreqEnabled]: boolean;
-    [SourceParam.FreqAttack]: number;
-    [SourceParam.FreqSustain]: number;
-    [SourceParam.FreqRelease]: number;
+    [SourceParam.DetuneLFO]?: boolean;
+    [SourceParam.FreqEnabled]?: boolean;
+    [SourceParam.FreqAttack]?: number;
+    [SourceParam.FreqSustain]?: number;
+    [SourceParam.FreqRelease]?: number;
 }
 
 interface Buffer {
