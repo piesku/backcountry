@@ -9,8 +9,11 @@ export function Wanted(state: GameState) {
             REWARD $${state.ChallengeLevel},000
         </div>
         <div style="flex: 2;"></div>
-        <nav onclick="$(${Action.GoToTown});">
+        <div onclick="$(${Action.GoToTown});" style="
+            font: italic bold small-caps 7vmin serif;
+            cursor: pointer;
+        ">
             Accept Quest
-        </nav>
+        </div>
     `;
 }

@@ -5,21 +5,29 @@ export function Defeat(state: GameState) {
         <div>
             YOU DIE
         </div>
-        <aside>
+        <div style="
+            font: italic 5vmin serif;
+        ">
             You earned $${state.Gold.toLocaleString("en-US")}.
-        </aside>
+        </div>
         <div></div>
         <div style="
             display: flex;
             justify-content: space-around;
             width: 100%;
         ">
-            <nav onclick="alert('Not implemented yet! You score was ${state.Gold}');">
+            <div onclick="alert('Not implemented yet! You score was ${state.Gold}');" style="
+                font: italic bold small-caps 7vmin serif;
+                cursor: pointer;
+            ">
                 Tweet Your Score
-            </nav>
-            <nav onclick="$(${Action.EndChallenge});">
+            </div>
+            <div onclick="$(${Action.EndChallenge});" style="
+                font: italic bold small-caps 7vmin serif;
+                cursor: pointer;
+            ">
                 Try Again
-            </nav>
+            </div>
         </div>
     `;
 }

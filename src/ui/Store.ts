@@ -13,12 +13,18 @@ export function Store() {
             justify-content: space-around;
             width: 100%;
         ">
-            <nav onclick="$(${Action.ChangePlayerSeed});">
+            <div onclick="$(${Action.ChangePlayerSeed});" style="
+                font: italic bold small-caps 7vmin serif;
+                cursor: pointer;
+            ">
                 Change Outfit
-            </nav>
-            <nav onclick="$(${Action.GoToTown});">
+            </div>
+            <div onclick="$(${Action.GoToTown});" style="
+                font: italic bold small-caps 7vmin serif;
+                cursor: pointer;
+            ">
                 Exit to Town
-            </nav>
+            </div>
         </div>
     `;
 }

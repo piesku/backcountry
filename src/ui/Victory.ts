@@ -6,8 +6,11 @@ export function Victory() {
             WELL DONE
         </div>
         <div></div>
-        <nav onclick="$(${Action.CompleteBounty});">
+        <div onclick="$(${Action.CompleteBounty});" style="
+            font: italic bold small-caps 7vmin serif;
+            cursor: pointer;
+        ">
             Collect Bounty
-        </nav>
+        </div>
     `;
 }
