@@ -7,24 +7,29 @@ import {from_euler} from "../math/quat.js";
 import {element} from "../math/random.js";
 import {Models} from "../models_map.js";
 import {palette} from "../palette.js";
+import {additional_colors} from "./blu_building.js";
 import {Blueprint, Color} from "./blu_common.js";
 import {create_gun} from "./blu_gun.js";
 import {get_hat_blueprint} from "./blu_hat.js";
 
-let shirt_colors: Array<Color> = [[1, 0, 0], [0, 1, 0], [0, 0, 1], [1, 1, 1]];
+export let character_palette: Array<Color> = [];
+for (let i = 0; i < additional_colors.length; i++) {
+    character_palette.push(additional_colors[i].slice(0, 3) as Color);
+    character_palette.push(additional_colors[i].slice(3, 6) as Color);
+}
+
 let skin_colors: Array<Color> = [[1, 0.8, 0.6], [0.6, 0.4, 0]];
 let hair_colors: Array<Color> = [[1, 1, 0], [0, 0, 0], [0.6, 0.4, 0], [0.4, 0, 0]];
-let pants_colors: Array<Color> = [[0, 0, 0], [0.53, 0, 0], [0.6, 0.4, 0.2], [0.33, 0.33, 0.33]];
 
 export function get_character_blueprint(game: Game): Blueprint {
     // Create the hat first so that the hat itself can be reproduced with SeedBounty.
     let hat = get_hat_blueprint(game);
 
-    let character_palette = palette.slice();
-    character_palette.splice(0, 3, ...(element(shirt_colors) as Color));
-    character_palette.splice(3, 3, ...(element(pants_colors) as Color));
-    character_palette.splice(12, 3, ...(element(skin_colors) as Color));
-    character_palette.splice(15, 3, ...(element(hair_colors) as Color));
+    let current_character_palette = palette.slice();
+    current_character_palette.splice(0, 3, ...(element(character_palette) as Color));
+    current_character_palette.splice(3, 3, ...(element(character_palette) as Color));
+    current_character_palette.splice(12, 3, ...(element(skin_colors) as Color));
+    current_character_palette.splice(15, 3, ...(element(hair_colors) as Color));
 
     return {
         Rotation: [0, 1, 0, 0],
@@ -63,7 +68,7 @@ export function get_character_blueprint(game: Game): Blueprint {
             {
                 //body
                 Using: [
-                    render_vox(game.Models[Models.BODY], character_palette),
+                    render_vox(game.Models[Models.BODY], current_character_palette),
                     animate({
                         [Anim.Idle]: {
                             Keyframes: [
@@ -150,7 +155,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                 Children: [
                     {
                         Translation: [0, -1, 0],
-                        Using: [render_vox(game.Models[Models.HAND], character_palette)],
+                        Using: [render_vox(game.Models[Models.HAND], current_character_palette)],
                     },
                     create_gun(game),
                 ],
@@ -189,7 +194,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                 Children: [
                     {
                         Translation: [0, -1, 0],
-                        Using: [render_vox(game.Models[Models.HAND], character_palette)],
+                        Using: [render_vox(game.Models[Models.HAND], current_character_palette)],
                     },
                     // left_hand_item,
                 ],
@@ -228,7 +233,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                 Children: [
                     {
                         Translation: [0, -1.5, 0],
-                        Using: [render_vox(game.Models[Models.FOOT], character_palette)],
+                        Using: [render_vox(game.Models[Models.FOOT], current_character_palette)],
                     },
                 ],
             },
@@ -266,7 +271,7 @@ export function get_character_blueprint(game: Game): Blueprint {
                 Children: [
                     {
                         Translation: [0, -1.5, 0],
-                        Using: [render_vox(game.Models[Models.FOOT], character_palette)],
+                        Using: [render_vox(game.Models[Models.FOOT], current_character_palette)],
                     },
                 ],
             },
