@@ -3,7 +3,7 @@ import {Get} from "../components/com_index.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
-import {integer, rand} from "../math/random.js";
+import {integer} from "../math/random.js";
 import {Model} from "../model.js";
 import {main_palette, PaletteColors} from "./blu_building.js";
 import {Blueprint} from "./blu_common.js";
@@ -26,11 +26,6 @@ function create_model() {
         let y = integer(-1, 1);
 
         offsets.push(x, 0, y, PaletteColors.light_wood);
-
-        if (rand() < 0.3 && !is_double) {
-            is_double = true;
-            offsets.push(x, 1, y, PaletteColors.light_wood);
-        }
     }
 
     return {

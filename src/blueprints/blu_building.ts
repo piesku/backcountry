@@ -64,7 +64,6 @@ export function get_building_blueprint(game: Game) {
     let has_tall_front_facade = rand() > 0.4;
     let has_windows = rand() > 0.4;
     let has_pillars = rand() > 0.4;
-    let has_fence = rand() > 0.4;
     let building_size_x = 20 + integer() * 8;
     let building_size_z = 30 + integer(0, 5) * 8;
     let building_size_y = 15 + integer(0, 9); // height
@@ -173,55 +172,25 @@ export function get_building_blueprint(game: Game) {
         );
 
     // FENCE
-    if (has_fence) {
-        let fence_width = ~~(building_size_z * 0.75) + 1;
-        let fence_height = ~~(building_size_y * 0.25);
+
+    let fence_width = building_size_z;
+    let fence_height = 3;
+    offsets.push(
+        ...create_line(
+            [building_size_x + porch_size, fence_height, 1],
+            [building_size_x + porch_size, fence_height, fence_width],
+            PaletteColors.wood
+        )
+    );
+
+    for (let i = 1; i < fence_width; i += 2) {
         offsets.push(
             ...create_line(
-                [building_size_x + porch_size, fence_height, 1],
-                [building_size_x + porch_size, fence_height, fence_width],
+                [building_size_x + porch_size, 0, i],
+                [building_size_x + porch_size, fence_height + 2, i],
                 PaletteColors.wood
             )
         );
-
-        for (let i = 1; i < fence_width; i += 2) {
-            offsets.push(
-                ...create_line(
-                    [building_size_x + porch_size, 0, i],
-                    [building_size_x + porch_size, fence_height + 2, i],
-                    PaletteColors.wood
-                )
-            );
-        }
-
-        // SIDE FENCES
-        offsets.push(
-            ...create_line(
-                [building_size_x, fence_height, 1],
-                [building_size_x + porch_size, fence_height, 1],
-                PaletteColors.wood
-            ),
-            ...create_line(
-                [building_size_x + porch_size, fence_height, building_size_z],
-                [building_size_x, fence_height, building_size_z],
-                PaletteColors.wood
-            )
-        );
-
-        for (let i = 3; i < porch_size; i += 2) {
-            offsets.push(
-                ...create_line(
-                    [building_size_x + i, 0, 1],
-                    [building_size_x + i, fence_height + 2, 1],
-                    PaletteColors.wood
-                ),
-                ...create_line(
-                    [building_size_x + i, 0, building_size_z],
-                    [building_size_x + i, fence_height + 2, building_size_z],
-                    PaletteColors.wood
-                )
-            );
-        }
     }
 
     // ROOF
