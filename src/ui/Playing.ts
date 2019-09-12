@@ -3,10 +3,8 @@ import {GameState} from "../actions.js";
 export function Playing(state: GameState) {
     return `
         <div style="
-            position: absolute;
-            top: 5vmin;
-            left: 5vmin;
-            font-size: 10vmin;
+            margin: 4% 5%;
+            font: 10vmin Impact;
         ">
             $${state.Gold.toLocaleString("en-US")}
         </div>

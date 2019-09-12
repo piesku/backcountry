@@ -38,7 +38,7 @@ export function world_wanted(game: Game) {
 
     // Camera.
     game.Add({
-        Translation: [0, 4, 10],
+        Translation: [0, 2, 10],
         Using: [camera_ortho(10, 1, 100)],
     });
 

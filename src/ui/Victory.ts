@@ -3,25 +3,20 @@ import {Action} from "../actions.js";
 export function Victory() {
     return `
         <div style="
-            position: absolute;
-            top: 10%;
-            height: 25%;
-            width: 100%;
+            width: 66%;
+            margin: 5% auto;
             text-align: center;
-            font-size: 15vmin;
         ">
-            VICTORY
+            WELL DONE
         </div>
-        <div style="
+
+        <div onclick="$(${Action.CompleteBounty});" style="
+            font: italic bold small-caps 7vmin serif;
             position: absolute;
-            bottom: 13%;
-            width: 100%;
-            text-align: center;
-            font-size: 10vmin;
+            bottom: 5%;
+            right: 10%;
         ">
-            <button onclick="$(${Action.CompleteBounty});">
-                COLLECT BOUNTY
-            </button>
+            Collect Bounty
         </div>
     `;
 }
