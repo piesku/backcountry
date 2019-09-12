@@ -11,7 +11,7 @@
 // https://developer.mozilla.org/en-US/profiles/Sebastianz
 
 // WebGLRenderingContext
-// =====================
+// ==============
 
 // Clearing buffers
 // Constants passed to WebGLRenderingContext.clear() to clear buffer masks.
@@ -3778,7 +3778,7 @@ export const GL_TIMESTAMP_EXT: number = 0x8e28;
 export const GL_GPU_DISJOINT_EXT: number = 0x8fbb;
 
 // WebGL2RenderingContext
-// =====================
+// ==============
 
 export const GL_UNSIGNED_SHORT: number = 0x1403;
 

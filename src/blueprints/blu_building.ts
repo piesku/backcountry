@@ -243,7 +243,11 @@ export function get_building_blueprint(game: Game) {
     // ROOF
     for (let y = 1; y < building_size_z; y++) {
         offsets.push(
-            ...create_line([0, building_size_y, y], [building_size_x + 1, building_size_y, y], 1)
+            ...create_line(
+                [0, building_size_y, y],
+                [building_size_x + 1, building_size_y, y],
+                PaletteColors.wood
+            )
         );
     }
 

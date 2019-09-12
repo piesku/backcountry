@@ -8,7 +8,7 @@ const QUERY = (1 << Get.Transform) | (1 << Get.PlayerControl) | (1 << Get.Walkin
 
 export function sys_player_control(game: Game, delta: number) {
     for (let i = 0; i < game.World.length; i++) {
-        if ((game.World[i] & QUERY) === QUERY) {
+        if ((game.World[i] & QUERY) == QUERY) {
             update(game, i);
         }
     }
@@ -95,7 +95,7 @@ export function get_route(game: Game, entity: Entity, destination: Navigable) {
     }
 
     let route: Array<[number, number]> = [];
-    while (!(destination.X === walking.X && destination.Y === walking.Y)) {
+    while (!(destination.X == walking.X && destination.Y == walking.Y)) {
         route.push([destination.X, destination.Y]);
 
         let neighbors = get_neighbors(game, destination.X, destination.Y);

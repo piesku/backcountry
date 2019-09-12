@@ -6,7 +6,7 @@ const QUERY = (1 << Get.Transform) | (1 << Get.Collide) | (1 << Get.Move) | (1 <
 
 export function sys_control_projectile(game: Game, delta: number) {
     for (let i = 0; i < game.World.length; i++) {
-        if ((game.World[i] & QUERY) === QUERY) {
+        if ((game.World[i] & QUERY) == QUERY) {
             update(game, i);
         }
     }

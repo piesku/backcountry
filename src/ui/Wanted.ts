@@ -3,35 +3,23 @@ import {Action, GameState} from "../actions.js";
 export function Wanted(state: GameState) {
     return `
         <div style="
-            position: absolute;
-            top: 10%;
-            width: 100%;
-            color: #222;
+            width: 66%;
+            margin: 5% auto;
             text-align: center;
-            font-size: 15vmin;
+            color: #222;
         ">
             WANTED
+            <div style="font-size: 7vmin;">
+                REWARD $${state.ChallengeLevel},000
+            </div>
         </div>
-        <div style="
+        <div onclick="$(${Action.GoToTown});" style="
+            font: italic bold small-caps 7vmin serif;
             position: absolute;
-            top: 30%;
-            width: 100%;
-            color: #222;
-            text-align: center;
-            font-size: 10vmin;
+            bottom: 5%;
+            right: 10%;
         ">
-            REWARD $${state.ChallengeLevel},000
-        </div>
-        <div style="
-            position: absolute;
-            bottom: 15%;
-            width: 100%;
-            text-align: center;
-            font-size: 10vmin;
-        ">
-            <button onclick="$(${Action.GoToTown});">
-                ACCEPT BOUNTY
-            </button>
+            Accept Quest
         </div>
     `;
 }

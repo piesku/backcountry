@@ -3,29 +3,30 @@ import {Action} from "../actions.js";
 export function Store() {
     return `
         <div style="
-            position: absolute;
-            top: 10%;
-            height: 25%;
-            width: 100%;
+            width: 66%;
+            margin: 5% auto;
             text-align: center;
-            font-size: 15vmin;
+            color: #222;
         ">
             GENERAL STORE
         </div>
-        <div style="
+
+        <div onclick="$(${Action.ChangePlayerSeed});" style="
+            font: italic bold small-caps 7vmin serif;
             position: absolute;
-            bottom: 10%;
-            width: 100%;
-            text-align: center;
-            font-size: 10vmin;
+            bottom: 5%;
+            left: 10%;
         ">
-            <button onclick="$(${Action.ChangePlayerSeed});">
-                CHANGE OUTFIT
-            </button>
-            <br>
-            <button onclick="$(${Action.GoToTown});">
-                EXIT TO TOWN
-            </button>
+            Change Outfit
+        </div>
+
+        <div onclick="$(${Action.GoToTown});" style="
+            font: italic bold small-caps 7vmin serif;
+            position: absolute;
+            bottom: 5%;
+            right: 10%;
+        ">
+            Exit to Town
         </div>
     `;
 }

@@ -17,7 +17,7 @@ export function navigable(X: number, Y: number) {
 export function find_navigable(game: Game, x: number, y: number) {
     for (let i = 0; i < game.World.length; i++) {
         if (game.World[i] & (1 << Get.Navigable)) {
-            if (game[Get.Navigable][i].X === x && game[Get.Navigable][i].Y === y) {
+            if (game[Get.Navigable][i].X == x && game[Get.Navigable][i].Y == y) {
                 return i;
             }
         }
