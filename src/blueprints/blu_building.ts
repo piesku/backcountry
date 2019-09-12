@@ -264,8 +264,6 @@ export function get_building_blueprint(game: Game) {
         );
     }
 
-    let Size: [number, number] = [building_size_x + 3 + porch_size + 1, building_size_z + 2];
-
     return {
         Blueprint: <Blueprint>{
             Translation: [0, 1.5, 0],
@@ -280,6 +278,7 @@ export function get_building_blueprint(game: Game) {
             ],
             Children,
         },
-        Size,
+        Size_x: building_size_x + 3 + porch_size + 1,
+        Size_z: building_size_z + 2,
     };
 }
