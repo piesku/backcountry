@@ -3,13 +3,16 @@ import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
 import {element, integer, rand} from "../math/random.js";
 import {palette} from "../palette.js";
-import {character_palette} from "./blu_character.js";
 import {Blueprint, Color, create_line} from "./blu_common.js";
+
+// colors 2 & 5
+let hat_colors: Array<Color> = [[0.2, 0.2, 0.2], [0.9, 0.9, 0.9], [0.53, 0, 0], [1, 0, 0]];
+let extra_colors: Array<Color> = [[0, 0, 0], [1, 1, 1], [1, 1, 0], [0.9, 0, 0]];
 
 export function get_hat_blueprint(game: Game): Blueprint {
     let hat_palette = palette.slice();
-    hat_palette.splice(6, 3, ...(element(character_palette) as Color));
-    hat_palette.splice(9, 3, ...(element(character_palette) as Color));
+    hat_palette.splice(6, 3, ...(element(hat_colors) as Color));
+    hat_palette.splice(9, 3, ...(element(extra_colors) as Color));
 
     let hat_z = integer(2, 3) * 2;
     let hat_x = integer(Math.max(2, hat_z / 2), 5) * 2;

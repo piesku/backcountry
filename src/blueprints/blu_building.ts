@@ -37,12 +37,10 @@ export let main_palette = [
     0.53,
 ];
 
-export let additional_colors = [
-    [0.22, 0.22, 0.22, 0.53, 0.53, 0.53],
-    [0.6, 0.4, 0, 0.4, 0.2, 0],
+let additional_colors = [
     [0, 0.47, 0, 0, 0.33, 0],
     [0.67, 0, 0, 0.54, 0, 0],
-    // [0.2, 0, 0.8, 0, 0.4, 0.8],
+    [0.2, 0, 0.8, 0, 0.4, 0.8],
 ];
 
 export const enum PaletteColors {
@@ -66,7 +64,7 @@ export function get_building_blueprint(game: Game) {
     let has_windows = rand() > 0.4;
     let has_pillars = rand() > 0.4;
     let has_fence = rand() > 0.4;
-    // let is_painted = rand() > 0.4;
+    let is_painted = rand() > 0.4;
     let building_size_x = 20 + integer() * 8;
     let building_size_z = 30 + integer(0, 5) * 8;
     let building_size_y = 15 + integer(0, 9); // height
@@ -81,7 +79,13 @@ export function get_building_blueprint(game: Game) {
             ...create_line(
                 [x, 0, building_size_z - 1],
                 [x, building_size_y, building_size_z - 1],
-                x % 2 ? PaletteColors.color_1 : PaletteColors.color_2
+                is_painted
+                    ? x % 2
+                        ? PaletteColors.color_1
+                        : PaletteColors.color_2
+                    : x % 2
+                    ? PaletteColors.light_wood
+                    : PaletteColors.wood
             )
         );
     }
@@ -91,7 +95,13 @@ export function get_building_blueprint(game: Game) {
             ...create_line(
                 [building_size_x, 0, y],
                 [building_size_x, building_size_y * (has_tall_front_facade ? 1.5 : 1), y],
-                y % 2 ? PaletteColors.color_1 : PaletteColors.color_2
+                is_painted
+                    ? y % 2
+                        ? PaletteColors.color_1
+                        : PaletteColors.color_2
+                    : y % 2
+                    ? PaletteColors.light_wood
+                    : PaletteColors.wood
             )
         );
     }
