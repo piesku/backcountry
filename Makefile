@@ -32,5 +32,5 @@ public/opt/game.terser.js: public/opt/game.tr.js
 		--ecma 9 \
 		--mangle toplevel \
 		--mangle-props regex=/^[A-Z]/ \
-		--compress $(shell paste -sd, < terser_compress.txt) \
+		--compress $(shell paste -sd, terser_compress.txt) \
 	> $@
