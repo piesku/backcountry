@@ -3,7 +3,6 @@ import {Action} from "../actions.js";
 export function Intro() {
     return `
         <div style="
-            margin-left: 5%;
             width: 66%;
         ">
             <div style="margin: auto 0;">
