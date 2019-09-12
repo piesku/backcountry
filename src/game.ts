@@ -59,7 +59,7 @@ import {sys_transform} from "./systems/sys_transform.js";
 import {sys_trigger} from "./systems/sys_trigger.js";
 import {sys_ui} from "./systems/sys_ui.js";
 import {GL_CULL_FACE, GL_DEPTH_TEST} from "./webgl.js";
-import {world_map} from "./worlds/wor_map.js";
+import {world_intro} from "./worlds/wor_town.js";
 
 const MAX_ENTITIES = 10000;
 
@@ -112,7 +112,7 @@ export class Game implements ComponentData, GameState {
     };
 
     public Dispatch = (action: Action, ...args: Array<unknown>) => effect(this, action, args);
-    public WorldFunc = world_map;
+    public WorldFunc = world_intro;
     // Today's timestamp. Changes every midnight, 00:00 UTC.
     public ChallengeSeed = ~~(Date.now() / (24 * 60 * 60 * 1000));
     public PlayerSeed = this.ChallengeSeed;

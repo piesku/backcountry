@@ -7,10 +7,9 @@ import {integer} from "./math/random.js";
 import {widget_damage} from "./widgets/wid_damage.js";
 import {widget_player_hit} from "./widgets/wid_player_hit.js";
 import {world_desert} from "./worlds/wor_desert.js";
-import {world_map} from "./worlds/wor_map.js";
 import {world_mine} from "./worlds/wor_mine.js";
 import {world_store} from "./worlds/wor_store.js";
-import {world_town} from "./worlds/wor_town.js";
+import {world_intro, world_town} from "./worlds/wor_town.js";
 import {world_wanted} from "./worlds/wor_wanted.js";
 
 export interface GameState {
@@ -60,7 +59,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             game.ChallengeLevel = 1;
             game.PlayerState = PlayerState.Playing;
             game.BountySeed = 0;
-            game.WorldFunc = world_map;
+            game.WorldFunc = world_intro;
             setTimeout(game.WorldFunc, 0, game);
             break;
         }
