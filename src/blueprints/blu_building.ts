@@ -151,7 +151,7 @@ export function get_building_blueprint(game: Game) {
                         y -
                         ~~(banner_height / 2),
                     banner_offset + x,
-                    rand() > 0.3 || // 1/3 chance, but only when not on a border
+                    rand() > 0.4 || // 1/4 chance, but only when not on a border
                         x == 2 ||
                         x == bannner_width - 1 ||
                         y == 0 ||
