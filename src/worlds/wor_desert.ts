@@ -48,9 +48,12 @@ export function world_desert(game: Game) {
 
     generate_maze(game, [0, map_size - 1], [0, map_size - 1], map_size, 0.6);
 
-    for (let z = entrance_position_z; z < entrance_position_z + entrance_length; z++) {
+    for (let z = entrance_position_z; z < entrance_position_z + entrance_length + 3; z++) {
         for (let x = entrance_position_x - 1; x < entrance_position_x + entrance_width - 1; x++) {
-            if (x === entrance_position_x - 1 + entrance_width - 2 && z !== entrance_position_z) {
+            if (
+                (x === entrance_position_x - 1 + entrance_width - 2 && z !== entrance_position_z) ||
+                z >= entrance_position_z + entrance_length
+            ) {
                 game.Grid[x][z] = Infinity;
             } else {
                 game.Grid[x][z] = NaN;
