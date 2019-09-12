@@ -51,7 +51,7 @@ export function world_town(game: Game) {
     for (let x = 0; x < map_size; x++) {
         game.Grid[x] = [];
         for (let y = 0; y < map_size; y++) {
-            let is_fence = x == fence_line || x == back_fence_line;
+            let is_fence = x == fence_line || x == back_fence_line || x == back_fence_line - 1;
             // cactuses & stones here
             // We set this to true, because we don't want props to be
             // generated on the fence line
