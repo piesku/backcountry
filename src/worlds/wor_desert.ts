@@ -129,7 +129,7 @@ export function world_desert(game: Game) {
     });
 
     set_seed(game.PlayerSeed);
-    let player_position = game[Get.Transform][find_navigable(game, 1, 1)].Translation;
+    let player_position = game[Get.Transform][find_navigable(game, {X: 1, Y: 1})].Translation;
     // Player.
     game.Player = game.Add({
         Translation: [player_position[0], 5, player_position[2]],

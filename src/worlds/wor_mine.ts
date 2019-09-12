@@ -127,7 +127,7 @@ export function world_mine(game: Game) {
         }
     }
 
-    let player_position = game[Get.Transform][find_navigable(game, 1, 1)].Translation;
+    let player_position = game[Get.Transform][find_navigable(game, {X: 1, Y: 1})].Translation;
     // Player.
     set_seed(game.PlayerSeed);
     game.Player = game.Add({

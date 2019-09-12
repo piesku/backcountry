@@ -19,7 +19,7 @@ export interface GameState {
     ChallengeLevel: number;
     BountySeed: number;
     PlayerState: PlayerState;
-    PlayerXY?: [number, number];
+    PlayerXY?: {X: number; Y: number};
     Gold: number;
 }
 
@@ -71,16 +71,14 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             break;
         }
         case Action.GoToWanted: {
-            let walking = game[Get.Walking][game.Player!];
-            game.PlayerXY = [walking.X, walking.Y];
+            game.PlayerXY = game[Get.Walking][game.Player!];
             game.BountySeed = game.ChallengeSeed * game.ChallengeLevel - 1;
             game.WorldFunc = world_wanted;
             setTimeout(game.WorldFunc, 0, game);
             break;
         }
         case Action.GoToStore: {
-            let walking = game[Get.Walking][game.Player!];
-            game.PlayerXY = [walking.X, walking.Y];
+            game.PlayerXY = game[Get.Walking][game.Player!];
             game.WorldFunc = world_store;
             setTimeout(game.WorldFunc, 0, game);
             break;

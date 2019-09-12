@@ -119,13 +119,14 @@ export function world_town(game: Game, is_intro: boolean = false) {
     }
 
     if (!game.PlayerXY) {
-        game.PlayerXY = [map_size / 2, map_size / 2];
+        game.PlayerXY = {X: map_size / 2, Y: map_size / 2};
     }
-    calculate_distance(game, ...game.PlayerXY);
-    let player_position = game[Get.Transform][find_navigable(game, ...game.PlayerXY)].Translation;
+    calculate_distance(game, game.PlayerXY);
+    let player_position = game[Get.Transform][find_navigable(game, game.PlayerXY)].Translation;
 
     let sheriff_position =
-        game[Get.Transform][find_navigable(game, map_size / 2, map_size / 2 + 3)].Translation;
+        game[Get.Transform][find_navigable(game, {X: map_size / 2, Y: map_size / 2 + 3})]
+            .Translation;
 
     if (is_intro) {
         game.Add({
@@ -174,7 +175,7 @@ export function world_town(game: Game, is_intro: boolean = false) {
         });
 
         let outfitter_position =
-            game[Get.Transform][find_navigable(game, map_size / 2 + 3, map_size / 2 - 8)]
+            game[Get.Transform][find_navigable(game, {X: map_size / 2 + 3, Y: map_size / 2 - 8})]
                 .Translation;
 
         // Outfitter.
