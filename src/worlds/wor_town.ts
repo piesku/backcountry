@@ -1,6 +1,7 @@
 import {Action} from "../actions.js";
 import {get_building_blueprint, main_palette, PaletteColors} from "../blueprints/blu_building.js";
 import {get_character_blueprint} from "../blueprints/blu_character.js";
+import {get_gold_blueprint} from "../blueprints/blu_gold.js";
 import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
 import {create_iso_camera} from "../blueprints/blu_iso_camera.js";
 import {get_town_gate_blueprint} from "../blueprints/blu_town_gate.js";
@@ -230,6 +231,11 @@ export function world_town(game: Game, is_intro: boolean = false) {
         Translation: [-120, 5, -120],
         Using: [collide(false, [8, 8, 8]), trigger(Action.GoToDesert)],
         Children: [get_character_blueprint(game)],
+    });
+
+    game.Add({
+        ...get_gold_blueprint(game),
+        Translation: [56, 1.5, 0],
     });
 
     // Dio-cube
