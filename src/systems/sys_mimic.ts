@@ -7,7 +7,7 @@ const QUERY = (1 << Get.Transform) | (1 << Get.Mimic);
 
 export function sys_mimic(game: Game, delta: number) {
     for (let i = 0; i < game.World.length; i++) {
-        if ((game.World[i] & QUERY) === QUERY) {
+        if ((game.World[i] & QUERY) == QUERY) {
             let follower_transform = game[Get.Transform][i];
             let follower_mimic = game[Get.Mimic][i];
             let target_transform = game[Get.Transform][follower_mimic.Target];
@@ -17,7 +17,7 @@ export function sys_mimic(game: Game, delta: number) {
                 [],
                 follower_transform.Translation,
                 target_world_position,
-                follower_mimic.Stiffness
+                0.1
             );
             follower_transform.Dirty = true;
         }

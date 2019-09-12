@@ -8,7 +8,7 @@ const QUERY = (1 << Get.Transform) | (1 << Get.Animate);
 
 export function sys_animate(game: Game, delta: number) {
     for (let i = 0; i < game.World.length; i++) {
-        if ((game.World[i] & QUERY) === QUERY) {
+        if ((game.World[i] & QUERY) == QUERY) {
             update(game, i, delta);
         }
     }
@@ -85,7 +85,7 @@ function update(game: Game, entity: Entity, delta: number) {
 
     // 5. The animation has completed. Determine what to do next.
 
-    if (animate.Current.Time === animate.Current.Duration) {
+    if (animate.Current.Time == animate.Current.Duration) {
         animate.Current.Time = 0;
 
         if (animate.Current.Flags & AnimationFlag.Alternate) {

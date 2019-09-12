@@ -7,7 +7,7 @@ const QUERY = 1 << Get.Transform;
 
 export function sys_transform(game: Game, delta: number) {
     for (let i = 0; i < game.World.length; i++) {
-        if ((game.World[i] & QUERY) === QUERY) {
+        if ((game.World[i] & QUERY) == QUERY) {
             update(game[Get.Transform][i]);
         }
     }

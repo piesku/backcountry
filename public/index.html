@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<meta charset="utf8" />
+<meta charset="utf8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <title>Backcountry</title>
 <style>
-    html,
-    body {
+    html, body {
         overflow: hidden;
         margin: 0;
-        font-family: Impact;
-        color: #FFE8C6;
     }
     canvas, main {
         position: absolute;
@@ -16,13 +14,15 @@
         bottom: 0;
         left: 0;
         user-select: none;
+        color: #ffe8c6;
+        font: 15vmin Impact;
     }
-    button {
-        background: none;
-        border: none;
+    a, [onclick] {
         cursor: pointer;
-        font: inherit;
-        color: inherit;
+        color: #ffe8c6
+    }
+    a:hover, [onclick]:hover {
+        color: #fff;
     }
 
     #debug {
@@ -37,6 +37,10 @@
     }
     #debug button {
         padding: 0;
+        background: none;
+        border: none;
+        font: inherit;
+        color: inherit;
     }
     #debug div {
         width: max-content;
@@ -49,8 +53,8 @@
     <canvas></canvas>
     <main></main>
     <div id="debug">
-        <div>fixed: <span id="fixed"></span></div>
-        <div>frame: <span id="frame"></span></div>
+        <div>cpu: <span id="cpu"></span></div>
+        <div>gpu: <span id="gpu"></span></div>
         <div>fps: <span id="fps"></span></div>
         <div><button onclick="toggle(this)">pause</button></div>
     </div>

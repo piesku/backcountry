@@ -1,24 +1,22 @@
 import {RayTarget} from "../components/com_collide.js";
 import {Get} from "../components/com_index.js";
 import {find_navigable, Navigable} from "../components/com_navigable.js";
-import {Select} from "../components/com_select.js";
 import {Entity, Game} from "../game.js";
 import {get_translation} from "../math/mat4.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.PlayerControl) | (1 << Get.Walking);
 
 export function sys_player_control(game: Game, delta: number) {
-    if (game.World[game.Camera!.EntityId] & (1 << Get.Select)) {
-        let cursor = game[Get.Select][game.Camera!.EntityId];
-        for (let i = 0; i < game.World.length; i++) {
-            if ((game.World[i] & QUERY) === QUERY) {
-                update(game, i, cursor);
-            }
+    for (let i = 0; i < game.World.length; i++) {
+        if ((game.World[i] & QUERY) == QUERY) {
+            update(game, i);
         }
     }
 }
 
-function update(game: Game, entity: Entity, cursor: Select) {
+function update(game: Game, entity: Entity) {
+    // Player is controllable only in scenes with mouse picking.
+    let cursor = game[Get.Select][game.Camera!.EntityId];
     if (game.Input.d0 && cursor.Hit) {
         if (cursor.Hit.Flags & RayTarget.Navigable) {
             let route = get_route(game, entity, game[Get.Navigable][cursor.Hit.EntityId]);
@@ -64,6 +62,15 @@ export function get_neighbors(game: Game, x: number, y: number) {
 }
 
 export function calculate_distance(game: Game, x: number, y: number) {
+    // Reset the distance grid.
+    for (let x = 0; x < game.Grid.length; x++) {
+        for (let y = 0; y < game.Grid[0].length; y++) {
+            if (!Number.isNaN(game.Grid[x][y])) {
+                game.Grid[x][y] = Infinity;
+            }
+        }
+    }
+    game.Grid[x][y] = 0;
     let frontier = [{x, y}];
     let current;
     while ((current = frontier.shift())) {
@@ -80,16 +87,6 @@ export function calculate_distance(game: Game, x: number, y: number) {
 
 export function get_route(game: Game, entity: Entity, destination: Navigable) {
     let walking = game[Get.Walking][entity];
-
-    // reset the depth field
-    for (let x = 0; x < game.Grid.length; x++) {
-        for (let y = 0; y < game.Grid[0].length; y++) {
-            if (!Number.isNaN(game.Grid[x][y])) {
-                game.Grid[x][y] = Infinity;
-            }
-        }
-    }
-    game.Grid[walking.X][walking.Y] = 0;
     calculate_distance(game, walking.X, walking.Y);
 
     // Bail out early if the destination is not accessible (Infinity) or non-walkable (NaN).
@@ -98,7 +95,7 @@ export function get_route(game: Game, entity: Entity, destination: Navigable) {
     }
 
     let route: Array<[number, number]> = [];
-    while (!(destination.X === walking.X && destination.Y === walking.Y)) {
+    while (!(destination.X == walking.X && destination.Y == walking.Y)) {
         route.push([destination.X, destination.Y]);
 
         let neighbors = get_neighbors(game, destination.X, destination.Y);

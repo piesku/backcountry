@@ -8,7 +8,7 @@ const QUERY = (1 << Get.Transform) | (1 << Get.NPC) | (1 << Get.Walking);
 
 export function sys_ai(game: Game, delta: number) {
     for (let i = 0; i < game.World.length; i++) {
-        if ((game.World[i] & QUERY) === QUERY) {
+        if ((game.World[i] & QUERY) == QUERY) {
             update(game, i, delta);
         }
     }
@@ -27,7 +27,7 @@ function update(game: Game, entity: Entity, delta: number) {
     if (!walking.Route.length && !walking.Destination) {
         if (is_friendly || distance_to_player > 5) {
             let destination_depth = integer(1, 15);
-            while (destination_depth === game.Grid[walking.X][walking.Y]) {
+            while (destination_depth == game.Grid[walking.X][walking.Y]) {
                 destination_depth = integer(1, 15);
             }
 
@@ -83,12 +83,7 @@ function get_random_route(game: Game, entity: Entity, destination_depth: number)
 
         for (let i = 0; i < neighbors.length; i++) {
             let neighbor_coords = neighbors[i];
-            if (
-                game.Grid[neighbor_coords.x][neighbor_coords.y] ===
-                current_depth + 1 * modifier
-                //  ||
-                // game.grid[neighbor_coords.x][neighbor_coords.y] === current_depth
-            ) {
+            if (game.Grid[neighbor_coords.x][neighbor_coords.y] == current_depth + 1 * modifier) {
                 current_cell =
                     game[Get.Navigable][find_navigable(game, neighbor_coords.x, neighbor_coords.y)];
                 current_depth = game.Grid[current_cell.X][current_cell.Y];

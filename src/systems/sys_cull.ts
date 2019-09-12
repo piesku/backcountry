@@ -5,11 +5,9 @@ import {transform_point_faster} from "../math/vec3.js";
 const QUERY = (1 << Get.Transform) | (1 << Get.Cull);
 
 export function sys_cull(game: Game, delta: number) {
-    if (game.Camera!.Cull) {
-        for (let i = 0; i < game.World.length; i++) {
-            if ((game.World[i] & QUERY) === QUERY) {
-                update(game, i);
-            }
+    for (let i = 0; i < game.World.length; i++) {
+        if ((game.World[i] & QUERY) == QUERY) {
+            update(game, i);
         }
     }
 }

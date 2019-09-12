@@ -1,17 +1,17 @@
 import {get_character_blueprint} from "../blueprints/blu_character.js";
+import {create_iso_camera} from "../blueprints/blu_iso_camera.js";
 import {Anim, animate, AnimationFlag} from "../components/com_animate.js";
-import {camera_ortho} from "../components/com_camera.js";
 import {light} from "../components/com_light.js";
 import {Game} from "../game.js";
 import {set_seed} from "../math/random.js";
 
-export function world_wanted(game: Game) {
-    set_seed(game.BountySeed);
+export function world_store(game: Game) {
+    set_seed(game.PlayerSeed);
     game.World = [];
     game.GL.clearColor(0.9, 0.7, 0.3, 1);
 
-    // Bandit.
-    game.Add({
+    // Player.
+    let player = game.Add({
         Using: [
             animate({
                 [Anim.Idle]: {
@@ -36,11 +36,7 @@ export function world_wanted(game: Game) {
         Children: [get_character_blueprint(game)],
     });
 
-    // Camera.
-    game.Add({
-        Translation: [0, 2, 10],
-        Using: [camera_ortho(10, 1, 100)],
-    });
+    game.Add(create_iso_camera(player));
 
     // Directional light.
     game.Add({

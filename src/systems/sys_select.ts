@@ -1,4 +1,3 @@
-import {Action} from "../actions.js";
 import {Anim, Animate} from "../components/com_animate.js";
 import {AudioSource} from "../components/com_audio_source.js";
 import {Collide, RayTarget} from "../components/com_collide.js";
@@ -11,12 +10,12 @@ import {snd_click} from "../sounds/snd_click.js";
 
 const QUERY = (1 << Get.Transform) | (1 << Get.Camera) | (1 << Get.Select);
 const TARGET = (1 << Get.Transform) | (1 << Get.Collide);
-const ANIMATED = RayTarget.Navigable | RayTarget.Player | RayTarget.Choosable;
+const ANIMATED = RayTarget.Navigable | RayTarget.Player;
 
 export function sys_select(game: Game, delta: number) {
     let colliders: Array<Collide> = [];
     for (let i = 0; i < game.World.length; i++) {
-        if ((game.World[i] & TARGET) === TARGET) {
+        if ((game.World[i] & TARGET) == TARGET) {
             if (game[Get.Collide][i].Flags !== RayTarget.None) {
                 colliders.push(game[Get.Collide][i]);
             }
@@ -24,7 +23,7 @@ export function sys_select(game: Game, delta: number) {
     }
 
     for (let i = 0; i < game.World.length; i++) {
-        if ((game.World[i] & QUERY) === QUERY) {
+        if ((game.World[i] & QUERY) == QUERY) {
             update(game, i, colliders);
         }
     }
@@ -62,10 +61,6 @@ function update(game: Game, entity: Entity, colliders: Array<Collide>) {
         }
         for (let audio of components_of_type<AudioSource>(game, transform, Get.AudioSource)) {
             audio.Trigger = snd_click;
-        }
-
-        if (select.Hit.Flags & RayTarget.Choosable) {
-            game.Dispatch(Action.ChangePlayer, select.Hit.EntityId);
         }
     }
 }

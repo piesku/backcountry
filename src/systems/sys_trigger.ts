@@ -5,7 +5,7 @@ const QUERY = (1 << Get.Transform) | (1 << Get.Collide) | (1 << Get.Trigger);
 
 export function sys_trigger(game: Game, delta: number) {
     for (let i = 0; i < game.World.length; i++) {
-        if ((game.World[i] & QUERY) === QUERY) {
+        if ((game.World[i] & QUERY) == QUERY) {
             update(game, i);
         }
     }
@@ -16,7 +16,7 @@ function update(game: Game, entity: Entity) {
     for (let collide of collisions) {
         if (game.World[collide.EntityId] & (1 << Get.PlayerControl)) {
             game.World[entity] &= ~(1 << Get.Trigger);
-            game.Dispatch(game[Get.Trigger][entity].Action);
+            game.Dispatch(game[Get.Trigger][entity].Action, entity);
         }
     }
 }

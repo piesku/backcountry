@@ -49,7 +49,7 @@ var vox = {};
             // xhr.open("GET", url, true);
             // xhr.responseType = "arraybuffer";
             // xhr.onreadystatechange = function() {
-            //     if (xhr.readyState === 4 && (xhr.status === 200 || xhr.status === 0)) {
+            //     if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
             //         var arrayBuffer = xhr.response;
             //         if (arrayBuffer) {
             //             var byteArray = new Uint8Array(arrayBuffer);
@@ -128,7 +128,7 @@ var vox = {};
             root(dataHolder);
             dataHolder.data.size = dataHolder.data.anim[0].size;
             dataHolder.data.voxels = dataHolder.data.anim[0].voxels;
-            if (dataHolder.data.palette.length === 0) {
+            if (dataHolder.data.palette.length == 0) {
                 debugLog("(use default palette)");
                 dataHolder.data.palette = vox.defaultPalette;
             } else {
@@ -493,22 +493,22 @@ var vox = {};
      * @property {THREE.Material} material
      */
     vox.MeshBuilder = function(voxelData, param) {
-        if (vox.MeshBuilder.textureFactory === null)
+        if (vox.MeshBuilder.textureFactory == null)
             vox.MeshBuilder.textureFactory = new vox.TextureFactory();
 
         param = param || {};
         this.voxelData = voxelData;
         this.voxelSize = param.voxelSize || vox.MeshBuilder.DEFAULT_PARAM.voxelSize;
         this.vertexColor =
-            param.vertexColor === undefined
+            param.vertexColor == undefined
                 ? vox.MeshBuilder.DEFAULT_PARAM.vertexColor
                 : param.vertexColor;
         this.optimizeFaces =
-            param.optimizeFaces === undefined
+            param.optimizeFaces == undefined
                 ? vox.MeshBuilder.DEFAULT_PARAM.optimizeFaces
                 : param.optimizeFaces;
         this.originToBottom =
-            param.originToBottom === undefined
+            param.originToBottom == undefined
                 ? vox.MeshBuilder.DEFAULT_PARAM.originToBottom
                 : param.originToBottom;
 
@@ -586,7 +586,7 @@ var vox = {};
         }
 
         // 6方向すべて隣接されていたらnullを返す
-        if (ignoreFaces.length === 6) return null;
+        if (ignoreFaces.length == 6) return null;
 
         // 頂点データ
         var voxVertices = voxVerticesSource.map(
@@ -801,7 +801,7 @@ var vox = {};
     };
     var hex = function(num) {
         var r = num.toString(16);
-        return r.length === 1 ? "0" + r : r;
+        return r.length == 1 ? "0" + r : r;
     };
 })();
 

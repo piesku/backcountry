@@ -1,27 +1,36 @@
-import {Action} from "../actions.js";
+import {Action, GameState} from "../actions.js";
 
-export function Defeat() {
+export function Defeat(state: GameState) {
     return `
         <div style="
-            position: absolute;
-            top: 10%;
-            height: 25%;
-            width: 100%;
+            width: 66%;
+            margin: 5% auto;
             text-align: center;
-            font-size: 15vh;
         ">
-            WASTED
+            YOU DIE
+            <div style="
+                font: italic 5vmin serif;
+            ">
+                You earned $${state.Gold.toLocaleString("en-US")}.
+            </div>
         </div>
-        <div style="
+
+        <div onclick="alert('Not implemented yet! You score was ${state.Gold}');" style="
+            font: italic bold small-caps 7vmin serif;
             position: absolute;
-            bottom: 13%;
-            width: 100%;
-            text-align: center;
-            font-size: 10vh;
+            bottom: 5%;
+            left: 10%;
         ">
-            <button onclick="$(${Action.GoToIntro});">
-                TRY AGAIN
-            </button>
+            Tweet Your Score
+        </div>
+
+        <div onclick="$(${Action.EndChallenge});" style="
+            font: italic bold small-caps 7vmin serif;
+            position: absolute;
+            bottom: 5%;
+            right: 10%;
+        ">
+            Try Again
         </div>
     `;
 }

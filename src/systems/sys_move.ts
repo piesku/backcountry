@@ -9,7 +9,7 @@ const QUERY = (1 << Get.Transform) | (1 << Get.Move);
 
 export function sys_move(game: Game, delta: number) {
     for (let i = 0; i < game.World.length; i++) {
-        if ((game.World[i] & QUERY) === QUERY) {
+        if ((game.World[i] & QUERY) == QUERY) {
             update(game, i, delta);
         }
     }

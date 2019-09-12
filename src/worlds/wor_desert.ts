@@ -1,3 +1,4 @@
+import {main_palette, PaletteColors} from "../blueprints/blu_building.js";
 import {get_character_blueprint} from "../blueprints/blu_character.js";
 import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
 import {create_iso_camera} from "../blueprints/blu_iso_camera.js";
@@ -12,6 +13,7 @@ import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
 import {find_navigable} from "../components/com_navigable.js";
 import {npc} from "../components/com_npc.js";
+import {render_vox} from "../components/com_render_vox.js";
 import {shoot} from "../components/com_shoot.js";
 import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
@@ -21,16 +23,17 @@ import {widget_healthbar} from "../widgets/wid_healthbar.js";
 import {generate_maze} from "./wor_mine.js";
 
 export function world_desert(game: Game) {
-    set_seed(game.SeedBounty);
+    set_seed(game.BountySeed);
     let map_size = 40;
-    let entrance_position_x = 26;
-    let entrance_position_z = 28;
+    let entrance_position_x = integer(20, 30) || 20;
+    let entrance_position_z = integer(10, 30) || 10;
     let entrance_width = 4;
     let entrance_length = 6;
+
     game.World = [];
     game.Grid = [];
 
-    game.GL.clearColor(1, 0.3, 0.3, 1);
+    game.GL.clearColor(0.8, 0.3, 0.2, 1);
 
     for (let x = 0; x < map_size; x++) {
         game.Grid[x] = [];
@@ -45,9 +48,12 @@ export function world_desert(game: Game) {
 
     generate_maze(game, [0, map_size - 1], [0, map_size - 1], map_size, 0.6);
 
-    for (let z = entrance_position_z; z < entrance_position_z + entrance_length; z++) {
+    for (let z = entrance_position_z; z < entrance_position_z + entrance_length + 3; z++) {
         for (let x = entrance_position_x - 1; x < entrance_position_x + entrance_width - 1; x++) {
-            if (x === entrance_position_x - 1 + entrance_width - 2 && z !== entrance_position_z) {
+            if (
+                (x == entrance_position_x - 1 + entrance_width - 2 && z !== entrance_position_z) ||
+                z >= entrance_position_z + entrance_length
+            ) {
                 game.Grid[x][z] = Infinity;
             } else {
                 game.Grid[x][z] = NaN;
@@ -58,7 +64,7 @@ export function world_desert(game: Game) {
     // Ground.
     for (let x = 0; x < map_size; x++) {
         for (let y = 0; y < map_size; y++) {
-            let is_walkable = game.Grid[x][y] === Infinity;
+            let is_walkable = game.Grid[x][y] == Infinity;
             let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y);
 
             game.Add({
@@ -91,7 +97,7 @@ export function world_desert(game: Game) {
                     walking(x, y),
                     move(integer(8, 15)),
                     collide(true, [7, 7, 7], RayTarget.Attackable),
-                    health(1500),
+                    health(1500 * game.ChallengeLevel),
                     shoot(1),
                 ],
                 Children: [
@@ -115,7 +121,7 @@ export function world_desert(game: Game) {
         ...entrance,
     });
 
-    set_seed(game.SeedPlayer);
+    set_seed(game.PlayerSeed);
     let player_position = game[Get.Transform][find_navigable(game, 1, 1)].Translation;
     // Player.
     game.Player = game.Add({
@@ -139,6 +145,20 @@ export function world_desert(game: Game) {
                 Translation: [0, 10, 0],
                 Using: [draw(widget_healthbar)],
             },
+        ],
+    });
+
+    // Dio-cube
+    game.Add({
+        Scale: [map_size * 8, map_size * 2, map_size * 8],
+        Translation: [-4, -map_size + 0.49, -4],
+        Using: [
+            render_vox(
+                {
+                    Offsets: Float32Array.from([0, 0, 0, PaletteColors.desert_ground_1]),
+                },
+                main_palette
+            ),
         ],
     });
 

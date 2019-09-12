@@ -1,3 +1,4 @@
+import {main_palette, PaletteColors} from "../blueprints/blu_building.js";
 import {get_character_blueprint} from "../blueprints/blu_character.js";
 import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
 import {create_iso_camera} from "../blueprints/blu_iso_camera.js";
@@ -12,6 +13,7 @@ import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
 import {find_navigable} from "../components/com_navigable.js";
 import {npc} from "../components/com_npc.js";
+import {render_vox} from "../components/com_render_vox.js";
 import {shoot} from "../components/com_shoot.js";
 import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
@@ -21,12 +23,12 @@ import {snd_music} from "../sounds/snd_music.js";
 import {widget_healthbar} from "../widgets/wid_healthbar.js";
 
 export function world_mine(game: Game) {
-    set_seed(game.SeedBounty);
+    set_seed(game.BountySeed);
 
     game.World = [];
     game.Grid = [];
 
-    game.GL.clearColor(1, 0.3, 0.3, 1);
+    game.GL.clearColor(0.8, 0.3, 0.2, 1);
 
     let map_size = 30;
     for (let x = 0; x < map_size; x++) {
@@ -42,15 +44,17 @@ export function world_mine(game: Game) {
 
     generate_maze(game, [0, map_size - 1], [0, map_size - 1], map_size, 0.3);
 
-    let palette = [0.2, 0.2, 0.2, 0.5, 0.5, 0.5];
     // Ground.
     for (let x = 0; x < map_size; x++) {
         for (let y = 0; y < map_size; y++) {
             let is_walkable = game.Grid[x][y] == Infinity;
-            // let is_walkable = true; // rand() > 0.04;
+
             let tile_blueprint = is_walkable
-                ? get_tile_blueprint(game, is_walkable, x, y, palette)
-                : get_mine_wall_blueprint(game, palette);
+                ? get_tile_blueprint(game, is_walkable, x, y, true, [
+                      PaletteColors.mine_ground_1,
+                      PaletteColors.mine_ground_2,
+                  ])
+                : get_mine_wall_blueprint(game);
 
             game.Add({
                 ...tile_blueprint,
@@ -82,11 +86,11 @@ export function world_mine(game: Game) {
                 walking(x, y),
                 move(integer(12, 16), 0),
                 collide(true, [7, 7, 7], RayTarget.Attackable),
-                health(5000),
+                health(5000 * game.ChallengeLevel),
                 shoot(1),
             ],
             Children: [
-                (set_seed(game.SeedBounty), get_character_blueprint(game)),
+                (set_seed(game.BountySeed), get_character_blueprint(game)),
                 {
                     Translation: [0, 10, 0],
                     Using: [draw(widget_healthbar)],
@@ -107,7 +111,7 @@ export function world_mine(game: Game) {
                     walking(x, y),
                     move(integer(8, 15)),
                     collide(true, [7, 7, 7], RayTarget.Attackable),
-                    health(2000),
+                    health(2000 * game.ChallengeLevel),
                     shoot(1),
                 ],
                 Children: [
@@ -123,7 +127,7 @@ export function world_mine(game: Game) {
 
     let player_position = game[Get.Transform][find_navigable(game, 1, 1)].Translation;
     // Player.
-    set_seed(game.SeedPlayer);
+    set_seed(game.PlayerSeed);
     game.Player = game.Add({
         Translation: [player_position[0], 5, player_position[2]],
         Using: [
@@ -145,6 +149,20 @@ export function world_mine(game: Game) {
                 Translation: [0, 10, 0],
                 Using: [draw(widget_healthbar)],
             },
+        ],
+    });
+
+    // Dio-cube
+    game.Add({
+        Scale: [map_size * 8, map_size * 2, map_size * 8],
+        Translation: [-4, -map_size + 0.49, -4],
+        Using: [
+            render_vox(
+                {
+                    Offsets: Float32Array.from([0, 0, 0, PaletteColors.mine_ground_1]),
+                },
+                main_palette
+            ),
         ],
     });
 

@@ -10,8 +10,7 @@ import {Blueprint} from "./blu_common.js";
 export function get_rock_blueprint(game: Game): Blueprint {
     let model = game.Models[Models.ROCK];
     return {
-        Translation: [0, integer(0, 2) + 0.1, 0],
-        // Translation: [0, ~~(model.Size![1] / 2) - 2.1 * integer(0, 2), 0],
+        Translation: [0.1, integer(0, 2) + 0.1, 0.1],
         Rotation: from_euler([], integer(0, 3) * 90, integer(0, 3) * 90, integer(0, 3) * 90),
         Using: [render_vox(model), cull(Get.Render)],
     };

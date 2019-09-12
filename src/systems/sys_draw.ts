@@ -11,7 +11,7 @@ export function sys_draw(game: Game, delta: number) {
     let position = [] as Vec3;
 
     for (let i = 0; i < game.World.length; i++) {
-        if ((game.World[i] & QUERY) === QUERY) {
+        if ((game.World[i] & QUERY) == QUERY) {
             // World position.
             get_translation(position, game[Get.Transform][i].World);
             // NDC position.

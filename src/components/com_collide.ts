@@ -50,6 +50,4 @@ export const enum RayTarget {
     Attackable = 1 << 3,
     /** The player; used with Anim.Select when playing. */
     Player = 1 << 4,
-    /** Available characters; used with Anim.Select in the intro. */
-    Choosable = 1 << 5,
 }

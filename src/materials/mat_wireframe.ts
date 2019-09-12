@@ -3,28 +3,26 @@ import {GL_LINE_LOOP} from "../webgl.js";
 import {link, Material} from "./mat_common.js";
 
 let vertex = `#version 300 es\n
-    // Projection * View matrix
-    uniform mat4 uP;
-    // World (model) matrix
-    uniform mat4 uW;
+    // Matrices: PV, world
+    uniform mat4 p,q;
 
-    layout(location=${BasicAttribute.Position}) in vec3 vp;
+    layout(location=${BasicAttribute.Position}) in vec3 k;
 
-    void main() {
-        gl_Position = uP * uW * vec4(vp, 1.0);
+    void main(){
+        gl_Position=p*q*vec4(k,1.);
     }
 `;
 
 let fragment = `#version 300 es\n
     precision mediump float;
     // Line color
-    uniform vec4 uc;
+    uniform vec4 r;
 
     // Fragment color
-    out vec4 fc;
+    out vec4 z;
 
     void main() {
-        fc = uc;
+        z=r;
     }
 `;
 
@@ -36,7 +34,7 @@ export function mat_wireframe(GL: WebGL2RenderingContext) {
         Uniforms: [],
     };
 
-    for (let name of ["uP", "uW", "uC"]) {
+    for (let name of ["p", "q", "r"]) {
         material.Uniforms.push(GL.getUniformLocation(material.Program, name)!);
     }
 

@@ -13,7 +13,7 @@ const QUERY = (1 << Get.Transform) | (1 << Get.Shoot);
 
 export function sys_shoot(game: Game, delta: number) {
     for (let i = 0; i < game.World.length; i++) {
-        if ((game.World[i] & QUERY) === QUERY) {
+        if ((game.World[i] & QUERY) == QUERY) {
             update(game, i);
         }
     }

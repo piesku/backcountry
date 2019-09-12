@@ -9,7 +9,7 @@ const models_map = [];
 let current_model_index = 0;
 let files = fs.readdirSync(models_dir);
 files = files.filter(el => {
-    return path.extname(el) === ".vox" && !el.endsWith("ignore");
+    return path.extname(el) == ".vox" && !el.endsWith("ignore");
 });
 
 const final_palette = [];
@@ -36,7 +36,7 @@ each(
                     ];
                 });
 
-                if (final_palette.length === 0) {
+                if (final_palette.length == 0) {
                     // Colors that can be modified (indexes 0-5)
                     for (let i = 0; i <= 6; i++) {
                         final_palette.push(palette[i]);
@@ -176,9 +176,9 @@ each(
 function find_cube(collection, cords) {
     return collection.some(cube => {
         return (
-            cube.offset[0] === cords[0] &&
-            cube.offset[1] === cords[1] &&
-            cube.offset[2] === cords[2]
+            cube.offset[0] == cords[0] &&
+            cube.offset[1] == cords[1] &&
+            cube.offset[2] == cords[2]
         );
     });
 }

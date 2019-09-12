@@ -1,6 +1,6 @@
-import {Action, GameState} from "../actions.js";
+import {Action} from "../actions.js";
 
-export function Wanted(state: GameState) {
+export function Store() {
     return `
         <div style="
             width: 66%;
@@ -8,18 +8,25 @@ export function Wanted(state: GameState) {
             text-align: center;
             color: #222;
         ">
-            WANTED
-            <div style="font-size: 7vmin;">
-                REWARD $${state.ChallengeLevel},000
-            </div>
+            GENERAL STORE
         </div>
+
+        <div onclick="$(${Action.ChangePlayerSeed});" style="
+            font: italic bold small-caps 7vmin serif;
+            position: absolute;
+            bottom: 5%;
+            left: 10%;
+        ">
+            Change Outfit
+        </div>
+
         <div onclick="$(${Action.GoToTown});" style="
             font: italic bold small-caps 7vmin serif;
             position: absolute;
             bottom: 5%;
             right: 10%;
         ">
-            Accept Quest
+            Exit to Town
         </div>
     `;
 }
