@@ -17,8 +17,6 @@ export function Intro() {
                 font: italic 5vmin serif;
             ">
                 Earn as much money as you can in today's challenge.
-                Check <a href="https://twitter.com/hashtag/backcountryrpg">#backcountryrpg</a>
-                on Twitter for high scores.
             </div>
         </div>
     `;
