@@ -46,10 +46,10 @@ export interface Instrument {
     [InstrumentParam.FilterType]: false | BiquadFilterType;
     [InstrumentParam.FilterFreq]: number;
     [InstrumentParam.FilterQ]: number;
+    [InstrumentParam.FilterDetuneLFO]: boolean;
     [InstrumentParam.LFOType]: false | OscillatorType;
     [InstrumentParam.LFOAmount]: number;
     [InstrumentParam.LFOFreq]: number;
-    [InstrumentParam.FilterDetuneLFO]: boolean;
     [InstrumentParam.Sources]: Array<Oscillator | Buffer>;
 }
 

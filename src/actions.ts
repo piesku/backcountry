@@ -4,6 +4,7 @@ import {Get} from "./components/com_index.js";
 import {lifespan} from "./components/com_lifespan.js";
 import {Entity, Game} from "./game.js";
 import {integer} from "./math/random.js";
+import {snd_gold} from "./sounds/snd_gold.js";
 import {widget_damage} from "./widgets/wid_damage.js";
 import {widget_player_hit} from "./widgets/wid_player_hit.js";
 import {world_desert} from "./worlds/wor_desert.js";
@@ -111,14 +112,15 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
         case Action.CollectGold: {
             let [entity] = args as [Entity, number];
             let value = integer(100, 1000);
-
             game.Gold += value;
-
+            game[Get.AudioSource][entity].Trigger = snd_gold;
             game.Add({
                 Translation: game[Get.Transform][game.Player!].Translation.slice(),
                 Using: [draw(widget_damage, [value, "$"]), lifespan(1)],
             });
-            game.Destroy(entity);
+            // Schedule destruction of the gold entity at the beginning of the
+            // next frame, so that sys_audio can play the pick-up sfx.
+            lifespan(0)(game, entity);
             break;
         }
         case Action.Die: {
