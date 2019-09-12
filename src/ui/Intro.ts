@@ -10,13 +10,14 @@ export function Intro() {
                 BACK<br>COUNTRY
                 <nav onclick="$(${Action.GoToTown});" style="
                     border-top: 20px solid #d45230;
+                    font-size: 15vmin;
                 ">
                     Play Now
                 </nav>
-                <div>
+                <aside>
                     Earn as much money as you can in today's challenge.
                     Check <a href="https://twitter.com">#backcountryrpg</a> for high scores.
-                </div>
+                </aside>
             </div>
         </div>
     `;

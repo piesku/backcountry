@@ -9,7 +9,7 @@ export function Wanted(state: GameState) {
                 WANTED
             </div>
             <div></div>
-            <div>
+            <div style="font: 10vmin Impact">
                 REWARD $${state.ChallengeLevel},000
             </div>
         </div>

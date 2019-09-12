@@ -2,26 +2,25 @@ import {Action, GameState} from "../actions.js";
 
 export function Defeat(state: GameState) {
     return `
-        <div style="
-            top: 10%;
-            text-align: center;
-            font-size: 15vmin;
-        ">
-            YOU DIE WITH
-            <br>
-            $${state.Gold.toLocaleString("en-US")}
-        </div>
-        <div style="
-            bottom: 10%;
-            text-align: center;
-            font-size: 10vmin;
-        ">
-            <div onclick="$(${Action.EndChallenge});">
-                TRY AGAIN
+        <div>
+            <div>
+                YOU DIE
             </div>
-            <br>
-            <div onclick="alert('Not implemented yet! You score was ${state.Gold}');">
-                TWEET SCORE
+            <aside>
+                You earned $${state.Gold.toLocaleString("en-US")}.
+            </aside>
+            <div></div>
+            <div style="
+                display: flex;
+                justify-content: space-around;
+                width: 100%;
+            ">
+                <nav onclick="alert('Not implemented yet! You score was ${state.Gold}');">
+                    Tweet Your Score
+                </nav>
+                <nav onclick="$(${Action.EndChallenge});">
+                    Try Again
+                </nav>
             </div>
         </div>
     `;
