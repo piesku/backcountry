@@ -24,6 +24,7 @@ import {from_euler} from "../math/quat.js";
 import {integer, rand, set_seed} from "../math/random.js";
 import {snd_gust} from "../sounds/snd_gust.js";
 import {snd_jingle} from "../sounds/snd_jingle.js";
+import {snd_music} from "../sounds/snd_music.js";
 import {snd_neigh} from "../sounds/snd_neigh.js";
 import {snd_wind} from "../sounds/snd_wind.js";
 import {calculate_distance} from "../systems/sys_player_control.js";
@@ -132,7 +133,7 @@ export function world_town(game: Game, is_intro: boolean = false) {
     if (is_intro) {
         game.Add({
             Translation: [1, 2, -1],
-            Using: [light([0.7, 0.7, 0.7], 0), audio_source(snd_jingle)],
+            Using: [light([0.7, 0.7, 0.7], 0), audio_source(snd_music)],
             Children: [
                 {
                     Using: [audio_source(snd_wind)],
