@@ -4,7 +4,7 @@ export function Defeat(state: GameState) {
     return `
         <div style="
             width: 66%;
-            margin: 5% auto;
+            margin: 5vh auto;
             text-align: center;
         ">
             YOU DIE
@@ -15,13 +15,17 @@ export function Defeat(state: GameState) {
             </div>
         </div>
 
-        <div onclick="alert('Not implemented yet! You score was ${state.Gold}');" style="
+        <div style="
             font: italic bold small-caps 7vmin serif;
             position: absolute;
             bottom: 5%;
             left: 10%;
         ">
-            Tweet Your Score
+            <a href="https://twitter.com/intent/tweet?text=I%20earned%20${
+                state.Gold
+            }%20in%20#backcountryrpg.">
+                Tweet Your Score
+            </a>
         </div>
 
         <div onclick="$(${Action.EndChallenge});" style="

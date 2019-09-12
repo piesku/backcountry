@@ -6,7 +6,7 @@ export interface Walking {
     X: number;
     Y: number;
     Destination: Vec3 | null;
-    Route: Array<[number, number]>;
+    Route: Array<{X: number; Y: number}>;
     DestinationX: number;
     DestinationY: number;
 }

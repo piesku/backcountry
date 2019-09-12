@@ -12,11 +12,11 @@ export function play_note(audio: AudioContext, instr: Instrument, note: number, 
         // Frequency is mapped to [0, 125].
         lfo = audio.createOscillator();
         lfo.type = instr[InstrumentParam.LFOType] as OscillatorType;
-        lfo.frequency.value = (instr[InstrumentParam.LFOFreq] / 3) ** 3;
+        lfo.frequency.value = (instr[InstrumentParam.LFOFreq]! / 3) ** 3;
 
         // Amount is mapped to [27, 5832].
         lfa = audio.createGain();
-        lfa.gain.value = (instr[InstrumentParam.LFOAmount] + 3) ** 3;
+        lfa.gain.value = (instr[InstrumentParam.LFOAmount]! + 3) ** 3;
 
         lfo.connect(lfa);
     }
@@ -24,8 +24,8 @@ export function play_note(audio: AudioContext, instr: Instrument, note: number, 
     if (instr[InstrumentParam.FilterType]) {
         let filter = audio.createBiquadFilter();
         filter.type = instr[InstrumentParam.FilterType] as BiquadFilterType;
-        filter.frequency.value = 2 ** instr[InstrumentParam.FilterFreq];
-        filter.Q.value = instr[InstrumentParam.FilterQ] ** 1.5;
+        filter.frequency.value = 2 ** instr[InstrumentParam.FilterFreq]!;
+        filter.Q.value = instr[InstrumentParam.FilterQ]! ** 1.5;
         if (lfa && instr[InstrumentParam.FilterDetuneLFO]) {
             lfa.connect(filter.detune);
         }
@@ -70,10 +70,10 @@ export function play_note(audio: AudioContext, instr: Instrument, note: number, 
 
             // Frequency from note number
             let freq = 440 * 2 ** ((note - 69) / 12);
-            let freq_attack = (source[SourceParam.FreqAttack] / 9) ** 3;
-            let freq_sustain = (source[SourceParam.FreqSustain] / 9) ** 3;
-            let freq_release = (source[SourceParam.FreqRelease] / 6) ** 3;
             if (source[SourceParam.FreqEnabled]) {
+                let freq_attack = (source[SourceParam.FreqAttack]! / 9) ** 3;
+                let freq_sustain = (source[SourceParam.FreqSustain]! / 9) ** 3;
+                let freq_release = (source[SourceParam.FreqRelease]! / 6) ** 3;
                 hfo.frequency.linearRampToValueAtTime(0, time);
                 hfo.frequency.linearRampToValueAtTime(freq, time + freq_attack);
                 hfo.frequency.setValueAtTime(freq, time + freq_attack + freq_sustain);

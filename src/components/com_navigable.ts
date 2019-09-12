@@ -14,10 +14,10 @@ export function navigable(X: number, Y: number) {
     };
 }
 
-export function find_navigable(game: Game, x: number, y: number) {
+export function find_navigable(game: Game, {X, Y}: {X: number; Y: number}) {
     for (let i = 0; i < game.World.length; i++) {
         if (game.World[i] & (1 << Get.Navigable)) {
-            if (game[Get.Navigable][i].X == x && game[Get.Navigable][i].Y == y) {
+            if (game[Get.Navigable][i].X == X && game[Get.Navigable][i].Y == Y) {
                 return i;
             }
         }
