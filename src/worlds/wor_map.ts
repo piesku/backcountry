@@ -18,7 +18,15 @@ export function world_map(game: Game) {
     set_seed(game.ChallengeSeed);
     let map_size = 30;
     let fence_line = 20;
+    let back_fence_line = 1;
     let fence_gate_size = 16;
+
+    let characters_spawning_points = [
+        0,
+        (map_size / 2) * 30 + map_size / 2,
+        (map_size / 2) * 30 + map_size / 2 + 3,
+        (map_size / 2 + 3) * 30 + map_size / 2 - 8,
+    ];
 
     game.World = [];
     game.Grid = [];
@@ -29,11 +37,12 @@ export function world_map(game: Game) {
     for (let x = 0; x < map_size; x++) {
         game.Grid[x] = [];
         for (let y = 0; y < map_size; y++) {
-            let is_fence = x === fence_line;
+            let is_fence = x == fence_line || x == back_fence_line || x == back_fence_line - 1;
             // cactuses & stones here
             // We set this to true, because we don't want props to be
             // generated on the fence line
-            let is_walkable = is_fence || rand() > 0.04;
+            let is_walkable =
+                is_fence || characters_spawning_points.includes(x * 30 + y) || rand() > 0.04;
 
             game.Grid[x][y] = is_walkable && !is_fence ? Infinity : NaN;
             let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y, false);
@@ -70,10 +79,9 @@ export function world_map(game: Game) {
 
         let building_x = building_blu.Size[0] / 8;
         let building_z = building_blu.Size[1] / 8;
-        for (let z = starting_position; z < starting_position + building_z; z++) {
-            for (let x = building_x_tile; x < building_x_tile + building_x; x++) {
-                game.Grid[x][z] = NaN;
-            }
+
+        if (starting_position + building_z > map_size) {
+            break;
         }
 
         game.Add({
@@ -84,6 +92,12 @@ export function world_map(game: Game) {
             ],
             Children: [building_blu.Blueprint],
         });
+
+        for (let z = starting_position; z < starting_position + building_z; z++) {
+            for (let x = building_x_tile; x < building_x_tile + building_x; x++) {
+                game.Grid[x][z] = NaN;
+            }
+        }
 
         starting_position += building_blu.Size[1] / 8 + integer(1, 2);
     }

@@ -41,7 +41,6 @@ export function world_town(game: Game) {
         (map_size / 2 + 3) * 30 + map_size / 2 - 8,
     ];
 
-    console.log(characters_spawning_points);
     game.World = [];
     game.Grid = [];
 
@@ -130,12 +129,15 @@ export function world_town(game: Game) {
         if (game.Grid[x] && game.Grid[x][y] && !isNaN(game.Grid[x][y])) {
             game.Add({
                 Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
-                Rotation: from_euler([], 0, integer(0, 3) * 90, 0),
                 Using: [npc(), walking(x, y), move(integer(15, 25), 0)],
                 Children: [get_character_blueprint(game)],
             });
         }
     }
+
+    calculate_distance(game, map_size / 2, map_size / 2);
+    let player_position =
+        game[Get.Transform][find_navigable(game, map_size / 2, map_size / 2)].Translation;
 
     let sheriff_position =
         game[Get.Transform][find_navigable(game, map_size / 2, map_size / 2 + 3)].Translation;
@@ -169,10 +171,6 @@ export function world_town(game: Game) {
             },
         ],
     });
-
-    calculate_distance(game, map_size / 2, map_size / 2);
-    let player_position =
-        game[Get.Transform][find_navigable(game, map_size / 2, map_size / 2)].Translation;
 
     // Player.
     set_seed(game.PlayerSeed);
