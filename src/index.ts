@@ -8,10 +8,8 @@ window.$ = game.Dispatch;
 // @ts-ignore
 window.game = game;
 
-async function start() {
-    game.Models = await load("./models.tfu");
+load("./models.tfu").then(models => {
+    game.Models = models;
     world_intro(game);
     game.Start();
-}
-
-start();
+});

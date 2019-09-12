@@ -13,8 +13,8 @@ export function get_mine_entrance_blueprint(game: Game) {
     let half_entrance_height = 14;
 
     let wooden_part_offset = [
-        ...create_line([-2, 2, 0], [-2, 2, wooden_part_length * 2], PaletteColors.tracks),
-        ...create_line([2, 2, 0], [2, 2, wooden_part_length * 2], PaletteColors.tracks),
+        ...create_line([-2, 2, 0], [-2, 2, wooden_part_length * 2], PaletteColors.mine_ground_2),
+        ...create_line([2, 2, 0], [2, 2, wooden_part_length * 2], PaletteColors.mine_ground_2),
     ];
 
     for (let i = 0; i < wooden_part_length; i++) {

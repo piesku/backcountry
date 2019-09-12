@@ -4,7 +4,7 @@ export function Intro() {
     return `
         <div style="
             width: 66%;
-            margin: 10% auto;
+            margin: 10vh auto;
         ">
             BACK<br>COUNTRY
             <div onclick="$(${Action.GoToTown});" style="
@@ -17,7 +17,6 @@ export function Intro() {
                 font: italic 5vmin serif;
             ">
                 Earn as much money as you can in today's challenge.
-                Check <a href="https://twitter.com">#backcountryrpg</a> for high scores.
             </div>
         </div>
     `;

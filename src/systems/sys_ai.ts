@@ -22,7 +22,7 @@ function update(game: Game, entity: Entity, delta: number) {
     let distance_to_player = Math.abs(
         game.Grid[walking.X][walking.Y] - game.Grid[player_walking.X][player_walking.Y]
     );
-    let route: false | [number, number][] = [];
+    let route: false | Array<{X: number; Y: number}> = [];
 
     if (!walking.Route.length && !walking.Destination) {
         if (is_friendly || distance_to_player > 5) {
@@ -60,11 +60,11 @@ function update(game: Game, entity: Entity, delta: number) {
 
 function get_random_route(game: Game, entity: Entity, destination_depth: number) {
     let walking = game[Get.Walking][entity];
-    let current_cell = game[Get.Navigable][find_navigable(game, walking.X, walking.Y)];
+    let current_cell = game[Get.Navigable][find_navigable(game, walking)];
     let current_depth = game.Grid[walking.X][walking.Y];
     let modifier = destination_depth > current_depth ? 1 : -1;
 
-    let route: Array<[number, number]> = [];
+    let route: Array<{X: number; Y: number}> = [];
 
     if (!(current_depth < 16)) {
         return false;
@@ -75,17 +75,14 @@ function get_random_route(game: Game, entity: Entity, destination_depth: number)
             return false;
         }
 
-        route.push([current_cell.X, current_cell.Y]);
+        route.push(current_cell);
 
-        let neighbors = get_neighbors(game, current_cell.X, current_cell.Y).sort(
-            () => 0.5 - Math.random()
-        );
+        let neighbors = get_neighbors(game, current_cell).sort(() => 0.5 - Math.random());
 
         for (let i = 0; i < neighbors.length; i++) {
             let neighbor_coords = neighbors[i];
-            if (game.Grid[neighbor_coords.x][neighbor_coords.y] == current_depth + 1 * modifier) {
-                current_cell =
-                    game[Get.Navigable][find_navigable(game, neighbor_coords.x, neighbor_coords.y)];
+            if (game.Grid[neighbor_coords.X][neighbor_coords.Y] == current_depth + 1 * modifier) {
+                current_cell = game[Get.Navigable][find_navigable(game, neighbor_coords)];
                 current_depth = game.Grid[current_cell.X][current_cell.Y];
                 break;
             }

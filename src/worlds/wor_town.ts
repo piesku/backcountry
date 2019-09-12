@@ -1,6 +1,7 @@
 import {Action} from "../actions.js";
 import {get_building_blueprint, main_palette, PaletteColors} from "../blueprints/blu_building.js";
 import {get_character_blueprint} from "../blueprints/blu_character.js";
+import {get_gold_blueprint} from "../blueprints/blu_gold.js";
 import {get_tile_blueprint} from "../blueprints/blu_ground_tile.js";
 import {create_iso_camera} from "../blueprints/blu_iso_camera.js";
 import {get_town_gate_blueprint} from "../blueprints/blu_town_gate.js";
@@ -8,6 +9,7 @@ import {audio_source} from "../components/com_audio_source.js";
 import {collide, RayTarget} from "../components/com_collide.js";
 import {player_control} from "../components/com_control_player.js";
 import {draw} from "../components/com_draw.js";
+import {health} from "../components/com_health.js";
 import {Get} from "../components/com_index.js";
 import {lifespan} from "../components/com_lifespan.js";
 import {light} from "../components/com_light.js";
@@ -118,12 +120,15 @@ export function world_town(game: Game, is_intro: boolean = false) {
         }
     }
 
-    calculate_distance(game, map_size / 2, map_size / 2);
-    let player_position =
-        game[Get.Transform][find_navigable(game, map_size / 2, map_size / 2)].Translation;
+    if (!game.PlayerXY) {
+        game.PlayerXY = {X: map_size / 2, Y: map_size / 2};
+    }
+    calculate_distance(game, game.PlayerXY);
+    let player_position = game[Get.Transform][find_navigable(game, game.PlayerXY)].Translation;
 
     let sheriff_position =
-        game[Get.Transform][find_navigable(game, map_size / 2, map_size / 2 + 3)].Translation;
+        game[Get.Transform][find_navigable(game, {X: map_size / 2, Y: map_size / 2 + 3})]
+            .Translation;
 
     if (is_intro) {
         game.Add({
@@ -172,7 +177,7 @@ export function world_town(game: Game, is_intro: boolean = false) {
         });
 
         let outfitter_position =
-            game[Get.Transform][find_navigable(game, map_size / 2 + 3, map_size / 2 - 8)]
+            game[Get.Transform][find_navigable(game, {X: map_size / 2 + 3, Y: map_size / 2 - 8})]
                 .Translation;
 
         // Outfitter.
@@ -194,9 +199,10 @@ export function world_town(game: Game, is_intro: boolean = false) {
             Translation: [player_position[0], 5, player_position[2]],
             Using: [
                 player_control(),
-                walking(~~(map_size / 2), ~~(map_size / 2)),
+                walking(game.PlayerXY.X, game.PlayerXY.Y),
                 move(25, 0),
                 collide(true, [3, 7, 3], RayTarget.Player),
+                health(10000),
             ],
             Children: [
                 get_character_blueprint(game),
@@ -227,6 +233,11 @@ export function world_town(game: Game, is_intro: boolean = false) {
         Translation: [-120, 5, -120],
         Using: [collide(false, [8, 8, 8]), trigger(Action.GoToDesert)],
         Children: [get_character_blueprint(game)],
+    });
+
+    game.Add({
+        ...get_gold_blueprint(game),
+        Translation: [56, 1.5, 0],
     });
 
     // Dio-cube

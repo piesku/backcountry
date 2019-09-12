@@ -1,11 +1,11 @@
 import {draw} from "./components/com_draw.js";
-import {Health} from "./components/com_health.js";
 import {Get} from "./components/com_index.js";
 import {lifespan} from "./components/com_lifespan.js";
 import {Entity, Game} from "./game.js";
 import {integer} from "./math/random.js";
-import {widget_damage} from "./widgets/wid_damage.js";
+import {snd_gold} from "./sounds/snd_gold.js";
 import {widget_player_hit} from "./widgets/wid_player_hit.js";
+import {widget_value} from "./widgets/wid_value.js";
 import {world_desert} from "./worlds/wor_desert.js";
 import {world_mine} from "./worlds/wor_mine.js";
 import {world_store} from "./worlds/wor_store.js";
@@ -19,7 +19,7 @@ export interface GameState {
     ChallengeLevel: number;
     BountySeed: number;
     PlayerState: PlayerState;
-    PlayerHealth?: Health;
+    PlayerXY?: {X: number; Y: number};
     Gold: number;
 }
 
@@ -41,6 +41,7 @@ export const enum Action {
     Die,
     CollectGold,
     ChangePlayerSeed,
+    HealCampfire,
 }
 
 export function effect(game: Game, action: Action, args: Array<unknown>) {
@@ -49,6 +50,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             game.Gold += game.ChallengeLevel * 1000;
             game.ChallengeLevel += 1;
             game.PlayerState = PlayerState.Playing;
+            game.PlayerXY = undefined;
             game.BountySeed = 0;
             game.WorldFunc = world_town;
             setTimeout(game.WorldFunc, 0, game);
@@ -58,6 +60,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             game.Gold = 0;
             game.ChallengeLevel = 1;
             game.PlayerState = PlayerState.Playing;
+            game.PlayerXY = undefined;
             game.BountySeed = 0;
             game.WorldFunc = world_intro;
             setTimeout(game.WorldFunc, 0, game);
@@ -69,12 +72,14 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             break;
         }
         case Action.GoToWanted: {
+            game.PlayerXY = game[Get.Walking][game.Player!];
             game.BountySeed = game.ChallengeSeed * game.ChallengeLevel - 1;
             game.WorldFunc = world_wanted;
             setTimeout(game.WorldFunc, 0, game);
             break;
         }
         case Action.GoToStore: {
+            game.PlayerXY = game[Get.Walking][game.Player!];
             game.WorldFunc = world_store;
             setTimeout(game.WorldFunc, 0, game);
             break;
@@ -98,7 +103,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             let [entity, damage] = args as [Entity, number];
             game.Add({
                 Translation: game[Get.Transform][entity].Translation.slice(),
-                Using: [draw(widget_damage, [damage]), lifespan(1)],
+                Using: [draw(widget_value, [damage]), lifespan(1)],
             });
             if (game.World[entity] & (1 << Get.PlayerControl)) {
                 game.Add({
@@ -111,14 +116,15 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
         case Action.CollectGold: {
             let [entity] = args as [Entity, number];
             let value = integer(100, 1000);
-
             game.Gold += value;
-
+            game[Get.AudioSource][entity].Trigger = snd_gold;
             game.Add({
                 Translation: game[Get.Transform][game.Player!].Translation.slice(),
-                Using: [draw(widget_damage, [value, "$"]), lifespan(1)],
+                Using: [draw(widget_value, [value, "$"]), lifespan(1)],
             });
-            game.Destroy(entity);
+            // Schedule destruction of the gold entity at the beginning of the
+            // next frame, so that sys_audio can play the pick-up sfx.
+            lifespan(0)(game, entity);
             break;
         }
         case Action.Die: {
@@ -155,6 +161,12 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                 setTimeout(() => game.Destroy(entity), 5000);
             }
             break;
+        }
+        case Action.HealCampfire: {
+            let entity = args[0] as Entity;
+            game.Destroy(entity);
+            let health = game[Get.Health][game.Player!];
+            health.Current = health.Max;
         }
     }
 }

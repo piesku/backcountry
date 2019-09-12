@@ -20,10 +20,10 @@ function update(game: Game, entity: Entity) {
 
     if (!walking.Destination) {
         if (walking.Route.length) {
-            let dest = walking.Route.pop() as [number, number];
-            let destination_entity = find_navigable(game, dest[0], dest[1]);
-            walking.DestinationX = dest[0];
-            walking.DestinationY = dest[1];
+            let dest = walking.Route.pop()!;
+            let destination_entity = find_navigable(game, dest);
+            walking.DestinationX = dest.X;
+            walking.DestinationY = dest.Y;
             walking.Destination = game[Get.Transform][destination_entity].Translation;
         }
     }
