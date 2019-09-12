@@ -9,7 +9,7 @@ import {Blueprint} from "./blu_common.js";
 export function get_cactus_blueprint(game: Game): Blueprint {
     let model = game.Models[Models.CAC3];
     return {
-        Translation: [0, float(2, 4.5), 0],
+        Translation: [0, float(2, 5), 0],
         Using: [render_vox(model), cull(Get.Render)],
     };
 }
