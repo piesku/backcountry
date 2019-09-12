@@ -1,5 +1,4 @@
 import {draw} from "./components/com_draw.js";
-import {Health} from "./components/com_health.js";
 import {Get} from "./components/com_index.js";
 import {lifespan} from "./components/com_lifespan.js";
 import {Entity, Game} from "./game.js";
@@ -20,7 +19,7 @@ export interface GameState {
     ChallengeLevel: number;
     BountySeed: number;
     PlayerState: PlayerState;
-    PlayerHealth?: Health;
+    PlayerXY?: [number, number];
     Gold: number;
 }
 
@@ -50,6 +49,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             game.Gold += game.ChallengeLevel * 1000;
             game.ChallengeLevel += 1;
             game.PlayerState = PlayerState.Playing;
+            game.PlayerXY = undefined;
             game.BountySeed = 0;
             game.WorldFunc = world_town;
             setTimeout(game.WorldFunc, 0, game);
@@ -59,6 +59,7 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             game.Gold = 0;
             game.ChallengeLevel = 1;
             game.PlayerState = PlayerState.Playing;
+            game.PlayerXY = undefined;
             game.BountySeed = 0;
             game.WorldFunc = world_intro;
             setTimeout(game.WorldFunc, 0, game);
@@ -70,12 +71,16 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             break;
         }
         case Action.GoToWanted: {
+            let walking = game[Get.Walking][game.Player!];
+            game.PlayerXY = [walking.X, walking.Y];
             game.BountySeed = game.ChallengeSeed * game.ChallengeLevel - 1;
             game.WorldFunc = world_wanted;
             setTimeout(game.WorldFunc, 0, game);
             break;
         }
         case Action.GoToStore: {
+            let walking = game[Get.Walking][game.Player!];
+            game.PlayerXY = [walking.X, walking.Y];
             game.WorldFunc = world_store;
             setTimeout(game.WorldFunc, 0, game);
             break;
