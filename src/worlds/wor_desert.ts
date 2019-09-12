@@ -105,6 +105,7 @@ export function world_desert(game: Game) {
                     collide(true, [7, 7, 7], RayTarget.Attackable),
                     health(1500 * game.ChallengeLevel),
                     shoot(1),
+                    audio_source(),
                 ],
                 Children: [
                     get_character_blueprint(game),

@@ -1,10 +1,10 @@
 import {AudioClip} from "../components/com_audio_source";
 
-export let snd_shoot = <AudioClip>{
+export let snd_shoot1 = <AudioClip>{
     Tracks: [
         {
             Instrument: [
-                13,
+                11,
                 "lowpass",
                 10,
                 4,

@@ -88,6 +88,7 @@ export function world_mine(game: Game) {
                 collide(true, [7, 7, 7], RayTarget.Attackable),
                 health(5000 * game.ChallengeLevel),
                 shoot(1),
+                audio_source(),
             ],
             Children: [
                 (set_seed(game.BountySeed), get_character_blueprint(game)),
@@ -113,6 +114,7 @@ export function world_mine(game: Game) {
                     collide(true, [7, 7, 7], RayTarget.Attackable),
                     health(2000 * game.ChallengeLevel),
                     shoot(1),
+                    audio_source(),
                 ],
                 Children: [
                     get_character_blueprint(game),
