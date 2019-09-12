@@ -41,6 +41,7 @@ export const enum Action {
     Die,
     CollectGold,
     ChangePlayerSeed,
+    HealCampfire,
 }
 
 export function effect(game: Game, action: Action, args: Array<unknown>) {
@@ -160,6 +161,12 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
                 setTimeout(() => game.Destroy(entity), 5000);
             }
             break;
+        }
+        case Action.HealCampfire: {
+            let entity = args[0] as Entity;
+            game.Destroy(entity);
+            let health = game[Get.Health][game.Player!];
+            health.Current = health.Max;
         }
     }
 }
