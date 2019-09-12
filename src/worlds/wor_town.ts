@@ -50,12 +50,15 @@ export function world_town(game: Game, is_intro: boolean = false) {
     for (let x = 0; x < map_size; x++) {
         game.Grid[x] = [];
         for (let y = 0; y < map_size; y++) {
-            let is_fence = x == fence_line || x == back_fence_line || x == back_fence_line - 1;
+            let is_fence = x == fence_line || x == back_fence_line;
             // cactuses & stones here
             // We set this to true, because we don't want props to be
             // generated on the fence line
             let is_walkable =
-                is_fence || characters_spawning_points.includes(x * 30 + y) || rand() > 0.04;
+                is_fence ||
+                x == back_fence_line - 1 ||
+                characters_spawning_points.includes(x * 30 + y) ||
+                rand() > 0.04;
 
             game.Grid[x][y] = is_walkable && !is_fence ? Infinity : NaN;
             let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y, false);
