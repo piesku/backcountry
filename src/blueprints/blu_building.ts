@@ -20,9 +20,6 @@ export let main_palette = [
     0.2,
     0.8,
     1,
-    0.53,
-    0.53,
-    0.53,
     1,
     1,
     0,
@@ -35,13 +32,12 @@ export let main_palette = [
     0.2,
     0.2,
     0.2,
-    0.5,
-    0.5,
-    0.5,
+    0.53,
+    0.53,
+    0.53,
 ];
 
 let additional_colors = [
-    [0.87, 0.87, 0.87, 0.73, 0.73, 0.73],
     [0, 0.47, 0, 0, 0.33, 0],
     [0.67, 0, 0, 0.54, 0, 0],
     [0.2, 0, 0.8, 0, 0.4, 0.8],
@@ -52,7 +48,6 @@ export const enum PaletteColors {
     wood,
     dark_wood,
     windows,
-    tracks,
     gold,
     desert_ground_1,
     desert_ground_2,
@@ -151,7 +146,7 @@ export function get_building_blueprint(game: Game) {
                         y -
                         ~~(banner_height / 2),
                     banner_offset + x,
-                    rand() > 0.3 || // 1/3 chance, but only when not on a border
+                    rand() > 0.4 || // 1/4 chance, but only when not on a border
                         x == 2 ||
                         x == bannner_width - 1 ||
                         y == 0 ||

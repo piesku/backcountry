@@ -197,7 +197,7 @@ export function world_town(game: Game, is_intro: boolean = false) {
             Translation: [player_position[0], 5, player_position[2]],
             Using: [
                 player_control(),
-                walking(~~(map_size / 2), ~~(map_size / 2)),
+                walking(game.PlayerXY.X, game.PlayerXY.Y),
                 move(25, 0),
                 collide(true, [3, 7, 3], RayTarget.Player),
             ],
