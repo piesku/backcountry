@@ -21,10 +21,11 @@
         justify-content: space-around;
         align-items: center;
     }
-    [onclick] {
-        cursor: pointer;
+    div, nav, aside {
+        flex: 1;
     }
     nav {
+        cursor: pointer;
         font: italic bold small-caps 7vmin serif;
     }
     aside {
@@ -33,7 +34,7 @@
     a {
         color: #ffe8c6
     }
-    a:hover, [onclick]:hover {
+    a:hover, nav:hover {
         color: #fff;
     }
 
