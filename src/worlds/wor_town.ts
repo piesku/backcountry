@@ -50,12 +50,15 @@ export function world_town(game: Game, is_intro: boolean = false) {
     for (let x = 0; x < map_size; x++) {
         game.Grid[x] = [];
         for (let y = 0; y < map_size; y++) {
-            let is_fence = x == fence_line || x == back_fence_line || x == back_fence_line - 1;
+            let is_fence = x == fence_line || x == back_fence_line;
             // cactuses & stones here
             // We set this to true, because we don't want props to be
             // generated on the fence line
             let is_walkable =
-                is_fence || characters_spawning_points.includes(x * 30 + y) || rand() > 0.04;
+                is_fence ||
+                x == back_fence_line - 1 ||
+                characters_spawning_points.includes(x * 30 + y) ||
+                rand() > 0.04;
 
             game.Grid[x][y] = is_walkable && !is_fence ? Infinity : NaN;
             let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y, false);
@@ -70,17 +73,14 @@ export function world_town(game: Game, is_intro: boolean = false) {
     game.Add(get_town_gate_blueprint(game, map_size, fence_gate_size, fence_line));
 
     // Buildings
-    let buildings_count = 4; //~~((map_size * 8) / 35);
-    // let sherriff_house_index = integer(0, buildings_count - 1);
-    // let sherriff_house_index = ~~(buildings_count / 2) - 1;
-    // let starting_position = 76.5;
+    let buildings_count = 4;
     let starting_position = 0;
     let building_x_tile = 10;
     for (let i = 0; i < buildings_count; i++) {
         let building_blu = get_building_blueprint(game);
 
-        let building_x = building_blu.Size[0] / 8;
-        let building_z = building_blu.Size[1] / 8;
+        let building_x = building_blu.Size_x / 8;
+        let building_z = building_blu.Size_z / 8;
 
         if (starting_position + building_z > map_size) {
             break;
@@ -101,7 +101,7 @@ export function world_town(game: Game, is_intro: boolean = false) {
             }
         }
 
-        starting_position += building_blu.Size[1] / 8 + integer(1, 2);
+        starting_position += building_blu.Size_z / 8 + integer(1, 2);
     }
 
     // Cowboys.
