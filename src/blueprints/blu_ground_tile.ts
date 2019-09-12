@@ -62,12 +62,6 @@ export function get_tile_blueprint(
         Children: [],
     };
 
-    if (rand() > 0.85 && is_walkable) {
-        tile.Children!.push(get_block_blueprint(game));
-    } else if (has_gold && rand() < 0.01 && is_walkable) {
-        tile.Children!.push(get_gold_blueprint(game));
-    }
-
     if (!is_walkable) {
         tile.Children!.push(
             rand() > 0.5
@@ -76,6 +70,10 @@ export function get_tile_blueprint(
                 ? get_rock_blueprint(game)
                 : get_campfire_blueprint(game)
         );
+    } else if (rand() > 0.85) {
+        tile.Children!.push(get_block_blueprint(game));
+    } else if (has_gold && rand() < 0.01) {
+        tile.Children!.push(get_gold_blueprint(game));
     }
 
     return {
