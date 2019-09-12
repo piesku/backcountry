@@ -27,7 +27,7 @@ import {snd_wind} from "../sounds/snd_wind.js";
 import {calculate_distance} from "../systems/sys_player_control.js";
 import {widget_exclamation} from "../widgets/wid_exclamation.js";
 
-export function world_town(game: Game) {
+export function world_town(game: Game, is_intro: boolean = false) {
     set_seed(game.ChallengeSeed);
     let map_size = 30;
     let fence_line = 20;
@@ -68,23 +68,6 @@ export function world_town(game: Game) {
     }
 
     game.Add(get_town_gate_blueprint(game, map_size, fence_gate_size, fence_line));
-
-    // Directional light and Soundtrack
-    game.Add({
-        Translation: [1, 2, -1],
-        Using: [light([0.5, 0.5, 0.5], 0), audio_source(snd_jingle)],
-        Children: [
-            {
-                Using: [audio_source(snd_neigh)],
-            },
-            {
-                Using: [audio_source(snd_wind)],
-            },
-            {
-                Using: [audio_source(snd_gust)],
-            },
-        ],
-    });
 
     // Buildings
     let buildings_count = 4; //~~((map_size * 8) / 35);
@@ -142,54 +125,88 @@ export function world_town(game: Game) {
     let sheriff_position =
         game[Get.Transform][find_navigable(game, map_size / 2, map_size / 2 + 3)].Translation;
 
-    // Sheriff.
-    game.Add({
-        Translation: [sheriff_position[0], 5, sheriff_position[2]],
-        Rotation: from_euler([], 0, 90, 0),
-        Using: [collide(false, [8, 8, 8]), trigger(Action.GoToWanted)],
-        Children: [
-            get_character_blueprint(game),
-            {
-                Translation: [0, 10, 0],
-                Using: game.BountySeed ? [] : [draw(widget_exclamation, ["!"]), lifespan()],
-            },
-        ],
-    });
+    if (is_intro) {
+        game.Add({
+            Translation: [1, 2, -1],
+            Using: [light([0.7, 0.7, 0.7], 0), audio_source(snd_jingle)],
+            Children: [
+                {
+                    Using: [audio_source(snd_wind)],
+                },
+            ],
+        });
 
-    let outfitter_position =
-        game[Get.Transform][find_navigable(game, map_size / 2 + 3, map_size / 2 - 8)].Translation;
+        game.Player = game.Add({
+            Using: [walking(map_size / 2, map_size / 2)],
+        });
+    } else {
+        // Directional light and Soundtrack
+        game.Add({
+            Translation: [1, 2, -1],
+            Using: [light([0.5, 0.5, 0.5], 0), audio_source(snd_jingle)],
+            Children: [
+                {
+                    Using: [audio_source(snd_neigh)],
+                },
+                {
+                    Using: [audio_source(snd_wind)],
+                },
+                {
+                    Using: [audio_source(snd_gust)],
+                },
+            ],
+        });
 
-    // Outfitter.
-    game.Add({
-        Translation: [outfitter_position[0], 5, outfitter_position[2]],
-        Using: [collide(false, [8, 8, 8]), trigger(Action.GoToStore)],
-        Children: [
-            get_character_blueprint(game),
-            {
-                Translation: [0, 10, 0],
-                Using: [draw(widget_exclamation, ["$"]), lifespan()],
-            },
-        ],
-    });
+        // Sheriff.
+        game.Add({
+            Translation: [sheriff_position[0], 5, sheriff_position[2]],
+            Rotation: from_euler([], 0, 90, 0),
+            Using: [collide(false, [8, 8, 8]), trigger(Action.GoToWanted)],
+            Children: [
+                get_character_blueprint(game),
+                {
+                    Translation: [0, 10, 0],
+                    Using: game.BountySeed ? [] : [draw(widget_exclamation, ["!"]), lifespan()],
+                },
+            ],
+        });
 
-    // Player.
-    set_seed(game.PlayerSeed);
-    game.Player = game.Add({
-        Translation: [player_position[0], 5, player_position[2]],
-        Using: [
-            player_control(),
-            walking(~~(map_size / 2), ~~(map_size / 2)),
-            move(25, 0),
-            collide(true, [3, 7, 3], RayTarget.Player),
-        ],
-        Children: [
-            get_character_blueprint(game),
-            {
-                Translation: [0, 25, 0],
-                Using: [light([1, 1, 1], 20)],
-            },
-        ],
-    });
+        let outfitter_position =
+            game[Get.Transform][find_navigable(game, map_size / 2 + 3, map_size / 2 - 8)]
+                .Translation;
+
+        // Outfitter.
+        game.Add({
+            Translation: [outfitter_position[0], 5, outfitter_position[2]],
+            Using: [collide(false, [8, 8, 8]), trigger(Action.GoToStore)],
+            Children: [
+                get_character_blueprint(game),
+                {
+                    Translation: [0, 10, 0],
+                    Using: [draw(widget_exclamation, ["$"]), lifespan()],
+                },
+            ],
+        });
+
+        // Player.
+        set_seed(game.PlayerSeed);
+        game.Player = game.Add({
+            Translation: [player_position[0], 5, player_position[2]],
+            Using: [
+                player_control(),
+                walking(~~(map_size / 2), ~~(map_size / 2)),
+                move(25, 0),
+                collide(true, [3, 7, 3], RayTarget.Player),
+            ],
+            Children: [
+                get_character_blueprint(game),
+                {
+                    Translation: [0, 25, 0],
+                    Using: [light([1, 1, 1], 20)],
+                },
+            ],
+        });
+    }
 
     if (game.Gold > 0 && game.Gold < 10000) {
         game.Add({
@@ -228,4 +245,8 @@ export function world_town(game: Game) {
 
     // Camera.
     game.Add(create_iso_camera(game.Player));
+}
+
+export function world_intro(game: Game) {
+    world_town(game, true);
 }
