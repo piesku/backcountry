@@ -9,6 +9,7 @@ import {audio_source} from "../components/com_audio_source.js";
 import {collide, RayTarget} from "../components/com_collide.js";
 import {player_control} from "../components/com_control_player.js";
 import {draw} from "../components/com_draw.js";
+import {health} from "../components/com_health.js";
 import {Get} from "../components/com_index.js";
 import {lifespan} from "../components/com_lifespan.js";
 import {light} from "../components/com_light.js";
@@ -201,6 +202,7 @@ export function world_town(game: Game, is_intro: boolean = false) {
                 walking(game.PlayerXY.X, game.PlayerXY.Y),
                 move(25, 0),
                 collide(true, [3, 7, 3], RayTarget.Player),
+                health(10000),
             ],
             Children: [
                 get_character_blueprint(game),
