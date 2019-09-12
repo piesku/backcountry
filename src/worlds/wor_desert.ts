@@ -19,6 +19,7 @@ import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
 import {integer, set_seed} from "../math/random.js";
 import {snd_music} from "../sounds/snd_music.js";
+import {snd_wind} from "../sounds/snd_wind.js";
 import {widget_healthbar} from "../widgets/wid_healthbar.js";
 import {generate_maze} from "./wor_mine.js";
 
@@ -82,6 +83,11 @@ export function world_desert(game: Game) {
     game.Add({
         Translation: [1, 2, -1],
         Using: [light([0.5, 0.5, 0.5], 0), audio_source(snd_music)],
+        Children: [
+            {
+                Using: [audio_source(snd_wind)],
+            },
+        ],
     });
 
     // Cowboys.
