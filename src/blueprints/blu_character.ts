@@ -47,7 +47,8 @@ export function get_character_blueprint(game: Game): Blueprint {
                         {
                             Timestamp: 1,
                             Translation: [0, -4, 0],
-                            Rotation: from_euler([], -90, 0, 0),
+                            //Rotation: from_euler([], -90, 0, 0),
+                            Rotation: [-0.7, 0, 0, 0.7],
                             Ease: ease_out_quart,
                         },
                         {
@@ -69,11 +70,13 @@ export function get_character_blueprint(game: Game): Blueprint {
                             Keyframes: [
                                 {
                                     Timestamp: 0.0,
-                                    Rotation: from_euler([], 0, 5, 0),
+                                    //Rotation: from_euler([], 0, 5, 0),
+                                    Rotation: [0, 0.04, 0, 0.99],
                                 },
                                 {
                                     Timestamp: 0.5,
-                                    Rotation: from_euler([], 0, -5, 0),
+                                    //Rotation: from_euler([], 0, -5, 0),
+                                    Rotation: [0, -0.04, 0, 0.99],
                                 },
                             ],
                         },
@@ -82,10 +85,12 @@ export function get_character_blueprint(game: Game): Blueprint {
                                 {
                                     Timestamp: 0.0,
                                     Rotation: from_euler([], 0, 5, 0),
+                                    //Rotation: [0, 0.04, 0, 0.99],
                                 },
                                 {
                                     Timestamp: 0.2,
-                                    Rotation: from_euler([], 0, -5, 0),
+                                    //Rotation: from_euler([], 0, -5, 0),
+                                    Rotation: [0, -0.04, 0, 0.99],
                                 },
                             ],
                         },
@@ -102,11 +107,13 @@ export function get_character_blueprint(game: Game): Blueprint {
                             Keyframes: [
                                 {
                                     Timestamp: 0,
-                                    Rotation: from_euler([], 5, 0, 0),
+                                    //Rotation: from_euler([], 5, 0, 0),
+                                    Rotation: [0.04, 0, 0, 0.99],
                                 },
                                 {
                                     Timestamp: 0.5,
-                                    Rotation: from_euler([], -5, 0, 0),
+                                    //Rotation: from_euler([], -5, 0, 0),
+                                    Rotation: [-0.04, 0, 0, 0.99],
                                 },
                             ],
                         },
@@ -114,11 +121,13 @@ export function get_character_blueprint(game: Game): Blueprint {
                             Keyframes: [
                                 {
                                     Timestamp: 0,
-                                    Rotation: from_euler([], 60, 0, 0),
+                                    //Rotation: from_euler([], 60, 0, 0),
+                                    Rotation: [0.5, 0, 0, 0.87],
                                 },
                                 {
                                     Timestamp: 0.2,
-                                    Rotation: from_euler([], -30, 0, 0),
+                                    //Rotation: from_euler([], -30, 0, 0),
+                                    Rotation: [-0.25, 0, 0, 0.97],
                                 },
                             ],
                         },
@@ -126,20 +135,24 @@ export function get_character_blueprint(game: Game): Blueprint {
                             Keyframes: [
                                 {
                                     Timestamp: 0,
-                                    Rotation: from_euler([], 50, 0, 0),
+                                    //Rotation: from_euler([], 50, 0, 0),
+                                    Rotation: [0.42, 0, 0, 0.9],
                                 },
                                 {
                                     Timestamp: 0.1,
-                                    Rotation: from_euler([], 90, 0, 0),
+                                    //Rotation: from_euler([], 90, 0, 0),
+                                    Rotation: [0.7, 0, 0, 0.7],
                                     Ease: ease_out_quart,
                                 },
                                 {
                                     Timestamp: 0.13,
-                                    Rotation: from_euler([], 110, 0, 0),
+                                    //Rotation: from_euler([], 110, 0, 0),
+                                    Rotation: [0.82, 0, 0, 0.57],
                                 },
                                 {
                                     Timestamp: 0.3,
-                                    Rotation: from_euler([], 0, 0, 0),
+                                    //Rotation: from_euler([], 0, 0, 0),
+                                    Rotation: [0, 0, 0, 1],
                                     Ease: ease_out_quart,
                                 },
                             ],
@@ -164,11 +177,13 @@ export function get_character_blueprint(game: Game): Blueprint {
                             Keyframes: [
                                 {
                                     Timestamp: 0,
-                                    Rotation: from_euler([], -5, 0, 0),
+                                    //Rotation: from_euler([], -5, 0, 0),
+                                    Rotation: [-0.04, 0, 0, 0.99],
                                 },
                                 {
                                     Timestamp: 0.5,
-                                    Rotation: from_euler([], 5, 0, 0),
+                                    //Rotation: from_euler([], 5, 0, 0),
+                                    Rotation: [0.04, 0, 0, 0.99],
                                 },
                             ],
                         },
@@ -176,11 +191,13 @@ export function get_character_blueprint(game: Game): Blueprint {
                             Keyframes: [
                                 {
                                     Timestamp: 0,
-                                    Rotation: from_euler([], -30, 0, 0),
+                                    //Rotation: from_euler([], -30, 0, 0),
+                                    Rotation: [-0.25, 0, 0, 0.97],
                                 },
                                 {
                                     Timestamp: 0.2,
-                                    Rotation: from_euler([], 60, 0, 0),
+                                    //Rotation: from_euler([], 60, 0, 0),
+                                    Rotation: [0.5, 0, 0, 0.87],
                                 },
                             ],
                         },
@@ -203,11 +220,13 @@ export function get_character_blueprint(game: Game): Blueprint {
                             Keyframes: [
                                 {
                                     Timestamp: 0,
-                                    Rotation: from_euler([], 5, 0, 0),
+                                    //Rotation: from_euler([], 5, 0, 0),
+                                    Rotation: [0.04, 0, 0, 0.99],
                                 },
                                 {
                                     Timestamp: 1,
-                                    Rotation: from_euler([], 5, 0, 0),
+                                    //Rotation: from_euler([], 5, 0, 0),
+                                    Rotation: [0.04, 0, 0, 0.99],
                                 },
                             ],
                         },
@@ -215,11 +234,13 @@ export function get_character_blueprint(game: Game): Blueprint {
                             Keyframes: [
                                 {
                                     Timestamp: 0,
-                                    Rotation: from_euler([], -45, 0, 0),
+                                    //Rotation: from_euler([], -45, 0, 0),
+                                    Rotation: [-0.38, 0, 0, 0.92],
                                 },
                                 {
                                     Timestamp: 0.2,
-                                    Rotation: from_euler([], 45, 0, 0),
+                                    //Rotation: from_euler([], 45, 0, 0),
+                                    Rotation: [0.38, 0, 0, 0.92],
                                 },
                             ],
                         },
@@ -241,11 +262,13 @@ export function get_character_blueprint(game: Game): Blueprint {
                             Keyframes: [
                                 {
                                     Timestamp: 0,
-                                    Rotation: from_euler([], -5, 0, 0),
+                                    //Rotation: from_euler([], -5, 0, 0),
+                                    Rotation: [-0.04, 0, 0, 0.99],
                                 },
                                 {
                                     Timestamp: 1,
-                                    Rotation: from_euler([], -5, 0, 0),
+                                    //Rotation: from_euler([], -5, 0, 0),
+                                    Rotation: [-0.04, 0, 0, 0.99],
                                 },
                             ],
                         },
@@ -253,11 +276,13 @@ export function get_character_blueprint(game: Game): Blueprint {
                             Keyframes: [
                                 {
                                     Timestamp: 0,
-                                    Rotation: from_euler([], 45, 0, 0),
+                                    //Rotation: from_euler([], 45, 0, 0),
+                                    Rotation: [0.38, 0, 0, 0.92],
                                 },
                                 {
                                     Timestamp: 0.2,
-                                    Rotation: from_euler([], -45, 0, 0),
+                                    //Rotation: from_euler([], -45, 0, 0),
+                                    Rotation: [-0.38, 0, 0, 0.92],
                                 },
                             ],
                         },

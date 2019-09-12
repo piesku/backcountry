@@ -18,7 +18,6 @@ import {render_vox} from "../components/com_render_vox.js";
 import {trigger} from "../components/com_trigger.js";
 import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
-import {from_euler} from "../math/quat.js";
 import {integer, rand, set_seed} from "../math/random.js";
 import {snd_gust} from "../sounds/snd_gust.js";
 import {snd_jingle} from "../sounds/snd_jingle.js";
@@ -160,7 +159,8 @@ export function world_town(game: Game, is_intro: boolean = false) {
         // Sheriff.
         game.Add({
             Translation: [sheriff_position[0], 5, sheriff_position[2]],
-            Rotation: from_euler([], 0, 90, 0),
+            //Rotation: from_euler([], 0, 90, 0),
+            Rotation: [0, 0.7, 0, 0.7],
             Using: [collide(false, [8, 8, 8]), trigger(Action.GoToWanted)],
             Children: [
                 get_character_blueprint(game),
@@ -211,7 +211,8 @@ export function world_town(game: Game, is_intro: boolean = false) {
     if (game.Gold > 0 && game.Gold < 10000) {
         game.Add({
             ...get_town_gate_blueprint(game, map_size - 1, 0, back_fence_line),
-            Rotation: from_euler([], 0, 180, 0),
+            //Rotation: from_euler([], 0, 180, 0),
+            Rotation: [0, 1, 0, 0],
             Translation: [-(map_size / 2 - back_fence_line - 1) * 8 - 4, 0, -8],
         });
 
@@ -219,7 +220,8 @@ export function world_town(game: Game, is_intro: boolean = false) {
     } else {
         game.Add({
             ...get_town_gate_blueprint(game, map_size, 0, back_fence_line + 1),
-            Rotation: from_euler([], 0, 180, 0),
+            //Rotation: from_euler([], 0, 180, 0),
+            Rotation: [0, 1, 0, 0],
         });
     }
 
