@@ -146,7 +146,7 @@ export class Game implements ComponentData, GameState {
         for (let api of [this.GL, this.Audio]) {
             for (let name in api) {
                 // @ts-ignore
-                if (typeof api[name] === "function") {
+                if (typeof api[name] == "function") {
                     // @ts-ignore
                     api[name.match(/^..|[A-Z]|([1-9].*)/g).join("")] = api[name];
                 }

@@ -15,7 +15,7 @@ const ANIMATED = RayTarget.Navigable | RayTarget.Player;
 export function sys_select(game: Game, delta: number) {
     let colliders: Array<Collide> = [];
     for (let i = 0; i < game.World.length; i++) {
-        if ((game.World[i] & TARGET) === TARGET) {
+        if ((game.World[i] & TARGET) == TARGET) {
             if (game[Get.Collide][i].Flags !== RayTarget.None) {
                 colliders.push(game[Get.Collide][i]);
             }
@@ -23,7 +23,7 @@ export function sys_select(game: Game, delta: number) {
     }
 
     for (let i = 0; i < game.World.length; i++) {
-        if ((game.World[i] & QUERY) === QUERY) {
+        if ((game.World[i] & QUERY) == QUERY) {
             update(game, i, colliders);
         }
     }

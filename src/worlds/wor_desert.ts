@@ -51,7 +51,7 @@ export function world_desert(game: Game) {
     for (let z = entrance_position_z; z < entrance_position_z + entrance_length + 3; z++) {
         for (let x = entrance_position_x - 1; x < entrance_position_x + entrance_width - 1; x++) {
             if (
-                (x === entrance_position_x - 1 + entrance_width - 2 && z !== entrance_position_z) ||
+                (x == entrance_position_x - 1 + entrance_width - 2 && z !== entrance_position_z) ||
                 z >= entrance_position_z + entrance_length
             ) {
                 game.Grid[x][z] = Infinity;
@@ -64,7 +64,7 @@ export function world_desert(game: Game) {
     // Ground.
     for (let x = 0; x < map_size; x++) {
         for (let y = 0; y < map_size; y++) {
-            let is_walkable = game.Grid[x][y] === Infinity;
+            let is_walkable = game.Grid[x][y] == Infinity;
             let tile_blueprint = get_tile_blueprint(game, is_walkable, x, y);
 
             game.Add({

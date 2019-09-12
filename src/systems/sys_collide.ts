@@ -12,7 +12,7 @@ export function sys_collide(game: Game, delta: number) {
     let static_colliders: Collide[] = [];
     let dynamic_colliders: Collide[] = [];
     for (let i = 0; i < game.World.length; i++) {
-        if ((game.World[i] & QUERY) === QUERY) {
+        if ((game.World[i] & QUERY) == QUERY) {
             let transform = game[Get.Transform][i];
             let collider = game[Get.Collide][i];
 

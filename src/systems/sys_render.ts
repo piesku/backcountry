@@ -30,7 +30,7 @@ export function sys_render(game: Game, delta: number) {
     let light_details: Array<number> = [];
 
     for (let i = 0; i < game.World.length; i++) {
-        if ((game.World[i] & LIGHTS) === LIGHTS) {
+        if ((game.World[i] & LIGHTS) == LIGHTS) {
             let transform = game[Get.Transform][i];
             let position = get_translation([], transform.World);
             light_positions.push(...position);
@@ -42,7 +42,7 @@ export function sys_render(game: Game, delta: number) {
     let current_material = null;
 
     for (let i = 0; i < game.World.length; i++) {
-        if ((game.World[i] & QUERY) === QUERY) {
+        if ((game.World[i] & QUERY) == QUERY) {
             let transform = game[Get.Transform][i];
             let render = game[Get.Render][i];
 
