@@ -4,7 +4,7 @@ export function Intro() {
     return `
         <div style="
             width: 66%;
-            margin: 10% auto;
+            margin: 10vh auto;
         ">
             BACK<br>COUNTRY
             <div onclick="$(${Action.GoToTown});" style="
