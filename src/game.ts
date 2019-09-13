@@ -1,4 +1,4 @@
-import {Action, effect, GameState, PlayerState} from "./actions.js";
+import {GameState, PlayerState} from "./actions.js";
 import {Blueprint} from "./blueprints/blu_common.js";
 import {Animate} from "./components/com_animate.js";
 import {AudioSource} from "./components/com_audio_source.js";
@@ -109,7 +109,6 @@ export class Game implements ComponentData, GameState {
         my: 0,
     };
 
-    public Dispatch = (action: Action, ...args: Array<unknown>) => effect(this, action, args);
     public WorldFunc = world_intro;
     // Today's timestamp. Changes every midnight, 00:00 UTC.
     public ChallengeSeed = ~~(Date.now() / (24 * 60 * 60 * 1000));

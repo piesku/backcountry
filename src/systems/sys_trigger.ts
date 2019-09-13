@@ -1,3 +1,4 @@
+import {dispatch} from "../actions.js";
 import {Get} from "../components/com_index.js";
 import {Entity, Game} from "../game.js";
 
@@ -16,7 +17,7 @@ function update(game: Game, entity: Entity) {
     for (let collide of collisions) {
         if (game.World[collide.EntityId] & (1 << Get.PlayerControl)) {
             game.World[entity] &= ~(1 << Get.Trigger);
-            game.Dispatch(game[Get.Trigger][entity].Action, entity);
+            dispatch(game, game[Get.Trigger][entity].Action, [entity]);
         }
     }
 }
