@@ -123,7 +123,7 @@ export function get_building_blueprint(game: Game) {
     } else {
         // BANNER
         let banner_height = 5 + integer(0, 2);
-        let bannner_width = ~~(building_size_z * 0.75 + rand() * building_size_z * 0.2);
+        let bannner_width = ~~(building_size_z * 0.75);
         let banner_offset = ~~((building_size_z - bannner_width) / 2);
         for (let x = 2; x < bannner_width; x++) {
             for (let y = 0; y < banner_height; y++) {
