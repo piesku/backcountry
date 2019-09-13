@@ -14,7 +14,6 @@ import {Lifespan} from "./components/com_lifespan.js";
 import {Light} from "./components/com_light.js";
 import {Mimic} from "./components/com_mimic.js";
 import {Move} from "./components/com_move.js";
-import {Named} from "./components/com_named.js";
 import {Navigable} from "./components/com_navigable.js";
 import {NPC} from "./components/com_npc.js";
 import {Projectile} from "./components/com_projectile.js";
@@ -81,7 +80,6 @@ export class Game implements ComponentData, GameState {
     public [Get.Light]: Array<Light> = [];
     public [Get.AudioSource]: Array<AudioSource> = [];
     public [Get.Animate]: Array<Animate> = [];
-    public [Get.Named]: Array<Named> = [];
     public [Get.Move]: Array<Move> = [];
     public [Get.Collide]: Array<Collide> = [];
     public [Get.Trigger]: Array<Trigger> = [];
