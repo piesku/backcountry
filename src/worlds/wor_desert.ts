@@ -106,7 +106,7 @@ export function world_desert(game: Game) {
                     move(integer(8, 15)),
                     collide(true, [7, 7, 7], RayTarget.Attackable),
                     health(1500 * game.ChallengeLevel),
-                    shoot(1),
+                    shoot(),
                     audio_source(),
                 ],
                 Children: [
@@ -140,7 +140,7 @@ export function world_desert(game: Game) {
             move(25, 0),
             collide(true, [3, 7, 3], RayTarget.Player),
             health(10000),
-            shoot(1),
+            shoot(),
             audio_source(),
         ],
         Children: [

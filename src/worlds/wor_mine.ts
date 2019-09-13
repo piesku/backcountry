@@ -85,7 +85,7 @@ export function world_mine(game: Game) {
                 move(integer(12, 16), 0),
                 collide(true, [7, 7, 7], RayTarget.Attackable),
                 health(5000 * game.ChallengeLevel),
-                shoot(1),
+                shoot(),
                 audio_source(),
             ],
             Children: [
@@ -115,7 +115,7 @@ export function world_mine(game: Game) {
                     move(integer(8, 15)),
                     collide(true, [7, 7, 7], RayTarget.Attackable),
                     health(2000 * game.ChallengeLevel),
-                    shoot(1),
+                    shoot(),
                     audio_source(),
                 ],
                 Children: [
@@ -139,7 +139,7 @@ export function world_mine(game: Game) {
             move(25, 0),
             collide(true, [3, 7, 3], RayTarget.Player),
             health(10000),
-            shoot(1),
+            shoot(),
             audio_source(),
         ],
         Children: [
