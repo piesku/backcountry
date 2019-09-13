@@ -10,9 +10,11 @@ import {collide, RayTarget} from "../components/com_collide.js";
 import {player_control} from "../components/com_control_player.js";
 import {draw} from "../components/com_draw.js";
 import {health} from "../components/com_health.js";
+import {Get} from "../components/com_index.js";
 import {lifespan} from "../components/com_lifespan.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
+import {find_navigable} from "../components/com_navigable.js";
 import {npc} from "../components/com_npc.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {trigger} from "../components/com_trigger.js";
@@ -187,9 +189,10 @@ export function world_town(game: Game, is_intro: boolean = false) {
         });
 
         // Player.
+        let player_position = game[Get.Transform][find_navigable(game, game.PlayerXY)].Translation;
         set_seed(game.PlayerSeed);
         game.Player = game.Add({
-            Translation: [0, 5, 0],
+            Translation: [player_position[0], 5, player_position[2]],
             Using: [
                 player_control(),
                 walking(game.PlayerXY.X, game.PlayerXY.Y),
