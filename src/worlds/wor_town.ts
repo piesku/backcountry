@@ -132,12 +132,7 @@ export function world_town(game: Game, is_intro: boolean = false) {
     if (is_intro) {
         game.Add({
             Translation: [1, 2, -1],
-            Using: [light([0.7, 0.7, 0.7], 0)],
-            Children: [
-                {
-                    Using: [audio_source(snd_wind)],
-                },
-            ],
+            Using: [light([0.7, 0.7, 0.7], 0), audio_source(snd_wind)],
         });
 
         game.Player = game.Add({
@@ -206,10 +201,11 @@ export function world_town(game: Game, is_intro: boolean = false) {
             ],
         });
 
-        if (game.ChallengeLevel > 1 && !game.BountySeed) {
+        if (game.BountyCollected) {
             game.Add({
-                Using: [draw(widget_gold, game.ChallengeLevel * 1000), lifespan(4)],
+                Using: [draw(widget_gold, game.BountyCollected), lifespan(4)],
             });
+            game.BountyCollected = 0;
         }
     }
 

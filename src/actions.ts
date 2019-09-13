@@ -19,6 +19,7 @@ export interface GameState {
     ChallengeSeed: number;
     ChallengeLevel: number;
     BountySeed: number;
+    BountyCollected: number;
     PlayerState: PlayerState;
     PlayerXY?: {X: number; Y: number};
     Gold: number;
@@ -55,6 +56,7 @@ declare global {
 export function dispatch(game: Game, action: Action, args: Array<unknown>) {
     switch (action) {
         case Action.CompleteBounty: {
+            game.BountyCollected = game.ChallengeLevel * 1000;
             game.Gold += game.ChallengeLevel * 1000;
             game.ChallengeLevel += 1;
             game.PlayerState = PlayerState.Playing;
