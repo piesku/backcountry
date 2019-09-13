@@ -208,8 +208,7 @@ export function world_town(game: Game, is_intro: boolean = false) {
 
         if (game.ChallengeLevel > 1 && !game.BountySeed) {
             game.Add({
-                Translation: player_position,
-                Using: [draw(widget_gold, [game.ChallengeLevel * 1000]), lifespan(3)],
+                Using: [draw(widget_gold, game.ChallengeLevel * 1000), lifespan(4)],
             });
         }
     }

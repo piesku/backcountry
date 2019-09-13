@@ -3,7 +3,7 @@ import {Entity, Game} from "../game.js";
 import {ease_out_quart} from "../math/easing.js";
 
 export function widget_gold(game: Game, entity: Entity, x: number, y: number) {
-    let [value] = game[Get.Draw][entity].Args as [number];
+    let value = game[Get.Draw][entity].Arg as number;
     let lifespan = game[Get.Lifespan][entity];
     let relative = lifespan.Age / lifespan.Max;
     game.Context.font = "10vmin Impact";
