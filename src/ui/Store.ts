@@ -1,8 +1,6 @@
-import {Action} from "../actions.js";
+import {Action, GameState} from "../actions.js";
 
-export function Store() {
-    let enabled =
-        (document as any).monetization && (document as any).monetization.state == "started";
+export function Store(state: GameState) {
     return `
         <div style="
             width: 66%;
@@ -18,13 +16,16 @@ export function Store() {
             position: absolute;
             bottom: 15%;
             left: 10%;
-            ${enabled ? "" : "pointer-events: none;"}
         ">
-            Change Outfit
             ${
-                enabled
-                    ? ""
-                    : '<div style="font: italic 5vmin serif;">(Available only to paid subscribers.)</div>'
+                state.MonetizationEnabled
+                    ? "Change Outfit"
+                    : `
+                        <s>Change Outfit</s>
+                        <div style="font: italic 5vmin serif;">
+                            Become a <a href="https://coil.com/">paid subscriber</a>!
+                        </div>
+                    `
             }
         </div>
 
@@ -34,7 +35,7 @@ export function Store() {
             bottom: 5%;
             right: 10%;
         ">
-            Exit to Town
+            Confirm
         </div>
     `;
 }
