@@ -107,7 +107,7 @@ export function world_town(game: Game, is_intro: boolean = false) {
     }
 
     // Cowboys.
-    let cowboys_count = 15;
+    let cowboys_count = 20;
     for (let i = 0; i < cowboys_count; i++) {
         let x = integer(0, map_size);
         let y = integer(0, map_size);
