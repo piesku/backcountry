@@ -68,14 +68,7 @@ export function get_town_gate_blueprint(
 
     return {
         Translation: [(-(map_size / 2) + fence_line) * 8 - 4, 0, -3],
-        Using: [
-            render_vox(
-                {
-                    Offsets: Float32Array.from(fence_offsets),
-                },
-                main_palette
-            ),
-        ],
+        Using: [render_vox(Float32Array.from(fence_offsets), main_palette)],
         Children: [
             {
                 Translation: [20, 0, 0],

@@ -9,15 +9,7 @@ export function create_lamp() {
         Children: [
             {
                 Translation: [0, 0, 4],
-                Using: [
-                    render_vox(
-                        {
-                            Offsets: new Float32Array(4),
-                        },
-                        [1, 0.5, 0]
-                    ),
-                    cull(Get.Render),
-                ],
+                Using: [render_vox(new Float32Array(4), [1, 0.5, 0]), cull(Get.Render)],
             },
             {
                 Translation: [0, 1, 7],

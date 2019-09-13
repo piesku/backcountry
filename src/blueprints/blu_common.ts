@@ -29,9 +29,7 @@ export function create_tile(size: number, colors: [number, number]) {
         }
     }
 
-    return {
-        Offsets: Float32Array.from(offsets),
-    } as Model;
+    return Float32Array.from(offsets) as Model;
 }
 
 export function create_block(size: number, height: number) {
@@ -49,9 +47,7 @@ export function create_block(size: number, height: number) {
         }
     }
 
-    return {
-        Offsets: Float32Array.from(offsets),
-    } as Model;
+    return Float32Array.from(offsets) as Model;
 }
 
 export function create_line(from: Vec3, to: Vec3, color: number) {

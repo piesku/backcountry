@@ -160,12 +160,7 @@ export function world_mine(game: Game) {
         Scale: [map_size * 8, map_size * 2, map_size * 8],
         Translation: [-4, -map_size + 0.49, -4],
         Using: [
-            render_vox(
-                {
-                    Offsets: Float32Array.from([0, 0, 0, PaletteColors.mine_ground_1]),
-                },
-                main_palette
-            ),
+            render_vox(Float32Array.from([0, 0, 0, PaletteColors.mine_ground_1]), main_palette),
         ],
     });
 

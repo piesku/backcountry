@@ -73,12 +73,7 @@ export function get_hat_blueprint(game: Game): Blueprint {
         Children: [
             {
                 Using: [
-                    render_vox(
-                        {
-                            Offsets: Float32Array.from(offsets),
-                        },
-                        hat_palette
-                    ),
+                    render_vox(Float32Array.from(offsets), hat_palette),
                     animate({
                         [Anim.Idle]: {
                             Keyframes: [

@@ -18,11 +18,7 @@ export function get_gold_blueprint(game: Game): Blueprint {
         Rotation: from_euler([], 0, integer(0, 3) * 90, 0),
         Using: [
             render_vox(
-                {
-                    Offsets: Float32Array.from(
-                        create_line([-1, 0, 0], [1, 0, 0], PaletteColors.gold)
-                    ),
-                },
+                Float32Array.from(create_line([-1, 0, 0], [1, 0, 0], PaletteColors.gold)),
                 main_palette
             ),
             cull(Get.Render),

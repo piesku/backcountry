@@ -217,14 +217,7 @@ export function get_building_blueprint(game: Game) {
         Blueprint: <Blueprint>{
             Translation: [0, 1.5, 0],
             // rotation: from_euler([], 0, 270, 0),
-            Using: [
-                render_vox(
-                    {
-                        Offsets: Float32Array.from(offsets),
-                    },
-                    palette
-                ),
-            ],
+            Using: [render_vox(Float32Array.from(offsets), palette)],
             Children,
         },
         Size_x: building_size_x + 3 + porch_size + 1,
