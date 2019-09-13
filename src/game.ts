@@ -139,13 +139,11 @@ export class Game implements ComponentData, GameState {
         this.GL = this.Canvas3.getContext("webgl2")!;
         this.Context = this.Canvas2.getContext("2d")!;
 
-        for (let api of [this.GL, this.Audio]) {
-            for (let name in api) {
+        for (let name in this.GL) {
+            // @ts-ignore
+            if (typeof this.GL[name] == "function") {
                 // @ts-ignore
-                if (typeof api[name] == "function") {
-                    // @ts-ignore
-                    api[name.match(/^..|[A-Z]|([1-9].*)/g).join("")] = api[name];
-                }
+                this.GL[name.match(/^..|[A-Z]|([1-9].*)/g).join("")] = this.GL[name];
             }
         }
 

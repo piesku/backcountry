@@ -12,7 +12,7 @@ s/\/\/.*//
 # components
 s/createVertexArray/crVA/g
 s/bindVertexArray/biVA/g
-s/createBuffer\b/crB/g
+s/createBuffer()/crB()/g
 s/bindBuffer/biB/g
 s/bufferData/buD/g
 s/enableVertexAttribArray/enVAA/g
@@ -45,10 +45,3 @@ s/clearColor/clC/g
 # game.ts
 s/enable/en/g
 s/frontFace/frF/g
-
-
-## WebAudio
-s/createOscillator/crO/g
-s/createGain/crG/g
-s/createBiquadFilter/crBF/g
-s/createBufferSource/crBS/g
