@@ -17,7 +17,7 @@ import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
 import {integer, set_seed} from "../math/random.js";
-import {snd_music} from "../sounds/snd_music.js";
+import {snd_baseline} from "../sounds/snd_baseline.js";
 import {widget_healthbar} from "../widgets/wid_healthbar.js";
 
 export function world_mine(game: Game) {
@@ -68,7 +68,7 @@ export function world_mine(game: Game) {
     // Directional light and Soundtrack
     game.Add({
         Translation: [1, 2, -1],
-        Using: [light([0.5, 0.5, 0.5], 0), audio_source(snd_music)],
+        Using: [light([0.5, 0.5, 0.5], 0), audio_source(snd_baseline)],
     });
 
     // Bandit.

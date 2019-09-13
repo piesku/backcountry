@@ -7,7 +7,7 @@ export let snd_baseline = <AudioClip>{
             Notes: [69, 74, 69, 74, 69],
         },
         {
-            Instrument: [3, , , , , , , , [[false, 2, 1, 1, 6], ["sine", 9, 2, 2, 7, 7]]],
+            Instrument: [4, , , , , , , , [[false, 2, 1, 1, 6], ["sine", 9, 2, 2, 7, 7]]],
             Notes: [
                 38,
                 ,
