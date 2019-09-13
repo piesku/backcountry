@@ -148,7 +148,7 @@ export function world_town(game: Game, is_intro: boolean = false) {
         // Directional light and Soundtrack
         game.Add({
             Translation: [1, 2, -1],
-            Using: [light([0.5, 0.5, 0.5], 0), audio_source(snd_jingle)],
+            Using: [light([0.5, 0.5, 0.5], 0), audio_source(snd_music)],
             Children: [
                 {
                     Using: [audio_source(snd_neigh)],
