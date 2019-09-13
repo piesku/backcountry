@@ -172,18 +172,16 @@ export function get_building_blueprint(game: Game) {
     );
 
     // FENCE
-
-    let fence_width = building_size_z;
     let fence_height = 3;
     offsets.push(
         ...create_line(
             [building_size_x + porch_size, fence_height, 1],
-            [building_size_x + porch_size, fence_height, fence_width],
+            [building_size_x + porch_size, fence_height, building_size_z],
             PaletteColors.wood
         )
     );
 
-    for (let i = 1; i < fence_width; i += 2) {
+    for (let i = 1; i < building_size_z; i += 2) {
         offsets.push(
             ...create_line(
                 [building_size_x + porch_size, 0, i],
