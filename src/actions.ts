@@ -74,6 +74,8 @@ export function dispatch(game: Game, action: Action, args: Array<unknown>) {
             break;
         }
         case Action.GoToTown: {
+            game.Audio.close();
+            game.Audio = new AudioContext();
             game.WorldFunc = world_town;
             setTimeout(game.WorldFunc, 0, game);
             break;
@@ -101,11 +103,15 @@ export function dispatch(game: Game, action: Action, args: Array<unknown>) {
             break;
         }
         case Action.GoToDesert: {
+            game.Audio.close();
+            game.Audio = new AudioContext();
             game.WorldFunc = world_desert;
             setTimeout(game.WorldFunc, 0, game);
             break;
         }
         case Action.GoToMine: {
+            game.Audio.close();
+            game.Audio = new AudioContext();
             game.WorldFunc = game.BountySeed ? world_mine : world_town;
             setTimeout(game.WorldFunc, 0, game);
             break;
