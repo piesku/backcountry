@@ -51,7 +51,7 @@ declare global {
     }
 }
 
-export function effect(game: Game, action: Action, args: Array<unknown>) {
+export function dispatch(game: Game, action: Action, args: Array<unknown>) {
     switch (action) {
         case Action.CompleteBounty: {
             game.Gold += game.ChallengeLevel * 1000;
