@@ -27,6 +27,7 @@ import {snd_neigh} from "../sounds/snd_neigh.js";
 import {snd_wind} from "../sounds/snd_wind.js";
 import {calculate_distance} from "../systems/sys_player_control.js";
 import {widget_exclamation} from "../widgets/wid_exclamation.js";
+import {widget_gold} from "../widgets/wid_gold.js";
 
 export function world_town(game: Game, is_intro: boolean = false) {
     set_seed(game.ChallengeSeed);
@@ -204,6 +205,12 @@ export function world_town(game: Game, is_intro: boolean = false) {
                 },
             ],
         });
+
+        if (game.ChallengeLevel > 1 && !game.BountySeed) {
+            game.Add({
+                Using: [draw(widget_gold, game.ChallengeLevel * 1000), lifespan(4)],
+            });
+        }
     }
 
     game.Add({
