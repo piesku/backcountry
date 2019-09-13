@@ -6,7 +6,7 @@ export function Playing(state: GameState) {
             margin: 3vmin 4vmin;
             font: 10vmin Impact;
         ">
-            $${state.Gold.toLocaleString("en-US")}
+            $${state.Gold.toLocaleString("en")}
         </div>
     `;
 }

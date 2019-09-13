@@ -21,7 +21,6 @@ export function get_block_blueprint(game: Game): Blueprint {
 function create_model() {
     let number_of_elements = integer(1, 4);
     let offsets = [];
-    let is_double = false;
     for (let x = 0; x < number_of_elements; x++) {
         let y = integer(-1, 1);
 

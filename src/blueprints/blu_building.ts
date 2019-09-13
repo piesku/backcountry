@@ -91,6 +91,15 @@ export function get_building_blueprint(game: Game) {
                 y % 2 ? PaletteColors.color_1 : PaletteColors.color_2
             )
         );
+
+        // ROOF
+        offsets.push(
+            ...create_line(
+                [0, building_size_y, y],
+                [building_size_x + 1, building_size_y, y],
+                PaletteColors.wood
+            )
+        );
     }
 
     // PORCH + FLOOR
@@ -186,17 +195,6 @@ export function get_building_blueprint(game: Game) {
             ...create_line(
                 [building_size_x + porch_size, 0, i],
                 [building_size_x + porch_size, fence_height + 2, i],
-                PaletteColors.wood
-            )
-        );
-    }
-
-    // ROOF
-    for (let y = 1; y < building_size_z; y++) {
-        offsets.push(
-            ...create_line(
-                [0, building_size_y, y],
-                [building_size_x + 1, building_size_y, y],
                 PaletteColors.wood
             )
         );

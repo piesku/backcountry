@@ -128,11 +128,6 @@ export function world_town(game: Game, is_intro: boolean = false) {
         game.PlayerXY = {X: map_size / 2, Y: map_size / 2};
     }
     calculate_distance(game, game.PlayerXY);
-    let player_position = game[Get.Transform][find_navigable(game, game.PlayerXY)].Translation;
-
-    let sheriff_position =
-        game[Get.Transform][find_navigable(game, {X: map_size / 2, Y: map_size / 2 + 3})]
-            .Translation;
 
     if (is_intro) {
         game.Add({
@@ -168,7 +163,7 @@ export function world_town(game: Game, is_intro: boolean = false) {
 
         // Sheriff.
         game.Add({
-            Translation: [sheriff_position[0], 5, sheriff_position[2]],
+            Translation: [0, 5, 24],
             Rotation: from_euler([], 0, 90, 0),
             Using: [collide(false, [8, 8, 8]), trigger(Action.GoToWanted)],
             Children: [
@@ -180,13 +175,9 @@ export function world_town(game: Game, is_intro: boolean = false) {
             ],
         });
 
-        let outfitter_position =
-            game[Get.Transform][find_navigable(game, {X: map_size / 2 + 3, Y: map_size / 2 - 8})]
-                .Translation;
-
         // Outfitter.
         game.Add({
-            Translation: [outfitter_position[0], 5, outfitter_position[2]],
+            Translation: [24, 5, -64],
             Using: [collide(false, [8, 8, 8]), trigger(Action.GoToStore)],
             Children: [
                 get_character_blueprint(game),
@@ -198,6 +189,7 @@ export function world_town(game: Game, is_intro: boolean = false) {
         });
 
         // Player.
+        let player_position = game[Get.Transform][find_navigable(game, game.PlayerXY)].Translation;
         set_seed(game.PlayerSeed);
         game.Player = game.Add({
             Translation: [player_position[0], 5, player_position[2]],

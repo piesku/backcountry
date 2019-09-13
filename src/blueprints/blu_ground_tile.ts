@@ -66,7 +66,7 @@ export function get_tile_blueprint(
         tile.Children!.push(
             rand() > 0.5
                 ? get_cactus_blueprint(game)
-                : rand() > 0.05
+                : rand() > 0.01
                 ? get_rock_blueprint(game)
                 : get_campfire_blueprint(game)
         );

@@ -23,7 +23,7 @@ export function Store(state: GameState) {
                     : `
                         <s>Change Outfit</s>
                         <div style="font: italic 5vmin serif;">
-                            Become a <a href="https://coil.com/">paid subscriber</a>!
+                            Become a Coil subscriber!
                         </div>
                     `
             }
