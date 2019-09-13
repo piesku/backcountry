@@ -8,11 +8,11 @@ import {Blueprint, create_line} from "./blu_common.js";
 
 export function get_town_gate_blueprint(
     game: Game,
-    map_size: number,
     gate_size: number,
     fence_line: number
 ): Blueprint {
     let height = 4;
+    let map_size = 30;
     let fence_width = (map_size * 8 - gate_size) / 2;
     let fence_offsets = [
         ...create_line(
@@ -60,7 +60,7 @@ export function get_town_gate_blueprint(
         );
     }
 
-    for (let i = -(map_size / 2 - 1) * 8; i < (map_size / 2) * 8; i += 6) {
+    for (let i = -(map_size / 2 - 1) * 8; i < (map_size / 2) * 8; i += 8) {
         if (i < -map_size * 4 + fence_width || i > -map_size * 4 + fence_width + gate_size) {
             fence_offsets.push(...create_line([4, 0, i], [4, height + 2, i], PaletteColors.wood));
         }
