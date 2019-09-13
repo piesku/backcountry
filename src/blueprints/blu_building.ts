@@ -63,7 +63,7 @@ export function get_building_blueprint(game: Game) {
 
     let has_tall_front_facade = rand() > 0.4;
     let has_windows = rand() > 0.4;
-    let has_pillars = rand() > 0.4;
+    // let has_pillars = rand() > 0.4;
     let building_size_x = 20 + integer() * 8;
     let building_size_z = 30 + integer(0, 5) * 8;
     let building_size_y = 15 + integer(0, 9); // height
@@ -133,7 +133,7 @@ export function get_building_blueprint(game: Game) {
                         y -
                         ~~(banner_height / 2),
                     banner_offset + x,
-                    rand() > 0.4 || // 1/4 chance, but only when not on a border
+                    rand() > 0.4 || // 40% chance, but only when not on a border
                         x == 2 ||
                         x == bannner_width - 1 ||
                         y == 0 ||
@@ -157,19 +157,19 @@ export function get_building_blueprint(game: Game) {
     }
 
     // Pillars
-    has_pillars &&
-        offsets.push(
-            ...create_line(
-                [building_size_x + porch_size, 0, 1],
-                [building_size_x + porch_size, building_size_y * 0.75, 1],
-                PaletteColors.wood
-            ),
-            ...create_line(
-                [building_size_x + porch_size, 0, building_size_z],
-                [building_size_x + porch_size, building_size_y * 0.75, building_size_z],
-                PaletteColors.wood
-            )
-        );
+    // has_pillars &&
+    offsets.push(
+        ...create_line(
+            [building_size_x + porch_size, 0, 1],
+            [building_size_x + porch_size, building_size_y * 0.75, 1],
+            PaletteColors.wood
+        ),
+        ...create_line(
+            [building_size_x + porch_size, 0, building_size_z],
+            [building_size_x + porch_size, building_size_y * 0.75, building_size_z],
+            PaletteColors.wood
+        )
+    );
 
     // FENCE
 
@@ -199,7 +199,7 @@ export function get_building_blueprint(game: Game) {
             ...create_line(
                 [0, building_size_y, y],
                 [building_size_x + 1, building_size_y, y],
-                y % 2 ? PaletteColors.wood : PaletteColors.light_wood
+                PaletteColors.wood
             )
         );
     }
