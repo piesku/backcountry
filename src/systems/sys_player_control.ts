@@ -8,7 +8,7 @@ const QUERY = (1 << Get.Transform) | (1 << Get.PlayerControl) | (1 << Get.Walkin
 
 export function sys_player_control(game: Game, delta: number) {
     for (let i = 0; i < game.World.length; i++) {
-        if ((game.World[i] & QUERY) == QUERY) {
+        if ((game.World[i] & QUERY) == QUERY && game.Camera) {
             update(game, i);
         }
     }
