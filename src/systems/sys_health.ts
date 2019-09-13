@@ -1,4 +1,4 @@
-import {Action} from "../actions.js";
+import {Action, dispatch} from "../actions.js";
 import {Anim, Animate} from "../components/com_animate.js";
 import {Get} from "../components/com_index.js";
 import {components_of_type} from "../components/com_transform.js";
@@ -17,7 +17,7 @@ export function sys_health(game: Game, delta: number) {
 function update(game: Game, entity: Entity) {
     let health = game[Get.Health][entity];
     if (health.Damage) {
-        game.Dispatch(Action.Hit, entity, health.Damage);
+        dispatch(game, Action.Hit, [entity, health.Damage]);
         health.Current -= health.Damage;
         health.Damage = 0;
 
@@ -31,7 +31,7 @@ function update(game: Game, entity: Entity) {
     }
     if (health.Current <= 0) {
         health.Current = 0;
-        game.Dispatch(Action.Die, entity);
+        dispatch(game, Action.Die, [entity]);
 
         for (let animate of components_of_type<Animate>(
             game,
