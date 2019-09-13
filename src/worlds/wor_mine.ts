@@ -100,13 +100,17 @@ export function world_mine(game: Game) {
         });
     }
 
-    let cowboys_count = 15;
+    let cowboys_count = 20;
     for (let i = 0; i < cowboys_count; i++) {
         let x = integer(4, map_size);
         let y = integer(4, map_size);
         if (game.Grid[x] && game.Grid[x][y] && !isNaN(game.Grid[x][y])) {
             game.Add({
-                Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
+                Translation: [
+                    (-(map_size / 2) + x) * 8,
+                    4.3 + Math.random(),
+                    (-(map_size / 2) + y) * 8,
+                ],
                 Using: [
                     npc(false),
                     walking(x, y),
