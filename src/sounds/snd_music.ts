@@ -3,7 +3,7 @@ import {AudioClip} from "../components/com_audio_source";
 export let snd_music = <AudioClip>{
     Tracks: [
         {
-            Instrument: [7, "bandpass", 10, 3, , , , , [["triangle", 7, 2, 2, 8, 8]]],
+            Instrument: [5, "bandpass", 10, 3, , , , , [["triangle", 7, 2, 2, 8, 8]]],
             Notes: [
                 69,
                 74,
