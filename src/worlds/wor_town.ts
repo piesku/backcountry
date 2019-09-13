@@ -22,7 +22,6 @@ import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
 import {integer, rand, set_seed} from "../math/random.js";
-import {snd_gust} from "../sounds/snd_gust.js";
 import {snd_music} from "../sounds/snd_music.js";
 import {snd_neigh} from "../sounds/snd_neigh.js";
 import {snd_wind} from "../sounds/snd_wind.js";
@@ -154,9 +153,6 @@ export function world_town(game: Game, is_intro: boolean = false) {
                 },
                 {
                     Using: [audio_source(snd_wind)],
-                },
-                {
-                    Using: [audio_source(snd_gust)],
                 },
             ],
         });
