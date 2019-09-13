@@ -11,7 +11,6 @@ import {Lifespan} from "./com_lifespan";
 import {Light} from "./com_light";
 import {Mimic} from "./com_mimic";
 import {Move} from "./com_move";
-import {Named} from "./com_named";
 import {Navigable} from "./com_navigable";
 import {NPC} from "./com_npc.js";
 import {Projectile} from "./com_projectile";
@@ -31,7 +30,6 @@ export const enum Get {
     Light,
     AudioSource,
     Animate,
-    Named,
     Move,
     Collide,
     Trigger,
@@ -58,7 +56,6 @@ export interface ComponentData {
     [Get.Light]: Array<Light>;
     [Get.AudioSource]: Array<AudioSource>;
     [Get.Animate]: Array<Animate>;
-    [Get.Named]: Array<Named>;
     [Get.Move]: Array<Move>;
     [Get.Collide]: Array<Collide>;
     [Get.Trigger]: Array<Trigger>;
