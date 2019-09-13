@@ -23,9 +23,9 @@ import {generate_maze} from "./wor_mine.js";
 
 export function world_desert(game: Game) {
     set_seed(game.BountySeed);
-    let map_size = 40;
-    let entrance_position_x = integer(20, 30) || 20;
-    let entrance_position_z = integer(10, 30) || 10;
+    let map_size = 30;
+    let entrance_position_x = integer(20, 25) || 20;
+    let entrance_position_z = integer(10, 20) || 10;
     let entrance_width = 4;
     let entrance_length = 6;
 
@@ -133,7 +133,7 @@ export function world_desert(game: Game) {
     // Player.
     set_seed(game.PlayerSeed);
     game.Player = game.Add({
-        Translation: [-152, 5, -152],
+        Translation: [-112, 5, -112],
         Using: [
             player_control(),
             walking(1, 1),
