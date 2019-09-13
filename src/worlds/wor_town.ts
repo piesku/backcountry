@@ -72,7 +72,7 @@ export function world_town(game: Game, is_intro: boolean = false) {
         }
     }
 
-    game.Add(get_town_gate_blueprint(game, map_size, fence_gate_size, fence_line));
+    game.Add(get_town_gate_blueprint(game, fence_gate_size, fence_line));
 
     // Buildings
     let buildings_count = 4;
@@ -214,19 +214,14 @@ export function world_town(game: Game, is_intro: boolean = false) {
         });
     }
 
-    if (game.Gold > 0 && game.Gold < 10000) {
-        game.Add({
-            ...get_town_gate_blueprint(game, map_size - 1, 0, back_fence_line),
-            Rotation: from_euler([], 0, 180, 0),
-            Translation: [-(map_size / 2 - back_fence_line - 1) * 8 - 4, 0, -8],
-        });
+    game.Add({
+        ...get_town_gate_blueprint(game, 0, back_fence_line + 1),
+        Rotation: from_euler([], 0, 180, 0),
+        // Translation: [-(map_size / 2 - back_fence_line - 1) * 8 - 4, 0, -8],
+    });
 
-        game.Grid[back_fence_line][map_size - 1] = Infinity;
-    } else {
-        game.Add({
-            ...get_town_gate_blueprint(game, map_size, 0, back_fence_line + 1),
-            Rotation: from_euler([], 0, 180, 0),
-        });
+    if (game.Gold > 0 && game.Gold < 10000) {
+        game.Grid[back_fence_line][15] = Infinity;
     }
 
     game.Add({

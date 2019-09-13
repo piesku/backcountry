@@ -14,7 +14,7 @@ export function App(state: GameState) {
         return Intro();
     }
     if (state.WorldFunc == world_store) {
-        return Store();
+        return Store(state);
     }
     if (state.WorldFunc == world_wanted) {
         return Wanted(state);

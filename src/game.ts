@@ -116,6 +116,7 @@ export class Game implements ComponentData, GameState {
     public PlayerState = PlayerState.Playing;
     public PlayerXY?: {X: number; Y: number};
     public Gold = 0;
+    public MonetizationEnabled = false;
 
     public Materials: Array<Material> = [];
     public Camera?: Camera;

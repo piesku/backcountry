@@ -21,6 +21,7 @@ export interface GameState {
     PlayerState: PlayerState;
     PlayerXY?: {X: number; Y: number};
     Gold: number;
+    MonetizationEnabled: boolean;
 }
 
 export const enum PlayerState {
@@ -42,6 +43,12 @@ export const enum Action {
     CollectGold,
     ChangePlayerSeed,
     HealCampfire,
+}
+
+declare global {
+    interface Document {
+        monetization: {state: "pending" | "started"};
+    }
 }
 
 export function effect(game: Game, action: Action, args: Array<unknown>) {
@@ -79,13 +86,17 @@ export function effect(game: Game, action: Action, args: Array<unknown>) {
             break;
         }
         case Action.GoToStore: {
+            game.MonetizationEnabled =
+                document.monetization && document.monetization.state == "started";
             game.PlayerXY = game[Get.Walking][game.Player!];
             game.WorldFunc = world_store;
             setTimeout(game.WorldFunc, 0, game);
             break;
         }
         case Action.ChangePlayerSeed: {
-            game.PlayerSeed = Math.random() * 10000;
+            if (game.MonetizationEnabled) {
+                game.PlayerSeed = Math.random() * 10000;
+            }
             setTimeout(game.WorldFunc, 0, game);
             break;
         }

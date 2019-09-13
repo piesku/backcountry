@@ -205,7 +205,7 @@ export function get_building_blueprint(game: Game) {
     }
 
     // DOOR
-    let door_height = building_size_y * 0.65;
+    let door_height = 8;
     let door_width = 8;
     for (let i = 0; i < door_width; i++) {
         offsets.push(
