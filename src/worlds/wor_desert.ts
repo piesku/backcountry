@@ -8,10 +8,8 @@ import {collide, RayTarget} from "../components/com_collide.js";
 import {player_control} from "../components/com_control_player.js";
 import {draw} from "../components/com_draw.js";
 import {health} from "../components/com_health.js";
-import {Get} from "../components/com_index.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
-import {find_navigable} from "../components/com_navigable.js";
 import {npc} from "../components/com_npc.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {shoot} from "../components/com_shoot.js";
@@ -132,11 +130,10 @@ export function world_desert(game: Game) {
         ...entrance,
     });
 
-    set_seed(game.PlayerSeed);
-    let player_position = game[Get.Transform][find_navigable(game, {X: 1, Y: 1})].Translation;
     // Player.
+    set_seed(game.PlayerSeed);
     game.Player = game.Add({
-        Translation: [player_position[0], 5, player_position[2]],
+        Translation: [-152, 5, -152],
         Using: [
             player_control(),
             walking(1, 1),

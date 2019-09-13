@@ -10,11 +10,9 @@ import {collide, RayTarget} from "../components/com_collide.js";
 import {player_control} from "../components/com_control_player.js";
 import {draw} from "../components/com_draw.js";
 import {health} from "../components/com_health.js";
-import {Get} from "../components/com_index.js";
 import {lifespan} from "../components/com_lifespan.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
-import {find_navigable} from "../components/com_navigable.js";
 import {npc} from "../components/com_npc.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {trigger} from "../components/com_trigger.js";
@@ -128,11 +126,6 @@ export function world_town(game: Game, is_intro: boolean = false) {
         game.PlayerXY = {X: map_size / 2, Y: map_size / 2};
     }
     calculate_distance(game, game.PlayerXY);
-    let player_position = game[Get.Transform][find_navigable(game, game.PlayerXY)].Translation;
-
-    let sheriff_position =
-        game[Get.Transform][find_navigable(game, {X: map_size / 2, Y: map_size / 2 + 3})]
-            .Translation;
 
     if (is_intro) {
         game.Add({
@@ -168,7 +161,7 @@ export function world_town(game: Game, is_intro: boolean = false) {
 
         // Sheriff.
         game.Add({
-            Translation: [sheriff_position[0], 5, sheriff_position[2]],
+            Translation: [0, 5, 24],
             Rotation: from_euler([], 0, 90, 0),
             Using: [collide(false, [8, 8, 8]), trigger(Action.GoToWanted)],
             Children: [
@@ -180,13 +173,9 @@ export function world_town(game: Game, is_intro: boolean = false) {
             ],
         });
 
-        let outfitter_position =
-            game[Get.Transform][find_navigable(game, {X: map_size / 2 + 3, Y: map_size / 2 - 8})]
-                .Translation;
-
         // Outfitter.
         game.Add({
-            Translation: [outfitter_position[0], 5, outfitter_position[2]],
+            Translation: [24, 5, -64],
             Using: [collide(false, [8, 8, 8]), trigger(Action.GoToStore)],
             Children: [
                 get_character_blueprint(game),
@@ -200,7 +189,7 @@ export function world_town(game: Game, is_intro: boolean = false) {
         // Player.
         set_seed(game.PlayerSeed);
         game.Player = game.Add({
-            Translation: [player_position[0], 5, player_position[2]],
+            Translation: [0, 5, 0],
             Using: [
                 player_control(),
                 walking(game.PlayerXY.X, game.PlayerXY.Y),
