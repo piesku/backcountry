@@ -16,14 +16,7 @@ export function create_projectile(damage: number, speed: number, color: Vec3, si
         Children: [
             {
                 Scale: [0.3, 0.3, 0.3],
-                Using: [
-                    render_vox(
-                        {
-                            Offsets: new Float32Array(4),
-                        },
-                        color as Array<number>
-                    ),
-                ],
+                Using: [render_vox(new Float32Array(4), color as Array<number>)],
             },
             {
                 Using: [shake(5), emit_particles(1, 0.08), render_particles(color, size)],

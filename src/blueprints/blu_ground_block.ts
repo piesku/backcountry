@@ -27,7 +27,5 @@ function create_model() {
         offsets.push(x, 0, y, PaletteColors.light_wood);
     }
 
-    return {
-        Offsets: Float32Array.from(offsets),
-    } as Model;
+    return Float32Array.from(offsets) as Model;
 }

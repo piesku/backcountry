@@ -1,7 +1,4 @@
-export interface Model {
-    Offsets: Float32Array;
-    Palette?: Array<number>;
-}
+export type Model = Float32Array;
 
 export function load(path: string): Promise<Array<Model>> {
     return fetch(path)
@@ -34,8 +31,8 @@ export function load(path: string): Promise<Array<Model>> {
                     }
                 }
 
-                model_data.push({
-                    Offsets: new Float32Array(model).map((val, idx) => {
+                model_data.push(
+                    new Float32Array(model).map((val, idx) => {
                         switch (idx % 4) {
                             case 0:
                                 return val - Size[0] / 2 + 0.5;
@@ -46,8 +43,8 @@ export function load(path: string): Promise<Array<Model>> {
                             default:
                                 return val;
                         }
-                    }),
-                });
+                    })
+                );
             }
 
             return model_data;

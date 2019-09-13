@@ -17,16 +17,15 @@ export interface RenderInstanced {
 }
 
 export function render_vox(model: Model, Palette?: Array<number>) {
-    let {Offsets} = model;
     let shape = Cube;
     return (game: Game, entity: Entity) => {
         game.World[entity] |= 1 << Get.Render;
         game[Get.Render][entity] = <RenderInstanced>{
             Kind: RenderKind.Instanced,
             Material: game.Materials[Mat.Instanced],
-            VAO: buffer(game.GL, shape, Offsets),
+            VAO: buffer(game.GL, shape, model),
             IndexCount: shape.Indices.length,
-            InstanceCount: Offsets.length / 4,
+            InstanceCount: model.length / 4,
             Palette,
         };
     };
