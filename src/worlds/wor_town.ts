@@ -206,10 +206,11 @@ export function world_town(game: Game, is_intro: boolean = false) {
             ],
         });
 
-        if (game.ChallengeLevel > 1 && !game.BountySeed) {
+        if (game.BountyCollected) {
             game.Add({
-                Using: [draw(widget_gold, game.ChallengeLevel * 1000), lifespan(4)],
+                Using: [draw(widget_gold, game.BountyCollected), lifespan(4)],
             });
+            game.BountyCollected = 0;
         }
     }
 
