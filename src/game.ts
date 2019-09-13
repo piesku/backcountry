@@ -180,7 +180,6 @@ export class Game implements ComponentData, GameState {
     Update(delta: number) {
         let cpu = performance.now();
         sys_lifespan(this, delta);
-        sys_camera(this, delta);
         // Player input and AI.
         sys_select(this, delta);
         sys_player_control(this, delta);
@@ -203,6 +202,7 @@ export class Game implements ComponentData, GameState {
         sys_mimic(this, delta);
         sys_cull(this, delta);
         sys_audio(this, delta);
+        sys_camera(this, delta);
 
         // CPU Performance.
         sys_performance(this, performance.now() - cpu, document.querySelector("#cpu"));
