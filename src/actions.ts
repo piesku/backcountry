@@ -55,6 +55,8 @@ declare global {
 export function dispatch(game: Game, action: Action, args: Array<unknown>) {
     switch (action) {
         case Action.CompleteBounty: {
+            game.Audio.close();
+            game.Audio = new AudioContext();
             game.WorldFunc = world_town;
             setTimeout(game.WorldFunc, 0, game, false, game.ChallengeLevel * 1000);
             game.Gold += game.ChallengeLevel * 1000;
