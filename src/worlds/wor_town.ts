@@ -29,7 +29,7 @@ import {calculate_distance} from "../systems/sys_player_control.js";
 import {widget_exclamation} from "../widgets/wid_exclamation.js";
 import {widget_gold} from "../widgets/wid_gold.js";
 
-export function world_town(game: Game, is_intro: boolean = false) {
+export function world_town(game: Game, is_intro?: boolean, bounty_collected?: number) {
     set_seed(game.ChallengeSeed);
     let map_size = 30;
     let fence_line = 20;
@@ -43,6 +43,7 @@ export function world_town(game: Game, is_intro: boolean = false) {
         (map_size / 2 + 3) * 30 + map_size / 2 - 8,
     ];
 
+    game.Camera = undefined;
     game.World = [];
     game.Grid = [];
 
@@ -162,7 +163,7 @@ export function world_town(game: Game, is_intro: boolean = false) {
                 get_character_blueprint(game),
                 {
                     Translation: [0, 10, 0],
-                    Using: game.BountySeed ? [] : [draw(widget_exclamation, ["!"]), lifespan()],
+                    Using: game.BountySeed ? [] : [draw(widget_exclamation, "!"), lifespan()],
                 },
             ],
         });
@@ -175,7 +176,7 @@ export function world_town(game: Game, is_intro: boolean = false) {
                 get_character_blueprint(game),
                 {
                     Translation: [0, 10, 0],
-                    Using: [draw(widget_exclamation, ["$"]), lifespan()],
+                    Using: [draw(widget_exclamation, "$"), lifespan()],
                 },
             ],
         });
@@ -201,11 +202,10 @@ export function world_town(game: Game, is_intro: boolean = false) {
             ],
         });
 
-        if (game.BountyCollected) {
+        if (bounty_collected) {
             game.Add({
-                Using: [draw(widget_gold, game.BountyCollected), lifespan(4)],
+                Using: [draw(widget_gold, bounty_collected), lifespan(4)],
             });
-            game.BountyCollected = 0;
         }
     }
 

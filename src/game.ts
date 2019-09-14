@@ -112,7 +112,6 @@ export class Game implements ComponentData, GameState {
     public PlayerSeed = this.ChallengeSeed;
     public ChallengeLevel = 1;
     public BountySeed = 0;
-    public BountyCollected = 0;
     public PlayerState = PlayerState.Playing;
     public PlayerXY?: {X: number; Y: number};
     public Gold = 0;

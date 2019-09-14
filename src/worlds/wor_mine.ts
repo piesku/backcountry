@@ -23,6 +23,7 @@ import {widget_healthbar} from "../widgets/wid_healthbar.js";
 export function world_mine(game: Game) {
     set_seed(game.BountySeed);
 
+    game.Camera = undefined;
     game.World = [];
     game.Grid = [];
 
