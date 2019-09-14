@@ -162,7 +162,7 @@ export function world_town(game: Game, is_intro?: boolean, bounty_collected?: nu
                 get_character_blueprint(game),
                 {
                     Translation: [0, 10, 0],
-                    Using: game.BountySeed ? [] : [draw(widget_exclamation, ["!"]), lifespan()],
+                    Using: game.BountySeed ? [] : [draw(widget_exclamation, "!"), lifespan()],
                 },
             ],
         });
@@ -175,7 +175,7 @@ export function world_town(game: Game, is_intro?: boolean, bounty_collected?: nu
                 get_character_blueprint(game),
                 {
                     Translation: [0, 10, 0],
-                    Using: [draw(widget_exclamation, ["$"]), lifespan()],
+                    Using: [draw(widget_exclamation, "$"), lifespan()],
                 },
             ],
         });
