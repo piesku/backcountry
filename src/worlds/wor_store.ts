@@ -7,6 +7,7 @@ import {set_seed} from "../math/random.js";
 
 export function world_store(game: Game) {
     set_seed(game.PlayerSeed);
+    game.Camera = undefined;
     game.World = [];
     game.GL.clearColor(0.9, 0.7, 0.3, 1);
 

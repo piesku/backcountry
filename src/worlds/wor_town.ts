@@ -43,6 +43,7 @@ export function world_town(game: Game, is_intro?: boolean, bounty_collected?: nu
         (map_size / 2 + 3) * 30 + map_size / 2 - 8,
     ];
 
+    game.Camera = undefined;
     game.World = [];
     game.Grid = [];
 
