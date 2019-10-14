@@ -1,5 +1,5 @@
 import {cull} from "../components/com_cull.js";
-import {Get} from "../components/com_index.js";
+import {Has} from "../components/com_index.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
@@ -14,7 +14,7 @@ export function get_block_blueprint(game: Game): Blueprint {
     return {
         Translation: [0, 1.5, 0],
         Rotation: from_euler([], 0, integer(0, 3) * 90, 0),
-        Using: [render_vox(model, main_palette), cull(Get.Render)],
+        Using: [render_vox(model, main_palette), cull(Has.Render)],
     };
 }
 

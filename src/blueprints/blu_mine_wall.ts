@@ -1,6 +1,6 @@
 import {collide, RayTarget} from "../components/com_collide.js";
 import {cull} from "../components/com_cull.js";
-import {Get} from "../components/com_index.js";
+import {Has} from "../components/com_index.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
 import {rand} from "../math/random.js";
@@ -12,7 +12,7 @@ export function get_mine_wall_blueprint(game: Game): Blueprint {
     let tile_model = create_block(8, 6);
     let Children: Array<Blueprint> = [
         {
-            Using: [render_vox(tile_model, main_palette), cull(Get.Render)],
+            Using: [render_vox(tile_model, main_palette), cull(Has.Render)],
         },
     ];
 
@@ -22,7 +22,7 @@ export function get_mine_wall_blueprint(game: Game): Blueprint {
 
     return {
         Translation: [0, 4, 0],
-        Using: [collide(false, [8, 4, 8], RayTarget.None), cull(Get.Collide)],
+        Using: [collide(false, [8, 4, 8], RayTarget.None), cull(Has.Collide)],
         Children,
     };
 }

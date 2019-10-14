@@ -2,7 +2,7 @@ import {Action} from "../actions.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide} from "../components/com_collide.js";
 import {cull} from "../components/com_cull.js";
-import {Get} from "../components/com_index.js";
+import {Has} from "../components/com_index.js";
 import {light} from "../components/com_light.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {trigger} from "../components/com_trigger.js";
@@ -21,7 +21,7 @@ export function get_gold_blueprint(game: Game): Blueprint {
                 Float32Array.from(create_line([-1, 0, 0], [1, 0, 0], PaletteColors.gold)),
                 main_palette
             ),
-            cull(Get.Render),
+            cull(Has.Render),
             collide(false, [4, 4, 4]),
             trigger(Action.CollectGold),
             audio_source(),
@@ -29,7 +29,7 @@ export function get_gold_blueprint(game: Game): Blueprint {
         Children: [
             {
                 Translation: [0, 3, 0],
-                Using: [light([1, 1, 0], 3), cull(Get.Light)],
+                Using: [light([1, 1, 0], 3), cull(Has.Light)],
             },
         ],
     };

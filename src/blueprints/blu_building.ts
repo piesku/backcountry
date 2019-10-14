@@ -1,5 +1,5 @@
 import {cull} from "../components/com_cull.js";
-import {Get} from "../components/com_index.js";
+import {Has} from "../components/com_index.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
@@ -126,7 +126,7 @@ export function get_building_blueprint(game: Game) {
                     building_size_y + window_height / 2,
                     building_size_z - offset - window_width / 2,
                 ],
-                Using: [render_vox(game.Models[Models.WINDOW]), cull(Get.Render)],
+                Using: [render_vox(game.Models[Models.WINDOW]), cull(Has.Render)],
             });
         }
     } else {
