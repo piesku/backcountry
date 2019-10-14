@@ -1,15 +1,15 @@
 import {Anim, Animate} from "../components/com_animate.js";
 import {AudioSource} from "../components/com_audio_source.js";
 import {Collide, RayTarget} from "../components/com_collide.js";
-import {Get} from "../components/com_index.js";
+import {Get, Has} from "../components/com_index.js";
 import {components_of_type} from "../components/com_transform.js";
 import {Entity, Game} from "../game.js";
 import {raycast_aabb} from "../math/raycast.js";
 import {add, normalize, scale, subtract, transform_point} from "../math/vec3.js";
 import {snd_click} from "../sounds/snd_click.js";
 
-const QUERY = (1 << Get.Transform) | (1 << Get.Camera) | (1 << Get.Select);
-const TARGET = (1 << Get.Transform) | (1 << Get.Collide);
+const QUERY = Has.Transform | Has.Camera | Has.Select;
+const TARGET = Has.Transform | Has.Collide;
 const ANIMATED = RayTarget.Navigable | RayTarget.Player;
 
 export function sys_select(game: Game, delta: number) {

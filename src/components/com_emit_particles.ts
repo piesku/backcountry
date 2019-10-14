@@ -1,5 +1,5 @@
 import {Entity, Game} from "../game.js";
-import {Get} from "./com_index.js";
+import {Get, Has} from "./com_index.js";
 
 export interface EmitParticles {
     readonly Lifespan: number;
@@ -17,7 +17,7 @@ export interface EmitParticles {
  */
 export function emit_particles(Lifespan: number, Frequency: number) {
     return (game: Game, entity: Entity) => {
-        game.World[entity] |= 1 << Get.EmitParticles;
+        game.World[entity] |= Has.EmitParticles;
         game[Get.EmitParticles][entity] = <EmitParticles>{
             Lifespan,
             Frequency,

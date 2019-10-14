@@ -1,7 +1,7 @@
 import {Entity, Game} from "../game.js";
 import {Mat4} from "../math/index.js";
 import {create, invert, ortho} from "../math/mat4.js";
-import {Get} from "./com_index.js";
+import {Get, Has} from "./com_index.js";
 
 export interface Camera {
     EntityId: Entity;
@@ -22,7 +22,7 @@ export function camera_ortho(radius: number, near: number, far: number) {
             near,
             far
         );
-        game.World[EntityId] |= 1 << Get.Camera;
+        game.World[EntityId] |= Has.Camera;
         game[Get.Camera][EntityId] = <Camera>{
             EntityId,
             Projection,

@@ -23,7 +23,7 @@ import {Trigger} from "./com_trigger";
 import {Walking} from "./com_walking";
 
 export const enum Get {
-    Transform = 1,
+    Transform,
     Render,
     Draw,
     Camera,
@@ -72,4 +72,30 @@ export interface ComponentData {
     [Get.Projectile]: Array<Projectile>;
     [Get.Shake]: Array<Shake>;
     [Get.Lifespan]: Array<Lifespan>;
+}
+
+export const enum Has {
+    Transform = 1 << Get.Transform,
+    Render = 1 << Get.Render,
+    Draw = 1 << Get.Draw,
+    Camera = 1 << Get.Camera,
+    Light = 1 << Get.Light,
+    AudioSource = 1 << Get.AudioSource,
+    Animate = 1 << Get.Animate,
+    Move = 1 << Get.Move,
+    Collide = 1 << Get.Collide,
+    Trigger = 1 << Get.Trigger,
+    Navigable = 1 << Get.Navigable,
+    Select = 1 << Get.Select,
+    Shoot = 1 << Get.Shoot,
+    PlayerControl = 1 << Get.PlayerControl,
+    Health = 1 << Get.Health,
+    Mimic = 1 << Get.Mimic,
+    EmitParticles = 1 << Get.EmitParticles,
+    Cull = 1 << Get.Cull,
+    Walking = 1 << Get.Walking,
+    NPC = 1 << Get.NPC,
+    Projectile = 1 << Get.Projectile,
+    Shake = 1 << Get.Shake,
+    Lifespan = 1 << Get.Lifespan,
 }

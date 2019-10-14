@@ -1,4 +1,4 @@
-import {Get} from "../components/com_index";
+import {Get, Has} from "../components/com_index";
 import {Entity, Game} from "../game";
 
 export function widget_healthbar(game: Game, entity: Entity, x: number, y: number) {
@@ -6,9 +6,9 @@ export function widget_healthbar(game: Game, entity: Entity, x: number, y: numbe
     let parent = game[Get.Transform][entity].Parent!.EntityId;
     let health = game[Get.Health][parent];
     let height = 0.01 * game.Canvas2.height;
-    if (game.World[parent] & (1 << Get.PlayerControl)) {
+    if (game.World[parent] & Has.PlayerControl) {
         game.Context.fillStyle = "#0f0";
-    } else if (game.World[parent] & (1 << Get.NPC) && game[Get.NPC][parent].Bounty) {
+    } else if (game.World[parent] & Has.NPC && game[Get.NPC][parent].Bounty) {
         game.Context.fillStyle = "#ff0";
         height *= 2;
     } else {

@@ -9,7 +9,7 @@ import {Cull} from "./components/com_cull.js";
 import {Draw} from "./components/com_draw.js";
 import {EmitParticles} from "./components/com_emit_particles.js";
 import {Health} from "./components/com_health.js";
-import {ComponentData, Get} from "./components/com_index.js";
+import {ComponentData, Get, Has} from "./components/com_index.js";
 import {Lifespan} from "./components/com_lifespan.js";
 import {Light} from "./components/com_light.js";
 import {Mimic} from "./components/com_mimic.js";
@@ -260,7 +260,7 @@ export class Game implements ComponentData, GameState {
 
     Destroy(entity: Entity) {
         let mask = this.World[entity];
-        if (mask & (1 << Get.Transform)) {
+        if (mask & Has.Transform) {
             for (let child of this[Get.Transform][entity].Children) {
                 this.Destroy(child.EntityId);
             }

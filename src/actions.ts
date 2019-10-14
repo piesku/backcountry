@@ -1,5 +1,5 @@
 import {draw} from "./components/com_draw.js";
-import {Get} from "./components/com_index.js";
+import {Get, Has} from "./components/com_index.js";
 import {lifespan} from "./components/com_lifespan.js";
 import {Entity, Game} from "./game.js";
 import {integer} from "./math/random.js";
@@ -125,7 +125,7 @@ export function dispatch(game: Game, action: Action, args: Array<unknown>) {
                 Translation: game[Get.Transform][entity].Translation.slice(),
                 Using: [draw(widget_damage, damage), lifespan(1)],
             });
-            if (game.World[entity] & (1 << Get.PlayerControl)) {
+            if (game.World[entity] & Has.PlayerControl) {
                 game.Add({
                     Using: [draw(widget_player_hit), lifespan(1)],
                 });
@@ -151,32 +151,22 @@ export function dispatch(game: Game, action: Action, args: Array<unknown>) {
             let entity = args[0] as Entity;
 
             // If the player is killed.
-            if (game.World[entity] & (1 << Get.PlayerControl)) {
-                game.World[entity] &= ~(
-                    (1 << Get.PlayerControl) |
-                    (1 << Get.Health) |
-                    (1 << Get.Move) |
-                    (1 << Get.Collide)
-                );
+            if (game.World[entity] & Has.PlayerControl) {
+                game.World[entity] &= ~(Has.PlayerControl | Has.Health | Has.Move | Has.Collide);
                 game.PlayerState = PlayerState.Defeat;
-            } else if (game.World[entity] & (1 << Get.NPC)) {
+            } else if (game.World[entity] & Has.NPC) {
                 // If the boss is killed.
                 if (game[Get.NPC][entity].Bounty) {
                     game.PlayerState = PlayerState.Victory;
 
                     // Make all bandits friendly.
                     for (let i = 0; i < game.World.length; i++) {
-                        if (game.World[i] & (1 << Get.NPC)) {
-                            game.World[i] &= ~(1 << Get.Walking);
+                        if (game.World[i] & Has.NPC) {
+                            game.World[i] &= ~Has.Walking;
                         }
                     }
                 }
-                game.World[entity] &= ~(
-                    (1 << Get.NPC) |
-                    (1 << Get.Health) |
-                    (1 << Get.Move) |
-                    (1 << Get.Collide)
-                );
+                game.World[entity] &= ~(Has.NPC | Has.Health | Has.Move | Has.Collide);
                 // This must be the same as character's blueprint's Anim.Die duration.
                 setTimeout(() => game.Destroy(entity), 5000);
             }

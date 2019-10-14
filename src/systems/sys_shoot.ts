@@ -2,14 +2,14 @@ import {create_flash} from "../blueprints/blu_flash.js";
 import {create_projectile} from "../blueprints/blu_projectile.js";
 import {Anim, Animate} from "../components/com_animate.js";
 import {AudioSource} from "../components/com_audio_source.js";
-import {Get} from "../components/com_index.js";
+import {Get, Has} from "../components/com_index.js";
 import {components_of_type} from "../components/com_transform.js";
 import {Entity, Game} from "../game.js";
 import {get_translation} from "../math/mat4.js";
 import {snd_shoot1} from "../sounds/snd_shoot1.js";
 import {snd_shoot2} from "../sounds/snd_shoot2.js";
 
-const QUERY = (1 << Get.Transform) | (1 << Get.Shoot);
+const QUERY = Has.Transform | Has.Shoot;
 
 export function sys_shoot(game: Game, delta: number) {
     for (let i = 0; i < game.World.length; i++) {
@@ -25,7 +25,7 @@ function update(game: Game, entity: Entity) {
         let transform = game[Get.Transform][entity];
         let projectile;
         let snd_shoot;
-        if (game.World[entity] & (1 << Get.PlayerControl)) {
+        if (game.World[entity] & Has.PlayerControl) {
             projectile = create_projectile(500, 40, [1, 1, 1], 9);
             snd_shoot = snd_shoot1;
         } else {

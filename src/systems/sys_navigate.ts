@@ -1,11 +1,11 @@
-import {Get} from "../components/com_index.js";
+import {Get, Has} from "../components/com_index.js";
 import {find_navigable} from "../components/com_navigable.js";
 import {Entity, Game} from "../game.js";
 import {get_forward} from "../math/mat4.js";
 import {from_euler} from "../math/quat.js";
 import {length, normalize, subtract} from "../math/vec3.js";
 
-const QUERY = (1 << Get.Transform) | (1 << Get.Move) | (1 << Get.Walking);
+const QUERY = Has.Transform | Has.Move | Has.Walking;
 
 export function sys_navigate(game: Game, delta: number) {
     for (let i = 0; i < game.World.length; i++) {
