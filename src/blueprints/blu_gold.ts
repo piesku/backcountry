@@ -21,10 +21,10 @@ export function get_gold_blueprint(game: Game): Blueprint {
                 Float32Array.from(create_line([-1, 0, 0], [1, 0, 0], PaletteColors.gold)),
                 main_palette
             ),
-            cull(Has.Render),
             collide(false, [4, 4, 4]),
             trigger(Action.CollectGold),
             audio_source(),
+            cull(Has.Render | Has.Collide | Has.Trigger | Has.AudioSource),
         ],
         Children: [
             {

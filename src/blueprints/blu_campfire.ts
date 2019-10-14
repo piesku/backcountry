@@ -18,13 +18,18 @@ export function get_campfire_blueprint(game: Game): Blueprint {
         Using: [render_vox(game.Models[Models.CAMPFIRE]), cull(Has.Render)],
         Children: [
             {
-                Using: [collide(false, [15, 15, 15]), trigger(Action.HealCampfire)],
+                Using: [
+                    collide(false, [15, 15, 15]),
+                    trigger(Action.HealCampfire),
+                    cull(Has.Collide | Has.Trigger),
+                ],
                 Children: [
                     {
                         Using: [
                             shake(Infinity),
                             emit_particles(2, 0.1),
                             render_particles([1, 0, 0], 15),
+                            cull(Has.Shake | Has.EmitParticles | Has.Render),
                         ],
                     },
                     {
