@@ -1,11 +1,10 @@
 import {Get} from "../components/com_index";
 import {Entity, Game} from "../game";
 
-export function widget_distance(game: Game, entity: Entity, x: number, y: number) {
+export function widget_distance(game: Game, entity: Entity) {
     let {X, Y} = game[Get.Navigable][entity];
     let score = game.Grid[X][Y];
 
-    game.Context.setTransform(1, 0, 0, 1, x, y);
     game.Context.scale(1, Math.tan(Math.PI / 6));
     game.Context.rotate(Math.PI / 4);
 

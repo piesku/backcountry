@@ -18,12 +18,15 @@ export function sys_draw(game: Game, delta: number) {
             // NDC position.
             transform_point(position, position, game.Camera!.PV);
 
-            game[Get.Draw][i].Widget(
-                game,
-                i,
+            game.Context.setTransform(
+                1,
+                0,
+                0,
+                1,
                 0.5 * (position[0] + 1) * game.Canvas3.width,
                 0.5 * (-position[1] + 1) * game.Canvas3.height
             );
+            game[Get.Draw][i].Widget(game, i);
         }
     }
 }

@@ -1,7 +1,7 @@
 import {Get, Has} from "../components/com_index";
 import {Entity, Game} from "../game";
 
-export function widget_healthbar(game: Game, entity: Entity, x: number, y: number) {
+export function widget_healthbar(game: Game, entity: Entity) {
     // Health bars must be direct children of character containers.
     let parent = game[Get.Transform][entity].Parent!.EntityId;
     let health = game[Get.Health][parent];
@@ -15,8 +15,8 @@ export function widget_healthbar(game: Game, entity: Entity, x: number, y: numbe
         game.Context.fillStyle = "#f00";
     }
     game.Context.fillRect(
-        x - 0.05 * game.Canvas2.width,
-        y,
+        0 - 0.05 * game.Canvas2.width,
+        0,
         (0.1 * game.Canvas2.width * health.Current) / health.Max,
         height
     );
