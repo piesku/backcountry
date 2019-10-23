@@ -9,6 +9,9 @@ export function widget_distance(game: Game, entity: Entity, x: number, y: number
     game.Context.scale(1, Math.tan(Math.PI / 6));
     game.Context.rotate(Math.PI / 4);
 
+    game.Context.fillStyle = "rgba(255, 0, 0, 0.3)";
+    game.Context.fillRect(-30, -30, 60, 60);
+
     game.Context.font = "2vmin monospace";
     game.Context.textAlign = "center";
     game.Context.fillStyle = "#fff";
