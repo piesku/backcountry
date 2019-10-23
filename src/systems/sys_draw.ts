@@ -7,6 +7,7 @@ import {transform_point} from "../math/vec3.js";
 const QUERY = Has.Transform | Has.Draw;
 
 export function sys_draw(game: Game, delta: number) {
+    game.Context.resetTransform();
     game.Context.clearRect(0, 0, game.Canvas2.width, game.Canvas2.height);
     let position = [] as Vec3;
 
