@@ -12,7 +12,7 @@ export function widget_distance(game: Game, entity: Entity, x: number, y: number
     if (!Number.isNaN(score) && Number.isFinite(score)) {
         game.Context.fillStyle = `hsla(
         ${(score * 255) / 15}, 100%, 50%, ${0.2 - score / 75}`;
-        game.Context.fillRect(-30, -30, 60, 60);
+        game.Context.fillRect(-40, -40, 80, 80);
     }
 
     game.Context.font = "3vmin monospace";
