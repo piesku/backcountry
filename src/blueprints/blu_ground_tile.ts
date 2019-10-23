@@ -2,12 +2,14 @@ import {Anim, animate, AnimationFlag} from "../components/com_animate.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide, RayTarget} from "../components/com_collide.js";
 import {cull} from "../components/com_cull.js";
+import {draw} from "../components/com_draw.js";
 import {Has} from "../components/com_index.js";
 import {navigable} from "../components/com_navigable.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
 import {integer, rand} from "../math/random.js";
+import {widget_distance} from "../widgets/wid_distance.js";
 import {main_palette, PaletteColors} from "./blu_building.js";
 import {get_cactus_blueprint} from "./blu_cactus.js";
 import {get_campfire_blueprint} from "./blu_campfire.js";
@@ -83,6 +85,7 @@ export function get_tile_blueprint(
             collide(false, [8, 1, 8], is_walkable ? RayTarget.Navigable : RayTarget.None),
             cull(Has.Collide),
             navigable(x, y),
+            draw(widget_distance),
         ],
         Children: [tile],
     };
