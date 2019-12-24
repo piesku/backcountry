@@ -25,7 +25,7 @@ import {integer, rand, set_seed} from "../math/random.js";
 import {snd_music} from "../sounds/snd_music.js";
 import {snd_neigh} from "../sounds/snd_neigh.js";
 import {snd_wind} from "../sounds/snd_wind.js";
-import {calculate_distance} from "../systems/sys_player_control.js";
+import {calculate_distance} from "../systems/sys_control_player.js";
 import {widget_exclamation} from "../widgets/wid_exclamation.js";
 import {widget_gold} from "../widgets/wid_gold.js";
 

@@ -2,11 +2,11 @@ import {Get, Has} from "../components/com_index.js";
 import {find_navigable} from "../components/com_navigable.js";
 import {Entity, Game} from "../game.js";
 import {integer} from "../math/random.js";
-import {get_neighbors, get_route} from "./sys_player_control.js";
+import {get_neighbors, get_route} from "./sys_control_player.js";
 
 const QUERY = Has.Transform | Has.NPC | Has.Walking;
 
-export function sys_ai(game: Game, delta: number) {
+export function sys_control_ai(game: Game, delta: number) {
     for (let i = 0; i < game.World.length; i++) {
         if ((game.World[i] & QUERY) == QUERY) {
             update(game, i, delta);

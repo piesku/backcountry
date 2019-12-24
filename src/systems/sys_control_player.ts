@@ -6,7 +6,7 @@ import {get_translation} from "../math/mat4.js";
 
 const QUERY = Has.Transform | Has.PlayerControl | Has.Walking;
 
-export function sys_player_control(game: Game, delta: number) {
+export function sys_control_player(game: Game, delta: number) {
     for (let i = 0; i < game.World.length; i++) {
         if ((game.World[i] & QUERY) == QUERY && game.Camera) {
             update(game, i);

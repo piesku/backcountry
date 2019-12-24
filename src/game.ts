@@ -31,12 +31,13 @@ import {mat_particles} from "./materials/mat_particles.js";
 import {mat_wireframe} from "./materials/mat_wireframe.js";
 import {Model} from "./model.js";
 import {palette} from "./palette.js";
-import {sys_ai} from "./systems/sys_ai.js";
 import {sys_aim} from "./systems/sys_aim.js";
 import {sys_animate} from "./systems/sys_animate.js";
 import {sys_audio} from "./systems/sys_audio.js";
 import {sys_camera} from "./systems/sys_camera.js";
 import {sys_collide} from "./systems/sys_collide.js";
+import {sys_control_ai} from "./systems/sys_control_ai.js";
+import {sys_control_player} from "./systems/sys_control_player.js";
 import {sys_control_projectile} from "./systems/sys_control_projectile.js";
 import {sys_cull} from "./systems/sys_cull.js";
 import {sys_debug} from "./systems/sys_debug.js";
@@ -49,7 +50,6 @@ import {sys_move} from "./systems/sys_move.js";
 import {sys_navigate} from "./systems/sys_navigate.js";
 import {sys_particles} from "./systems/sys_particles.js";
 import {sys_performance} from "./systems/sys_performance.js";
-import {sys_player_control} from "./systems/sys_player_control.js";
 import {sys_render} from "./systems/sys_render.js";
 import {sys_select} from "./systems/sys_select.js";
 import {sys_shake} from "./systems/sys_shake.js";
@@ -182,8 +182,8 @@ export class Game implements ComponentData, GameState {
         sys_lifespan(this, delta);
         // Player input and AI.
         sys_select(this, delta);
-        sys_player_control(this, delta);
-        sys_ai(this, delta);
+        sys_control_player(this, delta);
+        sys_control_ai(this, delta);
         sys_control_projectile(this, delta);
         // Game logic.
         sys_navigate(this, delta);
