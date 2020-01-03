@@ -1,5 +1,5 @@
 import {Entity, Game} from "../game.js";
-import {Get} from "./com_index.js";
+import {Get, Has} from "./com_index.js";
 
 export interface Health {
     Max: number;
@@ -9,7 +9,7 @@ export interface Health {
 
 export function health(Max: number) {
     return (game: Game, entity: Entity) => {
-        game.World[entity] |= 1 << Get.Health;
+        game.World[entity] |= Has.Health;
         game[Get.Health][entity] = <Health>{
             Max,
             Current: Max,

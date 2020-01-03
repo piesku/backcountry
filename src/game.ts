@@ -1,4 +1,4 @@
-import {Action, effect, GameState, PlayerState} from "./actions.js";
+import {GameState, PlayerState} from "./actions.js";
 import {Blueprint} from "./blueprints/blu_common.js";
 import {Animate} from "./components/com_animate.js";
 import {AudioSource} from "./components/com_audio_source.js";
@@ -9,12 +9,11 @@ import {Cull} from "./components/com_cull.js";
 import {Draw} from "./components/com_draw.js";
 import {EmitParticles} from "./components/com_emit_particles.js";
 import {Health} from "./components/com_health.js";
-import {ComponentData, Get} from "./components/com_index.js";
+import {ComponentData, Get, Has} from "./components/com_index.js";
 import {Lifespan} from "./components/com_lifespan.js";
 import {Light} from "./components/com_light.js";
 import {Mimic} from "./components/com_mimic.js";
 import {Move} from "./components/com_move.js";
-import {Named} from "./components/com_named.js";
 import {Navigable} from "./components/com_navigable.js";
 import {NPC} from "./components/com_npc.js";
 import {Projectile} from "./components/com_projectile.js";
@@ -32,12 +31,13 @@ import {mat_particles} from "./materials/mat_particles.js";
 import {mat_wireframe} from "./materials/mat_wireframe.js";
 import {Model} from "./model.js";
 import {palette} from "./palette.js";
-import {sys_ai} from "./systems/sys_ai.js";
 import {sys_aim} from "./systems/sys_aim.js";
 import {sys_animate} from "./systems/sys_animate.js";
 import {sys_audio} from "./systems/sys_audio.js";
 import {sys_camera} from "./systems/sys_camera.js";
 import {sys_collide} from "./systems/sys_collide.js";
+import {sys_control_ai} from "./systems/sys_control_ai.js";
+import {sys_control_player} from "./systems/sys_control_player.js";
 import {sys_control_projectile} from "./systems/sys_control_projectile.js";
 import {sys_cull} from "./systems/sys_cull.js";
 import {sys_debug} from "./systems/sys_debug.js";
@@ -50,7 +50,6 @@ import {sys_move} from "./systems/sys_move.js";
 import {sys_navigate} from "./systems/sys_navigate.js";
 import {sys_particles} from "./systems/sys_particles.js";
 import {sys_performance} from "./systems/sys_performance.js";
-import {sys_player_control} from "./systems/sys_player_control.js";
 import {sys_render} from "./systems/sys_render.js";
 import {sys_select} from "./systems/sys_select.js";
 import {sys_shake} from "./systems/sys_shake.js";
@@ -81,7 +80,6 @@ export class Game implements ComponentData, GameState {
     public [Get.Light]: Array<Light> = [];
     public [Get.AudioSource]: Array<AudioSource> = [];
     public [Get.Animate]: Array<Animate> = [];
-    public [Get.Named]: Array<Named> = [];
     public [Get.Move]: Array<Move> = [];
     public [Get.Collide]: Array<Collide> = [];
     public [Get.Trigger]: Array<Trigger> = [];
@@ -111,7 +109,6 @@ export class Game implements ComponentData, GameState {
         my: 0,
     };
 
-    public Dispatch = (action: Action, ...args: Array<unknown>) => effect(this, action, args);
     public WorldFunc = world_intro;
     // Today's timestamp. Changes every midnight, 00:00 UTC.
     public ChallengeSeed = ~~(Date.now() / (24 * 60 * 60 * 1000));
@@ -121,6 +118,7 @@ export class Game implements ComponentData, GameState {
     public PlayerState = PlayerState.Playing;
     public PlayerXY?: {X: number; Y: number};
     public Gold = 0;
+    public MonetizationEnabled = false;
 
     public Materials: Array<Material> = [];
     public Camera?: Camera;
@@ -144,13 +142,11 @@ export class Game implements ComponentData, GameState {
         this.GL = this.Canvas3.getContext("webgl2")!;
         this.Context = this.Canvas2.getContext("2d")!;
 
-        for (let api of [this.GL, this.Audio]) {
-            for (let name in api) {
+        for (let name in this.GL) {
+            // @ts-ignore
+            if (typeof this.GL[name] == "function") {
                 // @ts-ignore
-                if (typeof api[name] == "function") {
-                    // @ts-ignore
-                    api[name.match(/^..|[A-Z]|([1-9].*)/g).join("")] = api[name];
-                }
+                this.GL[name.match(/^..|[A-Z]|([1-9].*)/g).join("")] = this.GL[name];
             }
         }
 
@@ -184,11 +180,10 @@ export class Game implements ComponentData, GameState {
     Update(delta: number) {
         let cpu = performance.now();
         sys_lifespan(this, delta);
-        sys_camera(this, delta);
         // Player input and AI.
         sys_select(this, delta);
-        sys_player_control(this, delta);
-        sys_ai(this, delta);
+        sys_control_player(this, delta);
+        sys_control_ai(this, delta);
         sys_control_projectile(this, delta);
         // Game logic.
         sys_navigate(this, delta);
@@ -207,6 +202,7 @@ export class Game implements ComponentData, GameState {
         sys_mimic(this, delta);
         sys_cull(this, delta);
         sys_audio(this, delta);
+        sys_camera(this, delta);
 
         // CPU Performance.
         sys_performance(this, performance.now() - cpu, document.querySelector("#cpu"));
@@ -264,7 +260,7 @@ export class Game implements ComponentData, GameState {
 
     Destroy(entity: Entity) {
         let mask = this.World[entity];
-        if (mask & (1 << Get.Transform)) {
+        if (mask & Has.Transform) {
             for (let child of this[Get.Transform][entity].Children) {
                 this.Destroy(child.EntityId);
             }

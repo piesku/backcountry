@@ -1,6 +1,6 @@
 import {Entity, Game} from "../game.js";
 import {Vec3} from "../math/index.js";
-import {Get} from "./com_index.js";
+import {Get, Has} from "./com_index.js";
 
 export interface Walking {
     X: number;
@@ -13,7 +13,7 @@ export interface Walking {
 
 export function walking(X = 0, Y = 0) {
     return (game: Game, entity: Entity) => {
-        game.World[entity] |= 1 << Get.Walking;
+        game.World[entity] |= Has.Walking;
         game[Get.Walking][entity] = <Walking>{
             X,
             Y,

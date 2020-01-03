@@ -1,12 +1,12 @@
-import {Get} from "../components/com_index.js";
+import {Get, Has} from "../components/com_index.js";
 import {find_navigable} from "../components/com_navigable.js";
 import {Entity, Game} from "../game.js";
 import {integer} from "../math/random.js";
-import {get_neighbors, get_route} from "./sys_player_control.js";
+import {get_neighbors, get_route} from "./sys_control_player.js";
 
-const QUERY = (1 << Get.Transform) | (1 << Get.NPC) | (1 << Get.Walking);
+const QUERY = Has.Transform | Has.NPC | Has.Walking;
 
-export function sys_ai(game: Game, delta: number) {
+export function sys_control_ai(game: Game, delta: number) {
     for (let i = 0; i < game.World.length; i++) {
         if ((game.World[i] & QUERY) == QUERY) {
             update(game, i, delta);
@@ -47,7 +47,7 @@ function update(game: Game, entity: Entity, delta: number) {
         }
     }
 
-    if (!is_friendly && game.World[entity] & (1 << Get.Shoot)) {
+    if (!is_friendly && game.World[entity] & Has.Shoot) {
         if (distance_to_player < 4 && can_shoot) {
             game[Get.Shoot][entity].Target = game[Get.Transform][game.Player!].Translation;
             game[Get.NPC][entity].LastShot = 0.5;

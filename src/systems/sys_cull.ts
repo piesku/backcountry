@@ -1,12 +1,12 @@
-import {Get} from "../components/com_index.js";
+import {Get, Has} from "../components/com_index.js";
 import {Entity, Game} from "../game.js";
 import {transform_point_faster} from "../math/vec3.js";
 
-const QUERY = (1 << Get.Transform) | (1 << Get.Cull);
+const QUERY = Has.Transform | Has.Cull;
 
 export function sys_cull(game: Game, delta: number) {
     for (let i = 0; i < game.World.length; i++) {
-        if ((game.World[i] & QUERY) == QUERY) {
+        if ((game.World[i] & QUERY) == QUERY && game.Camera) {
             update(game, i);
         }
     }
@@ -27,8 +27,8 @@ function update(game: Game, entity: Entity) {
         // transforms above and below the frustum, with a padding.
         Math.abs(position[1]) > 1 / game.Camera!.Projection.m22 + 8
     ) {
-        game.World[entity] &= ~(1 << cull.Component);
+        game.World[entity] &= ~cull.Mask;
     } else {
-        game.World[entity] |= 1 << cull.Component;
+        game.World[entity] |= cull.Mask;
     }
 }

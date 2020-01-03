@@ -52,14 +52,7 @@ export function get_mine_entrance_blueprint(game: Game) {
             {
                 // The wooden part.
                 Translation: [4, 0, 0],
-                Using: [
-                    render_vox(
-                        {
-                            Offsets: Float32Array.from(wooden_part_offset),
-                        },
-                        main_palette
-                    ),
-                ],
+                Using: [render_vox(Float32Array.from(wooden_part_offset), main_palette)],
             },
             {
                 // The trigger.

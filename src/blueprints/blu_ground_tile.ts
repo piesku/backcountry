@@ -2,7 +2,7 @@ import {Anim, animate, AnimationFlag} from "../components/com_animate.js";
 import {audio_source} from "../components/com_audio_source.js";
 import {collide, RayTarget} from "../components/com_collide.js";
 import {cull} from "../components/com_cull.js";
-import {Get} from "../components/com_index.js";
+import {Has} from "../components/com_index.js";
 import {navigable} from "../components/com_navigable.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
@@ -29,7 +29,7 @@ export function get_tile_blueprint(
     let tile: Blueprint = {
         Using: [
             render_vox(tile_model, main_palette),
-            cull(Get.Render),
+            cull(Has.Render),
             audio_source(),
             animate({
                 [Anim.Idle]: {
@@ -66,7 +66,7 @@ export function get_tile_blueprint(
         tile.Children!.push(
             rand() > 0.5
                 ? get_cactus_blueprint(game)
-                : rand() > 0.05
+                : rand() > 0.01
                 ? get_rock_blueprint(game)
                 : get_campfire_blueprint(game)
         );
@@ -81,7 +81,7 @@ export function get_tile_blueprint(
         Translation: [0, 0, 0],
         Using: [
             collide(false, [8, 1, 8], is_walkable ? RayTarget.Navigable : RayTarget.None),
-            cull(Get.Collide),
+            cull(Has.Collide),
             navigable(x, y),
         ],
         Children: [tile],

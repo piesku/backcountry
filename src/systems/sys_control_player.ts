@@ -1,14 +1,14 @@
 import {RayTarget} from "../components/com_collide.js";
-import {Get} from "../components/com_index.js";
+import {Get, Has} from "../components/com_index.js";
 import {find_navigable, Navigable} from "../components/com_navigable.js";
 import {Entity, Game} from "../game.js";
 import {get_translation} from "../math/mat4.js";
 
-const QUERY = (1 << Get.Transform) | (1 << Get.PlayerControl) | (1 << Get.Walking);
+const QUERY = Has.Transform | Has.PlayerControl | Has.Walking;
 
-export function sys_player_control(game: Game, delta: number) {
+export function sys_control_player(game: Game, delta: number) {
     for (let i = 0; i < game.World.length; i++) {
-        if ((game.World[i] & QUERY) == QUERY) {
+        if ((game.World[i] & QUERY) == QUERY && game.Camera) {
             update(game, i);
         }
     }
@@ -25,14 +25,14 @@ function update(game: Game, entity: Entity) {
             }
         }
 
-        if (cursor.Hit.Flags & RayTarget.Attackable && game.World[entity] & (1 << Get.Shoot)) {
+        if (cursor.Hit.Flags & RayTarget.Attackable && game.World[entity] & Has.Shoot) {
             let other_transform = game[Get.Transform][cursor.Hit.EntityId];
             game[Get.Shoot][entity].Target = get_translation([], other_transform.World);
             game[Get.Shake][game.Camera!.EntityId].Duration = 0.2;
         }
     }
 
-    if (game.Input.d2 && game.World[entity] & (1 << Get.Shoot)) {
+    if (game.Input.d2 && game.World[entity] & Has.Shoot) {
         game[Get.Shoot][entity].Target = cursor.Position;
         game[Get.Shake][game.Camera!.EntityId].Duration = 0.2;
     }

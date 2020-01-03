@@ -1,5 +1,5 @@
 import {cull} from "../components/com_cull.js";
-import {Get} from "../components/com_index.js";
+import {Has} from "../components/com_index.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
@@ -38,9 +38,10 @@ export let main_palette = [
 ];
 
 let additional_colors = [
+    [0.6, 0.4, 0, 0.4, 0.2, 0],
     [0, 0.47, 0, 0, 0.33, 0],
     [0.67, 0, 0, 0.54, 0, 0],
-    [0.2, 0, 0.8, 0, 0.4, 0.8],
+    [0.4, 0.4, 0.4, 0.53, 0.53, 0.53],
 ];
 
 export const enum PaletteColors {
@@ -62,9 +63,7 @@ export function get_building_blueprint(game: Game) {
 
     let has_tall_front_facade = rand() > 0.4;
     let has_windows = rand() > 0.4;
-    let has_pillars = rand() > 0.4;
-    let has_fence = rand() > 0.4;
-    let is_painted = rand() > 0.4;
+    // let has_pillars = rand() > 0.4;
     let building_size_x = 20 + integer() * 8;
     let building_size_z = 30 + integer(0, 5) * 8;
     let building_size_y = 15 + integer(0, 9); // height
@@ -79,13 +78,7 @@ export function get_building_blueprint(game: Game) {
             ...create_line(
                 [x, 0, building_size_z - 1],
                 [x, building_size_y, building_size_z - 1],
-                is_painted
-                    ? x % 2
-                        ? PaletteColors.color_1
-                        : PaletteColors.color_2
-                    : x % 2
-                    ? PaletteColors.light_wood
-                    : PaletteColors.wood
+                x % 2 ? PaletteColors.color_1 : PaletteColors.color_2
             )
         );
     }
@@ -95,13 +88,16 @@ export function get_building_blueprint(game: Game) {
             ...create_line(
                 [building_size_x, 0, y],
                 [building_size_x, building_size_y * (has_tall_front_facade ? 1.5 : 1), y],
-                is_painted
-                    ? y % 2
-                        ? PaletteColors.color_1
-                        : PaletteColors.color_2
-                    : y % 2
-                    ? PaletteColors.light_wood
-                    : PaletteColors.wood
+                y % 2 ? PaletteColors.color_1 : PaletteColors.color_2
+            )
+        );
+
+        // ROOF
+        offsets.push(
+            ...create_line(
+                [0, building_size_y, y],
+                [building_size_x + 1, building_size_y, y],
+                PaletteColors.wood
             )
         );
     }
@@ -130,13 +126,13 @@ export function get_building_blueprint(game: Game) {
                     building_size_y + window_height / 2,
                     building_size_z - offset - window_width / 2,
                 ],
-                Using: [render_vox(game.Models[Models.WINDOW]), cull(Get.Render)],
+                Using: [render_vox(game.Models[Models.WINDOW]), cull(Has.Render)],
             });
         }
     } else {
         // BANNER
         let banner_height = 5 + integer(0, 2);
-        let bannner_width = ~~(building_size_z * 0.75 + rand() * building_size_z * 0.2);
+        let bannner_width = ~~(building_size_z * 0.75);
         let banner_offset = ~~((building_size_z - bannner_width) / 2);
         for (let x = 2; x < bannner_width; x++) {
             for (let y = 0; y < banner_height; y++) {
@@ -146,7 +142,7 @@ export function get_building_blueprint(game: Game) {
                         y -
                         ~~(banner_height / 2),
                     banner_offset + x,
-                    rand() > 0.4 || // 1/4 chance, but only when not on a border
+                    rand() > 0.4 || // 40% chance, but only when not on a border
                         x == 2 ||
                         x == bannner_width - 1 ||
                         y == 0 ||
@@ -170,85 +166,42 @@ export function get_building_blueprint(game: Game) {
     }
 
     // Pillars
-    has_pillars &&
-        offsets.push(
-            ...create_line(
-                [building_size_x + porch_size, 0, 1],
-                [building_size_x + porch_size, building_size_y * 0.75, 1],
-                PaletteColors.wood
-            ),
-            ...create_line(
-                [building_size_x + porch_size, 0, building_size_z],
-                [building_size_x + porch_size, building_size_y * 0.75, building_size_z],
-                PaletteColors.wood
-            )
-        );
+    // has_pillars &&
+    offsets.push(
+        ...create_line(
+            [building_size_x + porch_size, 0, 1],
+            [building_size_x + porch_size, building_size_y * 0.75, 1],
+            PaletteColors.wood
+        ),
+        ...create_line(
+            [building_size_x + porch_size, 0, building_size_z],
+            [building_size_x + porch_size, building_size_y * 0.75, building_size_z],
+            PaletteColors.wood
+        )
+    );
 
     // FENCE
-    if (has_fence) {
-        let fence_width = ~~(building_size_z * 0.75) + 1;
-        let fence_height = ~~(building_size_y * 0.25);
+    let fence_height = 3;
+    offsets.push(
+        ...create_line(
+            [building_size_x + porch_size, fence_height, 1],
+            [building_size_x + porch_size, fence_height, building_size_z],
+            PaletteColors.wood
+        )
+    );
+
+    for (let i = 1; i < building_size_z; i += 2) {
         offsets.push(
             ...create_line(
-                [building_size_x + porch_size, fence_height, 1],
-                [building_size_x + porch_size, fence_height, fence_width],
-                PaletteColors.wood
-            )
-        );
-
-        for (let i = 1; i < fence_width; i += 2) {
-            offsets.push(
-                ...create_line(
-                    [building_size_x + porch_size, 0, i],
-                    [building_size_x + porch_size, fence_height + 2, i],
-                    PaletteColors.wood
-                )
-            );
-        }
-
-        // SIDE FENCES
-        offsets.push(
-            ...create_line(
-                [building_size_x, fence_height, 1],
-                [building_size_x + porch_size, fence_height, 1],
-                PaletteColors.wood
-            ),
-            ...create_line(
-                [building_size_x + porch_size, fence_height, building_size_z],
-                [building_size_x, fence_height, building_size_z],
-                PaletteColors.wood
-            )
-        );
-
-        for (let i = 3; i < porch_size; i += 2) {
-            offsets.push(
-                ...create_line(
-                    [building_size_x + i, 0, 1],
-                    [building_size_x + i, fence_height + 2, 1],
-                    PaletteColors.wood
-                ),
-                ...create_line(
-                    [building_size_x + i, 0, building_size_z],
-                    [building_size_x + i, fence_height + 2, building_size_z],
-                    PaletteColors.wood
-                )
-            );
-        }
-    }
-
-    // ROOF
-    for (let y = 1; y < building_size_z; y++) {
-        offsets.push(
-            ...create_line(
-                [0, building_size_y, y],
-                [building_size_x + 1, building_size_y, y],
+                [building_size_x + porch_size, 0, i],
+                [building_size_x + porch_size, fence_height + 2, i],
                 PaletteColors.wood
             )
         );
     }
 
     // DOOR
-    let door_height = building_size_y * 0.65;
+    let door_height = 8;
     let door_width = 8;
     for (let i = 0; i < door_width; i++) {
         offsets.push(
@@ -264,14 +217,7 @@ export function get_building_blueprint(game: Game) {
         Blueprint: <Blueprint>{
             Translation: [0, 1.5, 0],
             // rotation: from_euler([], 0, 270, 0),
-            Using: [
-                render_vox(
-                    {
-                        Offsets: Float32Array.from(offsets),
-                    },
-                    palette
-                ),
-            ],
+            Using: [render_vox(Float32Array.from(offsets), palette)],
             Children,
         },
         Size_x: building_size_x + 3 + porch_size + 1,

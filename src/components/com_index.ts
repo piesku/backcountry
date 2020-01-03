@@ -11,7 +11,6 @@ import {Lifespan} from "./com_lifespan";
 import {Light} from "./com_light";
 import {Mimic} from "./com_mimic";
 import {Move} from "./com_move";
-import {Named} from "./com_named";
 import {Navigable} from "./com_navigable";
 import {NPC} from "./com_npc.js";
 import {Projectile} from "./com_projectile";
@@ -24,14 +23,13 @@ import {Trigger} from "./com_trigger";
 import {Walking} from "./com_walking";
 
 export const enum Get {
-    Transform = 1,
+    Transform,
     Render,
     Draw,
     Camera,
     Light,
     AudioSource,
     Animate,
-    Named,
     Move,
     Collide,
     Trigger,
@@ -58,7 +56,6 @@ export interface ComponentData {
     [Get.Light]: Array<Light>;
     [Get.AudioSource]: Array<AudioSource>;
     [Get.Animate]: Array<Animate>;
-    [Get.Named]: Array<Named>;
     [Get.Move]: Array<Move>;
     [Get.Collide]: Array<Collide>;
     [Get.Trigger]: Array<Trigger>;
@@ -75,4 +72,30 @@ export interface ComponentData {
     [Get.Projectile]: Array<Projectile>;
     [Get.Shake]: Array<Shake>;
     [Get.Lifespan]: Array<Lifespan>;
+}
+
+export const enum Has {
+    Transform = 1 << Get.Transform,
+    Render = 1 << Get.Render,
+    Draw = 1 << Get.Draw,
+    Camera = 1 << Get.Camera,
+    Light = 1 << Get.Light,
+    AudioSource = 1 << Get.AudioSource,
+    Animate = 1 << Get.Animate,
+    Move = 1 << Get.Move,
+    Collide = 1 << Get.Collide,
+    Trigger = 1 << Get.Trigger,
+    Navigable = 1 << Get.Navigable,
+    Select = 1 << Get.Select,
+    Shoot = 1 << Get.Shoot,
+    PlayerControl = 1 << Get.PlayerControl,
+    Health = 1 << Get.Health,
+    Mimic = 1 << Get.Mimic,
+    EmitParticles = 1 << Get.EmitParticles,
+    Cull = 1 << Get.Cull,
+    Walking = 1 << Get.Walking,
+    NPC = 1 << Get.NPC,
+    Projectile = 1 << Get.Projectile,
+    Shake = 1 << Get.Shake,
+    Lifespan = 1 << Get.Lifespan,
 }

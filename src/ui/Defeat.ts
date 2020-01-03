@@ -11,7 +11,7 @@ export function Defeat(state: GameState) {
             <div style="
                 font: italic 5vmin serif;
             ">
-                You earned $${state.Gold.toLocaleString("en-US")}.
+                You earned $${state.Gold.toLocaleString("en")}.
             </div>
         </div>
 

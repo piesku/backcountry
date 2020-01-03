@@ -22,14 +22,14 @@ import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
 import {integer, rand, set_seed} from "../math/random.js";
-import {snd_gust} from "../sounds/snd_gust.js";
-import {snd_jingle} from "../sounds/snd_jingle.js";
+import {snd_music} from "../sounds/snd_music.js";
 import {snd_neigh} from "../sounds/snd_neigh.js";
 import {snd_wind} from "../sounds/snd_wind.js";
-import {calculate_distance} from "../systems/sys_player_control.js";
+import {calculate_distance} from "../systems/sys_control_player.js";
 import {widget_exclamation} from "../widgets/wid_exclamation.js";
+import {widget_gold} from "../widgets/wid_gold.js";
 
-export function world_town(game: Game, is_intro: boolean = false) {
+export function world_town(game: Game, is_intro?: boolean, bounty_collected?: number) {
     set_seed(game.ChallengeSeed);
     let map_size = 30;
     let fence_line = 20;
@@ -43,6 +43,7 @@ export function world_town(game: Game, is_intro: boolean = false) {
         (map_size / 2 + 3) * 30 + map_size / 2 - 8,
     ];
 
+    game.Camera = undefined;
     game.World = [];
     game.Grid = [];
 
@@ -72,7 +73,7 @@ export function world_town(game: Game, is_intro: boolean = false) {
         }
     }
 
-    game.Add(get_town_gate_blueprint(game, map_size, fence_gate_size, fence_line));
+    game.Add(get_town_gate_blueprint(game, fence_gate_size, fence_line));
 
     // Buildings
     let buildings_count = 4;
@@ -107,13 +108,17 @@ export function world_town(game: Game, is_intro: boolean = false) {
     }
 
     // Cowboys.
-    let cowboys_count = 15;
+    let cowboys_count = 20;
     for (let i = 0; i < cowboys_count; i++) {
         let x = integer(0, map_size);
         let y = integer(0, map_size);
         if (game.Grid[x] && game.Grid[x][y] && !isNaN(game.Grid[x][y])) {
             game.Add({
-                Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
+                Translation: [
+                    (-(map_size / 2) + x) * 8,
+                    4.3 + Math.random(),
+                    (-(map_size / 2) + y) * 8,
+                ],
                 Using: [npc(), walking(x, y), move(integer(15, 25), 0)],
                 Children: [get_character_blueprint(game)],
             });
@@ -124,21 +129,11 @@ export function world_town(game: Game, is_intro: boolean = false) {
         game.PlayerXY = {X: map_size / 2, Y: map_size / 2};
     }
     calculate_distance(game, game.PlayerXY);
-    let player_position = game[Get.Transform][find_navigable(game, game.PlayerXY)].Translation;
-
-    let sheriff_position =
-        game[Get.Transform][find_navigable(game, {X: map_size / 2, Y: map_size / 2 + 3})]
-            .Translation;
 
     if (is_intro) {
         game.Add({
             Translation: [1, 2, -1],
-            Using: [light([0.7, 0.7, 0.7], 0), audio_source(snd_jingle)],
-            Children: [
-                {
-                    Using: [audio_source(snd_wind)],
-                },
-            ],
+            Using: [light([0.7, 0.7, 0.7], 0), audio_source(snd_wind)],
         });
 
         game.Player = game.Add({
@@ -148,7 +143,7 @@ export function world_town(game: Game, is_intro: boolean = false) {
         // Directional light and Soundtrack
         game.Add({
             Translation: [1, 2, -1],
-            Using: [light([0.5, 0.5, 0.5], 0), audio_source(snd_jingle)],
+            Using: [light([0.5, 0.5, 0.5], 0), audio_source(snd_music)],
             Children: [
                 {
                     Using: [audio_source(snd_neigh)],
@@ -156,44 +151,38 @@ export function world_town(game: Game, is_intro: boolean = false) {
                 {
                     Using: [audio_source(snd_wind)],
                 },
-                {
-                    Using: [audio_source(snd_gust)],
-                },
             ],
         });
 
         // Sheriff.
         game.Add({
-            Translation: [sheriff_position[0], 5, sheriff_position[2]],
+            Translation: [0, 5, 24],
             Rotation: from_euler([], 0, 90, 0),
             Using: [collide(false, [8, 8, 8]), trigger(Action.GoToWanted)],
             Children: [
                 get_character_blueprint(game),
                 {
                     Translation: [0, 10, 0],
-                    Using: game.BountySeed ? [] : [draw(widget_exclamation, ["!"]), lifespan()],
+                    Using: game.BountySeed ? [] : [draw(widget_exclamation, "!"), lifespan()],
                 },
             ],
         });
 
-        let outfitter_position =
-            game[Get.Transform][find_navigable(game, {X: map_size / 2 + 3, Y: map_size / 2 - 8})]
-                .Translation;
-
         // Outfitter.
         game.Add({
-            Translation: [outfitter_position[0], 5, outfitter_position[2]],
+            Translation: [24, 5, -64],
             Using: [collide(false, [8, 8, 8]), trigger(Action.GoToStore)],
             Children: [
                 get_character_blueprint(game),
                 {
                     Translation: [0, 10, 0],
-                    Using: [draw(widget_exclamation, ["$"]), lifespan()],
+                    Using: [draw(widget_exclamation, "$"), lifespan()],
                 },
             ],
         });
 
         // Player.
+        let player_position = game[Get.Transform][find_navigable(game, game.PlayerXY)].Translation;
         set_seed(game.PlayerSeed);
         game.Player = game.Add({
             Translation: [player_position[0], 5, player_position[2]],
@@ -212,21 +201,22 @@ export function world_town(game: Game, is_intro: boolean = false) {
                 },
             ],
         });
+
+        if (bounty_collected) {
+            game.Add({
+                Using: [draw(widget_gold, bounty_collected), lifespan(4)],
+            });
+        }
     }
 
-    if (game.Gold > 0 && game.Gold < 10000) {
-        game.Add({
-            ...get_town_gate_blueprint(game, map_size - 1, 0, back_fence_line),
-            Rotation: from_euler([], 0, 180, 0),
-            Translation: [-(map_size / 2 - back_fence_line - 1) * 8 - 4, 0, -8],
-        });
+    game.Add({
+        ...get_town_gate_blueprint(game, 0, back_fence_line + 1),
+        Rotation: from_euler([], 0, 180, 0),
+        // Translation: [-(map_size / 2 - back_fence_line - 1) * 8 - 4, 0, -8],
+    });
 
-        game.Grid[back_fence_line][map_size - 1] = Infinity;
-    } else {
-        game.Add({
-            ...get_town_gate_blueprint(game, map_size, 0, back_fence_line + 1),
-            Rotation: from_euler([], 0, 180, 0),
-        });
+    if (game.Gold > 0 && game.Gold < 10000) {
+        game.Grid[back_fence_line][15] = Infinity;
     }
 
     game.Add({
@@ -245,12 +235,7 @@ export function world_town(game: Game, is_intro: boolean = false) {
         Scale: [map_size * 8, map_size * 2, map_size * 8],
         Translation: [-4, -map_size + 0.49, -4],
         Using: [
-            render_vox(
-                {
-                    Offsets: Float32Array.from([0, 0, 0, PaletteColors.desert_ground_1]),
-                },
-                main_palette
-            ),
+            render_vox(Float32Array.from([0, 0, 0, PaletteColors.desert_ground_1]), main_palette),
         ],
     });
 

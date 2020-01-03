@@ -1,10 +1,10 @@
-import {Get} from "../components/com_index.js";
+import {Get, Has} from "../components/com_index.js";
 import {Game} from "../game.js";
 import {Vec3} from "../math/index.js";
 import {get_translation} from "../math/mat4.js";
 import {transform_point} from "../math/vec3.js";
 
-const QUERY = (1 << Get.Transform) | (1 << Get.Draw);
+const QUERY = Has.Transform | Has.Draw;
 
 export function sys_draw(game: Game, delta: number) {
     game.Context.clearRect(0, 0, game.Canvas2.width, game.Canvas2.height);

@@ -1,8 +1,8 @@
-import {Get} from "../components/com_index.js";
+import {Get, Has} from "../components/com_index.js";
 import {Entity, Game} from "../game.js";
 import {get_translation} from "../math/mat4.js";
 
-const QUERY = (1 << Get.Transform) | (1 << Get.EmitParticles);
+const QUERY = Has.Transform | Has.EmitParticles;
 
 export function sys_particles(game: Game, delta: number) {
     for (let i = 0; i < game.World.length; i++) {

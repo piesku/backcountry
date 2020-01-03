@@ -1,7 +1,7 @@
 import {Entity, Game} from "../game";
 import {Quat, Vec3} from "../math";
 import {rand} from "../math/random.js";
-import {distance, lerp} from "../math/vec3.js";
+import {length, lerp, subtract} from "../math/vec3.js";
 import {Model} from "../model";
 import {PaletteColors} from "./blu_building";
 
@@ -29,9 +29,7 @@ export function create_tile(size: number, colors: [number, number]) {
         }
     }
 
-    return {
-        Offsets: Float32Array.from(offsets),
-    } as Model;
+    return Float32Array.from(offsets) as Model;
 }
 
 export function create_block(size: number, height: number) {
@@ -49,17 +47,15 @@ export function create_block(size: number, height: number) {
         }
     }
 
-    return {
-        Offsets: Float32Array.from(offsets),
-    } as Model;
+    return Float32Array.from(offsets) as Model;
 }
 
 export function create_line(from: Vec3, to: Vec3, color: number) {
-    let length = distance(from, to);
-    let step = 1 / length;
+    let len = length(subtract([], from, to));
+    let step = 1 / len;
     let output: number[] = [];
 
-    for (let i = 0; i < length; i++) {
+    for (let i = 0; i < len; i++) {
         output = output.concat([...(lerp([], from, to, step * i) as number[]), color]);
     }
 

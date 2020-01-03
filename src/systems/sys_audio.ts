@@ -1,10 +1,10 @@
 import {play_note} from "../audio.js";
-import {Get} from "../components/com_index.js";
+import {Get, Has} from "../components/com_index.js";
 import {Entity, Game} from "../game.js";
 
 export function sys_audio(game: Game, delta: number) {
     for (let i = 0; i < game.World.length; i++) {
-        if (game.World[i] & (1 << Get.AudioSource)) {
+        if (game.World[i] & Has.AudioSource) {
             update(game, i, delta);
         }
     }

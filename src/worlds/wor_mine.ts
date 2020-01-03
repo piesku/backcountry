@@ -8,10 +8,8 @@ import {collide, RayTarget} from "../components/com_collide.js";
 import {player_control} from "../components/com_control_player.js";
 import {draw} from "../components/com_draw.js";
 import {health} from "../components/com_health.js";
-import {Get} from "../components/com_index.js";
 import {light} from "../components/com_light.js";
 import {move} from "../components/com_move.js";
-import {find_navigable} from "../components/com_navigable.js";
 import {npc} from "../components/com_npc.js";
 import {render_vox} from "../components/com_render_vox.js";
 import {shoot} from "../components/com_shoot.js";
@@ -19,12 +17,13 @@ import {walking} from "../components/com_walking.js";
 import {Game} from "../game.js";
 import {from_euler} from "../math/quat.js";
 import {integer, set_seed} from "../math/random.js";
-import {snd_music} from "../sounds/snd_music.js";
+import {snd_baseline} from "../sounds/snd_baseline.js";
 import {widget_healthbar} from "../widgets/wid_healthbar.js";
 
 export function world_mine(game: Game) {
     set_seed(game.BountySeed);
 
+    game.Camera = undefined;
     game.World = [];
     game.Grid = [];
 
@@ -70,7 +69,7 @@ export function world_mine(game: Game) {
     // Directional light and Soundtrack
     game.Add({
         Translation: [1, 2, -1],
-        Using: [light([0.5, 0.5, 0.5], 0), audio_source(snd_music)],
+        Using: [light([0.5, 0.5, 0.5], 0), audio_source(snd_baseline)],
     });
 
     // Bandit.
@@ -87,7 +86,7 @@ export function world_mine(game: Game) {
                 move(integer(12, 16), 0),
                 collide(true, [7, 7, 7], RayTarget.Attackable),
                 health(5000 * game.ChallengeLevel),
-                shoot(1),
+                shoot(),
                 audio_source(),
             ],
             Children: [
@@ -100,20 +99,24 @@ export function world_mine(game: Game) {
         });
     }
 
-    let cowboys_count = 15;
+    let cowboys_count = 20;
     for (let i = 0; i < cowboys_count; i++) {
         let x = integer(4, map_size);
         let y = integer(4, map_size);
         if (game.Grid[x] && game.Grid[x][y] && !isNaN(game.Grid[x][y])) {
             game.Add({
-                Translation: [(-(map_size / 2) + x) * 8, 5, (-(map_size / 2) + y) * 8],
+                Translation: [
+                    (-(map_size / 2) + x) * 8,
+                    4.3 + Math.random(),
+                    (-(map_size / 2) + y) * 8,
+                ],
                 Using: [
                     npc(false),
                     walking(x, y),
                     move(integer(8, 15)),
                     collide(true, [7, 7, 7], RayTarget.Attackable),
                     health(2000 * game.ChallengeLevel),
-                    shoot(1),
+                    shoot(),
                     audio_source(),
                 ],
                 Children: [
@@ -127,18 +130,17 @@ export function world_mine(game: Game) {
         }
     }
 
-    let player_position = game[Get.Transform][find_navigable(game, {X: 1, Y: 1})].Translation;
     // Player.
     set_seed(game.PlayerSeed);
     game.Player = game.Add({
-        Translation: [player_position[0], 5, player_position[2]],
+        Translation: [-112, 5, -112],
         Using: [
             player_control(),
             walking(1, 1),
             move(25, 0),
             collide(true, [3, 7, 3], RayTarget.Player),
             health(10000),
-            shoot(1),
+            shoot(),
             audio_source(),
         ],
         Children: [
@@ -159,12 +161,7 @@ export function world_mine(game: Game) {
         Scale: [map_size * 8, map_size * 2, map_size * 8],
         Translation: [-4, -map_size + 0.49, -4],
         Using: [
-            render_vox(
-                {
-                    Offsets: Float32Array.from([0, 0, 0, PaletteColors.mine_ground_1]),
-                },
-                main_palette
-            ),
+            render_vox(Float32Array.from([0, 0, 0, PaletteColors.mine_ground_1]), main_palette),
         ],
     });
 
