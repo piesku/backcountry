@@ -1,4 +1,4 @@
-import {GL_FRAGMENT_SHADER, GL_LINK_STATUS, GL_VERTEX_SHADER} from "../webgl.js";
+import {GL_FRAGMENT_SHADER, GL_VERTEX_SHADER} from "../webgl.js";
 
 export interface Shape {
     Vertices: Float32Array;
@@ -18,11 +18,6 @@ export function link(gl: WebGL2RenderingContext, vertex: string, fragment: strin
     gl.attachShader(program, compile(gl, GL_VERTEX_SHADER, vertex));
     gl.attachShader(program, compile(gl, GL_FRAGMENT_SHADER, fragment));
     gl.linkProgram(program);
-
-    if (!gl.getProgramParameter(program, GL_LINK_STATUS)) {
-        throw new Error(gl.getProgramInfoLog(program)!);
-    }
-
     return program;
 }
 
