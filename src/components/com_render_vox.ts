@@ -1,6 +1,5 @@
 import {Entity, Game} from "../game.js";
 import {Material} from "../materials/mat_common.js";
-import {Mat} from "../materials/mat_index.js";
 import {Model} from "../model.js";
 import {Cube} from "../shapes/Cube.js";
 import {GL_ARRAY_BUFFER, GL_ELEMENT_ARRAY_BUFFER, GL_FLOAT, GL_STATIC_DRAW} from "../webgl.js";
@@ -44,7 +43,7 @@ export function render_vox(model: Model, Palette?: Array<number>) {
         game.World[entity] |= Has.Render;
         game[Get.Render][entity] = <RenderInstanced>{
             Kind: RenderKind.Instanced,
-            Material: game.Materials[Mat.Instanced],
+            Material: game.MaterialInstanced,
             VAO,
             IndexCount: Cube.Indices.length,
             InstanceCount: model.length / 4,

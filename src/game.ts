@@ -25,7 +25,6 @@ import {transform, Transform} from "./components/com_transform.js";
 import {Trigger} from "./components/com_trigger.js";
 import {Walking} from "./components/com_walking.js";
 import {Material} from "./materials/mat_common.js";
-import {Mat} from "./materials/mat_index.js";
 import {mat_instanced} from "./materials/mat_instanced.js";
 import {mat_particles} from "./materials/mat_particles.js";
 import {mat_wireframe} from "./materials/mat_wireframe.js";
@@ -120,7 +119,9 @@ export class Game implements ComponentData, GameState {
     public Gold = 0;
     public MonetizationEnabled = false;
 
-    public Materials: Array<Material> = [];
+    public MaterialInstanced: Material;
+    public MaterialParticles: Material;
+    public MaterialWireframe: Material;
     public Camera?: Camera;
     public Player?: Entity;
     public Models: Array<Model> = [];
@@ -162,9 +163,9 @@ export class Game implements ComponentData, GameState {
         this.GL.enable(GL_DEPTH_TEST);
         this.GL.enable(GL_CULL_FACE);
 
-        this.Materials[Mat.Wireframe] = mat_wireframe(this.GL);
-        this.Materials[Mat.Instanced] = mat_instanced(this.GL);
-        this.Materials[Mat.Particles] = mat_particles(this.GL);
+        this.MaterialWireframe = mat_wireframe(this.GL);
+        this.MaterialInstanced = mat_instanced(this.GL);
+        this.MaterialParticles = mat_particles(this.GL);
     }
 
     CreateEntity(mask = 0) {
