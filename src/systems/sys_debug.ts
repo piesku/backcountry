@@ -5,7 +5,6 @@ import {render_basic} from "../components/com_render_basic.js";
 import {Shoot} from "../components/com_shoot.js";
 import {Transform} from "../components/com_transform.js";
 import {Entity, Game} from "../game.js";
-import {Mat} from "../materials/mat_index.js";
 import {get_translation} from "../math/mat4.js";
 import {Cube} from "../shapes/Cube.js";
 import {Line} from "../shapes/Line.js";
@@ -59,7 +58,7 @@ function wireframe_entity(game: Game, entity: Entity) {
 
     if (!wireframe) {
         let box = game.Add({
-            Using: [render_basic(game.Materials[Mat.Wireframe], Cube, [1, 0, 1, 1])],
+            Using: [render_basic(game.MaterialWireframe, Cube, [1, 0, 1, 1])],
         });
         let wireframe_transform = game[Get.Transform][box];
         wireframe_transform.World = anchor.World;
@@ -80,7 +79,7 @@ function wireframe_collider(game: Game, entity: Entity) {
         let box = game.Add({
             Translation: get_translation([], anchor.World),
             Scale: collide.Size,
-            Using: [render_basic(game.Materials[Mat.Wireframe], Cube, [0, 1, 0, 1])],
+            Using: [render_basic(game.MaterialWireframe, Cube, [0, 1, 0, 1])],
         });
         wireframes.set(collide, {
             anchor,
@@ -99,7 +98,7 @@ function wireframe_ray(game: Game, entity: Entity) {
 
     if (!wireframe) {
         let line = game.Add({
-            Using: [render_basic(game.Materials[Mat.Wireframe], Line, [1, 1, 0, 1])],
+            Using: [render_basic(game.MaterialWireframe, Line, [1, 1, 0, 1])],
         });
         let wireframe_transform = game[Get.Transform][line];
         wireframe_transform.World = anchor.World;
