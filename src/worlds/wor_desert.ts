@@ -30,6 +30,7 @@ export function world_desert(game: Game) {
     let entrance_length = 6;
 
     game.Camera = undefined;
+    game.Resized = true;
     game.World = [];
     game.Grid = [];
 

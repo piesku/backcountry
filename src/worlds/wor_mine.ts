@@ -24,6 +24,7 @@ export function world_mine(game: Game) {
     set_seed(game.BountySeed);
 
     game.Camera = undefined;
+    game.Resized = true;
     game.World = [];
     game.Grid = [];
 

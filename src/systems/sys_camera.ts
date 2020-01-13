@@ -26,8 +26,7 @@ function update(game: Game, entity: Entity) {
     let camera = game[Get.Camera][entity];
     game.Camera = camera;
 
-    if (camera.New || game.Resized) {
-        camera.New = false;
+    if (game.Resized) {
         let aspect = game.Canvas3.width / game.Canvas3.height;
         if (aspect > 1) {
             // Landscape orientation: radius = top.

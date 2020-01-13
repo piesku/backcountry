@@ -6,7 +6,6 @@ import {Get, Has} from "./com_index.js";
 export interface Camera {
     EntityId: Entity;
     Radius: number;
-    New: boolean;
     Projection: Mat4;
     Unproject: Mat4;
     View: Mat4;
@@ -19,7 +18,6 @@ export function camera_ortho(Radius: number) {
         game[Get.Camera][EntityId] = <Camera>{
             EntityId,
             Radius,
-            New: true,
             Projection: create(),
             Unproject: create(),
             View: create(),
