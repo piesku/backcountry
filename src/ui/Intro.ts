@@ -8,7 +8,7 @@ export function Intro() {
         ">
             BACK<br>COUNTRY
             <div onclick="$(${Action.GoToTown});" style="
-                font: italic bold small-caps 15vmin serif;
+                font: italic bold small-caps 13vmin serif;
                 border-top: 20px solid #d45230;
             ">
                 Play Now

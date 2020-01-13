@@ -29,7 +29,13 @@ function update(game: Game, entity: Entity) {
     if (camera.New || game.Resized) {
         camera.New = false;
         let aspect = game.Canvas3.width / game.Canvas3.height;
-        ortho_symmetric(camera.Projection, camera.Radius, camera.Radius * aspect, 1, 500);
+        if (aspect > 1) {
+            // Landscape orientation: radius = top.
+            ortho_symmetric(camera.Projection, camera.Radius, camera.Radius * aspect, 1, 500);
+        } else {
+            // Portrait orientation: radius = right.
+            ortho_symmetric(camera.Projection, camera.Radius / aspect, camera.Radius, 1, 500);
+        }
         invert(camera.Unproject, camera.Projection);
     }
 
