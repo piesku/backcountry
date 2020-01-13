@@ -65,7 +65,6 @@ export type Entity = number;
 
 export interface InputState {
     [k: string]: number;
-    Resize: number;
     mx: number;
     my: number;
 }
@@ -104,8 +103,8 @@ export class Game implements ComponentData, GameState {
     public Audio: AudioContext = new AudioContext();
     public UI: HTMLElement = document.querySelector("main")!;
 
+    public Resized = false;
     public Input: InputState = {
-        Resize: 0,
         mx: 0,
         my: 0,
     };
@@ -139,9 +138,6 @@ export class Game implements ComponentData, GameState {
 
         this.Canvas3 = document.querySelector("canvas")! as HTMLCanvasElement;
         this.Canvas2 = document.querySelector("canvas + canvas")! as HTMLCanvasElement;
-        this.Canvas3.width = this.Canvas2.width = window.innerWidth;
-        this.Canvas3.height = this.Canvas2.height = window.innerHeight;
-
         this.GL = this.Canvas3.getContext("webgl2")!;
         this.Context = this.Canvas2.getContext("2d")!;
 
@@ -160,12 +156,6 @@ export class Game implements ComponentData, GameState {
         this.UI.addEventListener("mousemove", evt => {
             this.Input.mx = evt.offsetX;
             this.Input.my = evt.offsetY;
-        });
-
-        window.addEventListener("resize", evt => {
-            this.Input.Resize = 1;
-            this.Canvas3.width = this.Canvas2.width = window.innerWidth;
-            this.Canvas3.height = this.Canvas2.height = window.innerHeight;
         });
 
         this.GL.enable(GL_DEPTH_TEST);
@@ -228,9 +218,9 @@ export class Game implements ComponentData, GameState {
         sys_performance(this, performance.now() - gpu, document.querySelector("#gpu"));
         sys_framerate(this, delta);
 
-        this.Input.Resize = 0;
         this.Input.d0 = 0;
         this.Input.d2 = 0;
+        this.Resized = false;
     }
 
     Start() {

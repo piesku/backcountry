@@ -5,6 +5,15 @@ import {invert, multiply, ortho_symmetric} from "../math/mat4.js";
 const QUERY = Has.Transform | Has.Camera;
 
 export function sys_camera(game: Game, delta: number) {
+    if (
+        game.Canvas3.width != game.Canvas3.clientWidth ||
+        game.Canvas3.height != game.Canvas3.clientHeight
+    ) {
+        game.Canvas3.width = game.Canvas2.width = game.Canvas3.clientWidth;
+        game.Canvas3.height = game.Canvas2.height = game.Canvas3.clientHeight;
+        game.Resized = true;
+    }
+
     for (let i = 0; i < game.World.length; i++) {
         if ((game.World[i] & QUERY) == QUERY) {
             update(game, i);
@@ -17,7 +26,8 @@ function update(game: Game, entity: Entity) {
     let camera = game[Get.Camera][entity];
     game.Camera = camera;
 
-    if (game.Input.Resize) {
+    if (camera.New || game.Resized) {
+        camera.New = false;
         let aspect = game.Canvas3.width / game.Canvas3.height;
         ortho_symmetric(camera.Projection, camera.Radius, camera.Radius * aspect, 1, 500);
         invert(camera.Unproject, camera.Projection);
