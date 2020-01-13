@@ -8,6 +8,7 @@ import {set_seed} from "../math/random.js";
 export function world_wanted(game: Game) {
     set_seed(game.BountySeed);
     game.Camera = undefined;
+    game.Resized = true;
     game.World = [];
     game.GL.clearColor(0.9, 0.7, 0.3, 1);
 
@@ -40,7 +41,7 @@ export function world_wanted(game: Game) {
     // Camera.
     game.Add({
         Translation: [0, 2, 10],
-        Using: [camera_ortho(10, 1, 100)],
+        Using: [camera_ortho(10)],
     });
 
     // Directional light.

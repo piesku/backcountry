@@ -44,6 +44,7 @@ export function world_town(game: Game, is_intro?: boolean, bounty_collected?: nu
     ];
 
     game.Camera = undefined;
+    game.Resized = true;
     game.World = [];
     game.Grid = [];
 

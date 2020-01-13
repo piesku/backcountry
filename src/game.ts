@@ -103,6 +103,7 @@ export class Game implements ComponentData, GameState {
     public Audio: AudioContext = new AudioContext();
     public UI: HTMLElement = document.querySelector("main")!;
 
+    public Resized = false;
     public Input: InputState = {
         mx: 0,
         my: 0,
@@ -137,9 +138,6 @@ export class Game implements ComponentData, GameState {
 
         this.Canvas3 = document.querySelector("canvas")! as HTMLCanvasElement;
         this.Canvas2 = document.querySelector("canvas + canvas")! as HTMLCanvasElement;
-        this.Canvas3.width = this.Canvas2.width = window.innerWidth;
-        this.Canvas3.height = this.Canvas2.height = window.innerHeight;
-
         this.GL = this.Canvas3.getContext("webgl2")!;
         this.Context = this.Canvas2.getContext("2d")!;
 
@@ -222,6 +220,7 @@ export class Game implements ComponentData, GameState {
 
         this.Input.d0 = 0;
         this.Input.d2 = 0;
+        this.Resized = false;
     }
 
     Start() {

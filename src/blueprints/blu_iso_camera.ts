@@ -16,7 +16,7 @@ export function create_iso_camera(player: Entity) {
                 Rotation: [-0.28, 0.364, 0.116, 0.88],
                 Children: [
                     {
-                        Using: [camera_ortho(25, 1, 500), select(), shake()],
+                        Using: [camera_ortho(25), select(), shake()],
                     },
                 ],
             },
