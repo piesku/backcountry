@@ -25,6 +25,9 @@ const LIGHTS = Has.Transform | Has.Light;
 
 export function sys_render(game: Game, delta: number) {
     game.GL.clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    if (game.Input.Resize) {
+        game.GL.viewport(0, 0, game.Canvas3.width, game.Canvas3.height);
+    }
 
     let light_positions: Array<number> = [];
     let light_details: Array<number> = [];
